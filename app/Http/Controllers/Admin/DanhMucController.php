@@ -52,7 +52,7 @@ class DanhMucController extends Controller
     public function edit(string $id)
     {
         $danhmuc = DanhMuc::findOrFail($id);
-        return view('admin.danhmuc.edit', compact('danhMuc'));
+        return view('admin.danhmuc.edit', compact('danhmuc'));
     }
 
     /**
