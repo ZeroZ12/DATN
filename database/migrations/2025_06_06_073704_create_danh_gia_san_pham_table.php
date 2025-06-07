@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('danh_gia_san_pham', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ma_san_pham')->constrained('san_pham');
-            $table->foreignId('ma_nguoi_dung')->constrained('nguoi_dung');
+            $table->foreignId('ma_nguoi_dung')->constrained('users');
             $table->integer('so_sao');
             $table->text('binh_luan')->nullable();
             $table->timestamps();

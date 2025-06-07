@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('lich_su_xem', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_nguoi_dung')->nullable()->constrained('nguoi_dung');
+            $table->foreignId('ma_nguoi_dung')->nullable()->constrained('users');
             $table->string('ma_phien');
             $table->foreignId('ma_san_pham')->constrained('san_pham');
             $table->timestamp('thoi_gian_xem')->useCurrent();

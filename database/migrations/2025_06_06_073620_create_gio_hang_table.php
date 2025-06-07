@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gio_hang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_nguoi_dung')->constrained('nguoi_dung')->onDelete('cascade');
+            $table->foreignId('ma_nguoi_dung')->constrained('users')->onDelete('cascade');
             $table->enum('loai', ['chinh', 'luu_sau', 'so_sanh'])->default('chinh');
             $table->foreignId('ma_giam_gia')->nullable()->constrained('ma_giam_gia');
             $table->text('ghi_chu')->nullable();

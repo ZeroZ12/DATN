@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('don_hang', function (Blueprint $table) {
             $table->id();
             $table->string('ma_don', 100)->unique();
-            $table->foreignId('ma_nguoi_dung')->constrained('nguoi_dung');
+            $table->foreignId('ma_nguoi_dung')->constrained('users');
             $table->foreignId('ma_dia_chi')->constrained('dia_chi_nguoi_dung');
             $table->foreignId('ma_phuong_thuc_thanh_toan')->constrained('phuong_thuc_thanh_toan');
             $table->decimal('tong_tien', 10, 2);

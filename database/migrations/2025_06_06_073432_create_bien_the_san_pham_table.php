@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('gia_so_sanh', 10, 2);
             $table->integer('ton_kho');
             $table->string('ma_bien_the', 100)->unique();
+            $table->string('anh_dai_dien', 255)->nullable();
             $table->timestamps();
         });
     }
