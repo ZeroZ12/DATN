@@ -115,7 +115,7 @@
                             </a>
                         </li>
                         <li class="line"> </li>
-                        <li class="sidebar-main-title">Applications</li>
+                        {{-- <li class="sidebar-main-title">Applications</li>
                         <li class="sidebar-list">
                             <svg class="pinned-icon">
                                 <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
@@ -1138,8 +1138,8 @@
                             </ul>
                         </li>
                         <li class="line"> </li>
-                        <li class="sidebar-main-title">MISCELLANEOUS</li>
-                        <li class="sidebar-list">
+                        <li class="sidebar-main-title">MISCELLANEOUS</li> --}}
+                        {{-- <li class="sidebar-list">
                             <svg class="pinned-icon">
                                 <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
                             </svg><a class="sidebar-link" href="javascript:void(0)">
@@ -1375,7 +1375,7 @@
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Ticket">
                                     </use>
                                 </svg><span>Support Ticket</span></a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </div>
                 <div class="right-arrow" id="right-arrow">
