@@ -11,7 +11,7 @@ class BienTheSanPham extends Model
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'bien_the_san_phams';
     protected $fillable = [
-        'id_product', 'id_ram', 'id_o_cung', 'gia', 'gia_so_sanh', 'ton_kho', 'id_bien_the'
+        'id_product', 'id_ram', 'id_o_cung', 'gia', 'gia_so_sanh', 'ton_kho', 'ma_bien_the', 'anh_dai_dien'
     ];
 
     // Quan hệ với bảng Sản Phẩm

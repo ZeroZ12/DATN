@@ -1,63 +1,72 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Danh sách sản phẩm</h4>
-        <a href="{{ route('admin.sanpham.create') }}" class="btn btn-success">+ Thêm sản phẩm</a>
-    </div>
+    <div class="container">
+        <h1>Danh sách sản phẩm</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+        <!-- Hiển thị thông báo thành công khi xóa hoặc cập nhật sản phẩm -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Tên</th>
-                <th>Mã SP</th>
-                <th>Ảnh</th>
-                <th>Danh mục</th>
-                <th>Thương hiệu</th>
-                <th>Chip</th>
-                <th>Bảo hành</th>
-                <th>Hoạt động</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($sanphams as $sp)
+        <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary mb-3">Thêm sản phẩm mới</a>
+
+        <!-- Table hiển thị danh sách sản phẩm -->
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $sp->ten }}</td>
-                    <td>{{ $sp->ma_san_pham }}</td>
-                    <td>
-                        @if($sp->anh_dai_dien)
-                            <img src="{{ asset('storage/' . $sp->anh_dai_dien) }}" width="60" alt="Ảnh đại diện">
-                        @else
-                            <span>-</span>
-                        @endif
-                    </td>
-                    <td>{{ $sp->danhMuc->ten ?? '-' }}</td> <!-- Danh mục -->
-                    <td>{{ $sp->thuongHieu->ten ?? '-' }}</td> <!-- Thương hiệu -->
-                    <td>{{ $sp->chip->ten ?? '-' }}</td> <!-- Chip -->
-                    <td>{{ $sp->bao_hanh_thang }} tháng</td>
-                    <td>
-                        <span class="badge bg-{{ $sp->hoat_dong ? 'success' : 'secondary' }}">
-                            {{ $sp->hoat_dong ? 'Hiển thị' : 'Ẩn' }}
-                        </span>
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.sanpham.edit', $sp->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                        <form action="{{ route('admin.sanpham.destroy', $sp->id) }}" method="POST" style="display:inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Xóa sản phẩm này?')">Xóa</button>
-                        </form>
-                    </td>
+                    <th>#</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Thương hiệu</th>
+                    <th>Chip</th>
+                    <th>Mainboard</th>
+                    <th>GPU</th>
+                    <th>Bảo hành</th>
+                    <th>Ảnh đại diện</th>
+                    <th>Hành động</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($sanphams as $sanpham)
+                    <tr>
+                        <td>{{ $sanpham->id }}</td>
+                        <td>{{ $sanpham->ten }}</td>
+                        <td>{{ $sanpham->ma_san_pham }}</td>
+                        <td>{{ $sanpham->danhMuc->ten }}</td>
+                        <td>{{ $sanpham->thuongHieu->ten }}</td>
+                        <td>{{ $sanpham->chip->ten ?? 'Không có chip' }}</td>
+                        <td>{{ $sanpham->mainboard->ten ?? 'Không có mainboard' }}</td>
+                        <td>{{ $sanpham->gpu->ten ?? 'Không có GPU' }}</td>
+                        <td>{{ $sanpham->bao_hanh_thang }} tháng</td>
+                        <td>
+                            @if ($sanpham->anh_dai_dien)
+                                <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm" style="max-width: 100px;">
+                            @else
+                                Không có ảnh
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.bienthe.index', $sanpham->id) }}" class="btn btn-secondary btn-sm">Biến thể</a>
+                            <a href="{{ route('admin.sanpham.show', $sanpham->id) }}" class="btn btn-info btn-sm">Xem</a>
+                            <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                            <form action="{{ route('admin.sanpham.destroy', $sanpham->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
 
-    {{-- Hiển thị phân trang nếu có --}}
-    {{ $sanphams->links() }}
+        <!-- Phân trang -->
+        <div class="d-flex justify-content-center">
+            {{ $sanphams->links() }}
+        </div>
+    </div>
 @endsection

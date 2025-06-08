@@ -1,35 +1,61 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <h4>Chi tiết sản phẩm: {{ $sanpham->ten }}</h4>
+    <div class="container">
+        <h1>Chi tiết sản phẩm: {{ $sanpham->ten }}</h1>
 
-    <div class="row">
-        <div class="col-md-4">
-            @if ($sanpham->anh_dai_dien)
-                <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" class="img-fluid rounded" alt="Ảnh đại diện">
-            @else
-                <p>Không có ảnh đại diện</p>
-            @endif
-        </div>
-        <div class="col-md-8">
-            <p><strong>Mã sản phẩm:</strong> {{ $sanpham->ma_san_pham }}</p>
-            <p><strong>Mô tả:</strong> {{ $sanpham->mo_ta ?? 'Chưa có mô tả' }}</p>
-            <p><strong>Chip:</strong> {{ $sanpham->chip->ten ?? 'Không có chip' }}</p>
-            <p><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Không có mainboard' }}</p>
-            <p><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Không có GPU' }}</p>
-            <p><strong>Danh mục:</strong> {{ $sanpham->danhMuc->ten ?? 'Không có danh mục' }}</p>
-            <p><strong>Thương hiệu:</strong> {{ $sanpham->thuongHieu->ten ?? 'Không có thương hiệu' }}</p>
-            <p><strong>Bảo hành:</strong> {{ $sanpham->bao_hanh_thang }} tháng</p>
-            <p><strong>Hoạt động:</strong> {{ $sanpham->hoat_dong ? 'Có' : 'Không' }}</p>
-
-
-
-            <div class="mt-3">
-                <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning">Sửa</a>
-                <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại</a>
-            </div>
-
+        <div class="mb-3">
+            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Trở lại danh sách</a>
+            <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning">Sửa</a>
         </div>
 
+        <table class="table table-bordered">
+            <tr>
+                <th>Tên sản phẩm</th>
+                <td>{{ $sanpham->ten }}</td>
+            </tr>
+            <tr>
+                <th>Mã sản phẩm</th>
+                <td>{{ $sanpham->ma_san_pham }}</td>
+            </tr>
+            <tr>
+                <th>Mô tả</th>
+                <td>{{ $sanpham->mo_ta }}</td>
+            </tr>
+            <tr>
+                <th>Danh mục</th>
+                <td>{{ $sanpham->danhMuc->ten ?? 'Không có danh mục' }}</td>
+            </tr>
+            <tr>
+                <th>Thương hiệu</th>
+                <td>{{ $sanpham->thuongHieu->ten ?? 'Không có thương hiệu' }}</td>
+            </tr>
+            <tr>
+                <th>Chip</th>
+                <td>{{ $sanpham->chip->ten ?? 'Không có chip' }}</td>
+            </tr>
+            <tr>
+                <th>Mainboard</th>
+                <td>{{ $sanpham->mainboard->ten ?? 'Không có mainboard' }}</td>
+            </tr>
+            <tr>
+                <th>GPU</th>
+                <td>{{ $sanpham->gpu->ten ?? 'Không có GPU' }}</td>
+            </tr>
+            <tr>
+                <th>Bảo hành</th>
+                <td>{{ $sanpham->bao_hanh_thang }} tháng</td>
+            </tr>
+            <tr>
+                <th>Ảnh đại diện</th>
+                <td>
+                    @if ($sanpham->anh_dai_dien)
+                        <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm" style="max-width: 200px;">
+                    @else
+                        Không có ảnh
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
 @endsection

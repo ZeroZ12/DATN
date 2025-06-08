@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DanhMucController;
 use App\Http\Controllers\Admin\SanPhamController;
+use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,13 @@ Route::get('/admin', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('danhmuc', DanhMucController::class);
     Route::resource('sanpham', SanPhamController::class);
+    Route::get('bienthe/{id}/sanpham',[BienTheSanPhamController::class, 'index'])->name('bienthe.index');
+    Route::get('bienthe/{id}/create',[BienTheSanPhamController::class, 'create'])->name('bienthe.create');
+    Route::post('bienthe',action: [BienTheSanPhamController::class, 'store'])->name('bienthe.store');
+    Route::get('bienthe/{id}/edit',[BienTheSanPhamController::class, 'edit'])->name('bienthe.edit');
+    Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update');
+    Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy');
+
 });
 
 require __DIR__.'/auth.php';

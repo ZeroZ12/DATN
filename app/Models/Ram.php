@@ -17,4 +17,5 @@ class Ram extends Model
     {
         return $this->hasMany(BienTheSanPham::class, 'id_ram');
     }
+    
 }

@@ -41,18 +41,18 @@ class SanPhamController extends Controller
      */
     public function store(Request $request)
     {
+
         // Validate dữ liệu
         $validatedData = $request->validate([
             'ten' => 'required|string|max:255',
             'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
             'mo_ta' => 'nullable|string',
-            'id_chip' => 'nullable|exists:chips,id',
-            'id_mainboard' => 'nullable|exists:mainboards,id',
-            'id_gpu' => 'nullable|exists:gpus,id',
-            'id_category' => 'required|exists:danh_mucs,id', // Sửa từ ma_danh_muc thành id_category
-            'id_brand' => 'required|exists:thuong_hieus,id', // Sửa từ ma_thuong_hieu thành id_brand
+            'id_chip' => 'required|exists:chips,id', // Bắt buộc và phải tồn tại trong bảng chips
+            'id_mainboard' => 'required|exists:mainboards,id', // Bắt buộc và phải tồn tại trong bảng mainboards
+            'id_gpu' => 'required|exists:gpus,id', // Bắt buộc và phải tồn tại trong bảng gpus
+            'id_category' => 'required|exists:danh_mucs,id', // Bắt buộc và phải tồn tại trong bảng danh_mucs
+            'id_brand' => 'required|exists:thuong_hieus,id', // Bắt buộc và phải tồn tại trong bảng thuong_hieus
             'bao_hanh_thang' => 'nullable|integer|min:0',
-            'hoat_dong' => 'boolean',
             'anh_dai_dien' => 'nullable|image|max:2048', // ảnh tối đa 2MB
         ]);
 
@@ -61,6 +61,7 @@ class SanPhamController extends Controller
             $path_image = $request->file('anh_dai_dien')->store('images', 'public');
             $validatedData['anh_dai_dien'] = $path_image;
         }
+
 
         // Tạo mới sản phẩm
         SanPham::create($validatedData);
@@ -96,20 +97,20 @@ class SanPhamController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $sanPham = SanPham::findOrFail($id);
 
         // Validate dữ liệu
         $validatedData = $request->validate([
             'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id,
+            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id, // Đảm bảo không trùng mã sản phẩm
             'mo_ta' => 'nullable|string',
-            'id_chip' => 'nullable|exists:chips,id',
-            'id_mainboard' => 'nullable|exists:mainboards,id',
-            'id_gpu' => 'nullable|exists:gpus,id',
-            'id_category' => 'required|exists:danh_mucs,id',  // Sửa từ ma_danh_muc thành id_category
-            'id_brand' => 'required|exists:thuong_hieus,id',    // Sửa từ ma_thuong_hieu thành id_brand
+            'id_chip' => 'required|exists:chips,id', // Bắt buộc và phải tồn tại trong bảng chips
+            'id_mainboard' => 'required|exists:mainboards,id', // Bắt buộc và phải tồn tại trong bảng mainboards
+            'id_gpu' => 'required|exists:gpus,id', // Bắt buộc và phải tồn tại trong bảng gpus
+            'id_category' => 'required|exists:danh_mucs,id', // Bắt buộc và phải tồn tại trong bảng danh_mucs
+            'id_brand' => 'required|exists:thuong_hieus,id', // Bắt buộc và phải tồn tại trong bảng thuong_hieus
             'bao_hanh_thang' => 'nullable|integer|min:0',
-            'hoat_dong' => 'boolean',
             'anh_dai_dien' => 'nullable|image|max:2048', // ảnh tối đa 2MB
         ]);
 
@@ -128,9 +129,6 @@ class SanPhamController extends Controller
             // Giữ ảnh cũ nếu không có ảnh mới
             $data['anh_dai_dien'] = $sanPham->anh_dai_dien;
         }
-
-        // Nếu checkbox "hoat_dong" bị bỏ chọn thì gán false
-        $data['hoat_dong'] = $request->has('hoat_dong') ? $request->boolean('hoat_dong') : false;
 
         // Cập nhật sản phẩm
         $sanPham->update($data);
