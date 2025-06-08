@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nhat_ky_ton_kho', function (Blueprint $table) {
+        Schema::create('nhat_ky_ton_khos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_bien_the')->nullable()->constrained('bien_the_san_pham');
+            $table->foreignId('id_bien_the')->nullable()->constrained('bien_the_san_phams');
             $table->integer('so_luong');
             $table->enum('loai', ['nhap', 'xuat', 'dieu_chinh']);
             $table->text('ly_do')->nullable();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nhat_ky_ton_kho');
+        Schema::dropIfExists('nhat_ky_ton_khos');
     }
 };

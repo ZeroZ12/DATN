@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DanhMucController;
+use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('danhmuc', DanhMucController::class);
+    Route::resource('sanpham', SanPhamController::class);
 });
 
 require __DIR__.'/auth.php';

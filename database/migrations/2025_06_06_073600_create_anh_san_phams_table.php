@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gio_hang', function (Blueprint $table) {
+        Schema::create('anh_san_phams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_nguoi_dung')->constrained('users')->onDelete('cascade');
-            $table->enum('loai', ['chinh', 'luu_sau', 'so_sanh'])->default('chinh');
-            $table->foreignId('ma_giam_gia')->nullable()->constrained('ma_giam_gia');
-            $table->text('ghi_chu')->nullable();
+            $table->foreignId('id_product')->constrained('san_phams');
+            $table->string('duong_dan', 255);
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gio_hang');
+        Schema::dropIfExists('anh_san_phams');
     }
 };

@@ -1,3 +1,5 @@
+
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,10 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('anh_san_pham', function (Blueprint $table) {
+        Schema::create('gpus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('san_pham_id')->constrained('san_pham');
-            $table->string('duong_dan', 255);
+            $table->string('ten', 255);
+            $table->text('mo_ta')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('anh_san_pham');
+        Schema::dropIfExists('gpus');
     }
 };

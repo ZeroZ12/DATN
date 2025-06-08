@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('san_pham', function (Blueprint $table) {
+        Schema::create('san_phams', function (Blueprint $table) {
             $table->id();
             $table->string('ten', 255);
             $table->string('ma_san_pham', 100)->unique();
             $table->text('mo_ta')->nullable();
-            $table->foreignId('id_chip')->constrained('chip');
-            $table->foreignId('id_mainboard')->constrained('mainboard');
-            $table->foreignId('id_gpu')->constrained('gpu');
-            $table->foreignId('ma_danh_muc')->constrained('danh_muc');
-            $table->foreignId('ma_thuong_hieu')->constrained('thuong_hieu');
+            $table->foreignId('id_chip')->constrained('chips');
+            $table->foreignId('id_mainboard')->constrained('mainboards');
+            $table->foreignId('id_gpu')->constrained('gpus');
+            $table->foreignId('id_category')->constrained('danh_mucs');
+            $table->foreignId('id_brand')->constrained('thuong_hieus');
             $table->integer('bao_hanh_thang');
             $table->boolean('hoat_dong')->default(true);
             $table->string('anh_dai_dien', 255)->nullable();
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('san_pham');
+        Schema::dropIfExists('san_phams');
     }
 };

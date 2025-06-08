@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('thuong_hieu', function (Blueprint $table) {
+        Schema::create('phuong_thuc_thanh_toans', function (Blueprint $table) {
             $table->id();
-            $table->string('ten', 255);
+            $table->string('ten', 100);
+            $table->text('mo_ta')->nullable();
+            $table->boolean('hoat_dong')->default(true);
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('thuong_hieu');
+        Schema::dropIfExists('phuong_thuc_thanh_toans');
     }
 };

@@ -1,5 +1,3 @@
-
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -13,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ram', function (Blueprint $table) {
+        Schema::create('danh_mucs', function (Blueprint $table) {
             $table->id();
-            $table->string('dung_luong', 100);
-            $table->text('mo_ta')->nullable();
+            $table->string('ten', 255);
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ram');
+        Schema::dropIfExists('danh_mucs');
     }
 };

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chi_tiet_gio_hang', function (Blueprint $table) {
+        Schema::create('chi_tiet_gio_hangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_gio_hang')->constrained('gio_hang')->onDelete('cascade');
-            $table->foreignId('ma_san_pham')->constrained('san_pham');
-            $table->foreignId('ma_bien_the')->nullable()->constrained('bien_the_san_pham');
+            $table->foreignId('id_gio_hang')->constrained('gio_hangs')->onDelete('cascade');
+            $table->foreignId('id_product')->constrained('san_phams');
+            $table->foreignId('id_bien_the')->nullable()->constrained('bien_the_san_phams');
             $table->integer('so_luong');
             $table->decimal('gia', 10, 2);
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chi_tiet_gio_hang');
+        Schema::dropIfExists('chi_tiet_gio_hangs');
     }
 };

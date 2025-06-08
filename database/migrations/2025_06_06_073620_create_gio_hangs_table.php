@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('danh_gia_san_pham', function (Blueprint $table) {
+        Schema::create('gio_hangs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_san_pham')->constrained('san_pham');
-            $table->foreignId('ma_nguoi_dung')->constrained('users');
-            $table->integer('so_sao');
-            $table->text('binh_luan')->nullable();
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->enum('loai', ['chinh', 'luu_sau', 'so_sanh'])->default('chinh');
+            $table->foreignId('id_giam_gia')->nullable()->constrained('ma_giam_gias');
+            $table->text('ghi_chu')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('danh_gia_san_pham');
+        Schema::dropIfExists('gio_hangs');
     }
 };

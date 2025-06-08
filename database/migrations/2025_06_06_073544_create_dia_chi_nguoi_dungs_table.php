@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dia_chi_nguoi_dung', function (Blueprint $table) {
+        Schema::create('dia_chi_nguoi_dungs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_nguoi_dung')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->text('dia_chi');
             $table->string('thanh_pho', 100);
             $table->string('quan_huyen', 100);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dia_chi_nguoi_dung');
+        Schema::dropIfExists('dia_chi_nguoi_dungs');
     }
 };

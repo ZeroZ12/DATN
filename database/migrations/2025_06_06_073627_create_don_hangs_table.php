@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('don_hang', function (Blueprint $table) {
+        Schema::create('don_hangs', function (Blueprint $table) {
             $table->id();
             $table->string('ma_don', 100)->unique();
-            $table->foreignId('ma_nguoi_dung')->constrained('users');
-            $table->foreignId('ma_dia_chi')->constrained('dia_chi_nguoi_dung');
-            $table->foreignId('ma_phuong_thuc_thanh_toan')->constrained('phuong_thuc_thanh_toan');
+            $table->foreignId('id_user')->constrained('users');
+            $table->foreignId('id_dia_chi_nguoi_dungs')->constrained('dia_chi_nguoi_dungs');
+            $table->foreignId('id_phuong_thuc_thanh_toan')->constrained('phuong_thuc_thanh_toans');
             $table->decimal('tong_tien', 10, 2);
             $table->enum('trang_thai', ['cho_xu_ly', 'dang_giao', 'hoan_thanh', 'huy']);
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('don_hang');
+        Schema::dropIfExists('don_hangs');
     }
 };

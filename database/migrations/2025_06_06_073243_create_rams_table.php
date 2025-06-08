@@ -1,4 +1,5 @@
 
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -12,12 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lich_su_xem', function (Blueprint $table) {
+        Schema::create('rams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ma_nguoi_dung')->nullable()->constrained('users');
-            $table->string('ma_phien');
-            $table->foreignId('ma_san_pham')->constrained('san_pham');
-            $table->timestamp('thoi_gian_xem')->useCurrent();
+            $table->string('dung_luong', 100);
+            $table->text('mo_ta')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lich_su_xem');
+        Schema::dropIfExists('rams');
     }
 };
