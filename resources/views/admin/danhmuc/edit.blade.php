@@ -3,6 +3,7 @@
 @section('title', 'Sửa danh mục')
 
 @section('content')
+   <div class="page-body">
     <h2>Sửa danh mục: {{ $danhmuc->ten }}</h2>
 
 
@@ -18,4 +19,5 @@
         <button type="submit" class="btn btn-primary">Cập nhật</button>
         <a href="{{ route('admin.danhmuc.index') }}" class="btn btn-secondary">Hủy</a>
     </form>
+    </div>
 @endsection

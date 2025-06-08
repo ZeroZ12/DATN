@@ -3,7 +3,9 @@
 @section('title', 'Thêm danh mục')
 
 @section('content')
-    <h2>Thêm danh mục mới</h2>
+   <div class="page-body">
+
+    <h2 class="mt-4">Thêm danh mục mới</h2>
 
 
 
@@ -16,4 +18,6 @@
         <button type="submit" class="btn btn-success">Lưu</button>
         <a href="{{ route('admin.danhmuc.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
+    </div>
+
 @endsection

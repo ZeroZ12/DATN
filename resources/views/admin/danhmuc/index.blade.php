@@ -3,7 +3,8 @@
 @section('title', 'Quản lý danh mục')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
+   <div class="page-body">
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
         <h2 class="mb-0">Danh sách danh mục</h2>
         <a href="{{ route('admin.danhmuc.create') }}" class="btn btn-primary">+ Thêm danh mục</a>
     </div>
@@ -46,4 +47,5 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 @endsection
