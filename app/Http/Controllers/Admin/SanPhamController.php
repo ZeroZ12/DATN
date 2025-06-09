@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnhSanPham;
 use App\Models\Chip;
 use App\Models\DanhMuc;
 use App\Models\Gpu;
@@ -39,58 +40,61 @@ class SanPhamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    // public function store(Request $request)
+    // {
 
-        // Validate dữ liệu
-        $validatedData = $request->validate([
-            'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
-            'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id', // Bắt buộc và phải tồn tại trong bảng chips
-            'id_mainboard' => 'required|exists:mainboards,id', // Bắt buộc và phải tồn tại trong bảng mainboards
-            'id_gpu' => 'required|exists:gpus,id', // Bắt buộc và phải tồn tại trong bảng gpus
-            'id_category' => 'required|exists:danh_mucs,id', // Bắt buộc và phải tồn tại trong bảng danh_mucs
-            'id_brand' => 'required|exists:thuong_hieus,id', // Bắt buộc và phải tồn tại trong bảng thuong_hieus
-            'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048', // ảnh tối đa 2MB
-        ]);
+    //     // Validate dữ liệu
+    //     $validatedData = $request->validate([
+    //         'ten' => 'required|string|max:255',
+    //         'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
+    //         'mo_ta' => 'nullable|string',
+    //         'id_chip' => 'required|exists:chips,id', // Bắt buộc và phải tồn tại trong bảng chips
+    //         'id_mainboard' => 'required|exists:mainboards,id', // Bắt buộc và phải tồn tại trong bảng mainboards
+    //         'id_gpu' => 'required|exists:gpus,id', // Bắt buộc và phải tồn tại trong bảng gpus
+    //         'id_category' => 'required|exists:danh_mucs,id', // Bắt buộc và phải tồn tại trong bảng danh_mucs
+    //         'id_brand' => 'required|exists:thuong_hieus,id', // Bắt buộc và phải tồn tại trong bảng thuong_hieus
+    //         'bao_hanh_thang' => 'nullable|integer|min:0',
+    //         'anh_dai_dien' => 'nullable|image|max:2048', // ảnh tối đa 2MB
+    //     ]);
 
-        // Xử lý ảnh nếu có
-        if ($request->hasFile('anh_dai_dien')) {
-            $path_image = $request->file('anh_dai_dien')->store('images', 'public');
-            $validatedData['anh_dai_dien'] = $path_image;
-        }
+    //     // Xử lý ảnh nếu có
+    //     if ($request->hasFile('anh_dai_dien')) {
+    //         $path_image = $request->file('anh_dai_dien')->store('images', 'public');
+    //         $validatedData['anh_dai_dien'] = $path_image;
+    //     }
 
 
-        // Tạo mới sản phẩm
-        SanPham::create($validatedData);
+    //     // Tạo mới sản phẩm
+    //     SanPham::create($validatedData);
 
-        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
-    }
+    //     return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
+    // }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $sanpham = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])->findOrFail($id);
+        $sanpham = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu', 'anhPhu'])->findOrFail($id);
         return view('admin.sanpham.show', compact('sanpham'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        $sanpham = SanPham::findOrFail($id);
-        $danhmucs = DanhMuc::all();
-        $thuonghieus = ThuongHieu::all();
-        $chips = Chip::all();
-        $mainboards = Mainboard::all();
-        $gpus = Gpu::all();
-        return view('admin.sanpham.edit', compact('sanpham', 'danhmucs', 'thuonghieus', 'chips', 'mainboards', 'gpus'));
-    }
+  public function edit(string $id)
+{
+    $sanpham = SanPham::with('anhPhu')->findOrFail($id);
+
+    $danhmucs = DanhMuc::all();
+    $thuonghieus = ThuongHieu::all();
+    $chips = Chip::all();
+    $mainboards = Mainboard::all();
+    $gpus = Gpu::all();
+
+    return view('admin.sanpham.edit', compact('sanpham', 'danhmucs', 'thuonghieus', 'chips', 'mainboards', 'gpus'));
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -133,6 +137,28 @@ class SanPhamController extends Controller
         // Cập nhật sản phẩm
         $sanPham->update($data);
 
+        if ($request->has('xoa_anh_phu')) {
+            $anhXoaIds = $request->input('xoa_anh_phu');
+            $anhXoaList = AnhSanPham::whereIn('id', $anhXoaIds)->get();
+            foreach ($anhXoaList as $anh) {
+                if (Storage::disk('public')->exists($anh->duong_dan)) {
+                    Storage::disk('public')->delete($anh->duong_dan);
+                }
+                $anh->delete();
+            }
+        }
+
+        // 2. Thêm ảnh phụ mới
+        if ($request->hasFile('anh_phu')) {
+            foreach ($request->file('anh_phu') as $file) {
+                $path = $file->store('images/anh_phu', 'public');
+                AnhSanPham::create([
+                    'id_product' => $sanPham->id,
+                    'duong_dan' => $path,
+                ]);
+            }
+        }
+
         return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
     }
     /**
@@ -147,5 +173,44 @@ class SanPhamController extends Controller
         $sanpham->delete();
 
         return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được xóa thành công.');
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'ten' => 'required|string|max:255',
+            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
+            'mo_ta' => 'nullable|string',
+            'id_chip' => 'required|exists:chips,id',
+            'id_mainboard' => 'required|exists:mainboards,id',
+            'id_gpu' => 'required|exists:gpus,id',
+            'id_category' => 'required|exists:danh_mucs,id',
+            'id_brand' => 'required|exists:thuong_hieus,id',
+            'bao_hanh_thang' => 'nullable|integer|min:0',
+            'anh_dai_dien' => 'nullable|image|max:2048',
+            'anh_phu.*' => 'nullable|image|max:2048', // validate nhiều ảnh phụ
+        ]);
+
+        // Lưu ảnh đại diện
+        if ($request->hasFile('anh_dai_dien')) {
+            $path_image = $request->file('anh_dai_dien')->store('images', 'public');
+            $validatedData['anh_dai_dien'] = $path_image;
+        }
+
+        // Tạo sản phẩm
+        $sanPham = SanPham::create($validatedData);
+
+        // Lưu ảnh phụ
+        if ($request->hasFile('anh_phu')) {
+            foreach ($request->file('anh_phu') as $file) {
+                $path = $file->store('images/anh_phu', 'public');
+                AnhSanPham::create([
+                    'id_product' => $sanPham->id,
+                    'duong_dan' => $path
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
     }
 }

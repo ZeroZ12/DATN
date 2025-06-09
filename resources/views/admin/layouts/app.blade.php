@@ -68,7 +68,7 @@
             @include('admin.layouts.blocks.aside')
             <!-- Page sidebar end-->
 
-            <div class="container mt-4">
+            <div class="page-body">
                 @yield('content')
             </div>
 

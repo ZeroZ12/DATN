@@ -50,9 +50,23 @@
                 <th>Ảnh đại diện</th>
                 <td>
                     @if ($sanpham->anh_dai_dien)
-                        <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm" style="max-width: 200px;">
+                        <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm"
+                            style="max-width: 200px;">
                     @else
                         Không có ảnh
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>Ảnh phụ</th>
+                <td>
+                    @if ($sanpham->anhPhu && $sanpham->anhPhu->count() > 0)
+                        @foreach ($sanpham->anhPhu as $anh)
+                            <img src="{{ asset('storage/' . $anh->duong_dan) }}" alt="Ảnh phụ"
+                                style="max-width: 150px; margin-right:10px;">
+                        @endforeach
+                    @else
+                        Không có ảnh phụ
                     @endif
                 </td>
             </tr>
