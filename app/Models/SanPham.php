@@ -12,7 +12,7 @@ class SanPham extends Model
     protected $table = 'san_phams';
 
     protected $fillable = [
-        'ten', 'ma_san_pham', 'mo_ta', 'id_chip', 'id_mainboard', 'id_gpu', 
+        'ten', 'ma_san_pham', 'mo_ta', 'id_chip', 'id_mainboard', 'id_gpu',
         'id_category', 'id_brand', 'bao_hanh_thang', 'hoat_dong', 'anh_dai_dien'
     ];
 
@@ -48,7 +48,12 @@ class SanPham extends Model
     // Quan hệ với bảng Biến Thể Sản Phẩm
     public function bienTheSanPham()
     {
-        return $this->hasMany(BienTheSanPham::class, 'id_product');    
+        return $this->hasMany(BienTheSanPham::class, 'id_product');
     }
+
+    public function anhPhu()
+{
+    return $this->hasMany(AnhSanPham::class, 'id_product');
+}
 
 }

@@ -146,11 +146,35 @@
                             style="max-width: 200px;"></small>
                 @endif
             </div>
+<div class="form-group">
+    <label for="anh_phu">Ảnh phụ mới:</label>
+    <input type="file" name="anh_phu[]" id="anh_phu" multiple class="form-control">
+    @error('anh_phu')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+@if($sanpham->anhPhu->count() > 0)
+    <div class="form-group">
+        <label>Ảnh phụ hiện tại:</label>
+        <div>
+            @foreach($sanpham->anhPhu as $anh)
+                <div style="display: inline-block; position: relative; margin: 5px; text-align: center;">
+                    <img src="{{ asset('storage/' . $anh->duong_dan) }}" alt="Ảnh phụ" style="width: 100px; display: block; margin-bottom: 5px;">
+                    <label style="display: block;">
+                        <input type="checkbox" name="xoa_anh_phu[]" value="{{ $anh->id }}"> Xóa
+                    </label>
+                </div>
+            @endforeach
+        </div>
+    </div>
+@endif
+
 
             <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
             <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại</a>
 
-            
+
         </form>
     </div>
 @endsection

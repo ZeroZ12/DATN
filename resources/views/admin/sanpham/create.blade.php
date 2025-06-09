@@ -121,7 +121,7 @@
                 <label for="hoat_dong">Hoạt động</label>
                 <input type="checkbox" name="hoat_dong" id="hoat_dong"
                     {{ old('hoat_dong') ? 'checked' : '' }}>
-                    
+
                 @error('hoat_dong')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -136,8 +136,13 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
-            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại</a>
+    <div class="form-group">
+        <label for="anh_phu">Ảnh phụ</label>
+        <input type="file" name="anh_phu[]" class="form-control" multiple>
+    </div>
+
+            <button type="submit" class="btn btn-primary mt-2">Tạo sản phẩm</button>
+            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary mt-2">Quay lại</a>
 
         </form>
     </div>
