@@ -227,4 +227,6 @@ class SanPhamController extends Controller
 
         return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
     }
+
+    //end
 }
