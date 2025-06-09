@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title','Quản lý sản phẩm')
+
 @section('content')
     <div class="container">
         <h1>Danh sách sản phẩm</h1>
