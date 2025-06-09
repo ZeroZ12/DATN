@@ -164,16 +164,30 @@ class SanPhamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $sanpham = SanPham::findOrFail($id);
-        if ($sanpham->anh_dai_dien && Storage::disk('public')->exists($sanpham->anh_dai_dien)) {
-            Storage::disk('public')->delete($sanpham->anh_dai_dien);
-        }
-        $sanpham->delete();
+  public function destroy(string $id)
+{
+    $sanpham = SanPham::findOrFail($id);
 
-        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được xóa thành công.');
+    // Xóa ảnh đại diện nếu có
+    if ($sanpham->anh_dai_dien && Storage::disk('public')->exists($sanpham->anh_dai_dien)) {
+        Storage::disk('public')->delete($sanpham->anh_dai_dien);
     }
+
+    // Xóa ảnh con liên quan trong bảng anh_san_phams
+    $anhSanPhams = AnhSanPham::where('id_product', $id)->get();
+    foreach ($anhSanPhams as $anh) {
+        if (Storage::disk('public')->exists($anh->duong_dan)) {
+            Storage::disk('public')->delete($anh->duong_dan);
+        }
+        $anh->delete();
+    }
+
+    // Xóa sản phẩm
+    $sanpham->delete();
+
+    return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được xóa thành công.');
+}
+
 
     public function store(Request $request)
     {
@@ -213,4 +227,6 @@ class SanPhamController extends Controller
 
         return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
     }
+
+    //end
 }

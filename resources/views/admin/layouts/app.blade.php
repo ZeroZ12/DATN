@@ -12,7 +12,7 @@
     <meta name="keywords"
         content="admin template, Edmin admin template, best javascript admin, dashboard template, bootstrap admin template, responsive admin template, web app">
     <meta name="author" content="pixelstrap">
-    <title>Edmin - Premium Admin Template</title>
+    <title>WD-94 | @yield('title')</title>
     <!-- Favicon icon-->
     <link rel="icon" href="{{ asset('assets/images/favicon/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon/favicon.png') }}" type="image/x-icon">

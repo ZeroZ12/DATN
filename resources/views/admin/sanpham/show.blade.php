@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title','Chi tiết sản phẩm')
+
 @section('content')
     <div class="container">
         <h1>Chi tiết sản phẩm: {{ $sanpham->ten }}</h1>
