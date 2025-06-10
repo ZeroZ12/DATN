@@ -13,11 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Tạo theo migration 0001_01_01_000000_create_users_table
+        User::factory(2)->create();
+       
     }
 }
