@@ -18,9 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('ho_ten', 100);
-            $table->string('so_dien_thoai',20);
+            $table->string('so_dien_thoai', 20);
             $table->enum('vai_tro', ['khach_hang', 'quan_tri'])->default('khach_hang');
-            $table->timestamp('ngay_tao')->default(now());
+            $table->enum('trang_thai', ['hoat_dong', 'vo_hieu', 'an'])->default('hoat_dong');
             $table->rememberToken();
             $table->timestamps();
         });
