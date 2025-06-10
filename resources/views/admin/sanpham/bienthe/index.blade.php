@@ -23,7 +23,7 @@
                     <th>Giá</th>
                     <th>Giá so sánh</th>
                     <th>Tồn kho</th>
-                    <th>Ảnh đại diện</th>
+                    <!-- <th>Ảnh đại diện</th> -->
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -37,13 +37,13 @@
                         <td>{{ number_format($bienthe->gia, 0, ',', '.') }} VNĐ</td> <!-- Hiển thị Giá -->
                         <td>{{ number_format($bienthe->gia_so_sanh, 0, ',', '.') }} VNĐ</td> <!-- Hiển thị Giá so sánh -->
                         <td>{{ $bienthe->ton_kho }}</td> <!-- Hiển thị Tồn kho -->
-                        <td>
+                        <!-- <td>
                             @if ($bienthe->anh_dai_dien)
                                 <img src="{{ asset('storage/' . $bienthe->anh_dai_dien) }}" alt="Ảnh đại diện" width="100">
                             @else
                                 <span>Chưa có ảnh</span>
                             @endif
-                        </td>
+                        </td> -->
                         <td>
                             <!-- Các hành động -->
                             <a href="{{ route('admin.bienthe.edit', $bienthe->id) }}" class="btn btn-warning btn-sm">Sửa</a>
