@@ -56,7 +56,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
 
 
-    
+
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->group(function () {
@@ -68,6 +68,10 @@ Route::middleware(['auth', CheckUserStatus::class])->group(function () {
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
     return view('admin.layouts.app');
 })->name('admin.index');
+
+//Route client
+Route::get('/trangchu', [\App\Http\Controllers\SanPhamController::class, 'index'])->name('client.home');
+
 
 
 require __DIR__ . '/auth.php';
