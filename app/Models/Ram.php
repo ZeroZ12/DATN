@@ -3,10 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ram extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'rams';
@@ -17,5 +18,5 @@ class Ram extends Model
     {
         return $this->hasMany(BienTheSanPham::class, 'id_ram');
     }
-    
+
 }

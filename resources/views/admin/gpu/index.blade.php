@@ -5,7 +5,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Danh sách GPU</h2>
-        <a href="{{ route('admin.gpu.create') }}" class="btn btn-primary">+ Thêm GPU</a>
+        <div>
+            <a href="{{ route('admin.gpu.trash') }}" class="btn btn-secondary">🗑 Thùng rác</a>
+            <a href="{{ route('admin.gpu.create') }}" class="btn btn-primary">+ Thêm GPU</a>
+        </div>
     </div>
 
     @if (session('message'))
