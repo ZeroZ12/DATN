@@ -4,28 +4,27 @@
 
 @section('content')
     <div class="container">
+        <!-- Tiêu đề và hành động -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">Danh sách ổ cứng</h2>
-            <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="mb-0">Danh sách ổ cứng</h2>
-                <div>
-                    <a href="{{ route('admin.ocung.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
-                    <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
-                </div>
+            <div>
+                <a href="{{ route('admin.ocung.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
             </div>
-            @if (session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
+        </div>
 
-                @if (session('message'))
-                    <div class="alert alert-success">
-                        {{ session('message') }}
-                    </div>
-                @endif
+        <!-- Thông báo -->
+        @if (session('message'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+            </div>
+        @endif
 
-                <table class="table table-bordered table-hover">
+        <!-- Bảng dữ liệu -->
+        <div class="card shadow-sm">
+            <div class="card-body table-responsive">
+                <table class="table table-bordered table-hover align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
@@ -55,17 +54,12 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center">Chưa có ổ cứng nào.</td>
+                                <td colspan="5" class="text-center text-muted">Chưa có ổ cứng nào.</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+            </div>
         </div>
-    @empty
-        <tr>
-            <td colspan="5" class="text-center">Chưa có ổ cứng nào.</td>
-        </tr>
-        @endforelse
-        </tbody>
-        </table>
-    @endsection
+    </div>
+@endsection
