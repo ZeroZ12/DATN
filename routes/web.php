@@ -75,7 +75,20 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('/{mainboard}', [MainboardController::class, 'destroy'])->name('destroy');
 });
 
-    Route::resource('gpu', GpuController::class);
+    Route::prefix('gpu')->name('gpu.')->group(function () {
+    Route::get('/trash', [GpuController::class, 'trash'])->name('trash');
+    Route::patch('/restore/{id}', [GpuController::class, 'restore'])->name('restore');
+    Route::delete('/force-delete/{id}', [GpuController::class, 'forceDelete'])->name('forceDelete');
+
+    Route::get('/', [GpuController::class, 'index'])->name('index');
+    Route::get('/create', [GpuController::class, 'create'])->name('create');
+    Route::post('/', [GpuController::class, 'store'])->name('store');
+    Route::get('/{gpu}', [GpuController::class, 'show'])->name('show');
+    Route::get('/{gpu}/edit', [GpuController::class, 'edit'])->name('edit');
+    Route::put('/{gpu}', [GpuController::class, 'update'])->name('update');
+    Route::delete('/{gpu}', [GpuController::class, 'destroy'])->name('destroy');
+});
+
     Route::resource('ram', RamController::class);
     Route::resource('ocung', OCungController::class);
     Route::resource('thuonghieu', ThuongHieuController::class);
