@@ -89,7 +89,22 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('/{gpu}', [GpuController::class, 'destroy'])->name('destroy');
 });
 
-    Route::resource('ram', RamController::class);
+    Route::prefix('ram')->name('ram.')->group(function () {
+    // Route thùng rác trước
+    Route::get('/trash', [RamController::class, 'trash'])->name('trash');
+    Route::patch('/restore/{id}', [RamController::class, 'restore'])->name('restore');
+    Route::delete('/force-delete/{id}', [RamController::class, 'forceDelete'])->name('forceDelete');
+
+    // Route resource chính
+    Route::get('/', [RamController::class, 'index'])->name('index');
+    Route::get('/create', [RamController::class, 'create'])->name('create');
+    Route::post('/', [RamController::class, 'store'])->name('store');
+    Route::get('/{ram}', [RamController::class, 'show'])->name('show');
+    Route::get('/{ram}/edit', [RamController::class, 'edit'])->name('edit');
+    Route::put('/{ram}', [RamController::class, 'update'])->name('update');
+    Route::delete('/{ram}', [RamController::class, 'destroy'])->name('destroy');
+});
+
     Route::resource('ocung', OCungController::class);
     Route::resource('thuonghieu', ThuongHieuController::class);
     Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);

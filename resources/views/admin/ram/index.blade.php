@@ -5,7 +5,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Danh sách RAM</h2>
-        <a href="{{ route('admin.ram.create') }}" class="btn btn-primary">+ Thêm RAM</a>
+        <div>
+            <a href="{{ route('admin.ram.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
+            <a href="{{ route('admin.ram.create') }}" class="btn btn-primary">+ Thêm RAM</a>
+        </div>
     </div>
 
     @if (session('message'))
