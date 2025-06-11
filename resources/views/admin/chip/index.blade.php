@@ -4,9 +4,12 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Danh sách chip</h2>
+    <h2 class="mb-0">Danh sách chip</h2>
+    <div>
+        <a href="{{ route('admin.chip.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
         <a href="{{ route('admin.chip.create') }}" class="btn btn-primary">+ Thêm chip</a>
     </div>
+</div>
 
     @if (session('message'))
         <div class="alert alert-success">

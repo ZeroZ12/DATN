@@ -41,7 +41,24 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update');
     Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy');
 
-    Route::resource('chip', ChipController::class);
+    Route::prefix('chip')->name('chip.')->group(function () {
+    // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
+    Route::get('/trash', [ChipController::class, 'trash'])->name('trash');
+    Route::patch('/restore/{id}', [ChipController::class, 'restore'])->name('restore');
+    Route::delete('/force-delete/{id}', [ChipController::class, 'forceDelete'])->name('forceDelete');
+
+    // ❗ SAU ĐÓ mới đến route động
+    Route::get('/', [ChipController::class, 'index'])->name('index');
+    Route::get('/create', [ChipController::class, 'create'])->name('create');
+    Route::post('/', [ChipController::class, 'store'])->name('store');
+    Route::get('/{chip}', [ChipController::class, 'show'])->name('show');
+    Route::get('/{chip}/edit', [ChipController::class, 'edit'])->name('edit');
+    Route::put('/{chip}', [ChipController::class, 'update'])->name('update');
+    Route::delete('/{chip}', [ChipController::class, 'destroy'])->name('destroy');
+});
+
+
+
     Route::resource('mainboard', MainboardController::class);
     Route::resource('gpu', GpuController::class);
     Route::resource('ram', RamController::class);
@@ -56,7 +73,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
 
 
-    
+
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->group(function () {
