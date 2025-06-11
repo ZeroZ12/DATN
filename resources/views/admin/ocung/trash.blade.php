@@ -1,15 +1,13 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Quản lý ổ cứng')
+@section('title', 'Thùng rác ổ cứng')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Danh sách ổ cứng</h2>
-        <div>
-            <a href="{{ route('admin.ocung.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
-            <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
-        </div>
+        <h2 class="mb-0">Thùng rác - Ổ cứng đã xóa</h2>
+        <a href="{{ route('admin.ocung.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
     </div>
+
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -22,7 +20,7 @@
                 <th>ID</th>
                 <th>Loại</th>
                 <th>Dung lượng</th>
-                <th>Mô tả</th>
+                <th>Đã xóa lúc</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -32,20 +30,24 @@
                     <td>{{ $oCung->id }}</td>
                     <td>{{ $oCung->loai }}</td>
                     <td>{{ $oCung->dung_luong }}</td>
-                    <td>{{ $oCung->mo_ta ?? 'N/A' }}</td>
+                    <td>{{ $oCung->deleted_at->format('d/m/Y H:i') }}</td>
                     <td>
-                        <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                        <form action="{{ route('admin.ocung.destroy', $oCung->id) }}" method="POST" class="d-inline-block"
-                            onsubmit="return confirm('Bạn có chắc muốn xóa?')">
+                        <form action="{{ route('admin.ocung.restore', $oCung->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-sm btn-success">Khôi phục</button>
+                        </form>
+                        <form action="{{ route('admin.ocung.forceDelete', $oCung->id) }}" method="POST" class="d-inline"
+                              onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Xóa</button>
+                            <button class="btn btn-sm btn-danger">Xóa vĩnh viễn</button>
                         </form>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center">Chưa có ổ cứng nào.</td>
+                    <td colspan="5" class="text-center">Thùng rác trống.</td>
                 </tr>
             @endforelse
         </tbody>

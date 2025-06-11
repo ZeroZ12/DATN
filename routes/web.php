@@ -105,7 +105,22 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('/{ram}', [RamController::class, 'destroy'])->name('destroy');
 });
 
-    Route::resource('ocung', OCungController::class);
+    Route::prefix('ocung')->name('ocung.')->group(function () {
+    // Soft delete
+    Route::get('/trash', [OCungController::class, 'trash'])->name('trash');
+    Route::patch('/restore/{id}', [OCungController::class, 'restore'])->name('restore');
+    Route::delete('/force-delete/{id}', [OCungController::class, 'forceDelete'])->name('forceDelete');
+
+    // Resource routes
+    Route::get('/', [OCungController::class, 'index'])->name('index');
+    Route::get('/create', [OCungController::class, 'create'])->name('create');
+    Route::post('/', [OCungController::class, 'store'])->name('store');
+    Route::get('/{ocung}', [OCungController::class, 'show'])->name('show');
+    Route::get('/{ocung}/edit', [OCungController::class, 'edit'])->name('edit');
+    Route::put('/{ocung}', [OCungController::class, 'update'])->name('update');
+    Route::delete('/{ocung}', [OCungController::class, 'destroy'])->name('destroy');
+});
+
     Route::resource('thuonghieu', ThuongHieuController::class);
     Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);
     Route::resource('magiamgia', MaGiamGiaController::class);
