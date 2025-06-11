@@ -89,4 +89,24 @@ class MainboardController extends Controller
         $mainboard->delete();
         return redirect()->route('admin.mainboard.index')->with('message', 'Mainboard đã được xóa thành công.');
     }
+    public function trash()
+{
+    $mainboards = Mainboard::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+    return view('admin.mainboard.trash', compact('mainboards'));
+}
+
+public function restore($id)
+{
+    $mainboard = Mainboard::onlyTrashed()->findOrFail($id);
+    $mainboard->restore();
+    return redirect()->route('admin.mainboard.trash')->with('message', 'Đã khôi phục mainboard thành công.');
+}
+
+public function forceDelete($id)
+{
+    $mainboard = Mainboard::onlyTrashed()->findOrFail($id);
+    $mainboard->forceDelete();
+    return redirect()->route('admin.mainboard.trash')->with('message', 'Đã xóa vĩnh viễn mainboard.');
+}
+
 }

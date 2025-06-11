@@ -5,7 +5,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="mb-0">Danh sách mainboard</h2>
-        <a href="{{ route('admin.mainboard.create') }}" class="btn btn-primary">+ Thêm mainboard</a>
+        <div>
+            <a href="{{ route('admin.mainboard.trash') }}" class="btn btn-secondary">🗑 Xem thùng rác</a>
+            <a href="{{ route('admin.mainboard.create') }}" class="btn btn-primary">+ Thêm mainboard</a>
+        </div>
     </div>
 
     @if (session('message'))
@@ -31,8 +34,8 @@
                     <td>{{ $mainboard->mo_ta ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('admin.mainboard.edit', $mainboard->id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                        <form action="{{ route('admin.mainboard.destroy', $mainboard->id) }}" method="POST" class="d-inline-block"
-                            onsubmit="return confirm('Bạn có chắc muốn xóa?')">
+                        <form action="{{ route('admin.mainboard.destroy', $mainboard->id) }}" method="POST"
+                            class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Xóa</button>

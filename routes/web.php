@@ -59,7 +59,22 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
 
 
-    Route::resource('mainboard', MainboardController::class);
+    Route::prefix('mainboard')->name('mainboard.')->group(function () {
+    // Các route liên quan đến xóa mềm - đặt TRƯỚC
+    Route::get('/trash', [MainboardController::class, 'trash'])->name('trash');
+    Route::patch('/restore/{id}', [MainboardController::class, 'restore'])->name('restore');
+    Route::delete('/force-delete/{id}', [MainboardController::class, 'forceDelete'])->name('forceDelete');
+
+    // Các route resource chuẩn
+    Route::get('/', [MainboardController::class, 'index'])->name('index');
+    Route::get('/create', [MainboardController::class, 'create'])->name('create');
+    Route::post('/', [MainboardController::class, 'store'])->name('store');
+    Route::get('/{mainboard}', [MainboardController::class, 'show'])->name('show');
+    Route::get('/{mainboard}/edit', [MainboardController::class, 'edit'])->name('edit');
+    Route::put('/{mainboard}', [MainboardController::class, 'update'])->name('update');
+    Route::delete('/{mainboard}', [MainboardController::class, 'destroy'])->name('destroy');
+});
+
     Route::resource('gpu', GpuController::class);
     Route::resource('ram', RamController::class);
     Route::resource('ocung', OCungController::class);
