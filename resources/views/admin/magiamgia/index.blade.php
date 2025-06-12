@@ -34,8 +34,8 @@
                     <td>{{ $maGiamGia->ma }}</td>
                     <td>{{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</td>
                     <td>{{ $maGiamGia->gia_tri }}</td>
-                    <td>{{ $maGiamGia->ngay_bat_dau ? $maGiamGia->ngay_bat_dau->format('d/m/Y') : 'N/A' }}</td>
-                    <td>{{ $maGiamGia->ngay_ket_thuc ? $maGiamGia->ngay_ket_thuc->format('d/m/Y') : 'N/A' }}</td>
+                    <td>{{ $maGiamGia->ngay_bat_dau ? $maGiamGia->ngay_bat_dau : 'N/A' }}</td>
+                    <td>{{ $maGiamGia->ngay_ket_thuc ? $maGiamGia->ngay_ket_thuc : 'N/A' }}</td>
                     <td>{{ $maGiamGia->hoat_dong ? 'Có' : 'Không' }}</td>
                     <td>
                         <a href="{{ route('admin.magiamgia.edit', $maGiamGia->id) }}" class="btn btn-sm btn-warning">Sửa</a>

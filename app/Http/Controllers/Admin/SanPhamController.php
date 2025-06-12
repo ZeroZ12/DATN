@@ -47,38 +47,6 @@ class SanPhamController extends Controller
 }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-
-    //     // Validate dữ liệu
-    //     $validatedData = $request->validate([
-    //         'ten' => 'required|string|max:255',
-    //         'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
-    //         'mo_ta' => 'nullable|string',
-    //         'id_chip' => 'required|exists:chips,id', // Bắt buộc và phải tồn tại trong bảng chips
-    //         'id_mainboard' => 'required|exists:mainboards,id', // Bắt buộc và phải tồn tại trong bảng mainboards
-    //         'id_gpu' => 'required|exists:gpus,id', // Bắt buộc và phải tồn tại trong bảng gpus
-    //         'id_category' => 'required|exists:danh_mucs,id', // Bắt buộc và phải tồn tại trong bảng danh_mucs
-    //         'id_brand' => 'required|exists:thuong_hieus,id', // Bắt buộc và phải tồn tại trong bảng thuong_hieus
-    //         'bao_hanh_thang' => 'nullable|integer|min:0',
-    //         'anh_dai_dien' => 'nullable|image|max:2048', // ảnh tối đa 2MB
-    //     ]);
-
-    //     // Xử lý ảnh nếu có
-    //     if ($request->hasFile('anh_dai_dien')) {
-    //         $path_image = $request->file('anh_dai_dien')->store('images', 'public');
-    //         $validatedData['anh_dai_dien'] = $path_image;
-    //     }
-
-
-    //     // Tạo mới sản phẩm
-    //     SanPham::create($validatedData);
-
-    //     return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được tạo thành công.');
-    // }
 
     /**
      * Display the specified resource.

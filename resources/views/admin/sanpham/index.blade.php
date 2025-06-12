@@ -34,6 +34,7 @@
             </thead>
             <tbody>
                 @foreach ($sanphams as $sanpham)
+
                     <tr>
                         <td>{{ $sanpham->id }}</td>
                         <td>{{ $sanpham->ten }}</td>
