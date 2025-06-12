@@ -41,7 +41,8 @@ class RegisteredUserController extends Controller
             'ten_dang_nhap' => $request->ten_dang_nhap,
             'ho_ten' => $request->ho_ten,
             'so_dien_thoai' => $request->so_dien_thoai,
-            'vai_tro' => 'khach_hang', // Default role
+            'email' => $request->email,
+            'vai_tro' => 'khach_hang', 
             'password' => Hash::make($request->password),
         ]);
 
