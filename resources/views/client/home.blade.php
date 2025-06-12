@@ -18,7 +18,7 @@
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     @foreach ($sanphams as $sp)
       @php
-        $bienThe = $sp->BienTheSanPham->first(); // Lấy biến thể đầu tiên
+        $bienThe = $sp->BienTheSanPham->first();
       @endphp
 
       <div class="col">
@@ -28,7 +28,6 @@
               <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
                    class="card-img-top rounded-top"
                    alt="{{ $sp->ten }}">
-
               @if ($sp->is_hot ?? false)
                 <span class="badge bg-danger position-absolute top-0 start-0 m-2 px-2 py-1">
                   <i class="fa-solid fa-gift me-1"></i> Quà tặng HOT
@@ -37,29 +36,57 @@
             </div>
 
             <div class="card-body d-flex flex-column">
-              <h6 class="card-title fw-semibold product-name mb-2">{{ $sp->ten }}</h6>
+              <!-- Tên sản phẩm -->
+              <h6 class="card-title fw-semibold product-name mb-2">
+                {{ \Illuminate\Support\Str::limit($sp->ten, 50) }}
+              </h6>
 
+              <!-- Cấu hình rút gọn -->
+              <!-- Cấu hình rút gọn -->
+<div class="bg-light rounded px-2 py-2 mb-2 small">
+  @if ($sp->chip)
+    <div><i class="fa-solid fa-microchip me-1"></i> {{ $sp->chip->ten }}</div>
+  @endif
+
+  @if ($sp->gpu)
+    <div><i class="fa-solid fa-video me-1"></i> {{ $sp->gpu->ten }}</div>
+  @endif
+
+  @if ($bienThe && $bienThe->ram)
+    <div><i class="fa-solid fa-memory me-1"></i> {{ $bienThe->ram->dung_luong }} GB</div>
+  @endif
+
+
+  @if ($bienThe && $bienThe->oCung)
+    <div><i class="fa-solid fa-hdd me-1"></i> Ổ cứng: {{ $bienThe->oCung->dung_luong }} ({{ $bienThe->oCung->loai }})</div>
+  @endif
+</div>
+
+
+              <!-- Giá và giảm giá -->
               <div class="mb-2 mt-auto">
                 @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
                   <span class="text-muted text-decoration-line-through small">
                     {{ number_format($bienThe->gia_so_sanh) }}₫
                   </span>
                 @endif
-
-                <span class="text-danger fw-bold ms-2">
+                <span class="text-danger fw-bold fs-6 ms-2">
                   {{ number_format($bienThe->gia ?? 0) }}₫
                 </span>
 
                 @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                  <span class="ms-2 text-success small">
+                  <span class="badge bg-danger ms-2">
                     -{{ round(100 * ($bienThe->gia_so_sanh - $bienThe->gia) / $bienThe->gia_so_sanh) }}%
                   </span>
                 @endif
               </div>
 
+              <!-- Đánh giá -->
               <div class="small text-muted">
-                <span class="rating">★★★★☆</span> ({{ $sp->so_danh_gia ?? 5 }})
+                <i class="fa-solid fa-star text-warning me-1"></i>
+                0.0 <span class="ms-1">(0 đánh giá)</span>
               </div>
+
             </div>
           </div>
         </a>
@@ -67,6 +94,7 @@
     @endforeach
   </div>
 </div>
+
 
 @endsection
 
