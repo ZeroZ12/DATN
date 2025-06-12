@@ -17,9 +17,9 @@ use App\Http\Controllers\Admin\MaGiamGiaController;
 use App\Http\Controllers\SanPhamController as ControllersSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/admin', function () {
 //     return view('admin.layouts.app');
@@ -152,7 +152,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 
 //Route client
 Route::get('/trangchu', [ControllersSanPhamController::class, 'index'])->name('client.home');
-
 
 
 require __DIR__ . '/auth.php';
