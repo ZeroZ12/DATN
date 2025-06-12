@@ -45,7 +45,7 @@
 
             @if (Auth::user()->vai_tro === 'quan_tri' && Auth::id() != $user->id)
                 <select name="vai_tro" class="form-select">
-                    <option value="admin" {{ $user->vai_tro == 'quan_tri' ? 'selected' : '' }}>quan tri</option>
+                    <option value="quan_tri" {{ $user->vai_tro == 'quan_tri' ? 'selected' : '' }}>quan tri</option>
                     <option value="khach_hang" {{ $user->vai_tro == 'khach_hang' ? 'selected' : '' }}>Khách hàng</option>
                 </select>
             @else
