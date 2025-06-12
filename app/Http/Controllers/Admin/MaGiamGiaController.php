@@ -82,7 +82,7 @@ class MaGiamGiaController extends Controller
     {
         $maGiamGia = MaGiamGia::findOrFail($id);
         $data = $request->validate([
-            'ma' => 'required|string|max:50|unique:ma_giam_gia,ma,' . $id,
+            'ma' => 'required|string|max:50|unique:ma_giam_gias,ma,' . $id,
             'loai' => 'required|in:phan_tram,tien_mat',
             'gia_tri' => 'required|numeric|min:0',
             'ngay_bat_dau' => 'nullable|date',

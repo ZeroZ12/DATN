@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
@@ -13,15 +14,11 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next,...$roles): Response
     {
         //kiem tra xem nguoi dung da dang nhap chua
-        if (!$request->user()) {
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để tiếp tục.');
-        }
-        //kiem tra vai tro cua nguoi dung
-        if ($request->user()->vai_tro !== 'quan_tri') {
-            return redirect()->route('home')->with('error', 'Bạn không có quyền truy cập vào trang này.');
+        if ( !in_array(Auth::user()->vai_tro,  $roles) ) {
+            return abort(403, 'Bạn không có quyền truy cập.');
         }
         return $next($request);
     }

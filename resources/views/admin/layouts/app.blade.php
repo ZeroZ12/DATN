@@ -33,11 +33,13 @@
     <!-- Flag Icon css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/flag-icon.css') }}">
     <!-- Themify Icon css -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/themify-icons/themify-icons/css/themify.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/css/vendors/themify-icons/themify-icons/css/themify.css') }}">
     <!-- Animation css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
     <!-- Whether Icon css-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/weather-icons/css/weather-icons.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('assets/css/vendors/weather-icons/css/weather-icons.min.css') }}">
     <!-- Apex Chart css-->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/apexcharts/dist/apexcharts.css') }}">
     <!-- Data Table css-->
@@ -46,13 +48,16 @@
     <!-- App css-->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
     <!-- tap to top-->
     <div class="tap-top">
         <svg class="feather">
-            <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#arrow-up"></use>
+            <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#arrow-up">
+            </use>
         </svg>
     </div>
     <!-- loader-->
@@ -61,7 +66,7 @@
     </div>
     <main class="page-wrapper compact-wrapper" id="pageWrapper">
         <!-- Page header start -->
-            @include('admin.layouts.blocks.header')
+        @include('admin.layouts.blocks.header')
         <!-- Page header end-->
         <div class="page-body-wrapper">
             <!-- Page sidebar start-->
@@ -105,5 +110,11 @@
     @stack('scripts')
 
 </body>
+<style>
+    body,
+    html {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
 
 </html>

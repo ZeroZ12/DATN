@@ -5,9 +5,9 @@
         <h1>Chỉnh sửa biến thể sản phẩm: {{ $bienthe->sanpham->ten }}</h1>
 
         <!-- Hiển thị thông báo nếu có -->
-        @if (session('success'))
+        @if (session('message'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session('message') }}
             </div>
         @endif
 

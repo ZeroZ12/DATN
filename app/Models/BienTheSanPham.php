@@ -3,10 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BienTheSanPham extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'bien_the_san_phams';

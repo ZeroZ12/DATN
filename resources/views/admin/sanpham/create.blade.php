@@ -6,9 +6,9 @@
 <div class="container">
     <h1>Tạo sản phẩm mới</h1>
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    @if (session('message'))
+        <div class="alert alert-message">
+            {{ session('message') }}
         </div>
     @endif
 

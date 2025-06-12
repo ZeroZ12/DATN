@@ -3,16 +3,18 @@
 @section('title', 'Quản lý mã giảm giá')
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Danh sách mã giảm giá</h2>
-        <a href="{{ route('admin.magiamgia.create') }}" class="btn btn-primary">+ Thêm mã giảm giá</a>
-    </div>
-
-    @if (session('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">Danh sách mã giảm giá</h2>
+            <a href="{{ route('admin.magiamgia.create') }}" class="btn btn-primary">+ Thêm mã giảm giá</a>
         </div>
-    @endif
+
+        @if (session('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+        <div class = "card shadow-sm">
 
     <table class="table table-bordered table-hover">
         <thead class="table-light">
