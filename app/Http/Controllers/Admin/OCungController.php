@@ -97,4 +97,23 @@ class OCungController extends Controller
         $oCung->delete();
         return redirect()->route('admin.ocung.index')->with('message', 'Ổ cứng đã được xóa thành công.');
     }
+    public function trash()
+{
+    $oCungs = OCung::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+    return view('admin.ocung.trash', compact('oCungs'));
+}
+
+public function restore($id)
+{
+    $oCung = OCung::onlyTrashed()->findOrFail($id);
+    $oCung->restore();
+    return redirect()->route('admin.ocung.trash')->with('message', 'Đã khôi phục ổ cứng thành công.');
+}
+
+public function forceDelete($id)
+{
+    $oCung = OCung::onlyTrashed()->findOrFail($id);
+    $oCung->forceDelete();
+    return redirect()->route('admin.ocung.trash')->with('message', 'Đã xóa vĩnh viễn ổ cứng.');
+}
 }

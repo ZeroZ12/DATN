@@ -148,5 +148,4 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 Route::get('/trangchu', [\App\Http\Controllers\SanPhamController::class, 'index'])->name('client.home');
 
 
-
 require __DIR__ . '/auth.php';

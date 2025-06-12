@@ -89,4 +89,33 @@ class ChipController extends Controller
         $chip->delete();
         return redirect()->route('admin.chip.index')->with('message', 'Chip đã được xóa thành công.');
     }
+    /**
+ * Hiển thị danh sách Chip đã bị xóa mềm
+ */
+public function trash()
+{
+    $chips = Chip::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+    return view('admin.chip.trash', compact('chips'));
+}
+
+/**
+ * Khôi phục 1 chip đã xóa mềm
+ */
+public function restore($id)
+{
+    $chip = Chip::onlyTrashed()->findOrFail($id);
+    $chip->restore();
+    return redirect()->route('admin.chip.trash')->with('message', 'Đã khôi phục chip thành công.');
+}
+
+/**
+ * Xóa vĩnh viễn 1 chip
+ */
+public function forceDelete($id)
+{
+    $chip = Chip::onlyTrashed()->findOrFail($id);
+    $chip->forceDelete();
+    return redirect()->route('admin.chip.trash')->with('message', 'Đã xóa vĩnh viễn chip.');
+}
+
 }
