@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">Danh sách ổ cứng</h2>
             <div>
-                <a href="{{ route('admin.ocung.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.ocung.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
                 <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
             </div>
         </div>

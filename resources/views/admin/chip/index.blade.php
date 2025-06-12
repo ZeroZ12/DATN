@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0 text-primary fw-bold">🧠 Danh sách chip</h2>
             <div>
-                <a href="{{ route('admin.chip.trash') }}" class="btn btn-secondary">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.chip.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
                 <a href="{{ route('admin.chip.create') }}" class="btn btn-success">+ Thêm chip</a>
             </div>
         </div>

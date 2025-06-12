@@ -59,7 +59,7 @@ class BienTheSanPhamController extends Controller
         BienTheSanPham::create($validatedData);
 
         return redirect()->route('admin.bienthe.index', $validatedData['id_product'])
-                         ->with('success', 'Biến thể sản phẩm đã được tạo thành công.');
+                         ->with('message', 'Biến thể sản phẩm đã được tạo thành công.');
     }
 
     public function edit($id)
@@ -109,8 +109,7 @@ class BienTheSanPhamController extends Controller
 
         $bienthe->update($validatedData);
 
-        return redirect()->route('admin.bienthe.index', $bienthe->id_product)
-                         ->with('success', 'Biến thể sản phẩm đã được cập nhật thành công.');
+        return redirect()->back()->with('message', 'Biến thể sản phẩm đã được cập nhật thành công.');
     }
 
     /**
@@ -125,7 +124,7 @@ class BienTheSanPhamController extends Controller
         $bienthe->delete();
 
         return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('success', 'Biến thể sản phẩm đã được xóa mềm thành công.');
+                         ->with('message', 'Biến thể sản phẩm đã được xóa mềm thành công.');
     }
 
     /**
@@ -140,7 +139,7 @@ class BienTheSanPhamController extends Controller
         $bienthe->restore(); // Khôi phục biến thể
 
         return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('success', 'Biến thể sản phẩm đã được khôi phục thành công.');
+                         ->with('message', 'Biến thể sản phẩm đã được khôi phục thành công.');
     }
 
     /**
@@ -161,6 +160,6 @@ class BienTheSanPhamController extends Controller
         $bienthe->forceDelete();
 
         return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('success', 'Biến thể sản phẩm đã bị xóa vĩnh viễn.');
+                         ->with('message', 'Biến thể sản phẩm đã bị xóa vĩnh viễn.');
     }
 }

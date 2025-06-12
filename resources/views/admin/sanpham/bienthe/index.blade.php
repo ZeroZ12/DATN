@@ -5,16 +5,16 @@
         <h1>Danh sách biến thể sản phẩm: {{ $sanpham->ten }}</h1>
 
         <!-- Hiển thị thông báo thành công khi xóa hoặc cập nhật biến thể sản phẩm -->
-        @if (session('success'))
+        @if (session('message'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session('message') }}
             </div>
         @endif
 
         <!-- Danh sách các biến thể sản phẩm -->
         <h4>Biến thể sản phẩm</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
+        <div class="card shadow-sm">
+            <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th class="col-id">#</th>
@@ -51,6 +51,7 @@
                                     <span class="badge bg-danger mb-1">Đã xóa mềm</span><br>
                                     <div class="action-buttons">
                                         <form action="{{ route('admin.bienthe.restore', $bienthe->id) }}" method="POST">
+                                            @csrf
                                             <button type="submit" class="btn btn-warning btn-sm"
                                                 onclick="return confirm('Bạn có chắc chắn muốn khôi phục biến thể này không?')">Khôi
                                                 phục</button>
@@ -58,7 +59,7 @@
                                         <form action="{{ route('admin.bienthe.forceDelete', $bienthe->id) }}"
                                             method="POST">
                                             @csrf
-                                            @method('DELETE') 
+                                            @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN biến thể này không? Hành động này không thể hoàn tác!')">Xóa
                                                 Vĩnh Viễn</button>
@@ -70,7 +71,7 @@
                                             class="btn btn-warning btn-sm">Sửa</a>
                                         <form action="{{ route('admin.bienthe.destroy', $bienthe->id) }}" method="POST">
                                             @csrf
-                                            @method('DELETE') 
+                                            @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa
                                                 mềm</button>

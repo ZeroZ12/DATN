@@ -10,16 +10,15 @@
     <div class="container-fluid">
         <h1>Danh sách sản phẩm</h1>
 
-        @if (session('success'))
+        @if (session('message'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session('message') }}
             </div>
         @endif
 
         <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary mb-3">Thêm sản phẩm mới</a>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
+        <div class="card shadow-sm">
+            <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
                         <th class="col-id">#</th>

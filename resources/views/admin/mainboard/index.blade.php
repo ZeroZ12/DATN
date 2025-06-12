@@ -6,9 +6,15 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0 text-primary fw-bold">🧩 Danh sách Mainboard</h2>
-            <a href="{{ route('admin.mainboard.create') }}" class="btn btn-success">
-                + Thêm mainboard mới
-            </a>
+            <div>
+                <a href="{{ route('admin.mainboard.trash') }}" class="btn btn-outline-secondary me-2">
+                    🗑️ Thùng rác
+                </a>
+                <a href="{{ route('admin.mainboard.create') }}" class="btn btn-success">
+                    + Thêm mainboard mới
+                </a>
+
+            </div>
         </div>
 
         @if (session('message'))

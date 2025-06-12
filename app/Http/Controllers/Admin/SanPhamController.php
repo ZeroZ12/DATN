@@ -318,7 +318,7 @@ class SanPhamController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Cập nhật sản phẩm thành công');
+        return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
     }
 
     /**
@@ -330,7 +330,7 @@ class SanPhamController extends Controller
         // Chỉ gọi delete() để thực hiện soft delete
         $sanpham->delete();
 
-        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được xóa mềm thành công.');
+        return redirect()->route('admin.sanpham.index')->with('message', 'Sản phẩm đã được xóa mềm thành công.');
     }
 
     /**
@@ -368,7 +368,7 @@ class SanPhamController extends Controller
         // Xóa vĩnh viễn sản phẩm
         $sanpham->forceDelete();
 
-        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được xóa vĩnh viễn thành công.');
+        return redirect()->route('admin.sanpham.index')->with('message', 'Sản phẩm đã được xóa vĩnh viễn thành công.');
     }
 
     /**
@@ -384,6 +384,6 @@ class SanPhamController extends Controller
         BienTheSanPham::onlyTrashed()->where('id_product', $sanpham->id)->restore();
 
 
-        return redirect()->route('admin.sanpham.index')->with('success', 'Sản phẩm đã được khôi phục thành công.');
+        return redirect()->route('admin.sanpham.index')->with('message', 'Sản phẩm đã được khôi phục thành công.');
     }
 }
