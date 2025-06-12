@@ -2,23 +2,63 @@
 
 @section('content')
  <!-- Bộ lọc -->
-  <div class="container filter-bar my-3 d-flex flex-wrap gap-2">
-    <button class="btn btn-outline-secondary text-black btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Giá</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Hãng</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">CPU</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">RAM</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">SSD</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">VGA</button>
-  </div>
+<div class="container py-3">
+  <form method="GET" action="{{ route('client.home') }}">
+    <div class="d-flex flex-wrap justify-content-center gap-2">
 
-  <!-- Danh sách sản phẩm -->
+      <select name="id_brand" class="form-select form-select-sm w-auto">
+        <option value="">-- Thương hiệu --</option>
+        @foreach($thuongHieus as $item)
+          <option value="{{ $item->id }}" {{ request('id_brand') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
+        @endforeach
+      </select>
+
+      <select name="id_chip" class="form-select form-select-sm w-auto">
+        <option value="">-- CPU --</option>
+        @foreach($chips as $item)
+          <option value="{{ $item->id }}" {{ request('id_chip') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
+        @endforeach
+      </select>
+
+      <select name="id_gpu" class="form-select form-select-sm w-auto">
+        <option value="">-- GPU --</option>
+        @foreach($gpus as $item)
+          <option value="{{ $item->id }}" {{ request('id_gpu') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
+        @endforeach
+      </select>
+
+      <select name="id_ram" class="form-select form-select-sm w-auto">
+        <option value="">-- RAM --</option>
+        @foreach($rams as $item)
+          <option value="{{ $item->id }}" {{ request('id_ram') == $item->id ? 'selected' : '' }}>{{ $item->dung_luong }}</option>
+        @endforeach
+      </select>
+
+      <select name="id_o_cung" class="form-select form-select-sm w-auto">
+        <option value="">-- Ổ cứng --</option>
+        @foreach($oCungs as $item)
+          <option value="{{ $item->id }}" {{ request('id_o_cung') == $item->id ? 'selected' : '' }}>{{ $item->dung_luong }}</option>
+        @endforeach
+      </select>
+
+      <button type="submit" class="btn btn-sm btn-primary">Lọc</button>
+      <a href="{{ route('client.home') }}" class="btn btn-sm btn-outline-secondary">Đặt lại</a>
+    </div>
+  </form>
+</div>
+
+
+ <!-- Danh sách sản phẩm -->
 <div class="container py-4">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
     @foreach ($sanphams as $sp)
       @php
-        $bienThe = $sp->BienTheSanPham->first();
+        // Ưu tiên biến thể phù hợp với filter (RAM và ổ cứng), fallback về biến thể đầu tiên nếu không có
+        $bienThe = $sp->BienTheSanPham->firstWhere(function ($bt) {
+            return
+                (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+        }) ?? $sp->BienTheSanPham->first();
       @endphp
 
       <div class="col">
@@ -28,7 +68,7 @@
               <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
                    class="card-img-top rounded-top"
                    alt="{{ $sp->ten }}">
-              @if ($sp->is_hot ?? false)
+              @if ($sp->is_hot)
                 <span class="badge bg-danger position-absolute top-0 start-0 m-2 px-2 py-1">
                   <i class="fa-solid fa-gift me-1"></i> Quà tặng HOT
                 </span>
@@ -42,26 +82,23 @@
               </h6>
 
               <!-- Cấu hình rút gọn -->
-              <!-- Cấu hình rút gọn -->
-<div class="bg-light rounded px-2 py-2 mb-2 small">
-  @if ($sp->chip)
-    <div><i class="fa-solid fa-microchip me-1"></i> {{ $sp->chip->ten }}</div>
-  @endif
+              <div class="bg-light rounded px-2 py-2 mb-2 small">
+                @if ($sp->chip)
+                  <div><i class="fa-solid fa-microchip me-1"></i> {{ $sp->chip->ten }}</div>
+                @endif
 
-  @if ($sp->gpu)
-    <div><i class="fa-solid fa-video me-1"></i> {{ $sp->gpu->ten }}</div>
-  @endif
+                @if ($sp->gpu)
+                  <div><i class="fa-solid fa-video me-1"></i> {{ $sp->gpu->ten }}</div>
+                @endif
 
-  @if ($bienThe && $bienThe->ram)
-    <div><i class="fa-solid fa-memory me-1"></i> {{ $bienThe->ram->dung_luong }} GB</div>
-  @endif
+                @if ($bienThe?->ram)
+                  <div><i class="fa-solid fa-memory me-1"></i> {{ $bienThe->ram->dung_luong }} GB</div>
+                @endif
 
-
-  @if ($bienThe && $bienThe->oCung)
-    <div><i class="fa-solid fa-hdd me-1"></i> Ổ cứng: {{ $bienThe->oCung->dung_luong }} ({{ $bienThe->oCung->loai }})</div>
-  @endif
-</div>
-
+                @if ($bienThe?->oCung)
+                  <div><i class="fa-solid fa-hdd me-1"></i> Ổ cứng: {{ $bienThe->oCung->dung_luong }} ({{ $bienThe->oCung->loai }})</div>
+                @endif
+              </div>
 
               <!-- Giá và giảm giá -->
               <div class="mb-2 mt-auto">
@@ -86,12 +123,16 @@
                 <i class="fa-solid fa-star text-warning me-1"></i>
                 0.0 <span class="ms-1">(0 đánh giá)</span>
               </div>
-
             </div>
           </div>
         </a>
       </div>
     @endforeach
+  </div>
+
+  <!-- Phân trang -->
+  <div class="mt-4">
+    {{ $sanphams->links() }}
   </div>
 </div>
 
