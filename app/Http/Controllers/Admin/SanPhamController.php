@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class SanPhamController extends Controller
 {
@@ -28,8 +31,8 @@ class SanPhamController extends Controller
         // Lấy TẤT CẢ các sản phẩm, bao gồm cả những sản phẩm đã bị xóa mềm
         // để có thể hiển thị trong view và cung cấp các nút Khôi phục/Xóa vĩnh viễn
         $sanphams = SanPham::withTrashed()->with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])
-                            ->orderBy('id', 'desc')
-                            ->paginate(10);
+            ->orderBy('id', 'desc')
+            ->paginate(10);
         return view('admin.sanpham.index', compact('sanphams'));
     }
 
@@ -95,6 +98,8 @@ class SanPhamController extends Controller
             $path_image = $request->file('anh_dai_dien')->store('images', 'public');
             $validatedData['anh_dai_dien'] = $path_image;
         }
+
+        $validatedData['hoat_dong'] = $request->has('hoat_dong') ? true : false;
 
         // Tạo sản phẩm
         $sanPham = SanPham::create($validatedData);
@@ -182,144 +187,189 @@ class SanPhamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        // Khi update, bạn có thể muốn update cả sản phẩm đã xóa mềm
-        $sanPham = SanPham::withTrashed()->findOrFail($id);
 
-        // Validate dữ liệu
+    public function update(Request $request, $id)
+    {
+        // 1. Validation dữ liệu đầu vào
         $validatedData = $request->validate([
             'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id, // Đảm bảo không trùng mã sản phẩm
+            'ma_san_pham' => 'nullable|string|max:255|unique:san_phams,ma_san_pham,' . $id,
             'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
             'id_category' => 'required|exists:danh_mucs,id',
             'id_brand' => 'required|exists:thuong_hieus,id',
+            'id_chip' => 'nullable|exists:chips,id',
+            'id_mainboard' => 'nullable|exists:mainboards,id',
+            'id_gpu' => 'nullable|exists:gpus,id',
             'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048',
-            // Thêm validation cho ảnh phụ và biến thể nếu bạn chỉnh sửa chúng trong form update
-            'anh_phu.*' => 'nullable|image|max:2048',
-            'variants' => 'nullable|array', // Có thể không có biến thể nào được gửi lên khi cập nhật
-            'variants.*.ram_id' => 'required_with:variants|exists:rams,id',
-            'variants.*.o_cung_id' => 'required_with:variants|exists:o_cungs,id',
-            'variants.*.gia' => 'required_with:variants|numeric|min:0',
+            'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'anh_phu.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Quy tắc cho từng ảnh phụ
+            'xoa_anh_phu' => 'nullable|array', // Mảng các ID ảnh phụ cần xóa
+            'xoa_anh_phu.*' => 'exists:anh_phu_san_phams,id',
+
+            // Validation cho các biến thể
+            'variants' => 'array', // Đảm bảo variants là một mảng
+            'variants.*.id' => 'nullable|exists:bien_the_san_phams,id', // ID biến thể hiện có (nếu có)
+            'variants.*.ram_id' => 'required|exists:rams,id', // Đảm bảo RAM ID được gửi
+            'variants.*.o_cung_id' => 'required|exists:o_cungs,id', // Đảm bảo Ổ cứng ID được gửi
+            // 'variants.*.id_color' => 'nullable|exists:colors,id', // Nếu bạn có trường màu sắc
+            'variants.*.gia' => 'required|numeric|min:0',
             'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required_with:variants|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|max:2048',
-            'xoa_bien_the.*' => 'nullable|exists:bien_the_san_phams,id', // ID các biến thể muốn xóa
+            'variants.*.ton_kho' => 'required|integer|min:0',
+            'variants.*.anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Ảnh cho từng biến thể
+            'xoa_bien_the' => 'nullable|array', // Mảng các ID biến thể cần xóa
+            'xoa_bien_the.*' => 'exists:bien_the_san_phams,id',
+        ], [
+            // Custom error messages for better user experience
+            'ten.required' => 'Tên sản phẩm là bắt buộc.',
+            'id_category.required' => 'Vui lòng chọn danh mục.',
+            'id_brand.required' => 'Vui lòng chọn thương hiệu.',
+            'variants.*.ram_id.required' => 'Biến thể phải có RAM.',
+            'variants.*.o_cung_id.required' => 'Biến thể phải có Ổ cứng.',
+            'variants.*.gia.required' => 'Giá biến thể là bắt buộc.',
+            'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
+            // ... thêm các thông báo lỗi khác nếu cần
         ]);
 
-        // Lấy dữ liệu form trừ ảnh đại diện
-        $data = $validatedData;
+        $sanpham = SanPham::findOrFail($id);
 
-        // Xử lý ảnh đại diện nếu có
-        if ($request->hasFile('anh_dai_dien')) {
-            // Xóa ảnh cũ nếu có
-            if ($sanPham->anh_dai_dien && Storage::disk('public')->exists($sanPham->anh_dai_dien)) {
-                Storage::disk('public')->delete($sanPham->anh_dai_dien);
-            }
-            // Lưu ảnh mới
-            $data['anh_dai_dien'] = $request->file('anh_dai_dien')->store('images', 'public');
-        } else {
-            // Giữ ảnh cũ nếu không có ảnh mới được gửi lên
-            $data['anh_dai_dien'] = $sanPham->anh_dai_dien;
-        }
+        try {
+            DB::beginTransaction();
 
-        // Cập nhật sản phẩm
-        $sanPham->update($data);
+            // 2. Cập nhật thông tin chính của sản phẩm
+            $sanpham->ten = $validatedData['ten'];
+            $sanpham->ma_san_pham = $validatedData['ma_san_pham'];
+            $sanpham->mo_ta = $validatedData['mo_ta'];
+            $sanpham->id_category = $validatedData['id_category'];
+            $sanpham->id_brand = $validatedData['id_brand'];
+            $sanpham->id_chip = $validatedData['id_chip'];
+            $sanpham->id_mainboard = $validatedData['id_mainboard'];
+            $sanpham->id_gpu = $validatedData['id_gpu'];
+            $sanpham->bao_hanh_thang = $validatedData['bao_hanh_thang'];
+            // Checkbox 'hoat_dong' có thể không được gửi nếu không chọn
+            $sanpham->hoat_dong = $request->has('hoat_dong') ? true : false;
+            $sanpham->save();
 
-        // Xóa ảnh phụ được chọn
-        if ($request->has('xoa_anh_phu')) {
-            $anhXoaIds = $request->input('xoa_anh_phu');
-            $anhXoaList = AnhSanPham::whereIn('id', $anhXoaIds)->get();
-            foreach ($anhXoaList as $anh) {
-                if (Storage::disk('public')->exists($anh->duong_dan)) {
-                    Storage::disk('public')->delete($anh->duong_dan);
+            // 3. Xử lý ảnh đại diện
+            if ($request->hasFile('anh_dai_dien')) {
+                // Xóa ảnh cũ nếu có
+                if ($sanpham->anh_dai_dien && Storage::disk('public')->exists($sanpham->anh_dai_dien)) {
+                    Storage::disk('public')->delete($sanpham->anh_dai_dien);
                 }
-                $anh->delete(); // Soft delete ảnh phụ nếu Model AnhSanPham có soft deletes, nếu không thì forceDelete
+                $path = $request->file('anh_dai_dien')->store('uploads/sanpham', 'public');
+                $sanpham->anh_dai_dien = $path;
+                $sanpham->save(); // Lưu lại để cập nhật đường dẫn ảnh
             }
-        }
 
-        // Thêm ảnh phụ mới
-        if ($request->hasFile('anh_phu')) {
-            foreach ($request->file('anh_phu') as $file) {
-                $path = $file->store('images/anh_phu', 'public');
-                AnhSanPham::create([
-                    'id_product' => $sanPham->id,
-                    'duong_dan' => $path
-                ]);
-            }
-        }
-
-        // Xử lý cập nhật/thêm/xóa biến thể
-        if ($request->has('variants')) {
-            foreach ($request->variants as $index => $variantData) {
-                $variantId = $variantData['id'] ?? null; // Lấy ID biến thể nếu có (để cập nhật)
-
-                // Validation lại cho từng biến thể để đảm bảo tính toàn vẹn
-                $variantValidator = Validator::make($variantData, [
-                    'ram_id' => 'required|exists:rams,id',
-                    'o_cung_id' => 'required|exists:o_cungs,id',
-                    'gia' => 'required|numeric|min:0',
-                    'gia_so_sanh' => 'nullable|numeric|min:0',
-                    'ton_kho' => 'required|integer|min:0',
-                    'anh_dai_dien' => 'nullable|image|max:2048',
-                ]);
-
-                if ($variantValidator->fails()) {
-                    // Xử lý lỗi validation cho biến thể (ví dụ: redirect với lỗi)
-                    return redirect()->back()->withErrors($variantValidator)->withInput();
-                }
-
-                $processedVariantData = $variantValidator->validated();
-                $processedVariantData['id_product'] = $sanPham->id;
-
-                // Xử lý ảnh riêng của biến thể
-                if ($request->hasFile("variants.$index.anh_dai_dien")) {
-                    // Nếu là biến thể đã tồn tại và có ảnh cũ, xóa ảnh cũ
-                    if ($variantId && ($existingVariant = BienTheSanPham::find($variantId)) && $existingVariant->anh_dai_dien && Storage::disk('public')->exists($existingVariant->anh_dai_dien)) {
-                        Storage::disk('public')->delete($existingVariant->anh_dai_dien);
-                    }
-                    $variantImage = $request->file("variants.$index.anh_dai_dien")->store("images/bien_the", 'public');
-                    $processedVariantData['anh_dai_dien'] = $variantImage;
-                } else {
-                    // Nếu không có ảnh mới, giữ ảnh cũ (chỉ khi cập nhật biến thể hiện có)
-                    if ($variantId && ($existingVariant = BienTheSanPham::find($variantId))) {
-                        $processedVariantData['anh_dai_dien'] = $existingVariant->anh_dai_dien;
+            // 4. Xử lý ảnh phụ
+            // Xóa ảnh phụ được đánh dấu
+            if (isset($validatedData['xoa_anh_phu']) && is_array($validatedData['xoa_anh_phu'])) {
+                foreach ($validatedData['xoa_anh_phu'] as $anh_phu_id) {
+                    $anhPhu = AnhSanPham::find($anh_phu_id);
+                    if ($anhPhu) {
+                        if (Storage::disk('public')->exists($anhPhu->duong_dan)) {
+                            Storage::disk('public')->delete($anhPhu->duong_dan);
+                        }
+                        $anhPhu->delete();
                     }
                 }
+            }
 
-
-                if ($variantId) {
-                    // Cập nhật biến thể hiện có
-                    BienTheSanPham::find($variantId)->update($processedVariantData);
-                } else {
-                    // Tạo mới biến thể
-                    do {
-                        $maBienThe = 'BT' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-                    } while (BienTheSanPham::where('ma_bien_the', $maBienThe)->exists());
-                    $processedVariantData['ma_bien_the'] = $maBienThe;
-                    BienTheSanPham::create($processedVariantData);
+            // Thêm ảnh phụ mới
+            if ($request->hasFile('anh_phu')) {
+                foreach ($request->file('anh_phu') as $file) {
+                    $path = $file->store('uploads/sanpham/anh_phu', 'public');
+                    AnhSanPham::create([
+                        'id_san_pham' => $sanpham->id,
+                        'duong_dan' => $path,
+                    ]);
                 }
             }
-        }
 
-        // Xóa các biến thể đã chọn
-        if ($request->has('xoa_bien_the')) {
-            $bienTheXoaIds = $request->input('xoa_bien_the');
-            $bienTheXoaList = BienTheSanPham::whereIn('id', $bienTheXoaIds)->get();
-            foreach ($bienTheXoaList as $bienThe) {
-                if ($bienThe->anh_dai_dien && Storage::disk('public')->exists($bienThe->anh_dai_dien)) {
-                    Storage::disk('public')->delete($bienThe->anh_dai_dien);
+            // 5. Xử lý các biến thể sản phẩm
+            // Lưu trữ ID của các biến thể hiện có để dễ dàng tìm kiếm và cập nhật
+            $existingVariantMaps = $sanpham->bienTheSanPhams->keyBy('id');
+            $updatedVariantIds = []; // Để theo dõi các biến thể đã được xử lý (cập nhật/tạo mới)
+
+            if (isset($validatedData['variants']) && is_array($validatedData['variants'])) {
+                foreach ($validatedData['variants'] as $index => $variantData) {
+                    // Lấy file ảnh đại diện cho biến thể từ request dựa trên chỉ mục
+                    $variantImageFile = $request->file("variants.{$index}.anh_dai_dien");
+
+                    // Nếu biến thể có ID, đây là biến thể hiện có cần cập nhật
+                    if (isset($variantData['id']) && $variantData['id']) {
+                        $variant = $existingVariantMaps->get($variantData['id']);
+                        if ($variant) {
+                            $variant->gia = $variantData['gia'];
+                            $variant->gia_so_sanh = $variantData['gia_so_sanh'] ?? null;
+                            $variant->ton_kho = $variantData['ton_kho'];
+
+                            // Xử lý ảnh đại diện cho biến thể
+                            if ($variantImageFile) {
+                                // Xóa ảnh cũ nếu có
+                                if ($variant->anh_dai_dien && Storage::disk('public')->exists($variant->anh_dai_dien)) {
+                                    Storage::disk('public')->delete($variant->anh_dai_dien);
+                                }
+                                $path = $variantImageFile->store('uploads/bien_the_san_pham', 'public');
+                                $variant->anh_dai_dien = $path;
+                            }
+                            $variant->save();
+                            $updatedVariantIds[] = $variant->id;
+                        }
+                    } else {
+                        // Đây là biến thể mới được tạo
+                        $newVariant = new BienTheSanPham([
+                            'id_product' => $sanpham->id,
+                            'id_ram' => $variantData['ram_id'],
+                            'id_o_cung' => $variantData['o_cung_id'],
+                            'gia' => $variantData['gia'],
+                            'gia_so_sanh' => $variantData['gia_so_sanh'] ?? null,
+                            'ton_kho' => $variantData['ton_kho'],
+                            'ma_bien_the' => 'BT' . Str::upper(Str::random(4)), // Tạo mã biến thể tự động
+                        ]);
+
+                        // Xử lý ảnh đại diện cho biến thể mới
+                        if ($variantImageFile) {
+                            $path = $variantImageFile->store('uploads/bien_the_san_pham', 'public');
+                            $newVariant->anh_dai_dien = $path;
+                        }
+                        $newVariant->save();
+                        $updatedVariantIds[] = $newVariant->id;
+                    }
                 }
-                $bienThe->delete(); // Soft delete biến thể
             }
-        }
 
-        return redirect()->back()->with('message', 'Cập nhật sản phẩm thành công');
+            // Soft delete các biến thể không có trong request (nhưng không bị đánh dấu xóa rõ ràng)
+            // Hoặc chỉ dựa vào mảng 'xoa_bien_the' nếu bạn muốn kiểm soát tường minh hơn
+            if (isset($validatedData['xoa_bien_the']) && is_array($validatedData['xoa_bien_the'])) {
+                foreach ($validatedData['xoa_bien_the'] as $variantIdToDelete) {
+                    $variantToDelete = BienTheSanPham::find($variantIdToDelete);
+                    if ($variantToDelete) {
+                        // Xóa ảnh đại diện của biến thể nếu có trước khi soft delete
+                        if ($variantToDelete->anh_dai_dien && Storage::disk('public')->exists($variantToDelete->anh_dai_dien)) {
+                            Storage::disk('public')->delete($variantToDelete->anh_dai_dien);
+                        }
+                        $variantToDelete->delete(); // Thực hiện soft delete
+                    }
+                }
+            }
+
+
+            DB::commit();
+            return redirect()->route('admin.sanpham.index')->with('message', 'Sản phẩm đã được cập nhật thành công!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Log lỗi để debug
+            Log::error('Lỗi khi cập nhật sản phẩm: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'sanpham_id' => $id,
+            ]);
+
+            // Trả về với lỗi và giữ lại input cũ
+            return redirect()->back()->withInput()->withErrors(['error' => 'Đã xảy ra lỗi khi cập nhật sản phẩm: ' . $e->getMessage()]);
+        }
     }
+
+    // ... các phương thức destroy khác ...
 
     /**
      * Remove the specified resource from storage.

@@ -33,22 +33,41 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('danhmuc', DanhMucController::class);
 
-    Route::resource('sanpham', SanPhamController::class);
-    Route::post('sanpham/{id}/restore', [SanPhamController::class, 'restore'])->name('sanpham.restore');
-    Route::delete('sanpham/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('sanpham.forceDelete');
+    Route::prefix('danhmuc')->name('danhmuc.')->group(function () {
+        Route::get('/trashed', [DanhMucController::class, 'trashed'])->name('trashed');
+        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('forceDelete');
 
-    Route::get('bienthe/{id}/sanpham', [BienTheSanPhamController::class, 'index'])->name('bienthe.index'); 
-    Route::get('bienthe/{id_product}/create', [BienTheSanPhamController::class, 'create'])->name('bienthe.create'); 
-    Route::post('bienthe', [BienTheSanPhamController::class, 'store'])->name('bienthe.store');
-    Route::get('bienthe/{id}/edit', [BienTheSanPhamController::class, 'edit'])->name('bienthe.edit'); 
-    Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update'); 
-    Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy'); 
+        Route::resource('/', DanhMucController::class)->parameters(['' => 'danhmuc']);
+    });
 
 
-    Route::post('bienthe/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('bienthe.restore');
-    Route::delete('bienthe/{id}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])->name('bienthe.forceDelete');
+
+
+    Route::prefix('sanpham')->name('sanpham.')->group(function () {
+        Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
+
+        // Resource route
+        Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
+    });
+
+    Route::prefix('bienthe')->name('bienthe.')->group(function () {
+        Route::get('/trashed', [BienTheSanPhamController::class, 'trashed'])->name('trashed');
+        Route::post('/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])->name('forceDelete');
+
+        Route::get('/{id}/sanpham', [BienTheSanPhamController::class, 'index'])->name('index');
+        Route::get('/{id_product}/create', [BienTheSanPhamController::class, 'create'])->name('create');
+
+        Route::get('/{id}/edit', [BienTheSanPhamController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [BienTheSanPhamController::class, 'update'])->name('update');
+        Route::delete('/{id}', [BienTheSanPhamController::class, 'destroy'])->name('destroy');
+        Route::post('/', [BienTheSanPhamController::class, 'store'])->name('store');
+    });
+
+
 
     Route::prefix('chip')->name('chip.')->group(function () {
         // ✔ CÁC ROUTE CỤ THỂ TRƯỚC

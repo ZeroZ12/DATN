@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($sanpham->bienTheSanPham as $bienthe)
+                    @forelse ($sanpham->bienTheSanPhams as $bienthe)
                         <tr>
                             <td>{{ $bienthe->id }}</td>
                             <td>{{ $bienthe->ma_bien_the }}</td>
