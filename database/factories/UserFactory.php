@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'ho_ten' => fake()->name(),
             'so_dien_thoai' => fake()->phoneNumber(),
             'vai_tro' => '1',
-            'ngay_tao' => now(),
+            'trang_thai' => 'hoat_dong',
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),

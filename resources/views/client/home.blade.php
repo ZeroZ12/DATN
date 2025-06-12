@@ -1,5 +1,4 @@
 @extends('client.layouts.app');
-
 @section('content')
   <!-- Bộ lọc -->
   <div class="container py-3">

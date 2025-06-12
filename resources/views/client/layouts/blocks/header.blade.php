@@ -11,11 +11,34 @@
         </div>
     </div>
 </div>
+<style>
+</style>
 <div class="header-main">
     <div class="container d-flex align-items-center">
-        <a href="index.html"><img
-                src="https://file.hstatic.net/200000636033/file/logo_fd11946b31524fbe98765f34f3de0628.svg" alt="GEARVN"
-                class="me-3 d-none d-lg-block"></a>
+        <a href="home.blade.php"> <svg width="220" height="44" viewBox="0 0 220 44" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <!-- PC Icon sát chữ, cân đối -->
+                <g>
+                    <polygon points="4,6 28,1 28,33 4,39" fill="#fff" />
+                    <rect x="9" y="10" width="13" height="4" fill="#fff" />
+                    <circle cx="12" cy="29" r="2" fill="#fff" />
+                    <!-- Monitor -->
+                    <rect x="32" y="7" width="22" height="16" stroke="#fff" stroke-width="2" fill="none" />
+                    <rect x="40" y="25" width="8" height="2.5" fill="#fff" />
+                    <ellipse cx="45" cy="23" rx="6" ry="1.2" fill="#fff" />
+                    <!-- Base/Shadow -->
+                    <polygon points="36,27 54,27 52,31 34,31" fill="#fff" />
+                </g>
+                <!-- Text TOP (xám đậm, sát icon) -->
+                <text x="62" y="32" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="bold"
+                    font-size="28" fill="#fff">TOP</text>
+                <!-- Nền cam bo góc cho PC -->
+                <rect x="130" y="8" width="60" height="28" rx="7" fill="#ff6600" />
+                <!-- Text PC trắng, căn giữa nền cam -->
+                <text x="140" y="32" font-family="Montserrat, Arial Black, Arial, sans-serif" font-weight="bold"
+                    font-size="28" fill="#fff">PC</text>
+            </svg></a>
+
         <div class="dropdown me-3">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
                 <i class="fa-solid fa-bars me-2"></i><span class="d-none d-lg-inline">Danh mục</span>
