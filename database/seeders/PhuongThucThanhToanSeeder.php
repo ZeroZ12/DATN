@@ -8,16 +8,15 @@ class PhuongThucThanhToanSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $methods = ['Thanh toán khi nhận hàng', 'Chuyển khoản ngân hàng', 'Ví điện tử Momo', 'Thẻ tín dụng'];
 
-        // Tạo một số phương thức thanh toán giả
-        foreach (range(1, 3) as $index) {
+        foreach ($methods as $method) {
             PhuongThucThanhToan::create([
-                'ten' => $faker->word,
-                'mo_ta' => $faker->sentence,
-                'hoat_dong' => true,
+                'ten' => $method,
+                'mo_ta' => 'Phương thức: ' . $method,
             ]);
         }
     }
 }
+
 

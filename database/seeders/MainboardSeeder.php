@@ -1,20 +1,18 @@
 <?php
+
 namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 use App\Models\Mainboard;
 
 class MainboardSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
-
-        // Tạo một số mainboard giả
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 10) as $i) {
             Mainboard::create([
-                'ten' => $faker->word,
-                'mo_ta' => $faker->sentence,
+                'ten' => fake()->regexify('Mainboard [A-Z]{2}-[0-9]{3}'),
+                'mo_ta' => fake()->sentence(8),
             ]);
         }
     }
