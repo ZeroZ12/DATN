@@ -39,12 +39,12 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('sanpham/{id}/restore', [SanPhamController::class, 'restore'])->name('sanpham.restore');
     Route::delete('sanpham/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('sanpham.forceDelete');
 
-    Route::get('bienthe/{id}/sanpham', [BienTheSanPhamController::class, 'index'])->name('bienthe.index'); 
-    Route::get('bienthe/{id_product}/create', [BienTheSanPhamController::class, 'create'])->name('bienthe.create'); 
+    Route::get('bienthe/{id}/sanpham', [BienTheSanPhamController::class, 'index'])->name('bienthe.index');
+    Route::get('bienthe/{id_product}/create', [BienTheSanPhamController::class, 'create'])->name('bienthe.create');
     Route::post('bienthe', [BienTheSanPhamController::class, 'store'])->name('bienthe.store');
-    Route::get('bienthe/{id}/edit', [BienTheSanPhamController::class, 'edit'])->name('bienthe.edit'); 
-    Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update'); 
-    Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy'); 
+    Route::get('bienthe/{id}/edit', [BienTheSanPhamController::class, 'edit'])->name('bienthe.edit');
+    Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update');
+    Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy');
 
 
     Route::post('bienthe/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('bienthe.restore');
@@ -152,6 +152,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 
 //Route client
 Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
+Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 
 
 require __DIR__ . '/auth.php';

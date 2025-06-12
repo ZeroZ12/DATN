@@ -4,8 +4,6 @@
 
 @section('title', 'Quản lý sản phẩm')
 
-
-
 @section('content')
     <div class="container-fluid">
         <h1>Danh sách sản phẩm</h1>
@@ -44,7 +42,7 @@
                             <td>{{ $sanpham->bao_hanh_thang }} tháng</td>
                             <td>
                                 @if ($sanpham->anh_dai_dien)
-                                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm" class="img-fluid rounded">
+                                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm" class="img-fluid rounded" style="max-height: 60px;">
                                 @else
                                     <span class="text-muted">Không có ảnh</span>
                                 @endif
@@ -53,27 +51,42 @@
                                 @if ($sanpham->deleted_at)
                                     {{-- Hiển thị khi sản phẩm đã xóa mềm --}}
                                     <span class="badge bg-danger mb-1">Đã xóa mềm</span><br>
-                                    <div class="action-buttons">
+                                    <div class="action-buttons d-flex gap-1 flex-wrap mt-1">
                                         <form action="{{ route('admin.sanpham.restore', $sanpham->id) }}" method="POST">
                                             @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Bạn có chắc chắn muốn khôi phục sản phẩm này không?')">Khôi phục</button>
+                                            <button type="submit" class="btn btn-warning btn-sm" title="Khôi phục"
+                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục sản phẩm này không?')">
+                                                <i class="fas fa-undo-alt"></i>
+                                            </button>
                                         </form>
                                         <form action="{{ route('admin.sanpham.forceDelete', $sanpham->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN sản phẩm này không? Hành động này không thể hoàn tác!')">Xóa Vĩnh Viễn</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Xóa vĩnh viễn"
+                                                onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN sản phẩm này không? Hành động này không thể hoàn tác!')">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 @else
                                     {{-- Hiển thị khi sản phẩm đang hoạt động --}}
-                                    <div class="action-buttons">
-                                        <a href="{{ route('admin.bienthe.index', $sanpham->id) }}" class="btn btn-secondary btn-sm">Biến thể</a>
-                                        <a href="{{ route('admin.sanpham.show', $sanpham->id) }}" class="btn btn-info btn-sm">Xem</a>
-                                        <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning btn-sm">Sửa</a>
+                                    <div class="action-buttons d-flex gap-1 flex-wrap">
+                                        <a href="{{ route('admin.bienthe.index', $sanpham->id) }}" class="btn btn-secondary btn-sm" title="Biến thể">
+                                            <i class="fas fa-boxes"></i>
+                                        </a>
+                                        <a href="{{ route('admin.sanpham.show', $sanpham->id) }}" class="btn btn-info btn-sm" title="Xem chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning btn-sm" title="Sửa sản phẩm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                         <form action="{{ route('admin.sanpham.destroy', $sanpham->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa mềm sản phẩm này không?')">Xóa mềm</button>
+                                            <button type="submit" class="btn btn-danger btn-sm" title="Xóa mềm"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa mềm sản phẩm này không?')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 @endif

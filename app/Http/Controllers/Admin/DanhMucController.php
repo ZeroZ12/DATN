@@ -40,11 +40,14 @@ class DanhMucController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $danhmuc = DanhMuc::findOrFail($id);
-        return view('admin.danhmuc.show', compact('danhmuc'));
-    }
+    public function show($id)
+{
+    $danhmuc = DanhMuc::findOrFail($id);
+    $sanphams = $danhmuc->sanPhams; // Lấy các sản phẩm thuộc danh mục
+
+    return view('danhmuc.show', compact('danhmuc', 'sanphams'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

@@ -12,9 +12,6 @@ class DanhMuc extends Model
     // Quan hệ với bảng Sản Phẩm
     public function sanPhams()
     {
-        return $this->hasMany(SanPham::class, 'id_category');   
+        return $this->hasMany(SanPham::class, 'id_category');
     }
 }
-
-
-

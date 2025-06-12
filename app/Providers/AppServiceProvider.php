@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\DanhMuc;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -29,5 +30,8 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('username', Auth::user()->ten_dang_nhap); // hoặc 'username' tùy cột DB
             }
         });
+         View::composer('*', function ($view) {
+        $view->with('danhmucs', DanhMuc::all());
+    });
     }
 }
