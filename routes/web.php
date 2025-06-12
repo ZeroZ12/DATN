@@ -151,7 +151,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 })->name('admin.index');
 
 //Route client
-Route::get('/trangchu', [ControllersSanPhamController::class, 'index'])->name('client.home');
+Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
 
 
 require __DIR__ . '/auth.php';
