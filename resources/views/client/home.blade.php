@@ -56,11 +56,11 @@
     @foreach ($sanphams as $sp)
     @php
       // Ưu tiên biến thể phù hợp với filter (RAM và ổ cứng), fallback về biến thể đầu tiên nếu không có
-      $bienThe = $sp->BienTheSanPham->firstWhere(function ($bt) {
+      $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
       return
       (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
       (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-      }) ?? $sp->BienTheSanPham->first();
+      }) ?? $sp->BienTheSanPhams->first();
     @endphp
 
     <div class="col">

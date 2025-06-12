@@ -15,7 +15,7 @@ class BienTheSanPhamController extends Controller
     public function index($id)
     {
         // Lấy sản phẩm cha, và tất cả biến thể của nó (bao gồm cả đã xóa mềm)
-        $sanpham = SanPham::with(['bienTheSanPham' => function($query) {
+        $sanpham = SanPham::with(['bienTheSanPhams' => function($query) {
             $query->withTrashed()->with(['ram', 'oCung']); // Lấy cả ram và ocung cho biến thể
         }])->findOrFail($id); // Dùng findOrFail thay vì first() để tự động trả về 404 nếu không tìm thấy
 

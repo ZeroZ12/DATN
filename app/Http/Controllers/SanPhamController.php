@@ -14,7 +14,7 @@ class SanPhamController extends Controller
 {
     public function index(Request $request)
 {
-    $sanphams = SanPham::with(['thuongHieu', 'chip', 'mainboard', 'gpu', 'BienTheSanPham.ram', 'BienTheSanPham.oCung'])
+    $sanphams = SanPham::with(['thuongHieu', 'chip', 'mainboard', 'gpu', 'BienTheSanPhams.ram', 'BienTheSanPhams.oCung'])
         ->when($request->filled('id_brand'), fn($q) => $q->where('id_brand', $request->id_brand))
         ->when($request->filled('id_chip'), fn($q) => $q->where('id_chip', $request->id_chip))
         ->when($request->filled('id_gpu'), fn($q) => $q->where('id_gpu', $request->id_gpu))
@@ -23,7 +23,7 @@ class SanPhamController extends Controller
         ->when(
             $request->filled('id_ram') || $request->filled('id_o_cung'),
             function ($q) use ($request) {
-                $q->whereHas('BienTheSanPham', function ($sub) use ($request) {
+                $q->whereHas('BienTheSanPhams', function ($sub) use ($request) {
                     if ($request->filled('id_ram')) {
                         $sub->where('id_ram', $request->id_ram);
                     }
