@@ -45,7 +45,7 @@ class DanhMucController extends Controller
     $danhmuc = DanhMuc::findOrFail($id);
     $sanphams = $danhmuc->sanPhams; // Lấy các sản phẩm thuộc danh mục
 
-    return view('danhmuc.show', compact('danhmuc', 'sanphams'));
+    return view('admin.danhmuc.show', compact('danhmuc', 'sanphams'));
 }
 
 
