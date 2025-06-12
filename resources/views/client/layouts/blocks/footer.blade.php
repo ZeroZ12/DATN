@@ -49,3 +49,54 @@
       </div>
     </div>
   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const formType = urlParams.get('type');
+
+    // Get form elements
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const formSwitch = document.getElementById('formSwitch');
+    const formTitle = document.getElementById('formTitle');
+
+    // Function to switch between forms
+    function switchForm(isRegister) {
+      if (isRegister) {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        formTitle.textContent = 'ĐĂNG KÝ TÀI KHOẢN';
+        formSwitch.checked = true;
+      } else {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        formTitle.textContent = 'ĐĂNG NHẬP';
+        formSwitch.checked = false;
+      }
+    }
+
+    // Initialize form based on URL parameter
+    if (formType === 'register') {
+      switchForm(true);
+    } else {
+      switchForm(false);
+    }
+
+    // Handle form switch
+    formSwitch.addEventListener('change', function() {
+      switchForm(this.checked);
+    });
+
+    // Handle form submissions
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Add login logic here
+    });
+
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Add registration logic here
+    });
+  </script>
