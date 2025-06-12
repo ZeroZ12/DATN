@@ -13,56 +13,87 @@
 
         <!-- Danh sách các biến thể sản phẩm -->
         <h4>Biến thể sản phẩm</h4>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th> <!-- ID biến thể sản phẩm -->
-                    <th>Mã biến thể</th> <!-- Mã biến thể -->
-                    <th>RAM</th>
-                    <th>Ổ Cứng</th>
-                    <th>Giá</th>
-                    <th>Giá so sánh</th>
-                    <th>Tồn kho</th>
-                    <!-- <th>Ảnh đại diện</th> -->
-                    <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($sanpham->bienTheSanPham as $bienthe)
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td>{{ $bienthe->id }}</td> <!-- Hiển thị ID biến thể -->
-                        <td>{{ $bienthe->ma_bien_the ?? 'Không có' }}</td> <!-- Hiển thị Mã biến thể -->
-                        <td>{{ $bienthe->ram->dung_luong ?? 'Không có' }}</td> <!-- Hiển thị RAM -->
-                        <td>{{ $bienthe->oCung->loai ?? 'Không có' }} - {{ $bienthe->oCung->dung_luong ?? 'Không có' }}</td> <!-- Hiển thị ổ cứng -->
-                        <td>{{ number_format($bienthe->gia, 0, ',', '.') }} VNĐ</td> <!-- Hiển thị Giá -->
-                        <td>{{ number_format($bienthe->gia_so_sanh, 0, ',', '.') }} VNĐ</td> <!-- Hiển thị Giá so sánh -->
-                        <td>{{ $bienthe->ton_kho }}</td> <!-- Hiển thị Tồn kho -->
-                        <!-- <td>
-                            @if ($bienthe->anh_dai_dien)
-                                <img src="{{ asset('storage/' . $bienthe->anh_dai_dien) }}" alt="Ảnh đại diện" width="100">
-                            @else
-                                <span>Chưa có ảnh</span>
-                            @endif
-                        </td> -->
-                        <td>
-                            <!-- Các hành động -->
-                            <a href="{{ route('admin.bienthe.edit', $bienthe->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                            <form action="{{ route('admin.bienthe.destroy', $bienthe->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa biến thể này?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                            </form>
-                        </td>
+                        <th class="col-id">#</th>
+                        <th class="col-ma">Mã Biến Thể</th>
+                        <th class="col-text">RAM</th>
+                        <th class="col-text">Ổ cứng</th>
+                        <th class="col-gia">Giá</th>
+                        <th class="col-gia">Giá so sánh</th>
+                        <th class="col-tonkho">Tồn kho</th>
+                        <th class="col-img">Ảnh đại diện</th>
+                        <th class="col-action">Hành động</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($sanpham->bienTheSanPham as $bienthe)
+                        <tr>
+                            <td>{{ $bienthe->id }}</td>
+                            <td>{{ $bienthe->ma_bien_the }}</td>
+                            <td>{{ $bienthe->ram->dung_luong ?? 'N/A' }} {{ $bienthe->ram->don_vi ?? '' }}</td>
+                            <td>{{ $bienthe->oCung->dung_luong ?? 'N/A' }} {{ $bienthe->oCung->loai_o_cung ?? '' }}</td>
+                            <td>{{ number_format($bienthe->gia) }} VNĐ</td>
+                            <td>{{ number_format($bienthe->gia_so_sanh) }} VNĐ</td>
+                            <td>{{ $bienthe->ton_kho }}</td>
+                            <td>
+                                @if ($bienthe->anh_dai_dien)
+                                    <img src="{{ asset('storage/' . $bienthe->anh_dai_dien) }}" alt="Ảnh biến thể"
+                                        class="img-fluid rounded">
+                                @else
+                                    <span class="text-muted">Không có ảnh</span>
+                                @endif
+                            </td>
+                            <td class="col-action">
+                                @if ($bienthe->deleted_at)
+                                    <span class="badge bg-danger mb-1">Đã xóa mềm</span><br>
+                                    <div class="action-buttons">
+                                        <form action="{{ route('admin.bienthe.restore', $bienthe->id) }}" method="POST">
+                                            <button type="submit" class="btn btn-warning btn-sm"
+                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục biến thể này không?')">Khôi
+                                                phục</button>
+                                        </form>
+                                        <form action="{{ route('admin.bienthe.forceDelete', $bienthe->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE') 
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN biến thể này không? Hành động này không thể hoàn tác!')">Xóa
+                                                Vĩnh Viễn</button>
+                                        </form>
+                                    </div>
+                                @else
+                                    <div class="action-buttons">
+                                        <a href="{{ route('admin.bienthe.edit', $bienthe->id) }}"
+                                            class="btn btn-warning btn-sm">Sửa</a>
+                                        <form action="{{ route('admin.bienthe.destroy', $bienthe->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE') 
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa
+                                                mềm</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center">Không có biến thể nào cho sản phẩm này.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+
+        </div>
 
 
 
-        <!-- Thêm biến thể sản phẩm -->
-        <div style="margin-top: 20px;">
-            <a href="{{ route('admin.bienthe.create', $sanpham->id) }}" class="btn btn-success">Thêm biến thể</a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <a href="{{ route('admin.bienthe.create', $sanpham->id) }}" class="btn btn-primary">Thêm biến thể mới</a>
+            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
         </div>
     </div>
 @endsection

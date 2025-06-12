@@ -17,22 +17,24 @@
 
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
-                <table class="table table-bordered table-hover align-middle mb-0">
+                <table class="table table-hover align-middle">
                     <thead class="table-light text-center">
                         <tr>
-                            <th style="width: 80px;">ID</th>
+                            <th>ID</th>
                             <th>Tên danh mục</th>
-                            <th style="width: 160px;">Hành động</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($danhmucs as $dm)
                             <tr>
                                 <td class="text-center">{{ $dm->id }}</td>
-                                <td>{{ $dm->ten }}</td>
+                                <td class="text-center">{{ $dm->ten }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.danhmuc.edit', $dm->id) }}"
                                         class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
+                                    <a href="{{ route('admin.danhmuc.show', $dm->id) }}"
+                                        class="btn btn-sm btn-info me-1">👁️ Xem</a>
                                     <form action="{{ route('admin.danhmuc.destroy', $dm->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                                         @csrf

@@ -10,6 +10,7 @@
             <option disabled selected>🔽 Chọn mục...</option>
             <option value="{{ route('admin.sanpham.index') }}">🖥️ Sản phẩm</option>
             <option value="{{ route('admin.danhmuc.index') }}">📂 Danh mục</option>
+            <option value="{{ route('admin.users.index') }}">👤 Người dùng</option>
         </select>
     </div>
 

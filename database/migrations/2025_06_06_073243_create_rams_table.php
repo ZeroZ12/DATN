@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dung_luong', 100);
             $table->text('mo_ta')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +27,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+
+        Schema::table('rams', function (Blueprint $table) {
+            $table->dropSoftDeletes(); 
+        });
+
         Schema::dropIfExists('rams');
     }
 };

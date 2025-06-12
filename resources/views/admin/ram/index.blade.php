@@ -43,6 +43,9 @@
                                     <a href="{{ route('admin.ram.edit', $ram->id) }}" class="btn btn-sm btn-warning me-1">
                                         ✏️ Sửa
                                     </a>
+                                    <a href="{{ route('admin.ram.show', $ram->id) }}" class="btn btn-sm btn-info me-1">
+                                        👁️ Xem
+                                    </a>
                                     <form action="{{ route('admin.ram.destroy', $ram->id) }}" method="POST"
                                         class="d-inline-block"
                                         onsubmit="return confirm('Bạn có chắc muốn xóa RAM này?')">

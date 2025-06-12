@@ -24,7 +24,7 @@
         <!-- Bảng dữ liệu -->
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
-                <table class="table table-bordered table-hover align-middle">
+                <table class="table table-hover align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
@@ -44,6 +44,8 @@
                                 <td>
                                     <a href="{{ route('admin.ocung.edit', $oCung->id) }}"
                                         class="btn btn-sm btn-warning">Sửa</a>
+                                    <a href="{{ route('admin.ocung.show', $oCung->id) }}"
+                                        class="btn btn-sm btn-info">Xem</a>
                                     <form action="{{ route('admin.ocung.destroy', $oCung->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                                         @csrf

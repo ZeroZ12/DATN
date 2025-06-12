@@ -44,6 +44,9 @@
                                     <a href="{{ route('admin.gpu.edit', $gpu->id) }}" class="btn btn-warning btn-sm me-1">
                                         ✏️ Sửa
                                     </a>
+                                    <a href="{{ route('admin.gpu.show', $gpu->id) }}" class="btn btn-info btn-sm me-1">
+                                        👁️ Xem
+                                    </a>
                                     <form action="{{ route('admin.gpu.destroy', $gpu->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa GPU này?')">
                                         @csrf

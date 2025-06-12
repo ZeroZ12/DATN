@@ -38,6 +38,7 @@
                                 <td>{{ $chip->mo_ta ?? '—' }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-sm btn-warning me-1">✏️ Sửa</a>
+                                    <a href="{{ route('admin.chip.show', $chip->id) }}" class="btn btn-sm btn-info me-1">👁️ Xem</a>
                                     <form action="{{ route('admin.chip.destroy', $chip->id) }}" method="POST" class="d-inline-block"
                                         onsubmit="return confirm('Bạn có chắc muốn xóa chip này?')">
                                         @csrf

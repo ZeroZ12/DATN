@@ -14,37 +14,40 @@
                 {{ session('message') }}
             </div>
         @endif
-
-        <table class="table table-bordered table-hover">
-            <thead class="table-light">
-                <tr>
-                    <th>ID</th>
-                    <th>Tên thương hiệu</th>
-                    <th class="text-center">Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($thuongHieus as $thuongHieu)
+        <div class = "card shadow-sm">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td>{{ $thuongHieu->id }}</td>
-                        <td>{{ $thuongHieu->ten }}</td>
-                        <td class="text-center">
-                            <a href="{{ route('admin.thuonghieu.edit', $thuongHieu->id) }}"
-                                class="btn btn-sm btn-warning">Sửa</a>
-                            <form action="{{ route('admin.thuonghieu.destroy', $thuongHieu->id) }}" method="POST"
-                                class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">Xóa</button>
-                            </form>
-                        </td>
+                        <th>ID</th>
+                        <th>Tên thương hiệu</th>
+                        <th class="text-center">Hành động</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="text-center">Chưa có thương hiệu nào.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse($thuongHieus as $thuongHieu)
+                        <tr>
+                            <td>{{ $thuongHieu->id }}</td>
+                            <td>{{ $thuongHieu->ten }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('admin.thuonghieu.edit', $thuongHieu->id) }}"
+                                    class="btn btn-sm btn-warning">Sửa</a>
+                                <a href="{{ route('admin.thuonghieu.show', $thuongHieu->id) }}"
+                                    class="btn btn-sm btn-info">Xem</a>
+                                <form action="{{ route('admin.thuonghieu.destroy', $thuongHieu->id) }}" method="POST"
+                                    class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center">Chưa có thương hiệu nào.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
