@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('mo_ta')->nullable();
             $table->boolean('hoat_dong')->default(true);
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 
@@ -25,6 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('phuong_thuc_thanh_toans', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('phuong_thuc_thanh_toans');
     }
 };
