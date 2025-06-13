@@ -150,7 +150,7 @@ class SanPhamController extends Controller
         }
 
         return redirect()->route('admin.sanpham.index')
-            ->with('success', 'Sản phẩm và các biến thể đã được tạo thành công.');
+            ->with('message', 'Thêm sản phẩm mới thành công.');
     }
 
     /**

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('ngay_ket_thuc')->nullable();
             $table->boolean('hoat_dong')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('ma_giam_gias', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('ma_giam_gias');
     }
 };

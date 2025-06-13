@@ -1,10 +1,14 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\SanPham;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnhSanPham extends Model
 {
+    use SoftDeletes;
     protected $table = 'anh_san_phams';
 
     protected $fillable = [

@@ -98,21 +98,23 @@
                     class="fa-solid fa-magnifying-glass"></i></button>
         </form>
 
-        <div class="ms-auto d-flex align-items-center">
+         <div class="ms-auto d-flex align-items-center">
             <span><i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà</span>
             <span><i class="fa-solid fa-credit-card me-1"></i>Trả góp</span>
-            @guest
-                <a href="{{ route('login') }}" class="text-white text-decoration-none me-3">
-                    <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
-                </a>
-            @else
+
+            @auth
                 <a href="{{ route('dashboard') }}" class="text-white text-decoration-none me-3">
                     <span><i class="fa-solid fa-user me-1"></i>{{ Auth::user()->name }}</span>
                 </a>
-            @endguest
+            @else
+                <a href="{{ route('login') }}" class="text-white text-decoration-none me-3">
+                    <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
+                </a>
+            @endauth
 
-            <a class="giohang text-white" href="/giohang.html"><span><i
-                        class=" fa-solid fa-cart-shopping me-1"></i>Giỏ hàng</span></a>
+            <a class="giohang text-white" href="/giohang.html">
+                <span><i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng</span>
+            </a>
         </div>
     </div>
 </div>
