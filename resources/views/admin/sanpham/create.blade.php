@@ -25,15 +25,6 @@
             </div>
 
             <div class="form-group mb-3">
-                <label for="ma_san_pham">Mã sản phẩm</label>
-                <input type="text" name="ma_san_pham" id="ma_san_pham" class="form-control"
-                    value="{{ old('ma_san_pham') }}">
-                @error('ma_san_pham')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group mb-3">
                 <label for="mo_ta">Mô tả</label>
                 <textarea name="mo_ta" id="mo_ta" class="form-control">{{ old('mo_ta') }}</textarea>
                 @error('mo_ta')
