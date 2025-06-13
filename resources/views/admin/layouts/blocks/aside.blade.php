@@ -1,51 +1,102 @@
-<aside class="page-sidebar bg-white shadow-sm border-end"
-    style="min-height: 100vh; width: 280px; padding: 2rem; font-size: 0.85rem;">
-    <h6 class="text-primary text-uppercase fw-bold mb-4">Bảng điều khiển</h6>
+<div class="overlay"></div>
+<aside class="page-sidebar" data-sidebar-layout="stroke-svg">
+  <div class="left-arrow" id="left-arrow">
+    <svg class="feather">
+      <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#arrow-left"></use>
+    </svg>
+  </div>
+  <div id="sidebar-menu">
+    <ul class="sidebar-menu" id="simple-bar">
+      <li class="pin-title sidebar-list p-0">
 
-    <div class="mb-4">
-        <p class="text-muted small fw-semibold mb-2">📁 Trang chính</p>
-        <select id="menuGeneral"
-            class="form-select form-select-sm rounded border-0 bg-light text-dark fw-medium px-2 py-1"
-            onchange="if (this.value) window.location.href=this.value">
-            <option disabled selected>🔽 Chọn mục...</option>
-            <option value="{{ route('admin.sanpham.index') }}">🖥️ Sản phẩm</option>
-            <option value="{{ route('admin.danhmuc.index') }}">📂 Danh mục</option>
-            <option value="{{ route('admin.users.index') }}">👤 Người dùng</option>
-        </select>
-    </div>
+      </li>
+      <li class="line pin-line"></li>
 
-    <div class="mb-4">
-        <p class="text-muted small fw-semibold mb-2">💻 Cấu hình phần cứng</p>
-        <select id="menuHardware"
-            class="form-select form-select-sm rounded border-0 bg-light text-dark fw-medium px-2 py-1"
-            onchange="if (this.value) window.location.href=this.value">
-            <option disabled selected>🔽 Chọn phần cứng...</option>
-            <option value="{{ route('admin.chip.index') }}">⚙️ Chip</option>
-            <option value="{{ route('admin.mainboard.index') }}">🧩 Mainboard</option>
-            <option value="{{ route('admin.gpu.index') }}">🎮 GPU</option>
-            <option value="{{ route('admin.ram.index') }}">💾 RAM</option>
-            <option value="{{ route('admin.ocung.index') }}">🗄️ Ổ cứng</option>
-        </select>
-    </div>
 
-    <div class="mb-4">
-        <p class="text-muted small fw-semibold mb-2">🏷️ Thương hiệu & khuyến mãi</p>
-        <select id="menuBrand"
-            class="form-select form-select-sm rounded border-0 bg-light text-dark fw-medium px-2 py-1"
-            onchange="if (this.value) window.location.href=this.value">
-            <option disabled selected>🔽 Chọn mục...</option>
-            <option value="{{ route('admin.thuonghieu.index') }}">⭐ Thương hiệu</option>
-            <option value="{{ route('admin.magiamgia.index') }}">🎟️ Mã giảm giá</option>
-        </select>
-    </div>
 
-    <div class="mb-4">
-        <p class="text-muted small fw-semibold mb-2">💰 Thanh toán</p>
-        <select id="menuPayment"
-            class="form-select form-select-sm rounded border-0 bg-light text-dark fw-medium px-2 py-1"
-            onchange="if (this.value) window.location.href=this.value">
-            <option disabled selected>🔽 Chọn phương thức...</option>
-            <option value="{{ route('admin.phuongthucthanhtoan.index') }}">💳 Phương thức thanh toán</option>
-        </select>
-    </div>
+<li class="sidebar-list">
+  <svg class="pinned-icon">
+    <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
+  </svg>
+  <a class="sidebar-link" href="javascript:void(0)">
+    <svg class="stroke-icon">
+      <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Home"></use>
+    </svg>
+    Quản lý chung
+    <svg class="feather">
+      <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#chevron-right"></use>
+    </svg>
+  </a>
+  <ul class="sidebar-submenu" style="display: none;">
+    <li><a href="{{ route('admin.sanpham.index') }}">Sản phẩm</a></li>
+    <li><a href="{{ route('admin.danhmuc.index') }}">Danh mục</a></li>
+    <li><a href="{{ route('admin.users.index') }}">Người dùng</a></li>
+  </ul>
+</li>
+
+
+<li class="sidebar-list">
+  <svg class="pinned-icon">
+    <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
+  </svg>
+  <a class="sidebar-link" href="javascript:void(0)">
+    <svg class="stroke-icon">
+      <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Setting"></use>
+    </svg>
+    Quản lý phần cứng
+    <svg class="feather">
+      <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#chevron-right"></use>
+    </svg>
+  </a>
+  <ul class="sidebar-submenu" style="display: none;">
+    <li><a href="{{ route('admin.chip.index') }}">Chip</a></li>
+    <li><a href="{{ route('admin.mainboard.index') }}">Mainboard</a></li>
+    <li><a href="{{ route('admin.gpu.index') }}">GPU</a></li>
+    <li><a href="{{ route('admin.ram.index') }}">RAM</a></li>
+    <li><a href="{{ route('admin.ocung.index') }}">Ổ cứng</a></li>
+  </ul>
+</li>
+
+
+      <li class="sidebar-list">
+        <svg class="pinned-icon">
+          <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
+        </svg>
+        <a class="sidebar-link" href="javascript:void(0)">
+          <svg class="stroke-icon">
+            <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Discount"></use>
+          </svg>
+          Thương hiệu & KM
+          <svg class="feather">
+            <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#chevron-right"></use>
+          </svg>
+        </a>
+        <ul class="sidebar-submenu">
+          <li><a href="{{ route('admin.thuonghieu.index') }}">Thương hiệu</a></li>
+          <li><a href="{{ route('admin.magiamgia.index') }}">Mã giảm giá</a></li>
+        </ul>
+      </li>
+
+
+      <li class="sidebar-list">
+        <svg class="pinned-icon">
+          <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Pin"></use>
+        </svg>
+        <a class="sidebar-link" href="javascript:void(0)">
+          <svg class="stroke-icon">
+            <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Wallet"></use>
+          </svg>
+          Thanh toán
+          <svg class="feather">
+            <use href="https://admin.pixelstrap.net/edmin/assets/svg/feather-icons/dist/feather-sprite.svg#chevron-right"></use>
+          </svg>
+        </a>
+        <ul class="sidebar-submenu">
+          <li><a href="{{ route('admin.phuongthucthanhtoan.index') }}">Phương thức thanh toán</a></li>
+        </ul>
+      </li>
+
+      <li class="line"></li>
+    </ul>
+  </div>
 </aside>
