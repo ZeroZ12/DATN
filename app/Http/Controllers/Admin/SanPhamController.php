@@ -26,15 +26,16 @@ class SanPhamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // Lấy TẤT CẢ các sản phẩm, bao gồm cả những sản phẩm đã bị xóa mềm
-        // để có thể hiển thị trong view và cung cấp các nút Khôi phục/Xóa vĩnh viễn
-        $sanphams = SanPham::withTrashed()->with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-        return view('admin.sanpham.index', compact('sanphams'));
-    }
+ public function index()
+{
+    $sanphams = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])
+        ->whereNull('deleted_at') // Hoặc không dùng withTrashed() nếu không cần
+        ->orderBy('id', 'desc')
+        ->paginate(10);
+
+    return view('admin.sanpham.index', compact('sanphams'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -420,6 +421,17 @@ class SanPhamController extends Controller
 
         return redirect()->route('admin.sanpham.index')->with('message', 'Sản phẩm đã được xóa vĩnh viễn thành công.');
     }
+
+    public function trash()
+{
+    $sanphams = SanPham::onlyTrashed()
+        ->with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])
+        ->orderBy('id', 'desc')
+        ->paginate(10);
+
+    return view('admin.sanpham.trash', compact('sanphams'));
+}
+
 
     /**
      * Restore the specified resource.

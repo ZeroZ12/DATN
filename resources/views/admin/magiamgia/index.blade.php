@@ -14,7 +14,7 @@
                 {{ session('message') }}
             </div>
         @endif
-        <div class = "card shadow-sm">
+        <div class="card shadow-sm">
 
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -35,7 +35,14 @@
                             <td>{{ $maGiamGia->id }}</td>
                             <td>{{ $maGiamGia->ma }}</td>
                             <td>{{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</td>
-                            <td>{{ $maGiamGia->gia_tri }}</td>
+                            <td>
+                                @if ($maGiamGia->loai === 'phan_tram')
+                                    {{ $maGiamGia->gia_tri }}%
+                                @else
+                                    {{ number_format($maGiamGia->gia_tri, 0, ',', '.') }} VND
+                                @endif
+                            </td>
+
                             <td>{{ $maGiamGia->ngay_bat_dau ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('d/m/Y') : 'N/A' }}
                             </td>
                             <td>{{ $maGiamGia->ngay_ket_thuc ? \Carbon\Carbon::parse($maGiamGia->ngay_ket_thuc)->format('d/m/Y') : 'N/A' }}
