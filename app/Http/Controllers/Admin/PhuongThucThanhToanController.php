@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PhuongThucThanhToan;
+use App\Models\PhuongThucThanhToan; // Đảm bảo đã import Model
 use Illuminate\Http\Request;
 
 class PhuongThucThanhToanController extends Controller
@@ -11,9 +11,21 @@ class PhuongThucThanhToanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $phuongThucThanhToans = PhuongThucThanhToan::orderBy('id', 'desc')->paginate(10);
+        $query = PhuongThucThanhToan::orderBy('id', 'desc');
+
+        // Logic để hiển thị bản ghi đã xóa mềm hoặc đang hoạt động
+        if ($request->has('status')) {
+            if ($request->status === 'deleted') {
+                $query->onlyTrashed(); // Chỉ lấy các bản ghi đã xóa mềm
+            } elseif ($request->status === 'all') {
+                $query->withTrashed(); // Lấy tất cả (bao gồm cả đã xóa mềm)
+            }
+            // Mặc định (nếu không có status hoặc status không hợp lệ) sẽ chỉ lấy các bản ghi đang hoạt động (chưa xóa mềm)
+        }
+
+        $phuongThucThanhToans = $query->paginate(10);
         return view('admin.phuongthucthanhtoan.index', compact('phuongThucThanhToans'));
     }
 
@@ -51,7 +63,8 @@ class PhuongThucThanhToanController extends Controller
      */
     public function show(string $id)
     {
-        $phuongThucThanhToan = PhuongThucThanhToan::findOrFail($id);
+        // Để hiển thị bản ghi đã xóa mềm nếu cần
+        $phuongThucThanhToan = PhuongThucThanhToan::withTrashed()->findOrFail($id);
         return view('admin.phuongthucthanhtoan.show', compact('phuongThucThanhToan'));
     }
 
@@ -60,7 +73,8 @@ class PhuongThucThanhToanController extends Controller
      */
     public function edit(string $id)
     {
-        $phuongThucThanhToan = PhuongThucThanhToan::findOrFail($id);
+        // Để có thể chỉnh sửa bản ghi đã xóa mềm nếu cần
+        $phuongThucThanhToan = PhuongThucThanhToan::withTrashed()->findOrFail($id);
         return view('admin.phuongthucthanhtoan.edit', compact('phuongThucThanhToan'));
     }
 
@@ -69,7 +83,8 @@ class PhuongThucThanhToanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $phuongThucThanhToan = PhuongThucThanhToan::findOrFail($id);
+        // Lấy bản ghi bao gồm cả đã xóa mềm để đảm bảo có thể cập nhật
+        $phuongThucThanhToan = PhuongThucThanhToan::withTrashed()->findOrFail($id);
         $data = $request->validate([
             'ten' => 'required|string|max:100',
             'mo_ta' => 'nullable|string',
@@ -87,12 +102,43 @@ class PhuongThucThanhToanController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage (Soft Delete).
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(string $id)
     {
-        $phuongThucThanhToan = PhuongThucThanhToan::findOrFail($id);
-        $phuongThucThanhToan->delete();
-        return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được xóa thành công.');
+        $phuongThucThanhToan = PhuongThucThanhToan::findOrFail($id); // Chỉ tìm các bản ghi chưa xóa mềm để xóa mềm
+        $phuongThucThanhToan->delete(); // Laravel's SoftDeletes will set deleted_at
+        return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được xóa mềm thành công.');
+    }
+
+    /**
+     * Restore the specified resource.
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restore(string $id)
+    {
+        // Tìm bản ghi đã xóa mềm để khôi phục
+        $phuongThucThanhToan = PhuongThucThanhToan::onlyTrashed()->findOrFail($id);
+        $phuongThucThanhToan->restore(); // Laravel's SoftDeletes will set deleted_at to NULL
+        return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được khôi phục thành công.');
+    }
+
+    /**
+     * Force delete the specified resource from storage (Permanent Delete).
+     * Chỉ dùng khi bạn muốn xóa vĩnh viễn khỏi CSDL
+     *
+     * @param  string  $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function forceDelete(string $id)
+    {
+        $phuongThucThanhToan = PhuongThucThanhToan::onlyTrashed()->findOrFail($id); // Chỉ tìm trong số đã xóa mềm
+        $phuongThucThanhToan->forceDelete(); // Xóa vĩnh viễn khỏi CSDL
+        return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được xóa vĩnh viễn.');
     }
 }
