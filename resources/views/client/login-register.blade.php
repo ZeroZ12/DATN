@@ -1,4 +1,7 @@
-<form id="loginForm" method="POST" action="{{ route('auth.login') }}">
+@extends('client.layouts.app');
+
+@section('content')
+<form id="loginForm" method="POST" action="{{ route('login') }}">
   @csrf
   <div class="mb-3">
     <input type="email" name="email" class="form-control form-control-lg" placeholder="Email">
@@ -9,7 +12,7 @@
   <button type="submit" class="btn btn-danger w-100 mb-4 py-2">ĐĂNG NHẬP</button>
 </form>
 
-<form id="registerForm" method="POST" action="{{ route('auth.register') }}" style="display:none;">
+<form id="registerForm" method="POST" action="{{ route('register') }}" style="display:none;">
   @csrf
   <div class="mb-3">
     <input type="email" name="email" class="form-control form-control-lg" placeholder="Email">
@@ -25,3 +28,5 @@
   </div>
   <button type="submit" class="btn btn-danger w-100 mb-4 py-2">TẠO TÀI KHOẢN</button>
 </form>
+
+@endsection

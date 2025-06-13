@@ -174,7 +174,6 @@ Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.ho
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
-Route::post('/form/login', [AuthController::class, 'login'])->name('form.login');
-Route::post('/form/register', [AuthController::class, 'register'])->name('form.register');
+Route::post('/form/login', [AuthController::class, 'login'])->name('login');
+Route::post('/form/register', [AuthController::class, 'register'])->name('register');
 
-require __DIR__ . '/auth.php';
