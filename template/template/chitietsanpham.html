@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chi tiết sản phẩm - GEARVN</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <!-- Header Top + Main giống index.html -->
+  <div class="header-top">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="fa-solid fa-gift me-2"></i>MUA PC GVN x MSI TẶNG MÀN OLED 240HZ
+      </div>
+      <div>
+        <span><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.5301</span>
+        <span><i class="fa-solid fa-location-dot me-1"></i>Hệ thống Showroom</span>
+        <span><i class="fa-solid fa-box me-1"></i>Đơn hàng</span>
+        <div class="user-dropdown d-inline-block position-relative">
+          <span class="user-toggle"><i class="fa-solid fa-user me-1"></i><span class="user-name">Xin chào, Trung Đông</span> <i class="fa-solid fa-angle-down ms-1"></i></span>
+          <div class="user-menu position-absolute end-0 mt-2" style="display:none; min-width:220px; z-index:100;">
+            <div class="user-menu-item user-menu-name fw-bold py-2 px-3" style="cursor:pointer;">Xin chào, Trung Đông</div>
+            <div class="user-menu-item py-2 px-3" style="cursor:pointer;">Đơn hàng của tôi</div>
+            <div class="user-menu-item py-2 px-3" style="cursor:pointer;">Đã xem gần đây</div>
+            <div class="user-menu-item py-2 px-3 text-danger" style="cursor:pointer;">Đăng xuất</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header-main">
+    <div class="container d-flex align-items-center">
+    <a href="index.html"><img src="https://file.hstatic.net/200000636033/file/logo_fd11946b31524fbe98765f34f3de0628.svg"
+            alt="GEARVN" class="me-3 d-none d-lg-block"></a>
+      <div class="dropdown me-3">
+        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          <i class="fa-solid fa-bars me-2"></i><span class="d-none d-lg-inline">Danh mục</span>
+        </button>
+        <ul class="dropdown-menu menu-dropdown">
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-laptop me-2"></i>Laptop Gaming</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-desktop me-2"></i>PC Gaming</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-display me-2"></i>Màn hình</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-mouse me-2"></i>Chuột - Bàn phím</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-headphones me-2"></i>Tai nghe</a></li>
+          <li><a class="dropdown-item" href="#"><i class="fa-solid fa-plug me-2"></i>Phụ kiện</a></li>
+        </ul>
+      </div>
+      <form class="input-group me-2" style="max-width: 400px;">
+        <input class="form-control" type="search" placeholder="Bạn cần tìm gì?">
+        <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <button type="submit" class="btn btn-danger d-block d-md-none"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+      <div class="ms-auto d-flex align-items-center">
+        <span><i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà</span>
+        <span><i class="fa-solid fa-credit-card me-1"></i>Trả góp</span>
+        <span><i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng</span>
+        <div class="user-dropdown d-inline-block position-relative ms-3">
+          <span class="user-toggle"><i class="fa-solid fa-user me-1"></i><span class="user-name">Xin chào, Trung Đông</span> <i class="fa-solid fa-angle-down ms-1"></i></span>
+          <div class="user-menu position-absolute end-0 mt-2" style="display:none; min-width:220px; z-index:100;">
+            <div class="user-menu-item user-menu-name fw-bold py-2 px-3" style="cursor:pointer;">Xin chào, Trung Đông</div>
+            <div class="user-menu-item py-2 px-3" style="cursor:pointer;">Đơn hàng của tôi</div>
+            <div class="user-menu-item py-2 px-3" style="cursor:pointer;">Đã xem gần đây</div>
+            <div class="user-menu-item py-2 px-3 text-danger" style="cursor:pointer;">Đăng xuất</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Đăng nhập nhanh -->
+  <div id="quick-login-modal" class="modal-custom">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="fw-bold">Xin chào, vui lòng đăng nhập</span>
+        <button class="btn-close" id="closeQuickLogin" aria-label="Close"></button>
+      </div>
+      <div class="login-choice-row mb-2">
+        <button class="btn btn-dark" id="openLoginForm">ĐĂNG NHẬP</button>
+        <button class="btn btn-outline-dark" id="openRegisterForm">ĐĂNG KÝ</button>
+      </div>
+      <div class="text-center mt-2">
+        <button class="btn btn-link p-0">Trợ giúp</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Form Đăng nhập/Đăng ký -->
+  <div id="login-form-modal" class="modal-custom">
+    <div class="modal-overlay"></div>
+    <div class="modal-content" style="max-width: 400px;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="fw-bold" id="loginFormTitle">ĐĂNG NHẬP HOẶC TẠO TÀI KHOẢN</span>
+        <button class="btn-close" id="closeLoginForm" aria-label="Close"></button>
+      </div>
+      <form id="form-login">
+        <div class="mb-2">
+          <input type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="mb-2 position-relative">
+          <input type="password" class="form-control" placeholder="Mật khẩu">
+          <span class="position-absolute top-50 end-0 translate-middle-y pe-3" style="cursor:pointer;"><i class="fa-regular fa-eye"></i></span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <a href="#" class="small">Đăng nhập bằng số điện thoại</a>
+          <a href="#" class="small">Quên mật khẩu email?</a>
+        </div>
+        <button class="btn btn-danger w-100 mb-2">ĐĂNG NHẬP</button>
+        <div class="text-center mb-2">hoặc đăng nhập bằng</div>
+        <div class="d-flex justify-content-between mb-2">
+          <button class="btn btn-light w-50 me-2"><i class="fa-brands fa-google text-danger me-2"></i>Google</button>
+          <button class="btn btn-light w-50"><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook</button>
+        </div>
+        <div class="text-center small">Bạn chưa có tài khoản? <a href="#" id="switchToRegister">Đăng ký ngay!</a></div>
+      </form>
+      <form id="form-register" style="display:none;">
+        <div class="mb-2">
+          <input type="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="mb-2">
+          <input type="text" class="form-control" placeholder="Họ">
+        </div>
+        <div class="mb-2">
+          <input type="text" class="form-control" placeholder="Tên">
+        </div>
+        <div class="mb-2 position-relative">
+          <input type="password" class="form-control" placeholder="Mật khẩu">
+        </div>
+        <button class="btn btn-danger w-100 mb-2">TẠO TÀI KHOẢN</button>
+        <div class="text-center mb-2">hoặc đăng ký bằng</div>
+        <div class="d-flex justify-content-between mb-2">
+          <button class="btn btn-light w-50 me-2"><i class="fa-brands fa-google text-danger me-2"></i>Google</button>
+          <button class="btn btn-light w-50"><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook</button>
+        </div>
+        <div class="text-center small">Bạn đã có tài khoản? <a href="#" id="switchToLogin">Đăng nhập!</a></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div class="container mt-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+        <li class="breadcrumb-item"><a href="#">PC GVN</a></li>
+        <li class="breadcrumb-item active" aria-current="page">PC GVN Intel i5-13400F/ VGA RTX 5060</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Chi tiết sản phẩm -->
+  <div class="container mb-4">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="product-gallery-main mb-3 text-center">
+          <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" alt="PC GVN Intel i5-13400F/ VGA RTX 5060">
+        </div>
+        <div class="product-gallery-thumb d-flex justify-content-center mb-3">
+          <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="active">
+          <img src="https://product.hstatic.net/200000722513/product/artboard_2_e6aeb76ab97048a0b9514f5e7da18853.png">
+          <img src="https://product.hstatic.net/200000722513/product/69185_mb520_mesh_black_046710cfb36f4eefa6b474bffb1aa81c.jpg">
+          <img src="https://product.hstatic.net/200000722513/product/cmp_04ff98d4357840358b2ef20cd45300d8.png">
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="product-info-box">
+          <h4 class="fw-bold mb-2">PC GVN Intel i5-13400F/ VGA RTX 5060</h4>
+          <div class="product-variants mb-3">
+            <div class="variant-group mb-3">
+              <label class="form-label fw-bold">CPU</label>
+              <select class="form-select">
+                <option selected>Intel Core i5-13400F (2.5GHz up to 4.6GHz, 20MB Cache)</option>
+                <option>Intel Core i7-13700F (2.1GHz up to 5.2GHz, 30MB Cache)</option>
+                <option>Intel Core i9-13900F (2.0GHz up to 5.8GHz, 36MB Cache)</option>
+              </select>
+            </div>
+            <div class="variant-group mb-3">
+              <label class="form-label fw-bold">Mainboard</label>
+              <select class="form-select">
+                <option selected>MSI PRO B760M-A WIFI DDR4</option>
+                <option>ASUS TUF GAMING B760M-PLUS WIFI D4</option>
+                <option>GIGABYTE B760M AORUS PRO AX DDR4</option>
+              </select>
+            </div>
+            <div class="variant-group mb-3">
+              <label class="form-label fw-bold">GPU</label>
+              <select class="form-select">
+                <option selected>NVIDIA GeForce RTX 4060 8GB</option>
+                <option>NVIDIA GeForce RTX 4070 12GB</option>
+                <option>NVIDIA GeForce RTX 4080 16GB</option>
+              </select>
+            </div>
+            <div class="variant-group mb-3">
+              <label class="form-label fw-bold">RAM</label>
+              <select class="form-select">
+                <option selected>32GB (2x16GB) DDR4 3200MHz</option>
+                <option>32GB (2x16GB) DDR4 3600MHz</option>
+                <option>64GB (2x32GB) DDR4 3200MHz</option>
+              </select>
+            </div>
+            <div class="variant-group mb-3">
+              <label class="form-label fw-bold">Ổ cứng</label>
+              <select class="form-select">
+                <option selected>SSD 500GB NVMe PCIe Gen4</option>
+                <option>SSD 1TB NVMe PCIe Gen4</option>
+                <option>SSD 2TB NVMe PCIe Gen4</option>
+              </select>
+            </div>
+          </div>
+          <div class="product-rating mb-2">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+            <span class="ms-2 small">Xem đánh giá</span>
+          </div>
+          <div class="product-price mb-2">23.990.000đ <span class="product-old-price">25.620.000đ</span> <span class="product-discount">-6%</span></div>
+          <div class="product-promo mb-2"><i class="fa-solid fa-gift me-2"></i>Giảm thêm 1 triệu cho HSSV</div>
+          <button onclick="addToCart({id: 'pc-13400f', name: 'PC GVN Intel i5-13400F/ VGA RTX 5060', price: 23990000, qty: 1, img: '...url...'})" class="btn btn-danger w-100 product-buy-btn mb-2">MUA NGAY</button>
+          <div class="alert alert-warning py-2 px-3 mb-2">Giao tận nơi hoặc nhận tại cửa hàng</div>
+          <div class="mb-2">
+            <b>ƯU ĐÃI KHI MUA KÈM PC</b><br>
+            <span class="text-danger">Giảm đến 54% khi mua kèm PC xem ngay tại đây</span>
+          </div>
+          <div class="mb-2 small">
+            <b>Hỗ trợ trả góp MPOS (thẻ tín dụng), HDSAISON.</b><br>
+            (Áp dụng cho các mặt hàng chính hãng).
+          </div>
+          <div class="showroom-list mb-2">
+            <b>Showroom HCM</b><br>
+            <i class="fa-solid fa-location-dot"></i> 78-80-82 Hoàng Hoa Thám, P.12, Q. Tân Bình, TP.HCM<br>
+            <i class="fa-solid fa-location-dot"></i> 905 Kha Vạn Cân, P. Linh Tây, TP. Thủ Đức<br>
+            <i class="fa-solid fa-location-dot"></i> 1081-1083 Trần Hưng Đạo, P.5, Q.5, TP. HCM<br>
+            <i class="fa-solid fa-location-dot"></i> 63 Nguyễn Cửu Vân, P.17, Q. Bình Thạnh, TP.HCM <span class="text-success">New</span><br>
+            <b>Showroom HN</b><br>
+            <i class="fa-solid fa-location-dot"></i> 162-164 Thái Hà, P. Trung Liệt, Q.Đống Đa, Hà Nội
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="product-info-box mb-3">
+          <div class="fw-bold mb-2">Sản phẩm mua kèm</div>
+          <div class="d-flex flex-nowrap overflow-auto mb-2" style="gap: 8px;">
+            <div class="text-center">
+              <img src="https://file.hstatic.net/200000722513/file/chuot_aa348bf0177b4795a39ab66d51e62ed7.jpg" width="60" height="60"><br><span class="small">Mua kèm màn hình</span>
+            </div>
+            <div class="text-center">
+              <img src="https://file.hstatic.net/200000722513/file/chuot_aa348bf0177b4795a39ab66d51e62ed7.jpg" width="60" height="60"><br><span class="small">Mua kèm chuột</span>
+            </div>
+            <div class="text-center">
+              <img src="https://file.hstatic.net/200000722513/file/chuot_aa348bf0177b4795a39ab66d51e62ed7.jpg" width="60" height="60"><br><span class="small">Mua kèm bàn phím</span>
+            </div>
+            <div class="text-center">
+              <img src="https://file.hstatic.net/200000722513/file/chuot_aa348bf0177b4795a39ab66d51e62ed7.jpg" width="60" height="60"><br><span class="small">Mua kèm phụ kiện</span>
+            </div>
+          </div>
+          <div class="d-flex flex-nowrap overflow-auto" style="gap: 8px;">
+            <button class="btn btn-outline-danger btn-sm">Chọn sản phẩm</button>
+            <button class="btn btn-outline-danger btn-sm">Chọn sản phẩm</button>
+            <button class="btn btn-outline-danger btn-sm">Chọn sản phẩm</button>
+            <button class="btn btn-outline-danger btn-sm">Chọn sản phẩm</button>
+          </div>
+        </div>
+        <div class="product-info-box mb-3">
+          <div class="fw-bold mb-2">Tin tức về công nghệ</div>
+          <ul class="news-list ps-3 mb-0">
+            <li><a href="#">Hướng dẫn học app học tiếng Anh miễn phí mới nhất cho mọi nền tảng</a></li>
+            <li><a href="#">Pika Pika AI giải trí thông tin và hướng dẫn sử dụng bản AR AI chất xịn</a></li>
+            <li><a href="#">Hướng dẫn chi tiết cách dùng Pixverse vẽ ảnh động miễn phí</a></li>
+            <li><a href="#">Tiktok âm nhạc chương cho iPhone</a></li>
+            <li><a href="#">Hướng dẫn tạo video Telegram dễ hiểu nhất trên máy tính và điện thoại</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sản phẩm tương tự -->
+  <div class="container mb-4 similar-products">
+    <div class="fw-bold mb-2">Sản phẩm tương tự</div>
+    <div class="d-flex flex-nowrap overflow-auto" style="gap: 16px;">
+      <div class="product-card p-3">
+        <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 1">
+        <h6 class="fw-bold">PC GVN x Corsair iCUE (Intel i5-13400F/ VGA RTX 4060)</h6>
+        <div class="mb-2">
+          <span class="old-price">25.620.000₫</span>
+          <span class="text-danger fw-bold">23.890.000₫</span>
+          <span class="discount">-7%</span>
+        </div>
+        <div class="small text-muted">
+          <span class="rating">★★★★★</span> (8)
+        </div>
+      </div>
+      <div class="product-card p-3">
+        <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 2">
+        <h6 class="fw-bold">PC GVN x Corsair iCUE (Intel i5-13400F/ VGA RTX 4060)</h6>
+        <div class="mb-2">
+          <span class="old-price">25.620.000₫</span>
+          <span class="text-danger fw-bold">23.890.000₫</span>
+          <span class="discount">-7%</span>
+        </div>
+        <div class="small text-muted">
+          <span class="rating">★★★★★</span> (8)
+        </div>
+      </div>
+      <div class="product-card p-3">
+        <span class="badge badge-sale"><i class="fa-solid fa-bolt"></i> Bán chạy</span>
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 3">
+        <h6 class="fw-bold">PC GVN x MSI PROJECT ZERO WHITE (Intel i5-13400F/ VGA RTX 4060)</h6>
+        <div class="mb-2">
+          <span class="old-price">28.770.000₫</span>
+          <span class="text-danger fw-bold">27.290.000₫</span>
+          <span class="discount">-5%</span>
+        </div>
+        <div class="small text-muted">
+          <span class="rating">★★★★★</span> (5)
+        </div>
+      </div>
+      <div class="product-card p-3">
+        <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 4">
+        <h6 class="fw-bold">PC GVN AMD R5-7600/ VGA RTX 4060</h6>
+        <div class="mb-2">
+          <span class="old-price">26.990.000₫</span>
+          <span class="text-danger fw-bold">25.790.000₫</span>
+          <span class="discount">-4%</span>
+        </div>
+        <div class="small text-muted">
+          <span class="rating">★★★★★</span> (3)
+        </div>
+      </div>
+      <div class="product-card p-3">
+        <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 5">
+        <h6 class="fw-bold">PC GVN Intel i5-14700F/ VGA RTX 3060</h6>
+        <div class="mb-2">
+          <span class="old-price">27.990.000₫</span>
+          <span class="text-danger fw-bold">25.790.000₫</span>
+          <span class="discount">-8%</span>
+        </div>
+        <div class="small text-muted">
+          <span class="rating">★★★★★</span> (2)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thông tin sản phẩm + cấu hình + biểu đồ -->
+  <div class="container mb-4">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="radar-chart-box mb-3">
+          <div class="fw-bold mb-2">Thông tin sản phẩm</div>
+          <img src="https://product.hstatic.net/200000722513/product/pc_case_xigmatek_-_26_2cb0da60a679425680247ca67c42721e_grande.png" alt="Radar Chart" class="img-fluid" style="max-width: 400px;">
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="product-config-box mb-3">
+          <div class="fw-bold mb-2">Cấu hình</div>
+          <div class="row">
+            <div class="col-6">CPU</div><div class="col-6">Intel Core i5</div>
+            <div class="col-6">RAM</div><div class="col-6">32GB</div>
+            <div class="col-6">SSD</div><div class="col-6">500GB</div>
+            <div class="col-6">VGA</div><div class="col-6">RTX 5060</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Đánh giá & Nhận xét -->
+  <div class="container mb-4">
+    <div class="product-info-box mb-3">
+      <div class="fw-bold mb-2">Đánh giá & Nhận xét PC GVN Intel i5-13400F/ VGA RTX 5060</div>
+      <div class="product-rating mb-2">
+        <i class="fa-regular fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+        <i class="fa-regular fa-star"></i>
+        <span class="ms-2 small">0 đánh giá</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sản phẩm đã xem -->
+  <div class="container mb-4 viewed-products">
+    <div class="fw-bold mb-2">Sản phẩm đã xem</div>
+    <div class="d-flex flex-nowrap overflow-auto" style="gap: 16px;">
+      <div class="product-card p-3">
+        <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 1">
+        <h6 class="fw-bold">PC GVN Intel i5-13400F/ VGA RTX 5060</h6>
+        <div class="mb-2">
+          <span class="old-price">25.620.000₫</span>
+          <span class="text-danger fw-bold">23.990.000₫</span>
+          <span class="discount">-6%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer giống index.html -->
+  <div class="footer mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h6>Về GEARVN</h6>
+          <ul class="list-unstyled">
+            <li>Giới thiệu</li>
+            <li>Tuyển dụng</li>
+            <li>Liên hệ</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>Chính sách</h6>
+          <ul class="list-unstyled">
+            <li>Chính sách bảo hành</li>
+            <li>Chính sách đổi trả</li>
+            <li>Chính sách bảo mật</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>Thông tin</h6>
+          <ul class="list-unstyled">
+            <li>Hệ thống cửa hàng</li>
+            <li>Hướng dẫn mua hàng</li>
+            <li>Hướng dẫn thanh toán</li>
+            <li>Hướng dẫn trả góp</li>
+            <li>Tra cứu địa chỉ bảo hành</li>
+            <li>Build PC</li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>Tổng đài hỗ trợ</h6>
+          <ul class="list-unstyled">
+            <li>Mua hàng: 1900.5301</li>
+            <li>Khiếu nại: 1900.6173</li>
+            <li>Email: cskh@gearvn.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <span>KẾT NỐI VỚI CHÚNG TÔI</span>
+        <div class="social-icons d-inline-block ms-2">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nút hỗ trợ khách hàng nổi -->
+  <div id="support-btn" class="support-btn">
+    <i class="fa-solid fa-message"></i>
+  </div>
+  <!-- Chatbox -->
+  <div class="chatbox">
+    <div class="chatbox-header">
+      <span><i class="fa-solid fa-headset me-2"></i>GearVN</span>
+      <i class="fa-solid fa-xmark"></i>
+    </div>
+    <div class="chatbox-body">
+      "ĐỪNG TỰ CHỌN - ĐỂ GEARVN LO!"<br>
+      Bạn không biết chọn gì? GEARVN giúp bạn!<br>
+      Cam kết: Đúng cấu hình - Đúng giá - Đúng nhu cầu - Hỗ trợ tận tâm.<br>
+      Chat với tư vấn viên FREE & nhận báo giá siêu tốc!
+    </div>
+    <div class="chatbox-input">
+      <input type="text" class="form-control" placeholder="Nhập nội dung...">
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
