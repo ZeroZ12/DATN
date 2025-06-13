@@ -107,7 +107,7 @@
                     <span><i class="fa-solid fa-user me-1"></i>{{ Auth::user()->name }}</span>
                 </a>
             @else
-                <a href="{{ route('login') }}" class="text-white text-decoration-none me-3">
+                <a href="{{ route('form') }}" class="text-white text-decoration-none me-3">
                     <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
                 </a>
             @endauth

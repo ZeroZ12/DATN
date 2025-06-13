@@ -173,8 +173,8 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 
-Route::get('/auth', [AuthController::class, 'showForm'])->name('auth.form');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+Route::get('/form', [AuthController::class, 'showForm'])->name('form');
+Route::post('/form/login', [AuthController::class, 'login'])->name('form.login');
+Route::post('/form/register', [AuthController::class, 'register'])->name('form.register');
 
 require __DIR__ . '/auth.php';
