@@ -32,12 +32,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($danhmucs as $dm)
+                        @forelse($Danhmucs as $dm)
                             <tr>
                                 <td class="text-center">{{ $dm->id }}</td>
                                 <td class="text-center">{{ $dm->ten }}</td>
-                                <td class="text-center">{{ $dm->deleted_at->format('d/m/Y H:i:s') }}</td>
                                 <td class="text-center">
+                                    {{ $dm->deleted_at ? $dm->deleted_at->format('d/m/Y H:i:s') : 'Không xác định' }}
+                                <td class="text-center">
+
                                     {{-- Nút Khôi phục --}}
                                     <form action="{{ route('admin.danhmuc.restore', $dm->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn khôi phục danh mục này? Các sản phẩm đã xóa mềm theo danh mục này cũng sẽ được khôi phục.')">
@@ -64,7 +66,7 @@
                 </table>
             </div>
             <div class="card-footer d-flex justify-content-center">
-                {{ $danhmucs->links() }}
+                {{ $Danhmucs->links() }}
             </div>
         </div>
     </div>

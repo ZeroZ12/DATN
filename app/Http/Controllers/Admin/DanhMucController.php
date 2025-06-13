@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DanhMuc;
-use App\Models\SanPham;
+use App\Models\SanPham; // Thêm dòng này để sử dụng Model SanPham
 use Illuminate\Http\Request;
 
 class DanhMucController extends Controller
@@ -14,8 +14,9 @@ class DanhMucController extends Controller
      */
     public function index()
     {
-        $danhmucs = DanhMuc::orderBy('id', 'desc')->paginate(10);
-        return view('admin.danhmuc.index', compact('danhmucs'));
+        // Chỉ lấy các danh mục chưa bị xóa mềm
+        $ddanhmucs = DanhMuc::orderBy('id', 'desc')->paginate(10);
+        return view('admin.danhmuc.index', compact('ddanhmucs'));
     }
 
     /**
@@ -41,20 +42,19 @@ class DanhMucController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
-{
-    $danhmuc = DanhMuc::findOrFail($id);
-    $sanphams = $danhmuc->sanPhams; // Lấy các sản phẩm thuộc danh mục
+    public function show(string $id)
+    {
 
-    return view('admin.danhmuc.show', compact('danhmuc', 'sanphams'));
-}
-
+        $danhmuc = DanhMuc::findOrFail($id);
+        return view('admin.danhmuc.show', compact('danhmuc'));
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
+        // Tương tự show, findOrFail sẽ bỏ qua bản ghi đã xóa mềm.
         $danhmuc = DanhMuc::findOrFail($id);
         return view('admin.danhmuc.edit', compact('danhmuc'));
     }
@@ -78,16 +78,23 @@ class DanhMucController extends Controller
     public function destroy(string $id)
     {
         $danhmuc = DanhMuc::findOrFail($id);
+
         $danhmuc->delete();
-        // Xóa các sản phẩm liên quan nếu cần
+
         SanPham::where('id_category', $id)->delete();
-        return redirect()->route('admin.danhmuc.index')->with('message', 'Danh mục đã được xóa thành công.');
+
+        return redirect()->route('admin.danhmuc.index')->with('message', 'Danh mục và các sản phẩm liên quan đã được xóa mềm thành công.');
     }
 
+
+    /**
+     * Display a listing of trashed resources.
+     */
     public function trashed()
     {
-        $danhmucs = DanhMuc::onlyTrashed()->orderBy('id', 'desc')->paginate(10);
-        return view('admin.danhmuc.trashed', compact('danhmucs'));
+
+        $Danhmucs = DanhMuc::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.danhmuc.trashed', compact('Danhmucs'));
     }
 
     /**
@@ -110,10 +117,9 @@ class DanhMucController extends Controller
     {
         $danhmuc = DanhMuc::withTrashed()->findOrFail($id);
 
-
         SanPham::withTrashed()->where('id_category', $id)->forceDelete();
 
-        $danhmuc->forceDelete();
+        $danhmuc->forceDelete(); // Thực hiện xóa vật lý
 
         return redirect()->route('admin.danhmuc.trashed')->with('message', 'Danh mục và các sản phẩm liên quan đã được xóa vĩnh viễn.');
     }
