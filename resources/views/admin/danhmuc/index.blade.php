@@ -17,11 +17,6 @@
                 {{ session('message') }}
             </div>
         @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
 
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
@@ -34,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($danhmucs as $dm)
+                        @forelse($ddanhmucs as $dm)
                             <tr>
                                 <td class="text-center">{{ $dm->id }}</td>
                                 <td class="text-center">{{ $dm->ten }}</td>
@@ -62,9 +57,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer d-flex justify-content-center">
-                {{ $danhmucs->links() }}
+            <div class="card-footer">
+                {{ $ddanhmucs->links() }}
             </div>
+
         </div>
     </div>
 @endsection

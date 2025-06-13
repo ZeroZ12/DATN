@@ -34,23 +34,22 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
 
-    Route::prefix('danhmuc')->name('danhmuc.')->group(function () {
-        Route::get('/trashed', [DanhMucController::class, 'trashed'])->name('trashed');
-        Route::post('/{id}/restore', [DanhMucController::class, 'restore'])->name('restore');
-        Route::delete('/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('forceDelete');
+    Route::get('danhmuc/trashed', [DanhMucController::class, 'trashed'])->name('danhmuc.trashed');
+    Route::post('danhmuc/{id}/restore', [DanhMucController::class, 'restore'])->name('danhmuc.restore');
+    Route::delete('danhmuc/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('danhmuc.forceDelete');
 
-        Route::resource('/', DanhMucController::class)->parameters(['' => 'danhmuc']);
-    });
+    // Route resource cho các thao tác CRUD cơ bản
+    Route::resource('danhmuc', DanhMucController::class);
 
 
 
 
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
+        Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
         Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
-
         // Resource route
-        Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
+        Route::resource('', SanPhamController::class)->parameters(['' => 'sanpham']);
     });
 
     Route::prefix('bienthe')->name('bienthe.')->group(function () {
