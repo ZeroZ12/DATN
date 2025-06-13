@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DanhMucController;
 use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ChipController;
@@ -172,5 +173,8 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 
+Route::get('/auth', [AuthController::class, 'showForm'])->name('auth.form');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
 
 require __DIR__ . '/auth.php';

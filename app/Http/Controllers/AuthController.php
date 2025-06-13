@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class AutherController extends Controller
+class AuthController extends Controller
 {
     // public function __construct()
     // {
@@ -24,7 +25,7 @@ class AutherController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|max:12',
+            'password' => 'required|min:6',
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -38,20 +39,21 @@ class AutherController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
         // Tạo người dùng mới
-        $user = \App\Models\User::create([
-            'name' => $request->name,
+        User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($request->password), // Mã hóa mật khẩu
         ]);
 
-        Auth::login($user);
-
-        return redirect()->intended('/dashboard')->with('success', 'Đăng ký thành công!');
+        return redirect()->route('auth.form')
+            ->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
 }
