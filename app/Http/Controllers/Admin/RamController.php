@@ -89,4 +89,23 @@ class RamController extends Controller
         $ram->delete();
         return redirect()->route('admin.ram.index')->with('message', 'RAM đã được xóa thành công.');
     }
+    public function trash()
+{
+    $rams = Ram::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+    return view('admin.ram.trash', compact('rams'));
+}
+
+public function restore($id)
+{
+    $ram = Ram::onlyTrashed()->findOrFail($id);
+    $ram->restore();
+    return redirect()->route('admin.ram.trash')->with('message', 'Đã khôi phục RAM thành công.');
+}
+
+public function forceDelete($id)
+{
+    $ram = Ram::onlyTrashed()->findOrFail($id);
+    $ram->forceDelete();
+    return redirect()->route('admin.ram.trash')->with('message', 'Đã xóa vĩnh viễn RAM.');
+}
 }

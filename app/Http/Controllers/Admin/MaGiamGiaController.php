@@ -28,34 +28,42 @@ class MaGiamGiaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'ma' => 'required|string|max:50|unique:ma_giam_gias,ma',
-            'loai' => 'required|in:phan_tram,tien_mat',
-            'gia_tri' => 'required|numeric|min:0',
-            'ngay_bat_dau' => 'nullable|date',
-            'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
-            'hoat_dong' => 'required|boolean',
-        ], [
-            'ma.required' => 'Mã giảm giá không được để trống.',
-            'ma.string' => 'Mã giảm giá phải là chuỗi ký tự.',
-            'ma.max' => 'Mã giảm giá không được vượt quá 50 ký tự.',
-            'ma.unique' => 'Mã giảm giá đã tồn tại.',
-            'loai.required' => 'Loại mã giảm giá không được để trống.',
-            'loai.in' => 'Loại mã giảm giá phải là "Phần trăm" hoặc "Tiền mặt".',
-            'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
-            'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
-            'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
-            'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.date' => 'Ngày kết thúc phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
-            'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
-            'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
-        ]);
-        MaGiamGia::create($data);
-        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được tạo thành công.');
+   public function store(Request $request)
+{
+    $request->validate([
+        'ma' => 'required|string|max:50|unique:ma_giam_gias,ma',
+        'loai' => 'required|in:phan_tram,tien_mat',
+        'gia_tri' => 'required|numeric|min:0',
+        'ngay_bat_dau' => 'nullable|date',
+        'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
+        'hoat_dong' => 'required|boolean',
+    ], [
+        'ma.required' => 'Mã giảm giá không được để trống.',
+        'ma.string' => 'Mã giảm giá phải là chuỗi ký tự.',
+        'ma.max' => 'Mã giảm giá không được vượt quá 50 ký tự.',
+        'ma.unique' => 'Mã giảm giá đã tồn tại.',
+        'loai.required' => 'Loại mã giảm giá không được để trống.',
+        'loai.in' => 'Loại mã giảm giá phải là "Phần trăm" hoặc "Tiền mặt".',
+        'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
+        'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
+        'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
+        'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
+        'ngay_ket_thuc.date' => 'Ngày kết thúc phải là định dạng ngày hợp lệ.',
+        'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
+        'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
+        'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
+    ]);
+
+    // Ràng buộc bổ sung nếu là loại phần trăm
+    if ($request->loai === 'phan_tram' && $request->gia_tri > 100) {
+        return back()->withInput()->withErrors(['gia_tri' => 'Giá trị phần trăm không được vượt quá 100.']);
     }
+
+    MaGiamGia::create($request->all());
+
+    return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được tạo thành công.');
+}
+
 
     /**
      * Display the specified resource.
@@ -78,35 +86,45 @@ class MaGiamGiaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $maGiamGia = MaGiamGia::findOrFail($id);
-        $data = $request->validate([
-            'ma' => 'required|string|max:50|unique:ma_giam_gias,ma,' . $id,
-            'loai' => 'required|in:phan_tram,tien_mat',
-            'gia_tri' => 'required|numeric|min:0',
-            'ngay_bat_dau' => 'nullable|date',
-            'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
-            'hoat_dong' => 'required|boolean',
-        ], [
-            'ma.required' => 'Mã giảm giá không được để trống.',
-            'ma.string' => 'Mã giảm giá phải là chuỗi ký tự.',
-            'ma.max' => 'Mã giảm giá không được vượt quá 50 ký tự.',
-            'ma.unique' => 'Mã giảm giá đã tồn tại.',
-            'loai.required' => 'Loại mã giảm giá không được để trống.',
-            'loai.in' => 'Loại mã giảm giá phải là "Phần trăm" hoặc "Tiền mặt".',
-            'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
-            'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
-            'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
-            'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.date' => 'Ngày kết thúc phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
-            'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
-            'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
+   public function update(Request $request, string $id)
+{
+    $maGiamGia = MaGiamGia::findOrFail($id);
+
+    $data = $request->validate([
+        'ma' => 'required|string|max:50|unique:ma_giam_gias,ma,' . $id,
+        'loai' => 'required|in:phan_tram,tien_mat',
+        'gia_tri' => 'required|numeric|min:0',
+        'ngay_bat_dau' => 'nullable|date',
+        'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
+        'hoat_dong' => 'required|boolean',
+    ], [
+        'ma.required' => 'Mã giảm giá không được để trống.',
+        'ma.string' => 'Mã giảm giá phải là chuỗi ký tự.',
+        'ma.max' => 'Mã giảm giá không được vượt quá 50 ký tự.',
+        'ma.unique' => 'Mã giảm giá đã tồn tại.',
+        'loai.required' => 'Loại mã giảm giá không được để trống.',
+        'loai.in' => 'Loại mã giảm giá phải là "Phần trăm" hoặc "Tiền mặt".',
+        'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
+        'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
+        'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
+        'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
+        'ngay_ket_thuc.date' => 'Ngày kết thúc phải là định dạng ngày hợp lệ.',
+        'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
+        'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
+        'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
+    ]);
+
+    // Kiểm tra bổ sung nếu là phần trăm thì không được vượt quá 100
+    if ($data['loai'] === 'phan_tram' && $data['gia_tri'] > 100) {
+        return back()->withInput()->withErrors([
+            'gia_tri' => 'Giá trị phần trăm không được vượt quá 100.'
         ]);
-        $maGiamGia->update($data);
-        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được cập nhật thành công.');
     }
+
+    $maGiamGia->update($data);
+
+    return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được cập nhật thành công.');
+}
 
     /**
      * Remove the specified resource from storage.

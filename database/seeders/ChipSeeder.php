@@ -10,12 +10,10 @@ class ChipSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-
-        // Tạo một số chip giả
-        foreach (range(1, 5) as $index) {
+        foreach (range(1, 10) as $i) {
             Chip::create([
-                'ten' => $faker->word,
-                'mo_ta' => $faker->sentence,
+                'ten' => $faker->regexify('Intel Core i[3579]-[0-9]{4}'),
+                'mo_ta' => $faker->sentence(),
             ]);
         }
     }

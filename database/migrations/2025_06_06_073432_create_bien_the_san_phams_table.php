@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('ma_bien_the', 100)->unique();
             $table->string('anh_dai_dien', 255)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -32,6 +33,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('bien_the_san_phams', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('bien_the_san_phams');
     }
 };

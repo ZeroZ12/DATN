@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 09, 2025 at 02:30 PM
+-- Generation Time: Jun 12, 2025 at 09:28 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.20
 
@@ -32,8 +32,16 @@ CREATE TABLE `anh_san_phams` (
   `id_product` bigint UNSIGNED NOT NULL,
   `duong_dan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `anh_san_phams`
+--
+
+INSERT INTO `anh_san_phams` (`id`, `id_product`, `duong_dan`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'images/anh_phu/Wd0XTsFZKzEpxuj5AQU15SfKOq2lDkUTuPToeDV8.jpg', '2025-06-10 01:29:24', '2025-06-10 01:29:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -52,8 +60,16 @@ CREATE TABLE `bien_the_san_phams` (
   `ma_bien_the` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `anh_dai_dien` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `bien_the_san_phams`
+--
+
+INSERT INTO `bien_the_san_phams` (`id`, `id_product`, `id_ram`, `id_o_cung`, `gia`, `gia_so_sanh`, `ton_kho`, `ma_bien_the`, `anh_dai_dien`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 1, '12000000.00', '1000000.00', 6, 'BT2540', NULL, '2025-06-10 01:29:25', '2025-06-10 01:29:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -90,8 +106,16 @@ CREATE TABLE `chips` (
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chips`
+--
+
+INSERT INTO `chips` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'CPU Intel Core i5-11400F', 'Intel Core i5-11400F là sự lựa chọn đáng giá cho người dùng đang tìm kiếm một bộ xử lý toàn diện. Dù bạn đang cần một cỗ máy để làm việc hiệu quả, chơi game mượt mà hay hỗ trợ xử lý dữ liệu AI, CPU này đều đáp ứng hoàn hảo.', '2025-06-10 01:21:38', '2025-06-10 01:21:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -109,7 +133,8 @@ CREATE TABLE `chi_tiet_don_hangs` (
   `don_gia` decimal(10,2) NOT NULL,
   `bao_hanh_thang` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -155,8 +180,17 @@ CREATE TABLE `danh_mucs` (
   `id` bigint UNSIGNED NOT NULL,
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `danh_mucs`
+--
+
+INSERT INTO `danh_mucs` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'PC GAMING', '2025-06-10 01:26:13', '2025-06-10 01:26:13', NULL),
+(2, 'PC văn phòng', '2025-06-10 01:26:25', '2025-06-10 01:26:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -191,7 +225,8 @@ CREATE TABLE `don_hangs` (
   `tong_tien` decimal(10,2) NOT NULL,
   `trang_thai` enum('cho_xu_ly','dang_giao','hoan_thanh','huy') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -237,8 +272,16 @@ CREATE TABLE `gpus` (
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `gpus`
+--
+
+INSERT INTO `gpus` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Card đồ họa Asus TUF RTX 4080 OC 16GB GAMING GDDR6X', 'Card đồ hoạ Asus TUF Gaming GeForce RTX 4080 OC Edition là sản phẩm cao cấp của Asus, được thiết kế dựa trên kiến trúc Ada Lovelace mới nhất của Nvidia. Card đồ hoạ này mang lại hiệu năng xử lý đồ hoạ tuyệt vời. Vì vậy, đây sẽ là lựa chọn hoàn hảo cho những người dùng đang tìm kiếm một card đồ hoạ cao cấp để chơi game và sáng tạo nội dung.', '2025-06-10 01:22:50', '2025-06-10 01:22:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -300,8 +343,16 @@ CREATE TABLE `mainboards` (
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `mainboards`
+--
+
+INSERT INTO `mainboards` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Mainboard Asus PRIME H510M-K (LGA 1200 - m-ATX Form Factor - DDR4)', 'Nếu bạn đang tìm một bo mạch chủ được thiết kế để phát huy hết tiềm năng của bộ vi xử lý Intel thế hệ 10 và 11 thì Asus PRIME H510M-K là một sự lựa chọn hoàn hảo ở phân khúc phổ thông. Với thiết kế mạnh mẽ, giải pháp làm mát toàn diện và các tùy chọn điều chỉnh thông minh, PRIME H510M-K sẽ không bao giờ khiến bạn phải thất vọng.', '2025-06-10 01:22:12', '2025-06-10 01:22:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -318,8 +369,16 @@ CREATE TABLE `ma_giam_gias` (
   `ngay_ket_thuc` timestamp NULL DEFAULT NULL,
   `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `ma_giam_gias`
+--
+
+INSERT INTO `ma_giam_gias` (`id`, `ma`, `loai`, `gia_tri`, `ngay_bat_dau`, `ngay_ket_thuc`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'PH43562', 'tien_mat', '10000.00', '2025-06-09 17:00:00', '2025-06-14 17:00:00', 1, '2025-06-09 08:05:41', '2025-06-09 08:05:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -389,8 +448,16 @@ CREATE TABLE `o_cungs` (
   `dung_luong` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `o_cungs`
+--
+
+INSERT INTO `o_cungs` (`id`, `loai`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Ổ Cứng SSD Kingston 500 GB M.2 NVMe', '500 GB', 'ổ cứng nhanh', '2025-06-10 01:28:17', '2025-06-10 01:28:17', NULL);
 
 -- --------------------------------------------------------
 
@@ -419,6 +486,13 @@ CREATE TABLE `phuong_thuc_thanh_toans` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `phuong_thuc_thanh_toans`
+--
+
+INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten`, `mo_ta`, `hoat_dong`, `created_at`, `updated_at`) VALUES
+(1, 'COD', 'Thanh toán khi nhận hàng', 1, '2025-06-10 01:24:23', '2025-06-10 01:24:23');
+
 -- --------------------------------------------------------
 
 --
@@ -430,8 +504,16 @@ CREATE TABLE `rams` (
   `dung_luong` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `rams`
+--
+
+INSERT INTO `rams` (`id`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'RAM Desktop G.Skill Ripjaws V 8GB DDR4 3200 MHz - ( F4-3200C16S-8GVKB )', 'G.SKILL Ripjaws V 8GB DDR4 3200MHz là một sản phẩm bộ nhớ DDR4 có dung lượng dồi dào và tốc độ cao. RAM còn có thêm tản nhiệt hầm hố bên ngoài để giữ cho nhiệt độ và hiệu năng ổn định trong thời gian dài.', '2025-06-10 01:23:15', '2025-06-10 01:23:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -457,6 +539,13 @@ CREATE TABLE `san_phams` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `san_phams`
+--
+
+INSERT INTO `san_phams` (`id`, `ten`, `ma_san_pham`, `mo_ta`, `id_chip`, `id_mainboard`, `id_gpu`, `id_category`, `id_brand`, `bao_hanh_thang`, `hoat_dong`, `anh_dai_dien`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'PC gaming', 'WD8693', 'Là PC hay', 1, 1, 1, 1, 1, 12, 0, 'images/b4MbF1vkpoga1NXwURQEkscMzX87smRwuiwDpma8.jpg', '2025-06-10 01:29:24', '2025-06-10 01:29:24', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -472,6 +561,13 @@ CREATE TABLE `sessions` (
   `last_activity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('kvHTWKCActlvTIeBKoSYutW76CRZxW4X2aZMKTwV', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMlc5aUtTMlRXTDJ5VHVvOWVnb0xQeWdmb1dwdUhPemRYYXlSSUJiMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1749720161);
+
 -- --------------------------------------------------------
 
 --
@@ -482,8 +578,17 @@ CREATE TABLE `thuong_hieus` (
   `id` bigint UNSIGNED NOT NULL,
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `thuong_hieus`
+--
+
+INSERT INTO `thuong_hieus` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'ASUS', '2025-06-10 01:24:41', '2025-06-10 01:24:41', NULL),
+(2, 'ACER', '2025-06-10 01:25:21', '2025-06-10 01:25:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -503,8 +608,16 @@ CREATE TABLE `users` (
   `ngay_tao` timestamp NOT NULL DEFAULT '2025-06-09 07:12:43',
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `ten_dang_nhap`, `email`, `email_verified_at`, `password`, `ho_ten`, `so_dien_thoai`, `vai_tro`, `ngay_tao`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Long', 'longthph53584@gmail.com', NULL, '$2y$12$cqqtxjbbiEcYObIltOmn5.uvn5OwuzOKlsvCY1VAKuSYYgjA95YRC', 'H lONG', '0379354506', 'quan_tri', '2025-06-09 07:12:43', NULL, '2025-06-10 20:25:01', '2025-06-10 20:25:01', NULL);
 
 --
 -- Indexes for dumped tables
@@ -728,19 +841,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anh_san_phams`
 --
 ALTER TABLE `anh_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bien_the_san_phams`
 --
 ALTER TABLE `bien_the_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `chips`
 --
 ALTER TABLE `chips`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `chi_tiet_don_hangs`
@@ -764,7 +877,7 @@ ALTER TABLE `danh_gia_san_phams`
 -- AUTO_INCREMENT for table `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `dia_chi_nguoi_dungs`
@@ -794,7 +907,7 @@ ALTER TABLE `gio_hangs`
 -- AUTO_INCREMENT for table `gpus`
 --
 ALTER TABLE `gpus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -812,13 +925,13 @@ ALTER TABLE `lich_su_xems`
 -- AUTO_INCREMENT for table `mainboards`
 --
 ALTER TABLE `mainboards`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `ma_giam_gias`
 --
 ALTER TABLE `ma_giam_gias`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -836,37 +949,37 @@ ALTER TABLE `nhat_ky_ton_khos`
 -- AUTO_INCREMENT for table `o_cungs`
 --
 ALTER TABLE `o_cungs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `phuong_thuc_thanh_toans`
 --
 ALTER TABLE `phuong_thuc_thanh_toans`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `rams`
 --
 ALTER TABLE `rams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `san_phams`
 --
 ALTER TABLE `san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `thuong_hieus`
 --
 ALTER TABLE `thuong_hieus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

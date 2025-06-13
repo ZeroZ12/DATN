@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignId('id_category')->constrained('danh_mucs');
             $table->foreignId('id_brand')->constrained('thuong_hieus');
             $table->integer('bao_hanh_thang');
-            $table->boolean('hoat_dong')->default(0); // Mặc định là true
+            $table->boolean('hoat_dong')->default(true); // Mặc định là true
             $table->string('anh_dai_dien', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +34,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+         Schema::table('san_phams', function (Blueprint $table) {
+             $table->dropSoftDeletes();
+         });
         Schema::dropIfExists('san_phams');
     }
 };

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ten', 255);
             $table->text('mo_ta')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -26,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('gpus', function (Blueprint $table) {
+            $table->dropSoftDeletes(); // Xóa cột deleted_at khi rollback
+        });
         Schema::dropIfExists('gpus');
     }
 };

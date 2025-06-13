@@ -3,10 +3,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SanPham extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'san_phams';
@@ -46,7 +47,7 @@ class SanPham extends Model
         return $this->belongsTo(ThuongHieu::class, 'id_brand');
     }
     // Quan hệ với bảng Biến Thể Sản Phẩm
-    public function bienTheSanPham()
+    public function bienTheSanPhams()
     {
         return $this->hasMany(BienTheSanPham::class, 'id_product');
     }
