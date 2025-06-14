@@ -167,12 +167,10 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 
 //Route client
 Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
+Route::get('/sanpham/{id}', [ControllersSanPhamController::class, 'show'])->name('sanpham.show');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
   // Route tìm kiếm sản phẩm
     Route::get('/search', [SanPhamController::class, 'search'])->name('search');
-
-    // Route chi tiết sản phẩm
-    Route::get('/product/{ma_san_pham}', [SanPhamController::class, 'detail'])->name('product.detail');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
