@@ -44,8 +44,8 @@
                     <circle cx="32" cy="12" r="1.5" fill="#10b981" />
 
                     <!-- Screen Glow -->
-                    <rect x="9" y="12" width="22" height="10" rx="1" fill="none" stroke="white"
-                        stroke-width="0.5" opacity="0.4" />
+                    <rect x="9" y="12" width="22" height="10" rx="1" fill="none" stroke="white" stroke-width="0.5"
+                        opacity="0.4" />
 
                     <!-- Keyboard (simplified) -->
                     <rect x="8" y="42" width="24" height="6" rx="2" fill="white" opacity="0.8" />
@@ -98,7 +98,7 @@
                     class="fa-solid fa-magnifying-glass"></i></button>
         </form>
 
-         <div class="ms-auto d-flex align-items-center">
+        <div class="ms-auto d-flex align-items-center">
             <span><i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà</span>
             <span><i class="fa-solid fa-credit-card me-1"></i>Trả góp</span>
 
@@ -106,6 +106,12 @@
                 <a href="{{ route('dashboard') }}" class="text-white text-decoration-none me-3">
                     <span><i class="fa-solid fa-user me-1"></i>{{ Auth::user()->name }}</span>
                 </a>
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-link text-white text-decoration-none p-0 border-0 me-3">
+                        <span><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất</span>
+                    </button>
+                </form>
             @else
                 <a href="{{ route('form') }}" class="text-white text-decoration-none me-3">
                     <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>

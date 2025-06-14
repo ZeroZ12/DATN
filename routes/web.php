@@ -19,14 +19,6 @@ use App\Http\Controllers\SanPhamController as ControllersSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
 use App\Models\SanPham;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/admin', function () {
-//     return view('admin.layouts.app');
-// })->middleware(['auth', 'verified'])->name('admin');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -162,7 +154,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
 Route::middleware(['auth', CheckUserStatus::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('client.tk.access');
     })->name('dashboard');
 });
 
@@ -180,6 +172,7 @@ Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.
     Route::get('/product/{ma_san_pham}', [SanPhamController::class, 'detail'])->name('product.detail');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
-Route::post('/form/login', [AuthController::class, 'login'])->name('login');
-Route::post('/form/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
