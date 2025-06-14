@@ -183,3 +183,5 @@ Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::post('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'register'])->name('register');
 
+
+
