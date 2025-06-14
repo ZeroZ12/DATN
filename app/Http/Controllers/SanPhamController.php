@@ -46,4 +46,34 @@ class SanPhamController extends Controller
     return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs'));
 }
 
+public function show($id)
+{
+    $sanpham = SanPham::with([
+        'chip',
+        'mainboard',
+        'gpu',
+        'danhMuc',
+        'thuongHieu',
+        'bienTheSanPhams',
+        'anhPhu',
+    ])->findOrFail($id);
+
+    $bienTheSanPhams = $sanpham->bienTheSanPhams;
+
+    $sanphamTuongTu = SanPham::where('id_category', $sanpham->id_category)
+        ->where('id', '!=', $sanpham->id)
+        ->where('hoat_dong', 1)
+        ->latest()
+        ->take(10)
+        ->get();
+
+    return view('client.chitietsanpham', compact(
+        'sanpham',
+        'sanphamTuongTu',
+        'bienTheSanPhams'
+    ));
+}
+
+
+
 }
