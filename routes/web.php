@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
 use App\Http\Controllers\SanPhamController as ControllersSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
+use App\Models\SanPham;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -172,6 +173,11 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 //Route client
 Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
+  // Route tìm kiếm sản phẩm
+    Route::get('/search', [SanPhamController::class, 'search'])->name('search');
+
+    // Route chi tiết sản phẩm
+    Route::get('/product/{ma_san_pham}', [SanPhamController::class, 'detail'])->name('product.detail');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::post('/form/login', [AuthController::class, 'login'])->name('login');
