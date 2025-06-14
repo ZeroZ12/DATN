@@ -26,7 +26,8 @@ class AuthController extends Controller
 
             // Kiểm tra vai trò user
             $user = Auth::user();
-            if ($user->role === 'quan_tri') {
+            // dd($user->role);
+            if ($user->vai_tro === 'quan_tri') {
                 return redirect()->route('admin.index')->with('success', 'Đăng nhập thành công!');
             } else {
                 return redirect()->route('client.home')->with('success', 'Đăng nhập thành công!');

@@ -24,7 +24,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
 
 
@@ -52,7 +51,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::resource('bienthe', BienTheSanPhamController::class);
 
 
-
     Route::prefix('chip')->name('chip.')->group(function () {
         // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
         Route::get('/trash', [ChipController::class, 'trash'])->name('trash');
@@ -68,8 +66,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::put('/{chip}', [ChipController::class, 'update'])->name('update');
         Route::delete('/{chip}', [ChipController::class, 'destroy'])->name('destroy');
     });
-
-
 
     Route::prefix('mainboard')->name('mainboard.')->group(function () {
         // Các route liên quan đến xóa mềm - đặt TRƯỚC

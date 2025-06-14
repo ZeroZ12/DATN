@@ -51,7 +51,7 @@
   </div>
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
+  {{-- <script>
     // Get URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const formType = urlParams.get('type');
@@ -99,4 +99,4 @@
       e.preventDefault();
       // Add registration logic here
     });
-  </script>
+  </script> --}}
