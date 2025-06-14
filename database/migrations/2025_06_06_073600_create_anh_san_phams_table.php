@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_product')->constrained('san_phams');
             $table->string('duong_dan', 255);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('anh_san_phams', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('anh_san_phams');
     }
 };

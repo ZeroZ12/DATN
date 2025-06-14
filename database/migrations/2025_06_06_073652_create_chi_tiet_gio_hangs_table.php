@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('chi_tiet_gio_hangs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_gio_hang')->constrained('gio_hangs')->onDelete('cascade');
-            $table->foreignId('id_product')->constrained('san_phams');
             $table->foreignId('id_bien_the')->nullable()->constrained('bien_the_san_phams');
             $table->integer('so_luong');
             $table->decimal('gia', 10, 2);

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DanhMuc;
 use App\Models\SanPham; // Thêm dòng này để sử dụng Model SanPham
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DanhMucController extends Controller
 {
@@ -115,12 +117,27 @@ class DanhMucController extends Controller
      */
     public function forceDelete(string $id)
     {
-        $danhmuc = DanhMuc::withTrashed()->findOrFail($id);
+        try{
+            DB::beginTransaction();
+            $danhmuc = DanhMuc::withTrashed()->findOrFail($id);
 
-        SanPham::withTrashed()->where('id_category', $id)->forceDelete();
+            if($danhmuc->sanPhams()->withTrashed()->exists()){
+                DB::rollBack();
+                return redirect()->route('admin.danhmuc.trashed')->with('error', 'Không thể xóa danh mục này vì có sản phẩm liên quan.');
+            }
 
-        $danhmuc->forceDelete(); // Thực hiện xóa vật lý
+            $danhmuc->forceDelete();
 
-        return redirect()->route('admin.danhmuc.trashed')->with('message', 'Danh mục và các sản phẩm liên quan đã được xóa vĩnh viễn.');
+            DB::commit();
+            return redirect()->route('admin.danhmuc.trashed')->with('message', 'Danh mục đã được xóa vĩnh viễn thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            LOG::error('Lỗi khi xóa vĩnh viễn danh mục: ' . $e->getMessage(), [
+                'danhmuc_id' => $id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->route('admin.danhmuc.trashed')->with('error', 'Đã xảy ra lỗi khi xóa danh mục: ' . $e->getMessage());
+        
+        }
     }
 }

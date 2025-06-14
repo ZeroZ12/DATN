@@ -7,159 +7,231 @@ use App\Models\BienTheSanPham;
 use App\Models\OCung;
 use App\Models\Ram;
 use App\Models\SanPham;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Đảm bảo đã import Storage
+use App\Models\ChiTietDonHang;
+use Illuminate\Http\Request; // Still needed for other methods or if you need the base Request object
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Traits\HandlesProductImages;
+use App\Http\Requests\StoreBienTheSanPhamRequest; // Import Form Request mới
+use App\Http\Requests\UpdateBienTheSanPhamRequest; // Import Form Request mới
 
 class BienTheSanPhamController extends Controller
 {
-    public function index($id)
-    {
-        // Lấy sản phẩm cha, và tất cả biến thể của nó (bao gồm cả đã xóa mềm)
-        $sanpham = SanPham::with(['bienTheSanPhams' => function($query) {
-            $query->withTrashed()->with(['ram', 'oCung']); // Lấy cả ram và ocung cho biến thể
-        }])->findOrFail($id); // Dùng findOrFail thay vì first() để tự động trả về 404 nếu không tìm thấy
+    use HandlesProductImages;
 
-        // Kiểm tra nếu sản phẩm không tồn tại (mặc dù findOrFail đã xử lý phần lớn)
-        if (!$sanpham) {
-            return redirect()->route('admin.sanpham.index')->with('error', 'Sản phẩm không tồn tại.');
+    /**
+     * Display a listing of the active resources for a specific product.
+     */
+    public function index(SanPham $sanpham)
+    {
+        $bienthes = $sanpham->bienTheSanPhams()->with(['ram', 'oCung'])->paginate(10);
+
+        return view('admin.sanpham.bienthe.index', compact('bienthes', 'sanpham'));
+    }
+
+    /**
+     * Show the form for creating a new resource for a specific product.
+     */
+    public function create(SanPham $sanpham)
+    {
+        $rams = Ram::all();
+        $ocungs = OCung::all();
+        return view('admin.sanpham.bienthe.create', compact('sanpham', 'rams', 'ocungs'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param StoreBienTheSanPhamRequest $request Tự động validate request
+     * @param SanPham $sanpham Model sản phẩm cha được inject tự động
+     */
+    public function store(StoreBienTheSanPhamRequest $request, SanPham $sanpham) // <-- Đã thay đổi
+    {
+        try {
+            DB::beginTransaction();
+
+            $validatedData = $request->validated(); // Dữ liệu đã validate và an toàn
+
+            $validatedData['id_product'] = $sanpham->id; // Gán id sản phẩm cha
+            $validatedData['ma_bien_the'] = $this->generateUniqueVariantCode(); // Tạo mã biến thể
+
+            // Xử lý ảnh đại diện bằng trait
+            $validatedData['anh_dai_dien'] = $this->uploadImage(
+                $request->file('anh_dai_dien'),
+                'images/bienthe'
+            );
+
+            //hoat dong
+            $validatedData['hoat_dong'] = $request->has('hoat_dong') ? true : false;
+
+            BienTheSanPham::create($validatedData);
+
+            DB::commit();
+            return redirect()->route('admin.sanpham.bienthe.index', $sanpham->id)
+                ->with('success', 'Biến thể sản phẩm đã được tạo thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi tạo biến thể sản phẩm: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withInput()->withErrors(['error' => 'Đã xảy ra lỗi khi tạo biến thể: ' . $e->getMessage()]);
         }
-
-        return view('admin.sanpham.bienthe.index', compact('sanpham'));
     }
 
-    public function create($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(SanPham $sanpham, BienTheSanPham $bienthe)
     {
-        $sanpham = SanPham::findOrFail($id);
-        $ram = Ram::all();
-        $ocung = OCung::all();
-        return view('admin.sanpham.bienthe.create', compact('sanpham', 'ram', 'ocung'));
+        $rams = Ram::all();
+        $ocungs = OCung::all();
+        return view('admin.sanpham.bienthe.edit', compact('bienthe', 'rams', 'ocungs', 'sanpham'));
     }
 
-    public function store(Request $request)
+    /**
+     * Update the specified resource in storage.
+     * @param UpdateBienTheSanPhamRequest $request Tự động validate request
+     * @param SanPham $sanpham Model sản phẩm cha được inject tự động
+     * @param BienTheSanPham $bienthe Model biến thể được inject tự động
+     */
+    public function update(UpdateBienTheSanPhamRequest $request, SanPham $sanpham, BienTheSanPham $bienthe) // <-- Đã thay đổi
     {
-        $validatedData = $request->validate([
-            'id_ram' => 'required|exists:rams,id',
-            'id_o_cung' => 'required|exists:o_cungs,id',
-            'id_product' => 'required|exists:san_phams,id',
-            'ma_bien_the' => 'required|string|max:100|unique:bien_the_san_phams,ma_bien_the',
-            'gia' => 'required|numeric|min:0',
-            'gia_so_sanh' => 'nullable|numeric|min:0',
-            'ton_kho' => 'required|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $path_image = null;
-        // Xử lý ảnh đại diện nếu có
-        if ($request->hasFile('anh_dai_dien')) {
-            // Lưu vào thư mục 'images/bienthe' trong disk 'public'
-            $path_image = $request->file('anh_dai_dien')->store('images/bienthe', 'public');
+            $validatedData = $request->validated(); // Dữ liệu đã validate và an toàn
+
+            // mã biến thể và id_product không thay đổi khi update từ form này
+            $validatedData['ma_bien_the'] = $bienthe->ma_bien_the;
+            $validatedData['id_product'] = $sanpham->id;
+
+            $bienthe->fill($validatedData); // Gán dữ liệu đã validate
+
+            // Xử lý ảnh đại diện bằng trait
+            $this->handleVariantImage($bienthe, $request->file('anh_dai_dien'));
+
+            $bienthe->hoat_dong = $request->has('hoat_dong') ? true : false;
+
+            $bienthe->save(); // Lưu thay đổi
+
+            DB::commit();
+            return redirect()->route('admin.sanpham.bienthe.index', $sanpham->id)
+                ->with('success', 'Biến thể sản phẩm đã được cập nhật thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi cập nhật biến thể sản phẩm: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'bienthe_id' => $bienthe->id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withInput()->withErrors(['error' => 'Đã xảy ra lỗi khi cập nhật biến thể: ' . $e->getMessage()]);
         }
-        $validatedData['anh_dai_dien'] = $path_image; // Gán đường dẫn vào dữ liệu
-
-        BienTheSanPham::create($validatedData);
-
-        return redirect()->route('admin.bienthe.index', $validatedData['id_product'])
-                         ->with('message', 'Biến thể sản phẩm đã được tạo thành công.');
-    }
-
-    public function edit($id)
-    {
-        // Khi chỉnh sửa, có thể muốn chỉnh sửa cả biến thể đã xóa mềm
-        $bienthe = BienTheSanPham::withTrashed()->findOrFail($id);
-        $ram = Ram::all();
-        $ocung = OCung::all();
-        return view('admin.sanpham.bienthe.edit', compact('bienthe', 'ram', 'ocung'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Khi cập nhật, có thể muốn cập nhật cả biến thể đã xóa mềm
-        $bienthe = BienTheSanPham::withTrashed()->findOrFail($id);
-
-        $validatedData = $request->validate([
-            'id_ram' => 'required|exists:rams,id',
-            'id_o_cung' => 'required|exists:o_cungs,id',
-            'id_product' => 'required|exists:san_phams,id',
-            'ma_bien_the' => 'required|string|max:100|unique:bien_the_san_phams,ma_bien_the,' . $bienthe->id,
-            'gia' => 'required|numeric|min:0',
-            'gia_so_sanh' => 'nullable|numeric|min:0',
-            'ton_kho' => 'required|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $current_image_path = $bienthe->anh_dai_dien;
-
-        // Xử lý ảnh đại diện mới nếu có
-        if ($request->hasFile('anh_dai_dien')) {
-            // Xóa ảnh cũ nếu có và khác với ảnh mới được upload (hoặc nếu là ảnh mới hoàn toàn)
-            if ($current_image_path && Storage::disk('public')->exists($current_image_path)) {
-                Storage::disk('public')->delete($current_image_path);
-            }
-            // Lưu ảnh mới
-            $new_image_path = $request->file('anh_dai_dien')->store('images/bienthe', 'public');
-            $validatedData['anh_dai_dien'] = $new_image_path;
-        } else {
-            // Nếu không có ảnh mới được tải lên và không có yêu cầu xóa ảnh
-            // Giữ nguyên ảnh cũ
-            $validatedData['anh_dai_dien'] = $current_image_path;
-        }
-
-        // Lưu id_product (đảm bảo không bị mất)
-        $validatedData['id_product'] = $bienthe->id_product;
-
-        $bienthe->update($validatedData);
-
-        return redirect()->back()->with('message', 'Biến thể sản phẩm đã được cập nhật thành công.');
     }
 
     /**
      * Remove the specified resource from storage (soft delete).
      */
-    public function destroy($id)
+    public function destroy(SanPham $sanpham, BienTheSanPham $bienthe)
     {
-        $bienthe = BienTheSanPham::findOrFail($id);
-        $productId = $bienthe->id_product;
+        try {
+            DB::beginTransaction();
+            $bienthe->delete();
 
-        // CHỈ GỌI delete() để thực hiện soft delete. KHÔNG XÓA FILE ẢNH ở đây.
-        $bienthe->delete();
-
-        return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('message', 'Biến thể sản phẩm đã được xóa mềm thành công.');
+            DB::commit();
+            return redirect()->route('admin.sanpham.bienthe.index', $sanpham->id)
+                ->with('success', 'Biến thể sản phẩm đã được xóa mềm thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa mềm biến thể sản phẩm: ' . $e->getMessage(), [
+                'bienthe_id' => $bienthe->id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Đã xảy ra lỗi khi xóa mềm biến thể: ' . $e->getMessage()]);
+        }
     }
 
     /**
      * Restore the specified soft-deleted resource.
      */
-    public function restore($id)
+    public function restore(BienTheSanPham $bienthe)
     {
-        // Lấy biến thể chỉ đã bị xóa mềm
-        $bienthe = BienTheSanPham::onlyTrashed()->findOrFail($id);
-        $productId = $bienthe->id_product;
+        try {
+            DB::beginTransaction();
+            // Model Binding đã tự động lấy biến thể đã xóa mềm do ->withTrashed() trong route
+            $bienthe->restore();
 
-        $bienthe->restore(); // Khôi phục biến thể
-
-        return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('message', 'Biến thể sản phẩm đã được khôi phục thành công.');
+            DB::commit();
+            return redirect()->route('admin.bienthe.trashed')
+                ->with('success', 'Biến thể sản phẩm đã được khôi phục thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi khôi phục biến thể sản phẩm: ' . $e->getMessage(), [
+                'bienthe_id' => $bienthe->id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Đã xảy ra lỗi khi khôi phục biến thể: ' . $e->getMessage()]);
+        }
     }
 
     /**
      * Remove the specified resource from storage PERMANENTLY.
      */
-    public function forceDelete($id)
+    public function forceDelete(BienTheSanPham $bienthe)
     {
-        // Lấy biến thể đã xóa mềm (bao gồm cả đã xóa mềm)
-        $bienthe = BienTheSanPham::withTrashed()->findOrFail($id);
-        $productId = $bienthe->id_product;
+        try {
+            DB::beginTransaction();
 
-        // Xóa vĩnh viễn ảnh đại diện nếu có
-        if ($bienthe->anh_dai_dien && Storage::disk('public')->exists($bienthe->anh_dai_dien)) {
-            Storage::disk('public')->delete($bienthe->anh_dai_dien);
+            $hasOrderDetails = ChiTietDonHang::where('id_bien_the', $bienthe->id)->exists();
+
+            if ($hasOrderDetails) {
+                DB::rollBack();
+                return redirect()->back()->withErrors([
+                    'error' => 'Không thể xóa vĩnh viễn biến thể này vì nó đã được sử dụng trong các đơn hàng đã tồn tại. Vui lòng chỉ xóa mềm.'
+                ]);
+            }
+
+            $this->deleteImage($bienthe->anh_dai_dien);
+            $bienthe->forceDelete();
+
+            DB::commit();
+            return redirect()->route('admin.bienthe.trashed')
+                ->with('success', 'Biến thể sản phẩm đã bị xóa vĩnh viễn.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa vĩnh viễn biến thể sản phẩm: ' . $e->getMessage(), [
+                'bienthe_id' => $bienthe->id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Đã xảy ra lỗi khi xóa vĩnh viễn biến thể: ' . $e->getMessage()]);
         }
+    }
 
-        // Xóa vĩnh viễn bản ghi khỏi cơ sở dữ liệu
-        $bienthe->forceDelete();
+    /**
+     * Display soft-deleted variants (trash bin).
+     */
+    public function trashed()
+    {
+        $bienthes = BienTheSanPham::onlyTrashed()
+            ->with(['ram', 'oCung', 'sanPham'])
+            ->orderBy('id', 'desc')
+            ->paginate(10);
 
-        return redirect()->route('admin.bienthe.index', $productId)
-                         ->with('message', 'Biến thể sản phẩm đã bị xóa vĩnh viễn.');
+        return view('admin.sanpham.bienthe.trash', compact('bienthes'));
+    }
+
+    /**
+     * Generates a unique variant code.
+     */
+    protected function generateUniqueVariantCode(array &$generatedCodes = []): string
+    {
+        do {
+            $maBienThe = 'BT' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+        } while (
+            in_array($maBienThe, $generatedCodes) ||
+            BienTheSanPham::where('ma_bien_the', $maBienThe)->exists()
+        );
+        $generatedCodes[] = $maBienThe;
+        return $maBienThe;
     }
 }

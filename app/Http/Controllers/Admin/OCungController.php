@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\OCung;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OCungController extends Controller
 {
@@ -98,22 +100,33 @@ class OCungController extends Controller
         return redirect()->route('admin.ocung.index')->with('message', 'Ổ cứng đã được xóa thành công.');
     }
     public function trash()
-{
-    $oCungs = OCung::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
-    return view('admin.ocung.trash', compact('oCungs'));
-}
+    {
+        $oCungs = OCung::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.ocung.trash', compact('oCungs'));
+    }
 
-public function restore($id)
-{
-    $oCung = OCung::onlyTrashed()->findOrFail($id);
-    $oCung->restore();
-    return redirect()->route('admin.ocung.trash')->with('message', 'Đã khôi phục ổ cứng thành công.');
-}
+    public function restore($id)
+    {
+        $oCung = OCung::onlyTrashed()->findOrFail($id);
+        $oCung->restore();
+        return redirect()->route('admin.ocung.trash')->with('message', 'Đã khôi phục ổ cứng thành công.');
+    }
 
-public function forceDelete($id)
-{
-    $oCung = OCung::onlyTrashed()->findOrFail($id);
-    $oCung->forceDelete();
-    return redirect()->route('admin.ocung.trash')->with('message', 'Đã xóa vĩnh viễn ổ cứng.');
-}
+    public function forceDelete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $oCung = Ocung::withTrashed()->findOrFail($id);
+            if ($oCung->bienTheSanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.ocung.trash')->with('error', 'Không thể xóa ổ cứng này vì nó có biến thể sản phẩm liên quan.');
+            }
+            $oCung->forceDelete();
+            DB::commit();
+            return redirect()->route('admin.ocung.trash')->with('message', 'Đã xóa vĩnh viễn ổ cứng thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.ocung.trash')->with('error', 'Đã xảy ra lỗi khi xóa ổ cứng: ' . $e->getMessage());
+        }
+    }
 }

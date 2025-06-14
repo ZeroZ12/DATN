@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MaGiamGia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MaGiamGiaController extends Controller
 {
@@ -167,9 +169,20 @@ class MaGiamGiaController extends Controller
      */
     public function forceDelete(string $id)
     {
-        // Chỉ tìm các bản ghi ĐÃ xóa mềm để xóa vĩnh viễn
-        $maGiamGia = MaGiamGia::onlyTrashed()->findOrFail($id);
-        $maGiamGia->forceDelete(); // Xóa vĩnh viễn khỏi CSDL
-        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được xóa vĩnh viễn.');
+        try{
+            DB::beginTransaction();
+            $maGiamGia = MaGiamGia::withTrashed()->findOrFail($id);
+            if ($maGiamGia->orders()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.magiamgia.index')->with('error', 'Không thể xóa mã giảm giá này vì nó đang được sử dụng trong đơn hàng.');
+            }
+            $maGiamGia->forceDelete(); // Xóa vĩnh viễn bản ghi
+            DB::commit();
+            return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được xóa vĩnh viễn thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa mã giảm giá: ' . $e->getMessage());
+            return redirect()->route('admin.magiamgia.index')->with('error', 'Đã xảy ra lỗi khi xóa mã giảm giá: ' . $e->getMessage());
+        }
     }
 }

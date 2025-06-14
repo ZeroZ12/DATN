@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\PhuongThucThanhToan; // Đảm bảo đã import Model
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PhuongThucThanhToanController extends Controller
 {
@@ -137,8 +139,20 @@ class PhuongThucThanhToanController extends Controller
      */
     public function forceDelete(string $id)
     {
-        $phuongThucThanhToan = PhuongThucThanhToan::onlyTrashed()->findOrFail($id); // Chỉ tìm trong số đã xóa mềm
-        $phuongThucThanhToan->forceDelete(); // Xóa vĩnh viễn khỏi CSDL
-        return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được xóa vĩnh viễn.');
+        try{
+            DB::beginTransaction();
+            $phuongThucThanhToan = PhuongThucThanhToan::withTrashed()->findOrFail($id);
+            if ($phuongThucThanhToan->orders()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.phuongthucthanhtoan.index')->with('error', 'Không thể xóa phương thức thanh toán này vì nó đang được sử dụng trong đơn hàng.');
+            }
+            $phuongThucThanhToan->forceDelete(); // Xóa vĩnh viễn bản ghi
+            DB::commit();
+            return redirect()->route('admin.phuongthucthanhtoan.index')->with('message', 'Phương thức thanh toán đã được xóa vĩnh viễn thành công.');
+        }   catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa phương thức thanh toán: ' . $e->getMessage());
+            return redirect()->route('admin.phuongthucthanhtoan.index')->with('error', 'Đã xảy ra lỗi khi xóa phương thức thanh toán: ' . $e->getMessage());
+        }
     }
 }
