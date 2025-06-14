@@ -8,17 +8,12 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    /**
-     * Hiển thị form đăng nhập/đăng ký
-     */
+
     public function showForm()
     {
         return view('client.login-register');
     }
 
-    /**
-     * Xử lý đăng nhập
-     */
     public function login(Request $request)
     {
         $request->validate([
@@ -26,9 +21,16 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
+
+            // Kiểm tra vai trò user
+            $user = Auth::user();
+            if ($user->role === 'quan_tri') {
+                return redirect()->route('admin.index')->with('success', 'Đăng nhập thành công!');
+            } else {
+                return redirect()->route('client.home')->with('success', 'Đăng nhập thành công!');
+            }
         }
 
         return back()->withErrors([
@@ -36,9 +38,6 @@ class AuthController extends Controller
         ])->withInput($request->only('email'));
     }
 
-    /**
-     * Xử lý đăng ký
-     */
     public function register(Request $request)
     {
         $request->validate([
@@ -60,6 +59,10 @@ class AuthController extends Controller
         return redirect()->intended('/')->with('success', 'Đăng ký thành công! Bạn đã được đăng nhập.');
     }
 
+    public function showLoginForm()
+    {
+        return view('client.tk.access');
+    }
     /**
      * Đăng xuất
      */
