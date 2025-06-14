@@ -47,23 +47,29 @@
                     <form id="registerForm" method="POST" action="{{ route('register') }}" style="display:none;">
                         @csrf
                         <div class="mb-3">
+                            <input type="text" name="ten_dang_nhap" class="form-control form-control-lg @error('ten_dang_nhap') is-invalid @enderror" placeholder="Tên đăng nhập" value="{{ old('ten_dang_nhap') }}"> {{-- Đổi name email để phân biệt với login --}}
+                            @error('ten_dang_nhap')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <input type="email" name="email" class="form-control form-control-lg @error('email_register') is-invalid @enderror" placeholder="Email" value="{{ old('email_register') }}"> {{-- Đổi name email để phân biệt với login --}}
                             @error('email_register')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <input type="text" name="last_name" class="form-control form-control-lg @error('last_name') is-invalid @enderror" placeholder="Họ" value="{{ old('last_name') }}">
-                            @error('last_name')
+                            <input type="text" name="ho_ten" class="form-control form-control-lg @error('ho_ten') is-invalid @enderror" placeholder="Họ và tên" value="{{ old('ho_ten') }}">
+                            @error('ho_ten')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="Tên" value="{{ old('first_name') }}">
                             @error('first_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <input type="tel" name="phone" class="form-control form-control-lg @error('phone') is-invalid @enderror" placeholder="Số điện thoại" value="{{ old('phone') }}">
                             @error('phone')
@@ -118,7 +124,7 @@
     // Kiểm tra nếu có bất kỳ lỗi nào từ form Đăng ký (ưu tiên)
     // Các lỗi này thường là: first_name, last_name, phone, password_confirmation
     // hoặc lỗi 'password' khi không khớp 'password_confirmation'
-    @if ($errors->has('first_name') || $errors->has('last_name') || $errors->has('phone') || $errors->has('password_register') || $errors->has('password_confirmation') || old('form_type') === 'register')
+    @if ($errors->has('ho_ten') || $errors->has('phone') || $errors->has('password_register') || $errors->has('password_confirmation') || old('form_type') === 'register')
         shouldShowRegisterForm = true;
     @endif
 
