@@ -1,4 +1,4 @@
-@extends('client.layouts.app');
+@extends('client.layouts.app')
 
 @section('content')
   <!-- Bộ lọc -->
