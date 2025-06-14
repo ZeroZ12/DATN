@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ThuongHieu; 
+use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ThuongHieuController extends Controller
 {
@@ -91,8 +93,20 @@ class ThuongHieuController extends Controller
 
     public function forceDelete(string $id)
     {
-        $thuongHieu = ThuongHieu::onlyTrashed()->findOrFail($id); 
-        $thuongHieu->forceDelete(); 
-        return redirect()->route('admin.thuonghieu.index')->with('message', 'Thương hiệu đã được xóa vĩnh viễn.');
+        try{
+            DB::beginTransaction();
+            $thuongHieu = ThuongHieu::withTrashed()->findOrFail($id);
+            if ($thuongHieu->sanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.thuonghieu.index')->with('error', 'Không thể xóa thương hiệu vì có sản phẩm liên kết.');
+            }
+            $thuongHieu->forceDelete();
+            DB::commit();
+            return redirect()->route('admin.thuonghieu.index')->with('message', 'Thương hiệu đã được xóa vĩnh viễn thành công.');
+        }   catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error deleting brand: ' . $e->getMessage());
+            return redirect()->route('admin.thuonghieu.index')->with('error', 'Đã xảy ra lỗi khi xóa thương hiệu: ' . $e->getMessage());
+        }
     }
 }

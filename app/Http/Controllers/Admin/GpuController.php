@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gpu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GpuController extends Controller
 {
@@ -90,22 +92,35 @@ class GpuController extends Controller
         return redirect()->route('admin.gpu.index')->with('message', 'GPU đã được xóa thành công.');
     }
     public function trash()
-{
-    $gpus = Gpu::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
-    return view('admin.gpu.trash', compact('gpus'));
-}
+    {
+        $gpus = Gpu::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.gpu.trash', compact('gpus'));
+    }
 
-public function restore($id)
-{
-    $gpu = Gpu::onlyTrashed()->findOrFail($id);
-    $gpu->restore();
-    return redirect()->route('admin.gpu.trash')->with('message', 'Đã khôi phục GPU thành công.');
-}
+    public function restore($id)
+    {
+        $gpu = Gpu::onlyTrashed()->findOrFail($id);
+        $gpu->restore();
+        return redirect()->route('admin.gpu.trash')->with('message', 'Đã khôi phục GPU thành công.');
+    }
 
-public function forceDelete($id)
-{
-    $gpu = Gpu::onlyTrashed()->findOrFail($id);
-    $gpu->forceDelete();
-    return redirect()->route('admin.gpu.trash')->with('message', 'Đã xóa vĩnh viễn GPU.');
-}
+    public function forceDelete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $gpu = Gpu::withTrashed()->findOrFail($id);
+            if ($gpu->sanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.gpu.trash')->with('error', 'Không thể xóa GPU này vì nó đang được sử dụng trong sản phẩm.');
+            }
+            $gpu->forceDelete();
+
+            DB::commit();
+            return redirect()->route('admin.gpu.trash')->with('message', 'Đã xóa vĩnh viễn GPU thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa GPU: ' . $e->getMessage());
+            return redirect()->route('admin.gpu.trash')->with('error', 'Đã xảy ra lỗi khi xóa GPU: ' . $e->getMessage());
+        }
+    }
 }

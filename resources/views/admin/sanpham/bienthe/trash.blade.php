@@ -1,11 +1,10 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Danh sách biến thể sản phẩm')
+@section('title', 'Thùng rác biến thể sản phẩm')
 
 @section('content')
     <div class="container">
-        {{-- Tiêu đề động dựa trên sản phẩm cha được truyền vào --}}
-        <h1>Danh sách biến thể của sản phẩm: {{ $sanpham->ten }}</h1>
+        <h1>Thùng rác biến thể sản phẩm</h1>
 
         <!-- Hiển thị thông báo thành công hoặc lỗi -->
         @if (session('success'))
@@ -26,26 +25,27 @@
                 <thead class="table-light">
                     <tr>
                         <th class="col-id">#</th>
+                        <th class="col-text">Sản phẩm cha</th> {{-- Thêm cột này để dễ nhận biết --}}
                         <th class="col-ma">Mã Biến Thể</th>
                         <th class="col-text">RAM</th>
                         <th class="col-text">Ổ cứng</th>
                         <th class="col-gia">Giá</th>
-                        <th class="col-gia">Giá so sánh</th>
-                        <th class="col-tonkho">Tồn kho</th>
+                        <th class="col-gia">Tồn kho</th>
                         <th class="col-img">Ảnh đại diện</th>
                         <th class="col-action">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Duyệt qua các biến thể đang hoạt động của sản phẩm --}}
+                    {{-- Duyệt qua các biến thể đã xóa mềm --}}
                     @forelse ($bienthes as $bienthe)
                         <tr>
                             <td>{{ $bienthe->id }}</td>
+                            {{-- Hiển thị tên sản phẩm cha (sử dụng withTrashed() trong controller để lấy sản phẩm cha nếu nó cũng đã bị xóa mềm) --}}
+                            <td>{{ $bienthe->sanPham->ten ?? 'Sản phẩm không xác định' }}</td>
                             <td>{{ $bienthe->ma_bien_the }}</td>
                             <td>{{ $bienthe->ram->dung_luong ?? 'N/A' }}</td>
                             <td>{{ $bienthe->oCung->dung_luong ?? 'N/A' }}</td>
                             <td>{{ number_format($bienthe->gia) }} VNĐ</td>
-                            <td>{{ number_format($bienthe->gia_so_sanh) }} VNĐ</td>
                             <td>{{ $bienthe->ton_kho }}</td>
                             <td>
                                 @if ($bienthe->anh_dai_dien)
@@ -56,23 +56,27 @@
                                 @endif
                             </td>
                             <td class="col-action">
-                                <div class="action-buttons d-flex flex-column gap-1">
-                                    {{-- Nút sửa: route lồng ghép cần cả sanpham_id và bienthe_id --}}
-                                    <a href="{{ route('admin.sanpham.bienthe.edit', [$sanpham->id, $bienthe->id]) }}"
-                                        class="btn btn-warning btn-sm">Sửa</a>
-                                    {{-- Form xóa mềm: route lồng ghép cần cả sanpham_id và bienthe_id --}}
-                                    <form action="{{ route('admin.sanpham.bienthe.destroy', [$sanpham->id, $bienthe->id]) }}" method="POST">
+                                <span class="badge bg-danger mb-1">Đã xóa mềm</span><br>
+                                <div class="action-buttons d-flex flex-column gap-1 mt-1">
+                                    {{-- Form khôi phục: route không lồng ghép, chỉ cần bienthe_id. Controller tự động tìm bản ghi đã xóa mềm nhờ ->withTrashed() trên route --}}
+                                    <form action="{{ route('admin.sanpham.bienthe.restore', $bienthe->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning btn-sm w-100"
+                                            onclick="return confirm('Bạn có chắc chắn muốn khôi phục biến thể này không?')">Khôi phục</button>
+                                    </form>
+                                    {{-- Form xóa vĩnh viễn: route không lồng ghép, chỉ cần bienthe_id. Controller tự động tìm bản ghi đã xóa mềm nhờ ->withTrashed() trên route --}}
+                                    <form action="{{ route('admin.sanpham.bienthe.forceDelete', $bienthe->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa mềm</button>
+                                        <button type="submit" class="btn btn-danger btn-sm w-100"
+                                            onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN biến thể này không? Hành động này không thể hoàn tác!')">Xóa Vĩnh Viễn</button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center">Không có biến thể nào đang hoạt động cho sản phẩm này.</td>
+                            <td colspan="9" class="text-center">Thùng rác biến thể đang trống.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -85,12 +89,9 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
-            {{-- Nút "Thêm biến thể mới": route lồng ghép cần sanpham_id --}}
-            <a href="{{ route('admin.sanpham.bienthe.create', $sanpham->id) }}" class="btn btn-primary">Thêm biến thể mới cho sản phẩm này</a>
-            {{-- Nút quay lại danh sách sản phẩm --}}
-            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
-            {{-- Nút thùng rác biến thể: không lồng ghép --}}
-            <a href="{{ route('admin.sanpham.bienthe.trashed') }}" class="btn btn-info">Thùng rác biến thể</a>
+            {{-- Nút quay lại danh sách biến thể (tổng thể) --}}
+            {{-- Điều hướng này hợp lý hơn khi ở trang thùng rác tổng hợp --}}
+            <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại danh sách biến thể</a>
         </div>
     </div>
 @endsection

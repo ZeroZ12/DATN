@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Chip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ChipController extends Controller
 {
@@ -90,32 +92,50 @@ class ChipController extends Controller
         return redirect()->route('admin.chip.index')->with('message', 'Chip đã được xóa thành công.');
     }
     /**
- * Hiển thị danh sách Chip đã bị xóa mềm
- */
-public function trash()
-{
-    $chips = Chip::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
-    return view('admin.chip.trash', compact('chips'));
-}
+     * Hiển thị danh sách Chip đã bị xóa mềm
+     */
+    public function trash()
+    {
+        $chips = Chip::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.chip.trash', compact('chips'));
+    }
 
-/**
- * Khôi phục 1 chip đã xóa mềm
- */
-public function restore($id)
-{
-    $chip = Chip::onlyTrashed()->findOrFail($id);
-    $chip->restore();
-    return redirect()->route('admin.chip.trash')->with('message', 'Đã khôi phục chip thành công.');
-}
+    /**
+     * Khôi phục 1 chip đã xóa mềm
+     */
+    public function restore($id)
+    {
+        $chip = Chip::onlyTrashed()->findOrFail($id);
+        $chip->restore();
+        return redirect()->route('admin.chip.trash')->with('message', 'Đã khôi phục chip thành công.');
+    }
 
-/**
- * Xóa vĩnh viễn 1 chip
- */
-public function forceDelete($id)
-{
-    $chip = Chip::onlyTrashed()->findOrFail($id);
-    $chip->forceDelete();
-    return redirect()->route('admin.chip.trash')->with('message', 'Đã xóa vĩnh viễn chip.');
-}
+    /**
+     * Xóa vĩnh viễn 1 chip
+     */
+    public function forceDelete(string $id)
+    {
+        try {
+            DB::beginTransaction();
 
+            $chip = Chip::withTrashed()->findOrFail($id);
+            if ($chip->sanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.chip.trash')->with('error', 'Không thể xóa chip này vì nó đang được sử dụng trong sản phẩm.');
+            }
+
+
+            $chip->forceDelete();
+
+            DB::commit();
+            return redirect()->route('admin.chips.index')->with('success', 'Chip đã được xóa vĩnh viễn thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa vĩnh viễn chip: ' . $e->getMessage(), [
+                'chip_id' => $id,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->withErrors(['error' => 'Đã xảy ra lỗi khi xóa vĩnh viễn chip: ' . $e->getMessage()]);
+        }
+    }
 }

@@ -45,12 +45,19 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         // Resource route
 
         Route::resource('', SanPhamController::class)->parameters(['' => 'sanpham']);
-    });
+
+        Route::resource('{sanpham}/bienthe', BienTheSanPhamController::class)->except(['show']);
 
         Route::get('bienthe/trashed', [BienTheSanPhamController::class, 'trashed'])->name('bienthe.trashed');
-        Route::post('bienthe/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('bienthe.restore');
-        Route::delete('bienthe/{id}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])->name('bienthe.forceDelete');
-        Route::resource('bienthe', BienTheSanPhamController::class);
+        Route::post('bienthe/{bienthe}/restore', [BienTheSanPhamController::class, 'restore'])
+            ->name('bienthe.restore')
+            ->withTrashed(); // <-- Sửa {id} thành {bienthe} và THÊM DÒNG NÀY
+        Route::delete('bienthe/{bienthe}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])
+            ->name('bienthe.forceDelete')
+            ->withTrashed(); // <-- Sửa {id} thành {bienthe} và THÊM DÒNG NÀY
+    });
+
+
 
 
 
@@ -133,18 +140,18 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::put('/{ocung}', [OCungController::class, 'update'])->name('update');
         Route::delete('/{ocung}', [OCungController::class, 'destroy'])->name('destroy');
     });
-        Route::post('thuonghieu/{id}/restore', [ThuongHieuController::class, 'restore'])->name('thuonghieu.restore');
-        Route::delete('thuonghieu/{id}/forceDelete', [ThuongHieuController::class, 'forceDelete'])->name('thuonghieu.forceDelete');
-        Route::resource('thuonghieu', ThuongHieuController::class);
+    Route::post('thuonghieu/{id}/restore', [ThuongHieuController::class, 'restore'])->name('thuonghieu.restore');
+    Route::delete('thuonghieu/{id}/forceDelete', [ThuongHieuController::class, 'forceDelete'])->name('thuonghieu.forceDelete');
+    Route::resource('thuonghieu', ThuongHieuController::class);
 
 
-        Route::post('phuongthucthanhtoan/{id}/restore', [PhuongThucThanhToanController::class, 'restore'])->name('phuongthucthanhtoan.restore');
-        Route::delete('phuongthucthanhtoan/{id}/forceDelete', [PhuongThucThanhToanController::class, 'forceDelete'])->name('phuongthucthanhtoan.forceDelete');
-        Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);
+    Route::post('phuongthucthanhtoan/{id}/restore', [PhuongThucThanhToanController::class, 'restore'])->name('phuongthucthanhtoan.restore');
+    Route::delete('phuongthucthanhtoan/{id}/forceDelete', [PhuongThucThanhToanController::class, 'forceDelete'])->name('phuongthucthanhtoan.forceDelete');
+    Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);
 
-        Route::post('magiamgia/{id}/restore', [MaGiamGiaController::class, 'restore'])->name('magiamgia.restore');
-        Route::delete('magiamgia/{id}/forceDelete', [MaGiamGiaController::class, 'forceDelete'])->name('magiamgia.forceDelete');
-        Route::resource('magiamgia', MaGiamGiaController::class);
+    Route::post('magiamgia/{id}/restore', [MaGiamGiaController::class, 'restore'])->name('magiamgia.restore');
+    Route::delete('magiamgia/{id}/forceDelete', [MaGiamGiaController::class, 'forceDelete'])->name('magiamgia.forceDelete');
+    Route::resource('magiamgia', MaGiamGiaController::class);
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
