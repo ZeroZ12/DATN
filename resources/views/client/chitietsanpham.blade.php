@@ -6,11 +6,11 @@
     <div class="row">
         <!-- Hình ảnh sản phẩm -->
         <div class="col-md-6">
-            <div class="border rounded p-2 mb-3 bg-white text-center" style="height: 400px; display: flex; align-items: center; justify-content: center;">
+            <div class="border rounded p-2 mb-3 bg-white position-relative" style="height: 400px; overflow: hidden;">
                 <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}"
                      onerror="this.onerror=null;this.src='{{ asset('images/default.png') }}';"
                      alt="Ảnh đại diện"
-                     class="img-fluid rounded main-img"
+                     class="img-fluid rounded main-img position-absolute top-50 start-50 translate-middle"
                      style="max-height: 100%; max-width: 100%; object-fit: contain; transition: opacity 0.3s ease;">
             </div>
 
@@ -29,7 +29,6 @@
         <div class="col-md-6">
             <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
 
-            <!-- Form chọn biến thể -->
             <form action="#" method="POST" class="mt-4">
                 @csrf
                 <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
@@ -50,7 +49,6 @@
                     </select>
                 </div>
 
-                <!-- Hiển thị thông tin biến thể -->
                 <div id="bienthe-info" class="mb-3" style="display: none;">
                     <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
                     <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
@@ -71,7 +69,6 @@
                 <div>{!! nl2br(e($sanpham->mo_ta)) !!}</div>
             </div>
 
-            <!-- Đánh giá -->
             <div class="mt-4">
                 <h5 class="fw-bold">Đánh giá & Nhận xét</h5>
                 <p class="text-muted">Chưa có đánh giá</p>
