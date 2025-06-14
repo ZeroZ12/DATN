@@ -39,20 +39,26 @@ class AuthController extends Controller
         ])->withInput($request->only('email'));
     }
 
+
     public function register(Request $request)
     {
         $request->validate([
-            'first_name'            => 'required|string|max:255',
-            'last_name'             => 'required|string|max:255',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|string|min:8|confirmed',
+            'first_name'     => 'required|string|max:255',
+            'last_name'      => 'required|string|max:255',
+            'email'          => 'required|email|unique:users,email',
+            'phone'          => 'required|string|max:20|unique:users,so_dien_thoai',
+            'password'       => 'required|string|min:8|confirmed',
+        ], [
+            'email.unique'   => 'Email đã được sử dụng.',
+            'phone.unique'   => 'Số điện thoại đã được sử dụng.',
         ]);
 
         $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'email'      => $request->email,
-            'password'   => bcrypt($request->password),
+            'last_name'     => $request->last_name,
+            'first_name'    => $request->first_name,
+            'email'         => $request->email,
+            'so_dien_thoai' => $request->phone,
+            'password'      => bcrypt($request->password),
         ]);
 
         Auth::login($user);
