@@ -83,10 +83,6 @@ class SanPhamController extends Controller
 }
 
 
-
-    /**
-     * Update the specified resource in storage.
-     */
 public function update(Request $request, string $id)
 {
     $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
