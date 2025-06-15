@@ -1,5 +1,4 @@
-@extends('client.layouts.app')
-
+@extends('client.layouts.app');
 @section('content')
 @include('client.layouts.blocks.banner')
   <!-- Bộ lọc -->
