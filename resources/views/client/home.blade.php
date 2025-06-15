@@ -3,10 +3,11 @@
 @section('content')
 @include('client.layouts.blocks.banner')
   <div class="container py-4">
-    <!-- PC Bán Chạy Section -->
-    <div class="product-section">
+    <!-- Categories Section -->
+    @foreach($danhMucs as $danhMuc)
+    <div class="product-section mb-4">
       <div class="section-header">
-        <h2 class="section-title">PC Bán Chạy</h2>
+        <h2 class="section-title">{{ $danhMuc->ten }}</h2>
         <form method="GET" action="{{ route('client.home') }}" class="filter-form">
           {{-- <div class="filter-tabs">
             <button type="button"
@@ -76,92 +77,88 @@
       </div>
 
       <!-- Danh sách sản phẩm -->
-      <div class="products-grid">
-        @foreach ($sanphams as $sp)
-          @php
-            $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
-              return
-                (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-            }) ?? $sp->BienTheSanPhams->first();
-          @endphp
+      <div class="products-slider-wrapper">
+        <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="products-slider">
+          @foreach ($sanphams->where('id_category', $danhMuc->id) as $sp)
+            @php
+              $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                return
+                  (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                  (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+              }) ?? $sp->BienTheSanPhams->first();
+            @endphp
 
-          <div class="product-card">
-            <div class="product-badges">
-              @if ($sp->is_hot)
-                <span class="product-badge hot-badge">
-                  <i class="fas fa-gift"></i> Quà tặng HOT
-                </span>
-              @elseif(rand(1,3) == 1)
-                <span class="product-badge bestseller-badge">
-                  <i class="fas fa-fire"></i> Bán chạy
-                </span>
-              @elseif(rand(1,2) == 1)
-                <span class="product-badge gift-badge">
-                  <i class="fas fa-gift"></i> Quà tặng
-                </span>
-              @endif
-            </div>
-
-            <div class="product-image">
-              <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                   alt="{{ $sp->ten }}">
-            </div>
-
-            <div class="product-info">
-              <h3 class="product-title">{{ $sp->ten }}</h3>
-
-              <div class="product-price">
-                @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                  <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
+            <div class="product-card">
+              <div class="product-badges">
+                @if ($sp->is_hot)
+                  <span class="product-badge hot-badge">
+                    <i class="fas fa-gift"></i> Quà tặng HOT
+                  </span>
+                @elseif(rand(1,3) == 1)
+                  <span class="product-badge bestseller-badge">
+                    <i class="fas fa-fire"></i> Bán chạy
+                  </span>
+                @elseif(rand(1,2) == 1)
+                  <span class="product-badge gift-badge">
+                    <i class="fas fa-gift"></i> Quà tặng
+                  </span>
                 @endif
-                <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
               </div>
-
-              @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                <div class="discount-badge">
-                  -{{ round(100 * ($bienThe->gia_so_sanh - $bienThe->gia) / $bienThe->gia_so_sanh) }}%
+              <div class="product-image">
+                <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
+                     alt="{{ $sp->ten }}">
+              </div>
+              <div class="product-info">
+                <h3 class="product-title">{{ $sp->ten }}</h3>
+                <div class="product-price">
+                  @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                    <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
+                  @endif
+                  <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
                 </div>
-              @endif
-
-              <div class="product-rating">
-                <div class="stars">
-                  @for($i = 1; $i <= 5; $i++)
-                    <i class="fas fa-star"></i>
-                  @endfor
+                @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                  <div class="discount-badge">
+                    -{{ round(100 * ($bienThe->gia_so_sanh - $bienThe->gia) / $bienThe->gia_so_sanh) }}%
+                  </div>
+                @endif
+                <div class="product-rating">
+                  <div class="stars">
+                    @for($i = 1; $i <= 5; $i++)
+                      <i class="fas fa-star"></i>
+                    @endfor
+                  </div>
+                  <span class="rating-text">({{ rand(3, 15) }})</span>
                 </div>
-                <span class="rating-text">({{ rand(3, 15) }})</span>
+                <div class="product-actions">
+                  <form action="" method="POST" class="add-to-cart-form" onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
+                    @csrf
+                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                    <input type="hidden" name="so_luong" value="1">
+                    <button type="submit" class="add-to-cart-btn">
+                      <i class="fas fa-shopping-cart"></i>
+                      <span>Thêm vào giỏ</span>
+                    </button>
+                  </form>
+                  <a href="{{ route('sanpham.show', $sp->id) }}" class="product-detail-btn">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Chi tiết</span>
+                  </a>
+                </div>
               </div>
-
-              <div class="product-actions">
-                <form action="" method="POST" class="add-to-cart-form" onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
-                  @csrf
-                  <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                  <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
-                  <input type="hidden" name="so_luong" value="1">
-
-                  <button type="submit" class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Thêm vào giỏ</span>
-                  </button>
-                </form>
-
-                <a href="{{ route('sanpham.show', $sp->id) }}" class="product-detail-btn">
-                  <i class="fas fa-info-circle"></i>
-                  <span>Chi tiết</span>
-                </a>
-              </div>
+              <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
             </div>
-
-            <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
-          </div>
-        @endforeach
+          @endforeach
+        </div>
+        <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)"><i class="fas fa-chevron-right"></i></button>
       </div>
+    </div>
+    @endforeach
 
-      <!-- Phân trang -->
-      <div class="pagination-wrapper">
-        {{ $sanphams->links() }}
-      </div>
+    <!-- Phân trang -->
+    <div class="pagination-wrapper">
+      {{ $sanphams->links() }}
     </div>
   </div>
 @endsection
@@ -288,26 +285,48 @@
     transform: translateY(-1px);
   }
 
-  .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+  .products-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
     margin-bottom: 30px;
   }
-
-  .product-card {
-    background: white;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    position: relative;
-    height: 100%;
+  .products-slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+    width: 100%;
   }
-
-  .product-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  .product-card {
+    min-width: 270px;
+    max-width: 270px;
+    flex: 0 0 270px;
+  }
+  .slider-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.2s;
+  }
+  .slider-btn.left { margin-right: 10px; }
+  .slider-btn.right { margin-left: 10px; }
+  .slider-btn:hover { background: #f0f0f0; }
+  @media (max-width: 1200px) {
+    .product-card { min-width: 220px; max-width: 220px; flex: 0 0 220px; }
+  }
+  @media (max-width: 768px) {
+    .product-card { min-width: 180px; max-width: 180px; flex: 0 0 180px; }
   }
 
   .product-badges {
@@ -536,19 +555,14 @@
       min-width: auto;
     }
 
-    .products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
-    }
-
-    .product-section {
+    .products-slider-wrapper {
       padding: 15px;
     }
   }
 
   @media (max-width: 576px) {
-    .products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    .products-slider-wrapper {
+      padding: 10px;
     }
 
     .filter-tab,
@@ -702,6 +716,15 @@
       toast.classList.remove('show');
       setTimeout(() => toast.remove(), 300);
     }, 3000);
+  }
+
+  function scrollProducts(btn, direction) {
+    const wrapper = btn.closest('.products-slider-wrapper');
+    const slider = wrapper.querySelector('.products-slider');
+    const card = slider.querySelector('.product-card');
+    if (!card) return;
+    const scrollAmount = card.offsetWidth + 20; // 20 là gap
+    slider.scrollBy({ left: direction * scrollAmount * 2, behavior: 'smooth' });
   }
 </script>
 @endpush

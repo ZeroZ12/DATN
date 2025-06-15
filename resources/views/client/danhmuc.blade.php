@@ -4,7 +4,7 @@
 @include('client.layouts.blocks.banner')
 
 <!-- Container chính để align với banner -->
-<div class="container-xxl px-3 px-md-4">
+<div class="container px-3 px-md-4">
   <div class="py-4">
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-3">
@@ -101,7 +101,6 @@
               </select>
             </div>
           </div>
-
           <!-- Mobile filter button -->
           <div class="d-md-none mb-3">
             <button class="btn btn-outline-primary btn-sm w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileFilters">
@@ -109,7 +108,6 @@
             </button>
           </div>
         </div>
-
         <!-- Danh sách sản phẩm -->
         <div class="products-section">
           <div class="products-grid">

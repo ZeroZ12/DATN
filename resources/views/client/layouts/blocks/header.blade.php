@@ -87,8 +87,8 @@
         </form>
 
         <div class="ms-auto d-flex align-items-center">
-            <span><i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà</span>
-            <span><i class="fa-solid fa-credit-card me-1"></i>Trả góp</span>
+            {{-- <span><i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà</span>
+            <span><i class="fa-solid fa-credit-card me-1"></i>Trả góp</span> --}}
 
             {{-- LOGIC CHO ĐĂNG NHẬP / THÔNG TIN TÀI KHOẢN --}}
             @auth
