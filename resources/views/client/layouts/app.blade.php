@@ -16,7 +16,7 @@
   <!-- Header Top -->
 @include('client.layouts.blocks.header')
 
-@include('client.layouts.blocks.banner')
+
 
   <!-- Danh sách sản phẩm -->
 @yield('content')

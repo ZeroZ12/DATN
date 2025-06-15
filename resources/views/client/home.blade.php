@@ -1,6 +1,7 @@
 @extends('client.layouts.app')
 
 @section('content')
+@include('client.layouts.blocks.banner')
   <!-- Bộ lọc -->
   <div class="container py-3">
     <form method="GET" action="{{ route('client.home') }}">
