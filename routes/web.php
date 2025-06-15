@@ -169,7 +169,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 Route::get('/', [ClientSanPhamController::class, 'index'])->name('client.home');
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
-Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 // Route tìm kiếm sản phẩm
 Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 

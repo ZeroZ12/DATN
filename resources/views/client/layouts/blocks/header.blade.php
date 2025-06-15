@@ -11,8 +11,6 @@
         </div>
     </div>
 </div>
-<style>
-</style>
 <div class="header-main">
     <div class="container d-flex align-items-center">
         <a href="/" class="logo-link" title="Về trang chủ TopPC">
