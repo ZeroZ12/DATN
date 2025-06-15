@@ -11,10 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Tạo theo migration 0001_01_01_000000_create_users_table
-        // User::factory(2)->create();
-        
-       
         $this->call([
             UserSeeder::class,
             ChipSeeder::class,
