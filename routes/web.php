@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ChipController;
 use App\Http\Controllers\Admin\MainboardController;
@@ -15,15 +14,16 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
+use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 // use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -155,10 +155,15 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
 });
 
-Route::middleware(['auth', CheckUserStatus::class])->group(function () {
+Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', function () {
         return view('client.tk.access');
     })->name('dashboard');
+
+
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
 });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
@@ -173,10 +178,10 @@ Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('san
 Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
-Route::get ('/login', function (){
+Route::get('/login', function () {
     return redirect()->route('form', ['type' => 'login']);
 });
-Route::get ('/register', function (){
+Route::get('/register', function () {
     return redirect()->route('form', ['type' => 'register']);
 });
 Route::post('/login', [AuthController::class, 'login'])->name('login');
