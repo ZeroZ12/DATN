@@ -5,15 +5,29 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\MaGiamGia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MaGiamGiaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request) // Thêm Request $request để đọc query parameter
     {
-        $maGiamGias = MaGiamGia::orderBy('id', 'desc')->paginate(10);
+        $query = MaGiamGia::orderBy('id', 'desc');
+
+        // Logic để hiển thị bản ghi đã xóa mềm hoặc đang hoạt động
+        if ($request->has('status')) {
+            if ($request->status === 'deleted') {
+                $query->onlyTrashed(); // Chỉ lấy các bản ghi đã xóa mềm
+            } elseif ($request->status === 'all') {
+                $query->withTrashed(); // Lấy tất cả (bao gồm cả đã xóa mềm)
+            }
+            // Mặc định (nếu không có status hoặc status không hợp lệ) sẽ chỉ lấy các bản ghi đang hoạt động (chưa xóa mềm)
+        }
+
+        $maGiamGias = $query->paginate(10);
         return view('admin.magiamgia.index', compact('maGiamGias'));
     }
 
@@ -30,7 +44,7 @@ class MaGiamGiaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'ma' => 'required|string|max:50|unique:ma_giam_gias,ma',
             'loai' => 'required|in:phan_tram,tien_mat',
             'gia_tri' => 'required|numeric|min:0',
@@ -53,7 +67,14 @@ class MaGiamGiaController extends Controller
             'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
             'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
         ]);
-        MaGiamGia::create($data);
+
+        // Ràng buộc bổ sung nếu là loại phần trăm
+        if ($request->loai === 'phan_tram' && $request->gia_tri > 100) {
+            return back()->withInput()->withErrors(['gia_tri' => 'Giá trị phần trăm không được vượt quá 100.']);
+        }
+
+        MaGiamGia::create($request->all());
+
         return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được tạo thành công.');
     }
 
@@ -62,7 +83,8 @@ class MaGiamGiaController extends Controller
      */
     public function show(string $id)
     {
-        $maGiamGia = MaGiamGia::findOrFail($id);
+        // Khi dùng SoftDeletes, bạn có thể muốn xem cả bản ghi đã xóa mềm
+        $maGiamGia = MaGiamGia::withTrashed()->findOrFail($id);
         return view('admin.magiamgia.show', compact('maGiamGia'));
     }
 
@@ -71,7 +93,8 @@ class MaGiamGiaController extends Controller
      */
     public function edit(string $id)
     {
-        $maGiamGia = MaGiamGia::findOrFail($id);
+        // Khi dùng SoftDeletes, bạn có thể muốn chỉnh sửa cả bản ghi đã xóa mềm
+        $maGiamGia = MaGiamGia::withTrashed()->findOrFail($id);
         return view('admin.magiamgia.edit', compact('maGiamGia'));
     }
 
@@ -80,7 +103,9 @@ class MaGiamGiaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $maGiamGia = MaGiamGia::findOrFail($id);
+        // Lấy bản ghi (kể cả đã xóa mềm) để cập nhật
+        $maGiamGia = MaGiamGia::withTrashed()->findOrFail($id);
+
         $data = $request->validate([
             'ma' => 'required|string|max:50|unique:ma_giam_gias,ma,' . $id,
             'loai' => 'required|in:phan_tram,tien_mat',
@@ -104,17 +129,60 @@ class MaGiamGiaController extends Controller
             'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
             'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
         ]);
+
+        // Kiểm tra bổ sung nếu là phần trăm thì không được vượt quá 100
+        if ($data['loai'] === 'phan_tram' && $data['gia_tri'] > 100) {
+            return back()->withInput()->withErrors([
+                'gia_tri' => 'Giá trị phần trăm không được vượt quá 100.'
+            ]);
+        }
+
         $maGiamGia->update($data);
+
         return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được cập nhật thành công.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from storage (Soft Delete).
      */
     public function destroy(string $id)
     {
+        // Chỉ tìm các bản ghi CHƯA xóa mềm để thực hiện xóa mềm
         $maGiamGia = MaGiamGia::findOrFail($id);
-        $maGiamGia->delete();
-        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được xóa thành công.');
+        $maGiamGia->delete(); // Laravel's SoftDeletes sẽ tự động set cột `deleted_at`
+        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được xóa mềm thành công.');
+    }
+
+    /**
+     * Restore the specified resource.
+     */
+    public function restore(string $id)
+    {
+        // Chỉ tìm các bản ghi ĐÃ xóa mềm để khôi phục
+        $maGiamGia = MaGiamGia::onlyTrashed()->findOrFail($id);
+        $maGiamGia->restore(); // Laravel's SoftDeletes sẽ set cột `deleted_at` về NULL
+        return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được khôi phục thành công.');
+    }
+
+    /**
+     * Force delete the specified resource from storage (Permanent Delete).
+     */
+    public function forceDelete(string $id)
+    {
+        try{
+            DB::beginTransaction();
+            $maGiamGia = MaGiamGia::withTrashed()->findOrFail($id);
+            if ($maGiamGia->orders()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.magiamgia.index')->with('error', 'Không thể xóa mã giảm giá này vì nó đang được sử dụng trong đơn hàng.');
+            }
+            $maGiamGia->forceDelete(); // Xóa vĩnh viễn bản ghi
+            DB::commit();
+            return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được xóa vĩnh viễn thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa mã giảm giá: ' . $e->getMessage());
+            return redirect()->route('admin.magiamgia.index')->with('error', 'Đã xảy ra lỗi khi xóa mã giảm giá: ' . $e->getMessage());
+        }
     }
 }

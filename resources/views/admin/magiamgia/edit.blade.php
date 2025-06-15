@@ -12,8 +12,7 @@
 
             <div class="mb-3">
                 <label for="ma" class="form-label">Mã <span class="text-danger">*</span></label>
-                <input type="text" name="ma" id="ma" class="form-control"
-                    value="{{ old('ma', $maGiamGia->ma) }}">
+                <input type="text" name="ma" id="ma" class="form-control" value="{{ old('ma', $maGiamGia->ma) }}">
                 @error('ma')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -44,7 +43,7 @@
             <div class="mb-3">
                 <label for="ngay_bat_dau" class="form-label">Ngày bắt đầu</label>
                 <input type="date" name="ngay_bat_dau" id="ngay_bat_dau" class="form-control"
-                    value="{{ old('ngay_bat_dau', $maGiamGia->ngay_bat_dau ? $maGiamGia->ngay_bat_dau->format('Y-m-d') : '') }}">
+                    value="{{ old('ngay_bat_dau', !empty($maGiamGia->ngay_bat_dau) ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('Y-m-d') : '') }}">
                 @error('ngay_bat_dau')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -53,7 +52,7 @@
             <div class="mb-3">
                 <label for="ngay_ket_thuc" class="form-label">Ngày kết thúc</label>
                 <input type="date" name="ngay_ket_thuc" id="ngay_ket_thuc" class="form-control"
-                    value="{{ old('ngay_ket_thuc', $maGiamGia->ngay_ket_thuc ? $maGiamGia->ngay_ket_thuc->format('Y-m-d') : '') }}">
+                    value="{{ old('ngay_ket_thuc', !empty($maGiamGia->ngay_ket_thuc) ? \Carbon\Carbon::parse($maGiamGia->ngay_ket_thuc)->format('Y-m-d') : '') }}">
                 @error('ngay_ket_thuc')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

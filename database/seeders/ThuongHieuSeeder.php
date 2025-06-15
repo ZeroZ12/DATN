@@ -8,14 +8,12 @@ class ThuongHieuSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $brands = ['ASUS', 'MSI', 'GIGABYTE', 'Intel', 'AMD', 'Samsung', 'Kingston'];
 
-        // Tạo một số thương hiệu giả
-        foreach (range(1, 5) as $index) {
+        foreach ($brands as $brand) {
             ThuongHieu::create([
-                'ten' => $faker->company,
+                'ten' => $brand,
             ]);
         }
     }
 }
-

@@ -47,7 +47,7 @@ class SanPham extends Model
         return $this->belongsTo(ThuongHieu::class, 'id_brand');
     }
     // Quan hệ với bảng Biến Thể Sản Phẩm
-    public function bienTheSanPham()
+    public function bienTheSanPhams()
     {
         return $this->hasMany(BienTheSanPham::class, 'id_product');
     }

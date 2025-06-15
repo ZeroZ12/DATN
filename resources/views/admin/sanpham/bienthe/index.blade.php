@@ -1,19 +1,27 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Danh sách biến thể sản phẩm')
+
 @section('content')
     <div class="container">
-        <h1>Danh sách biến thể sản phẩm: {{ $sanpham->ten }}</h1>
+        {{-- Tiêu đề động dựa trên sản phẩm cha được truyền vào --}}
+        <h1>Danh sách biến thể của sản phẩm: {{ $sanpham->ten }}</h1>
 
-        <!-- Hiển thị thông báo thành công khi xóa hoặc cập nhật biến thể sản phẩm -->
-        @if (session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
+        <!-- Hiển thị thông báo thành công hoặc lỗi -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        <!-- Danh sách các biến thể sản phẩm -->
-        <h4>Biến thể sản phẩm</h4>
-        <div class="card shadow-sm">
+        <div class="card shadow-sm mt-4">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
@@ -29,72 +37,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($sanpham->bienTheSanPham as $bienthe)
+                    {{-- Duyệt qua các biến thể đang hoạt động của sản phẩm --}}
+                    @forelse ($bienthes as $bienthe)
                         <tr>
                             <td>{{ $bienthe->id }}</td>
                             <td>{{ $bienthe->ma_bien_the }}</td>
-                            <td>{{ $bienthe->ram->dung_luong ?? 'N/A' }} {{ $bienthe->ram->don_vi ?? '' }}</td>
-                            <td>{{ $bienthe->oCung->dung_luong ?? 'N/A' }} {{ $bienthe->oCung->loai_o_cung ?? '' }}</td>
+                            <td>{{ $bienthe->ram->dung_luong ?? 'N/A' }}</td>
+                            <td>{{ $bienthe->oCung->dung_luong ?? 'N/A' }}</td>
                             <td>{{ number_format($bienthe->gia) }} VNĐ</td>
                             <td>{{ number_format($bienthe->gia_so_sanh) }} VNĐ</td>
                             <td>{{ $bienthe->ton_kho }}</td>
                             <td>
                                 @if ($bienthe->anh_dai_dien)
                                     <img src="{{ asset('storage/' . $bienthe->anh_dai_dien) }}" alt="Ảnh biến thể"
-                                        class="img-fluid rounded">
+                                        class="img-fluid rounded" style="width: 50px; height: 50px; object-fit: cover;">
                                 @else
                                     <span class="text-muted">Không có ảnh</span>
                                 @endif
                             </td>
                             <td class="col-action">
-                                @if ($bienthe->deleted_at)
-                                    <span class="badge bg-danger mb-1">Đã xóa mềm</span><br>
-                                    <div class="action-buttons">
-                                        <form action="{{ route('admin.bienthe.restore', $bienthe->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm"
-                                                onclick="return confirm('Bạn có chắc chắn muốn khôi phục biến thể này không?')">Khôi
-                                                phục</button>
-                                        </form>
-                                        <form action="{{ route('admin.bienthe.forceDelete', $bienthe->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN biến thể này không? Hành động này không thể hoàn tác!')">Xóa
-                                                Vĩnh Viễn</button>
-                                        </form>
-                                    </div>
-                                @else
-                                    <div class="action-buttons">
-                                        <a href="{{ route('admin.bienthe.edit', $bienthe->id) }}"
-                                            class="btn btn-warning btn-sm">Sửa</a>
-                                        <form action="{{ route('admin.bienthe.destroy', $bienthe->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa
-                                                mềm</button>
-                                        </form>
-                                    </div>
-                                @endif
+                                <div class="action-buttons d-flex flex-column gap-1">
+                                    {{-- Nút sửa: route lồng ghép cần cả sanpham_id và bienthe_id --}}
+                                    <a href="{{ route('admin.sanpham.bienthe.edit', [$sanpham->id, $bienthe->id]) }}"
+                                        class="btn btn-warning btn-sm">Sửa</a>
+                                    {{-- Form xóa mềm: route lồng ghép cần cả sanpham_id và bienthe_id --}}
+                                    <form action="{{ route('admin.sanpham.bienthe.destroy', [$sanpham->id, $bienthe->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa mềm</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center">Không có biến thể nào cho sản phẩm này.</td>
+                            <td colspan="9" class="text-center">Không có biến thể nào đang hoạt động cho sản phẩm này.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
-
         </div>
 
+        {{-- Phân trang --}}
+        <div class="d-flex justify-content-center mt-3">
+            {{ $bienthes->links() }}
+        </div>
 
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <a href="{{ route('admin.bienthe.create', $sanpham->id) }}" class="btn btn-primary">Thêm biến thể mới</a>
+        <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+            {{-- Nút "Thêm biến thể mới": route lồng ghép cần sanpham_id --}}
+            <a href="{{ route('admin.sanpham.bienthe.create', $sanpham->id) }}" class="btn btn-primary">Thêm biến thể mới cho sản phẩm này</a>
+            {{-- Nút quay lại danh sách sản phẩm --}}
             <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
+            {{-- Nút thùng rác biến thể: không lồng ghép --}}
+            <a href="{{ route('admin.sanpham.bienthe.trashed') }}" class="btn btn-info">Thùng rác biến thể</a>
         </div>
     </div>
 @endsection

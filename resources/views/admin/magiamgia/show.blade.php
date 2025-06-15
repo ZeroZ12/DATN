@@ -14,9 +14,11 @@
                 <li><strong>Loại:</strong> {{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</li>
                 <li><strong>Giá trị:</strong> {{ $maGiamGia->gia_tri }}</li>
                 <li><strong>Ngày bắt đầu:</strong>
-                    {{ $maGiamGia->ngay_bat_dau ? $maGiamGia->ngay_bat_dau->format('d/m/Y') : 'N/A' }}</li>
+                    {{ !empty($maGiamGia->ngay_bat_dau) ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('d/m/Y') : 'N/A' }}
+                </li>
                 <li><strong>Ngày kết thúc:</strong>
-                    {{ $maGiamGia->ngay_ket_thuc ? $maGiamGia->ngay_ket_thuc->format('d/m/Y') : 'N/A' }}</li>
+                    {{ !empty($maGiamGia->ngay_ket_thuc) ? \Carbon\Carbon::parse($maGiamGia->ngay_ket_thuc)->format('d/m/Y') : 'N/A' }}
+                </li>
                 <li><strong>Hoạt động:</strong> {{ $maGiamGia->hoat_dong ? 'Có' : 'Không' }}</li>
                 <li><strong>Ngày tạo:</strong> {{ $maGiamGia->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $maGiamGia->updated_at->format('d/m/Y H:i') }}</li>

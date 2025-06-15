@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('ton_kho');
             $table->string('ma_bien_the', 100)->unique();
             $table->string('anh_dai_dien', 255)->nullable();
+            $table->boolean('hoat_dong')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });

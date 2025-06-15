@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ram;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RamController extends Controller
 {
@@ -90,22 +92,33 @@ class RamController extends Controller
         return redirect()->route('admin.ram.index')->with('message', 'RAM đã được xóa thành công.');
     }
     public function trash()
-{
-    $rams = Ram::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
-    return view('admin.ram.trash', compact('rams'));
-}
+    {
+        $rams = Ram::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.ram.trash', compact('rams'));
+    }
 
-public function restore($id)
-{
-    $ram = Ram::onlyTrashed()->findOrFail($id);
-    $ram->restore();
-    return redirect()->route('admin.ram.trash')->with('message', 'Đã khôi phục RAM thành công.');
-}
+    public function restore($id)
+    {
+        $ram = Ram::onlyTrashed()->findOrFail($id);
+        $ram->restore();
+        return redirect()->route('admin.ram.trash')->with('message', 'Đã khôi phục RAM thành công.');
+    }
 
-public function forceDelete($id)
-{
-    $ram = Ram::onlyTrashed()->findOrFail($id);
-    $ram->forceDelete();
-    return redirect()->route('admin.ram.trash')->with('message', 'Đã xóa vĩnh viễn RAM.');
-}
+    public function forceDelete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $ram = Ram::withTrashed()->findOrFail($id);
+            if ($ram->bienTheSanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.ram.trash')->with('error', 'Không thể xóa RAM vì có biến thể sản phẩm liên quan.');
+            }
+            $ram->forceDelete();
+            DB::commit();
+            return redirect()->route('admin.ram.trash')->with('message', 'RAM đã được xóa vĩnh viễn thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('admin.ram.trash')->with('error', 'Đã xảy ra lỗi khi xóa RAM: ' . $e->getMessage());
+        }
+    }
 }

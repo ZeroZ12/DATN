@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DanhMucController;
 use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ChipController;
@@ -14,16 +15,8 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
-use App\Http\Controllers\SanPhamController as ControllersSanPhamController;
+use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Route::get('/admin', function () {
-//     return view('admin.layouts.app');
-// })->middleware(['auth', 'verified'])->name('admin');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,24 +24,39 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
+
+
+    Route::get('danhmuc/trashed', [DanhMucController::class, 'trashed'])->name('danhmuc.trashed');
+    Route::post('danhmuc/{id}/restore', [DanhMucController::class, 'restore'])->name('danhmuc.restore');
+    Route::delete('danhmuc/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('danhmuc.forceDelete');
     Route::resource('danhmuc', DanhMucController::class);
 
-    Route::resource('sanpham', SanPhamController::class);
-    Route::post('sanpham/{id}/restore', [SanPhamController::class, 'restore'])->name('sanpham.restore');
-    Route::delete('sanpham/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('sanpham.forceDelete');
-
-    Route::get('bienthe/{id}/sanpham', [BienTheSanPhamController::class, 'index'])->name('bienthe.index'); 
-    Route::get('bienthe/{id_product}/create', [BienTheSanPhamController::class, 'create'])->name('bienthe.create'); 
-    Route::post('bienthe', [BienTheSanPhamController::class, 'store'])->name('bienthe.store');
-    Route::get('bienthe/{id}/edit', [BienTheSanPhamController::class, 'edit'])->name('bienthe.edit'); 
-    Route::put('bienthe/{id}', [BienTheSanPhamController::class, 'update'])->name('bienthe.update'); 
-    Route::delete('bienthe/{id}', [BienTheSanPhamController::class, 'destroy'])->name('bienthe.destroy'); 
 
 
-    Route::post('bienthe/{id}/restore', [BienTheSanPhamController::class, 'restore'])->name('bienthe.restore');
-    Route::delete('bienthe/{id}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])->name('bienthe.forceDelete');
+
+
+    Route::prefix('sanpham')->name('sanpham.')->group(function () {
+        Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
+        Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
+        Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
+        // Resource route
+
+        Route::resource('', SanPhamController::class)->parameters(['' => 'sanpham']);
+
+        Route::resource('{sanpham}/bienthe', BienTheSanPhamController::class)->except(['show']);
+
+        Route::get('bienthe/trashed', [BienTheSanPhamController::class, 'trashed'])->name('bienthe.trashed');
+        Route::post('bienthe/{bienthe}/restore', [BienTheSanPhamController::class, 'restore'])
+            ->name('bienthe.restore')
+            ->withTrashed(); // <-- Sửa {id} thành {bienthe} và THÊM DÒNG NÀY
+        Route::delete('bienthe/{bienthe}/force-delete', [BienTheSanPhamController::class, 'forceDelete'])
+            ->name('bienthe.forceDelete')
+            ->withTrashed(); // <-- Sửa {id} thành {bienthe} và THÊM DÒNG NÀY
+    });
+
+
+
 
     Route::prefix('chip')->name('chip.')->group(function () {
         // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
@@ -65,8 +73,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::put('/{chip}', [ChipController::class, 'update'])->name('update');
         Route::delete('/{chip}', [ChipController::class, 'destroy'])->name('destroy');
     });
-
-
 
     Route::prefix('mainboard')->name('mainboard.')->group(function () {
         // Các route liên quan đến xóa mềm - đặt TRƯỚC
@@ -129,9 +135,17 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::put('/{ocung}', [OCungController::class, 'update'])->name('update');
         Route::delete('/{ocung}', [OCungController::class, 'destroy'])->name('destroy');
     });
-
+    Route::post('thuonghieu/{id}/restore', [ThuongHieuController::class, 'restore'])->name('thuonghieu.restore');
+    Route::delete('thuonghieu/{id}/forceDelete', [ThuongHieuController::class, 'forceDelete'])->name('thuonghieu.forceDelete');
     Route::resource('thuonghieu', ThuongHieuController::class);
+
+
+    Route::post('phuongthucthanhtoan/{id}/restore', [PhuongThucThanhToanController::class, 'restore'])->name('phuongthucthanhtoan.restore');
+    Route::delete('phuongthucthanhtoan/{id}/forceDelete', [PhuongThucThanhToanController::class, 'forceDelete'])->name('phuongthucthanhtoan.forceDelete');
     Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);
+
+    Route::post('magiamgia/{id}/restore', [MaGiamGiaController::class, 'restore'])->name('magiamgia.restore');
+    Route::delete('magiamgia/{id}/forceDelete', [MaGiamGiaController::class, 'forceDelete'])->name('magiamgia.forceDelete');
     Route::resource('magiamgia', MaGiamGiaController::class);
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -142,7 +156,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
 Route::middleware(['auth', CheckUserStatus::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('client.tk.access');
     })->name('dashboard');
 });
 
@@ -151,7 +165,19 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 })->name('admin.index');
 
 //Route client
-Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
+Route::get('/', [ClientSanPhamController::class, 'index'])->name('client.home');
+Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
+Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
+// Route tìm kiếm sản phẩm
+Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
-
-require __DIR__ . '/auth.php';
+Route::get('/form', [AuthController::class, 'showForm'])->name('form');
+Route::get ('/login', function (){
+    return redirect()->route('form', ['type' => 'login']);
+});
+Route::get ('/register', function (){
+    return redirect()->route('form', ['type' => 'register']);
+});
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

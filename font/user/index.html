@@ -28,8 +28,67 @@
   <!-- Header Main -->
   <div class="header-main">
     <div class="container d-flex align-items-center">
-      <a href="index.html"><img src="https://file.hstatic.net/200000636033/file/logo_fd11946b31524fbe98765f34f3de0628.svg" alt="GEARVN"
-        class="me-3 d-none d-lg-block"></a>
+      <a href="index.html" class="me-3 d-none d-lg-block">
+      <svg width="180" height="60" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:1" />
+          </linearGradient>
+          <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#fecaca;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#fee2e2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+
+        <!-- Computer Icon Design -->
+        <g transform="translate(5, 5)">
+          <!-- Monitor Screen -->
+          <rect x="5" y="8" width="30" height="20" rx="2" fill="white" />
+          <rect x="7" y="10" width="26" height="16" rx="1" fill="#dc2626" opacity="0.1" />
+          <rect x="9" y="12" width="22" height="10" rx="1" fill="#ef4444" opacity="0.3" />
+
+          <!-- Monitor Stand -->
+          <rect x="17" y="28" width="6" height="8" rx="1" fill="white" />
+          <rect x="12" y="36" width="16" height="3" rx="1.5" fill="white" />
+
+          <!-- Screen Details -->
+          <circle cx="20" cy="30" r="1" fill="white" />
+
+          <!-- Power Indicator -->
+          <circle cx="32" cy="12" r="1.5" fill="#10b981" />
+
+          <!-- Screen Glow -->
+          <rect x="9" y="12" width="22" height="10" rx="1" fill="none" stroke="white" stroke-width="0.5" opacity="0.4" />
+
+          <!-- Keyboard (simplified) -->
+          <rect x="8" y="42" width="24" height="6" rx="2" fill="white" opacity="0.8" />
+          <rect x="10" y="44" width="20" height="2" rx="1" fill="#dc2626" opacity="0.2" />
+        </g>
+
+        <!-- TopPC Text -->
+        <g transform="translate(55, 15)">
+          <!-- TOP text -->
+          <text x="0" y="20" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="white"
+            letter-spacing="1px">TOP</text>
+
+          <!-- PC text -->
+          <text x="55" y="20" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="white"
+            letter-spacing="1px">PC</text>
+
+          <!-- Tagline -->
+          <text x="0" y="35" font-family="Arial, sans-serif" font-size="8" fill="white" opacity="0.9"
+            letter-spacing="2px">TOPPC.COM</text>
+        </g>
+
+        <!-- Additional geometric elements -->
+        <g transform="translate(150, 20)">
+          <rect x="0" y="0" width="3" height="20" fill="white" opacity="0.3" />
+          <rect x="5" y="5" width="3" height="15" fill="white" opacity="0.5" />
+          <rect x="10" y="8" width="3" height="12" fill="white" opacity="0.7" />
+        </g>
+      </svg>
+      </a>
       <div class="dropdown me-3">
         <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
           <i class="fa-solid fa-bars me-2"></i><span class="d-none d-lg-inline">Danh mục</span>
@@ -56,34 +115,202 @@
     </div>
   </div>
 
-  <!-- Banner -->
-  <div class="banner">
-    <div class="container">
-      <div class="row g-3">
-        <div class="col-md-12">
-          <img src="https://file.hstatic.net/200000722513/file/banner_1920x420_132deaa451444c268495aedb72728389.jpg" class="img-fluid rounded" alt="Banner 1">
-        </div>
-        
+  <!-- Dynamic Banner (Carousel) -->
+  <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade mt-3" data-bs-ride="carousel" data-bs-interval="3000">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://file.hstatic.net/200000722513/file/pc.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://file.hstatic.net/200000722513/file/lp_gaming.png" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="https://file.hstatic.net/200000722513/file/lp_gearvn.png" class="d-block w-100" alt="...">
       </div>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
   </div>
 
-  <!-- Bộ lọc -->
-  <div class="container filter-bar my-3 d-flex flex-wrap gap-2">
-    <button class="btn btn-outline-secondary text-black btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Giá</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">Hãng</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">CPU</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">RAM</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">SSD</button>
-    <button class="btn btn-outline-secondary text-black btn-sm">VGA</button>
-  </div>
+  <!-- Sản phẩm đã xem -->
+  <div class="container mt-5 content-section">
+    <h5 class="section-title">Sản phẩm đã xem</h5>
+    <form id="product-filter-form-spdx" action="search.php" method="get">
+      <div class="filter-bar my-3 d-flex flex-wrap gap-2">
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_spdx_all" value="all" checked>
+              <label class="form-check-label" for="status_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_spdx_instock" value="in_stock">
+              <label class="form-check-label" for="status_spdx_instock">Còn hàng</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_spdx_outofstock" value="out_of_stock">
+              <label class="form-check-label" for="status_spdx_outofstock">Hết hàng</label>
+            </div>
+          </div>
+        </details>
 
-  <!-- Danh sách sản phẩm -->
-  <div class="container">
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Giá</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_spdx_all" value="all" checked>
+              <label class="form-check-label" for="price_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_spdx_below10m" value="below10m">
+              <label class="form-check-label" for="price_spdx_below10m">Dưới 10 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_spdx_10_15m" value="10_15m">
+              <label class="form-check-label" for="price_spdx_10_15m">10 - 15 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_spdx_15_20m" value="15_20m">
+              <label class="form-check-label" for="price_spdx_15_20m">15 - 20 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_spdx_above20m" value="above20m">
+              <label class="form-check-label" for="price_spdx_above20m">Trên 20 triệu</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Hãng</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_spdx_all" value="all" checked>
+              <label class="form-check-label" for="brand_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_spdx_asus" value="asus">
+              <label class="form-check-label" for="brand_spdx_asus">Asus</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_spdx_msi" value="msi">
+              <label class="form-check-label" for="brand_spdx_msi">MSI</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_spdx_dell" value="dell">
+              <label class="form-check-label" for="brand_spdx_dell">Dell</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">CPU</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_spdx_all" value="all" checked>
+              <label class="form-check-label" for="cpu_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_spdx_i3" value="i3">
+              <label class="form-check-label" for="cpu_spdx_i3">Intel Core i3</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_spdx_i5" value="i5">
+              <label class="form-check-label" for="cpu_spdx_i5">Intel Core i5</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_spdx_i7" value="i7">
+              <label class="form-check-label" for="cpu_spdx_i7">Intel Core i7</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_spdx_amd" value="amd">
+              <label class="form-check-label" for="cpu_spdx_amd">AMD Ryzen</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">RAM</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_spdx_all" value="all" checked>
+              <label class="form-check-label" for="ram_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_spdx_8gb" value="8gb">
+              <label class="form-check-label" for="ram_spdx_8gb">8GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_spdx_16gb" value="16gb">
+              <label class="form-check-label" for="ram_spdx_16gb">16GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_spdx_32gb" value="32gb">
+              <label class="form-check-label" for="ram_spdx_32gb">32GB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">SSD</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_spdx_all" value="all" checked>
+              <label class="form-check-label" for="ssd_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_spdx_256gb" value="256gb">
+              <label class="form-check-label" for="ssd_spdx_256gb">256GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_spdx_512gb" value="512gb">
+              <label class="form-check-label" for="ssd_spdx_512gb">512GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_spdx_1tb" value="1tb">
+              <label class="form-check-label" for="ssd_spdx_1tb">1TB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">VGA</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_spdx_all" value="all" checked>
+              <label class="form-check-label" for="vga_spdx_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_spdx_3050" value="rtx3050">
+              <label class="form-check-label" for="vga_spdx_3050">RTX 3050</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_spdx_3060" value="rtx3060">
+              <label class="form-check-label" for="vga_spdx_3060">RTX 3060</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_spdx_4060" value="rtx4060">
+              <label class="form-check-label" for="vga_spdx_4060">RTX 4060</label>
+            </div>
+          </div>
+        </details>
+
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
+      </div>
+    </form>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-      <!-- Sản phẩm mẫu -->
+      <!-- Product Card 1 -->
       <div class="col">
         <a href="chitietsanpham.html" class="text-decoration-none text-dark">
           <div class="product-card p-3">
@@ -101,6 +328,7 @@
           </div>
         </a>
       </div>
+      <!-- Product Card 2 -->
       <div class="col">
         <a href="chitietsanpham.html" class="text-decoration-none text-dark">
           <div class="product-card p-3">
@@ -118,6 +346,7 @@
           </div>
         </a>
       </div>
+      <!-- Product Card 3 -->
       <div class="col">
         <a href="chitietsanpham.html" class="text-decoration-none text-dark">
           <div class="product-card p-3">
@@ -135,6 +364,7 @@
           </div>
         </a>
       </div>
+      <!-- Product Card 4 -->
       <div class="col">
         <a href="chitietsanpham.html" class="text-decoration-none text-dark">
           <div class="product-card p-3">
@@ -148,6 +378,823 @@
             </div>
             <div class="small text-muted">
               <span class="rating">★★★★★</span> (3)
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flash Sale Section -->
+  <div class="container flash-sale-section mt-5 content-section">
+    <h5 class="section-title d-flex justify-content-between align-items-center">
+      <span>FLASH SALE 10H MỖI NGÀY</span>
+      <div class="countdown-timer d-flex align-items-center">
+        <span class="badge bg-danger me-1">00</span>:
+        <span class="badge bg-danger me-1">00</span>:
+        <span class="badge bg-danger">00</span>
+      </div>
+      <div class="flash-sale-days ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-danger active">NGÀY 1</button>
+        <button class="btn btn-sm btn-outline-danger">NGÀY 2</button>
+        <button class="btn btn-sm btn-outline-danger">NGÀY 3</button>
+      </div>
+    </h5>
+    <div class="flash-sale-products row row-cols-1 row-cols-md-4 g-4">
+      <!-- Product 1 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Product 1">
+            <h6 class="fw-bold">PC GVN AMD R5-5600X/ VGA RTX 3060</h6>
+            <div class="mb-2">
+              <span class="old-price">22.990.000₫</span>
+              <span class="text-danger fw-bold">19.990.000₫</span>
+              <span class="discount">-13%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (5)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Product 2 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-sale"><i class="fa-solid fa-bolt"></i> Bán chạy</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Product 2">
+            <h6 class="fw-bold">PC GVN Intel i5-12400F/ VGA RTX 4060</h6>
+            <div class="mb-2">
+              <span class="old-price">21.990.000₫</span>
+              <span class="text-danger fw-bold">18.490.000₫</span>
+              <span class="discount">-16%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (10)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Product 3 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Product 3">
+            <h6 class="fw-bold">PC GVN Intel i3-12100F/ VGA RTX 3050</h6>
+            <div class="mb-2">
+              <span class="old-price">13.990.000₫</span>
+              <span class="text-danger fw-bold">11.390.000₫</span>
+              <span class="discount">-19%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (7)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Product 4 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Product 4">
+            <h6 class="fw-bold">PC GVN AMD R7-7700/ VGA RTX 3060</h6>
+            <div class="mb-2">
+              <span class="old-price">34.990.000₫</span>
+              <span class="text-danger fw-bold">30.490.000₫</span>
+              <span class="discount">-13%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (3)
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PC Bán Chạy Section -->
+  <div class="container mt-5 content-section">
+    <h5 class="section-title">PC Bán Chạy</h5>
+    <form id="product-filter-form-pcbc" action="search.php" method="get">
+      <div class="filter-bar my-3 d-flex flex-wrap gap-2">
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="status_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_pcbc_instock" value="in_stock">
+              <label class="form-check-label" for="status_pcbc_instock">Còn hàng</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_pcbc_outofstock" value="out_of_stock">
+              <label class="form-check-label" for="status_pcbc_outofstock">Hết hàng</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Giá</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="price_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_pcbc_below10m" value="below10m">
+              <label class="form-check-label" for="price_pcbc_below10m">Dưới 10 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_pcbc_10_15m" value="10_15m">
+              <label class="form-check-label" for="price_pcbc_10_15m">10 - 15 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_pcbc_15_20m" value="15_20m">
+              <label class="form-check-label" for="price_pcbc_15_20m">15 - 20 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_pcbc_above20m" value="above20m">
+              <label class="form-check-label" for="price_pcbc_above20m">Trên 20 triệu</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Hãng</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="brand_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_pcbc_asus" value="asus">
+              <label class="form-check-label" for="brand_pcbc_asus">Asus</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_pcbc_msi" value="msi">
+              <label class="form-check-label" for="brand_pcbc_msi">MSI</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_pcbc_dell" value="dell">
+              <label class="form-check-label" for="brand_pcbc_dell">Dell</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">CPU</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="cpu_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_pcbc_i3" value="i3">
+              <label class="form-check-label" for="cpu_pcbc_i3">Intel Core i3</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_pcbc_i5" value="i5">
+              <label class="form-check-label" for="cpu_pcbc_i5">Intel Core i5</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_pcbc_i7" value="i7">
+              <label class="form-check-label" for="cpu_pcbc_i7">Intel Core i7</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_pcbc_amd" value="amd">
+              <label class="form-check-label" for="cpu_pcbc_amd">AMD Ryzen</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">RAM</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="ram_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_pcbc_8gb" value="8gb">
+              <label class="form-check-label" for="ram_pcbc_8gb">8GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_pcbc_16gb" value="16gb">
+              <label class="form-check-label" for="ram_pcbc_16gb">16GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_pcbc_32gb" value="32gb">
+              <label class="form-check-label" for="ram_pcbc_32gb">32GB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">SSD</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="ssd_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_pcbc_256gb" value="256gb">
+              <label class="form-check-label" for="ssd_pcbc_256gb">256GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_pcbc_512gb" value="512gb">
+              <label class="form-check-label" for="ssd_pcbc_512gb">512GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_pcbc_1tb" value="1tb">
+              <label class="form-check-label" for="ssd_pcbc_1tb">1TB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">VGA</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_pcbc_all" value="all" checked>
+              <label class="form-check-label" for="vga_pcbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_pcbc_3050" value="rtx3050">
+              <label class="form-check-label" for="vga_pcbc_3050">RTX 3050</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_pcbc_3060" value="rtx3060">
+              <label class="form-check-label" for="vga_pcbc_3060">RTX 3060</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_pcbc_4060" value="rtx4060">
+              <label class="form-check-label" for="vga_pcbc_4060">RTX 4060</label>
+            </div>
+          </div>
+        </details>
+
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
+      </div>
+    </form>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <!-- PC Product 1 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 1">
+            <h6 class="fw-bold">PC GVN AMD R5-5600X/ VGA RTX 3060</h6>
+            <div class="mb-2">
+              <span class="old-price">22.990.000₫</span>
+              <span class="text-danger fw-bold">19.990.000₫</span>
+              <span class="discount">-13%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (5)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- PC Product 2 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-sale"><i class="fa-solid fa-bolt"></i> Bán chạy</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 2">
+            <h6 class="fw-bold">PC GVN Intel i5-12400F/ VGA RTX 4060</h6>
+            <div class="mb-2">
+              <span class="old-price">21.990.000₫</span>
+              <span class="text-danger fw-bold">18.490.000₫</span>
+              <span class="discount">-16%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (10)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- PC Product 3 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 3">
+            <h6 class="fw-bold">PC GVN Intel i3-12100F/ VGA RTX 3050</h6>
+            <div class="mb-2">
+              <span class="old-price">13.990.000₫</span>
+              <span class="text-danger fw-bold">11.390.000₫</span>
+              <span class="discount">-19%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (7)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- PC Product 4 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="PC 4">
+            <h6 class="fw-bold">PC GVN AMD R7-7700/ VGA RTX 3060</h6>
+            <div class="mb-2">
+              <span class="old-price">34.990.000₫</span>
+              <span class="text-danger fw-bold">30.490.000₫</span>
+              <span class="discount">-13%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (3)
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Laptop Gaming Bán Chạy Section -->
+  <div class="container mt-5 content-section">
+    <h5 class="section-title">Laptop Gaming Bán Chạy</h5>
+    <form id="product-filter-form-lgbc" action="search.php" method="get">
+      <div class="filter-bar my-3 d-flex flex-wrap gap-2">
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="status_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lgbc_instock" value="in_stock">
+              <label class="form-check-label" for="status_lgbc_instock">Còn hàng</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lgbc_outofstock" value="out_of_stock">
+              <label class="form-check-label" for="status_lgbc_outofstock">Hết hàng</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Giá</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="price_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lgbc_below10m" value="below10m">
+              <label class="form-check-label" for="price_lgbc_below10m">Dưới 10 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lgbc_10_15m" value="10_15m">
+              <label class="form-check-label" for="price_lgbc_10_15m">10 - 15 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lgbc_15_20m" value="15_20m">
+              <label class="form-check-label" for="price_lgbc_15_20m">15 - 20 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lgbc_above20m" value="above20m">
+              <label class="form-check-label" for="price_lgbc_above20m">Trên 20 triệu</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Hãng</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="brand_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lgbc_asus" value="asus">
+              <label class="form-check-label" for="brand_lgbc_asus">Asus</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lgbc_msi" value="msi">
+              <label class="form-check-label" for="brand_lgbc_msi">MSI</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lgbc_dell" value="dell">
+              <label class="form-check-label" for="brand_lgbc_dell">Dell</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">CPU</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="cpu_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lgbc_i3" value="i3">
+              <label class="form-check-label" for="cpu_lgbc_i3">Intel Core i3</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lgbc_i5" value="i5">
+              <label class="form-check-label" for="cpu_lgbc_i5">Intel Core i5</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lgbc_i7" value="i7">
+              <label class="form-check-label" for="cpu_lgbc_i7">Intel Core i7</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lgbc_amd" value="amd">
+              <label class="form-check-label" for="cpu_lgbc_amd">AMD Ryzen</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">RAM</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="ram_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lgbc_8gb" value="8gb">
+              <label class="form-check-label" for="ram_lgbc_8gb">8GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lgbc_16gb" value="16gb">
+              <label class="form-check-label" for="ram_lgbc_16gb">16GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lgbc_32gb" value="32gb">
+              <label class="form-check-label" for="ram_lgbc_32gb">32GB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">SSD</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="ssd_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lgbc_256gb" value="256gb">
+              <label class="form-check-label" for="ssd_lgbc_256gb">256GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lgbc_512gb" value="512gb">
+              <label class="form-check-label" for="ssd_lgbc_512gb">512GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lgbc_1tb" value="1tb">
+              <label class="form-check-label" for="ssd_lgbc_1tb">1TB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">VGA</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lgbc_all" value="all" checked>
+              <label class="form-check-label" for="vga_lgbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lgbc_3050" value="rtx3050">
+              <label class="form-check-label" for="vga_lgbc_3050">RTX 3050</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lgbc_3060" value="rtx3060">
+              <label class="form-check-label" for="vga_lgbc_3060">RTX 3060</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lgbc_4060" value="rtx4060">
+              <label class="form-check-label" for="vga_lgbc_4060">RTX 4060</label>
+            </div>
+          </div>
+        </details>
+
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
+      </div>
+    </form>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <!-- Laptop Gaming Product 1 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Gaming 1">
+            <h6 class="fw-bold">Laptop Gaming GVN XYZ</h6>
+            <div class="mb-2">
+              <span class="old-price">25.990.000₫</span>
+              <span class="text-danger fw-bold">21.990.000₫</span>
+              <span class="discount">-15%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (8)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Gaming Product 2 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-sale"><i class="fa-solid fa-bolt"></i> Bán chạy</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Gaming 2">
+            <h6 class="fw-bold">Laptop Gaming ABC</h6>
+            <div class="mb-2">
+              <span class="old-price">23.990.000₫</span>
+              <span class="text-danger fw-bold">19.990.000₫</span>
+              <span class="discount">-17%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (12)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Gaming Product 3 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Gaming 3">
+            <h6 class="fw-bold">Laptop Gaming DEF</h6>
+            <div class="mb-2">
+              <span class="old-price">20.990.000₫</span>
+              <span class="text-danger fw-bold">17.990.000₫</span>
+              <span class="discount">-14%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (6)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Gaming Product 4 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Gaming 4">
+            <h6 class="fw-bold">Laptop Gaming GHI</h6>
+            <div class="mb-2">
+              <span class="old-price">28.990.000₫</span>
+              <span class="text-danger fw-bold">24.990.000₫</span>
+              <span class="discount">-14%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (4)
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Laptop Văn Phòng Bán Chạy Section -->
+  <div class="container mt-5 content-section">
+    <h5 class="section-title">Laptop Văn Phòng Bán Chạy</h5>
+    <form id="product-filter-form-lvpbc" action="search.php" method="get">
+      <div class="filter-bar my-3 d-flex flex-wrap gap-2">
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Tình trạng sản phẩm</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="status_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lvpbc_instock" value="in_stock">
+              <label class="form-check-label" for="status_lvpbc_instock">Còn hàng</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="status_lvpbc_outofstock" value="out_of_stock">
+              <label class="form-check-label" for="status_lvpbc_outofstock">Hết hàng</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Giá</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="price_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lvpbc_below10m" value="below10m">
+              <label class="form-check-label" for="price_lvpbc_below10m">Dưới 10 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lvpbc_10_15m" value="10_15m">
+              <label class="form-check-label" for="price_lvpbc_10_15m">10 - 15 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lvpbc_15_20m" value="15_20m">
+              <label class="form-check-label" for="price_lvpbc_15_20m">15 - 20 triệu</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="price" id="price_lvpbc_above20m" value="above20m">
+              <label class="form-check-label" for="price_lvpbc_above20m">Trên 20 triệu</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">Hãng</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="brand_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lvpbc_asus" value="asus">
+              <label class="form-check-label" for="brand_lvpbc_asus">Asus</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lvpbc_msi" value="msi">
+              <label class="form-check-label" for="brand_lvpbc_msi">MSI</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="brand" id="brand_lvpbc_dell" value="dell">
+              <label class="form-check-label" for="brand_lvpbc_dell">Dell</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">CPU</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="cpu_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lvpbc_i3" value="i3">
+              <label class="form-check-label" for="cpu_lvpbc_i3">Intel Core i3</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lvpbc_i5" value="i5">
+              <label class="form-check-label" for="cpu_lvpbc_i5">Intel Core i5</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lvpbc_i7" value="i7">
+              <label class="form-check-label" for="cpu_lvpbc_i7">Intel Core i7</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="cpu" id="cpu_lvpbc_amd" value="amd">
+              <label class="form-check-label" for="cpu_lvpbc_amd">AMD Ryzen</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">RAM</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="ram_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lvpbc_8gb" value="8gb">
+              <label class="form-check-label" for="ram_lvpbc_8gb">8GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lvpbc_16gb" value="16gb">
+              <label class="form-check-label" for="ram_lvpbc_16gb">16GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ram" id="ram_lvpbc_32gb" value="32gb">
+              <label class="form-check-label" for="ram_lvpbc_32gb">32GB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">SSD</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="ssd_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lvpbc_256gb" value="256gb">
+              <label class="form-check-label" for="ssd_lvpbc_256gb">256GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lvpbc_512gb" value="512gb">
+              <label class="form-check-label" for="ssd_lvpbc_512gb">512GB</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="ssd" id="ssd_lvpbc_1tb" value="1tb">
+              <label class="form-check-label" for="ssd_lvpbc_1tb">1TB</label>
+            </div>
+          </div>
+        </details>
+
+        <details class="filter-group">
+          <summary class="btn btn-outline-secondary text-black btn-sm">VGA</summary>
+          <div class="filter-content p-3 bg-white shadow-sm">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lvpbc_all" value="all" checked>
+              <label class="form-check-label" for="vga_lvpbc_all">Tất cả</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lvpbc_3050" value="rtx3050">
+              <label class="form-check-label" for="vga_lvpbc_3050">RTX 3050</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lvpbc_3060" value="rtx3060">
+              <label class="form-check-label" for="vga_lvpbc_3060">RTX 3060</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="vga" id="vga_lvpbc_4060" value="rtx4060">
+              <label class="form-check-label" for="vga_lvpbc_4060">RTX 4060</label>
+            </div>
+          </div>
+        </details>
+
+        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-filter me-1"></i> Bộ lọc</button>
+      </div>
+    </form>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      <!-- Laptop Văn Phòng Product 1 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Văn Phòng 1">
+            <h6 class="fw-bold">Laptop Văn Phòng JKL</h6>
+            <div class="mb-2">
+              <span class="old-price">15.990.000₫</span>
+              <span class="text-danger fw-bold">12.990.000₫</span>
+              <span class="discount">-19%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (9)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Văn Phòng Product 2 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-sale"><i class="fa-solid fa-bolt"></i> Bán chạy</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Văn Phòng 2">
+            <h6 class="fw-bold">Laptop Văn Phòng MNO</h6>
+            <div class="mb-2">
+              <span class="old-price">14.990.000₫</span>
+              <span class="text-danger fw-bold">11.990.000₫</span>
+              <span class="discount">-20%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (11)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Văn Phòng Product 3 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-gift"><i class="fa-solid fa-gift"></i> Quà tặng</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Văn Phòng 3">
+            <h6 class="fw-bold">Laptop Văn Phòng PQR</h6>
+            <div class="mb-2">
+              <span class="old-price">13.990.000₫</span>
+              <span class="text-danger fw-bold">10.990.000₫</span>
+              <span class="discount">-21%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★☆</span> (7)
+            </div>
+          </div>
+        </a>
+      </div>
+      <!-- Laptop Văn Phòng Product 4 -->
+      <div class="col">
+        <a href="chitietsanpham.html" class="text-decoration-none text-dark">
+          <div class="product-card p-3">
+            <span class="badge badge-hot"><i class="fa-solid fa-gift gift-icon"></i>Quà tặng HOT</span>
+            <img src="https://product.hstatic.net/200000722513/product/artboard_2_copy_2_b26b97e389e04693934b7a457652d385_1024x1024.png" class="img-fluid mb-2" alt="Laptop Văn Phòng 4">
+            <h6 class="fw-bold">Laptop Văn Phòng STU</h6>
+            <div class="mb-2">
+              <span class="old-price">16.990.000₫</span>
+              <span class="text-danger fw-bold">13.990.000₫</span>
+              <span class="discount">-18%</span>
+            </div>
+            <div class="small text-muted">
+              <span class="rating">★★★★★</span> (5)
             </div>
           </div>
         </a>
@@ -239,63 +1286,12 @@
         <button class="btn-close" id="closeQuickLogin" aria-label="Close"></button>
       </div>
       <div class="login-choice-row mb-2">
-        <button class="btn btn-dark" id="openLoginForm">ĐĂNG NHẬP</button>
-        <button class="btn btn-outline-dark" id="openRegisterForm">ĐĂNG KÝ</button>
+        <button class="btn btn-dark" onclick="window.location.href='dangnhap.html?type=login'">ĐĂNG NHẬP</button>
+        <button class="btn btn-outline-dark" onclick="window.location.href='dangnhap.html?type=register'">ĐĂNG KÝ</button>
       </div>
       <div class="text-center mt-2">
         <button class="btn btn-link p-0">Trợ giúp</button>
       </div>
-    </div>
-  </div>
-  <!-- Modal Form Đăng nhập/Đăng ký -->
-  <div id="login-form-modal" class="modal-custom">
-    <div class="modal-overlay"></div>
-    <div class="modal-content" style="max-width: 400px;">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <span class="fw-bold" id="loginFormTitle">ĐĂNG NHẬP HOẶC TẠO TÀI KHOẢN</span>
-        <button class="btn-close" id="closeLoginForm" aria-label="Close"></button>
-      </div>
-      <form id="form-login">
-        <div class="mb-2">
-          <input type="email" class="form-control" placeholder="Email">
-        </div>
-        <div class="mb-2 position-relative">
-          <input type="password" class="form-control" placeholder="Mật khẩu">
-          <span class="position-absolute top-50 end-0 translate-middle-y pe-3" style="cursor:pointer;"><i class="fa-regular fa-eye"></i></span>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <a href="#" class="small">Đăng nhập bằng số điện thoại</a>
-          <a href="#" class="small">Quên mật khẩu email?</a>
-        </div>
-        <button class="btn btn-danger w-100 mb-2">ĐĂNG NHẬP</button>
-        <div class="text-center mb-2">hoặc đăng nhập bằng</div>
-        <div class="d-flex justify-content-between mb-2">
-          <button class="btn btn-light w-50 me-2"><i class="fa-brands fa-google text-danger me-2"></i>Google</button>
-          <button class="btn btn-light w-50"><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook</button>
-        </div>
-        <div class="text-center small">Bạn chưa có tài khoản? <a href="#" id="switchToRegister">Đăng ký ngay!</a></div>
-      </form>
-      <form id="form-register" style="display:none;">
-        <div class="mb-2">
-          <input type="email" class="form-control" placeholder="Email">
-        </div>
-        <div class="mb-2">
-          <input type="text" class="form-control" placeholder="Họ">
-        </div>
-        <div class="mb-2">
-          <input type="text" class="form-control" placeholder="Tên">
-        </div>
-        <div class="mb-2 position-relative">
-          <input type="password" class="form-control" placeholder="Mật khẩu">
-        </div>
-        <button class="btn btn-danger w-100 mb-2">TẠO TÀI KHOẢN</button>
-        <div class="text-center mb-2">hoặc đăng ký bằng</div>
-        <div class="d-flex justify-content-between mb-2">
-          <button class="btn btn-light w-50 me-2"><i class="fa-brands fa-google text-danger me-2"></i>Google</button>
-          <button class="btn btn-light w-50"><i class="fa-brands fa-facebook text-primary me-2"></i>Facebook</button>
-        </div>
-        <div class="text-center small">Bạn đã có tài khoản? <a href="#" id="switchToLogin">Đăng nhập!</a></div>
-      </form>
     </div>
   </div>
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Mainboard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MainboardController extends Controller
 {
@@ -90,23 +92,34 @@ class MainboardController extends Controller
         return redirect()->route('admin.mainboard.index')->with('message', 'Mainboard đã được xóa thành công.');
     }
     public function trash()
-{
-    $mainboards = Mainboard::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
-    return view('admin.mainboard.trash', compact('mainboards'));
-}
+    {
+        $mainboards = Mainboard::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
+        return view('admin.mainboard.trash', compact('mainboards'));
+    }
 
-public function restore($id)
-{
-    $mainboard = Mainboard::onlyTrashed()->findOrFail($id);
-    $mainboard->restore();
-    return redirect()->route('admin.mainboard.trash')->with('message', 'Đã khôi phục mainboard thành công.');
-}
+    public function restore($id)
+    {
+        $mainboard = Mainboard::onlyTrashed()->findOrFail($id);
+        $mainboard->restore();
+        return redirect()->route('admin.mainboard.trash')->with('message', 'Đã khôi phục mainboard thành công.');
+    }
 
-public function forceDelete($id)
-{
-    $mainboard = Mainboard::onlyTrashed()->findOrFail($id);
-    $mainboard->forceDelete();
-    return redirect()->route('admin.mainboard.trash')->with('message', 'Đã xóa vĩnh viễn mainboard.');
-}
-
+    public function forceDelete($id)
+    {
+        try {
+            DB::beginTransaction();
+            $mainboard = Mainboard::withTrashed()->findOrFail($id);
+            if ($mainboard->sanPhams()->withTrashed()->exists()) {
+                DB::rollBack();
+                return redirect()->route('admin.mainboard.trash')->with('error', 'Không thể xóa mainboard vì có sản phẩm liên kết.');
+            }
+            $mainboard->forceDelete();
+            DB::commit();
+            return redirect()->route('admin.mainboard.trash')->with('message', 'Đã xóa vĩnh viễn mainboard thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi khi xóa vĩnh viễn mainboard: ' . $e->getMessage());
+            return redirect()->route('admin.mainboard.trash')->with('error', 'Đã xảy ra lỗi khi xóa vĩnh viễn mainboard: ' . $e->getMessage());
+        }
+    }
 }

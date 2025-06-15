@@ -48,7 +48,7 @@ class UserController extends Controller
             'ho_ten' => 'required|string|max:100',
             'so_dien_thoai' => 'required|string|max:20',
             'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'vai_tro' => 'required|in:admin,khach_hang',
+            'vai_tro' => 'required|in:quan_tri,khach_hang',
             'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap,' . $user->id . ',id',
             'trang_thai' => 'required|in:hoat_dong,vo_hieu,an',
         ]);
