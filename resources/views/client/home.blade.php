@@ -6,28 +6,28 @@
     <form method="GET" action="{{ route('client.home') }}">
     <div class="d-flex flex-wrap justify-content-center gap-2">
 
-      <select name="id_brand" class="form-select form-select-sm w-auto">
+      <select name="id_brand" class="form-select form-select-sm" style="width: 200px;">
       <option value="">-- Thương hiệu --</option>
       @foreach($thuongHieus as $item)
       <option value="{{ $item->id }}" {{ request('id_brand') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
     @endforeach
       </select>
 
-      <select name="id_chip" class="form-select form-select-sm w-auto">
+      <select name="id_chip" class="form-select form-select-sm" style="width: 200px;">
       <option value="">-- CPU --</option>
       @foreach($chips as $item)
       <option value="{{ $item->id }}" {{ request('id_chip') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
     @endforeach
       </select>
 
-      <select name="id_gpu" class="form-select form-select-sm w-auto">
+      <select name="id_gpu" class="form-select form-select-sm" style="width: 200px;">
       <option value="">-- GPU --</option>
       @foreach($gpus as $item)
       <option value="{{ $item->id }}" {{ request('id_gpu') == $item->id ? 'selected' : '' }}>{{ $item->ten }}</option>
     @endforeach
       </select>
 
-      <select name="id_ram" class="form-select form-select-sm w-auto">
+      <select name="id_ram" class="form-select form-select-sm" style="width: 200px;">
       <option value="">-- RAM --</option>
       @foreach($rams as $item)
       <option value="{{ $item->id }}" {{ request('id_ram') == $item->id ? 'selected' : '' }}>{{ $item->dung_luong }}
@@ -35,7 +35,7 @@
     @endforeach
       </select>
 
-      <select name="id_o_cung" class="form-select form-select-sm w-auto">
+      <select name="id_o_cung" class="form-select form-select-sm" style="width: 200px;">
       <option value="">-- Ổ cứng --</option>
       @foreach($oCungs as $item)
       <option value="{{ $item->id }}" {{ request('id_o_cung') == $item->id ? 'selected' : '' }}>{{ $item->dung_luong }}
@@ -106,7 +106,7 @@
       @endif
       </div>
 
-      <div class="mb-2 mt-auto">
+      <div class="mb-2 mt-200px">
         @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
       <span class="text-muted text-decoration-line-through small">
       {{ number_format($bienThe->gia_so_sanh) }}₫

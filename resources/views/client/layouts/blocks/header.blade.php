@@ -90,8 +90,8 @@
                 @endforeach
             </ul>
         </div>
-
-        <form class="input-group me-2 mt-3" style="max-width: 400px;">
+        <!-- ----------------------------------------- -->
+        <form class="input-group me-2" style="max-width: 400px;">
             <input class="form-control" type="search" placeholder="Bạn cần tìm gì?">
             <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
             <button type="submit" class="btn btn-danger d-block d-md-none"><i
@@ -124,4 +124,3 @@
         </div>
     </div>
 </div>
-
