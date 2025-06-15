@@ -11,8 +11,6 @@
         </div>
     </div>
 </div>
-<style>
-</style>
 <div class="header-main">
     <div class="container d-flex align-items-center">
         <a href="/" class="logo-link" title="Về trang chủ TopPC">
@@ -85,7 +83,7 @@
             <ul class="dropdown-menu menu-dropdown">
                 @foreach ($danhmucs as $danhmuc)
                     <li>
-                        <a class="dropdown-item" href="{{ route('danhmuc.show', $danhmuc->id) }}">
+                        <a class="dropdown-item" href="{{ route('danhmuc.index', $danhmuc->id) }}">
                             <i class="fa-solid fa-bars me-2"></i>{{ $danhmuc->ten }}
                         </a>
                     </li>

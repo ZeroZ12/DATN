@@ -11,12 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-<<<<<<< HEAD
         // Tạo theo migration 0001_01_01_000000_create_users_table
-        User::factory(2)->create();
+        // User::factory(2)->create();
         
        
-=======
         $this->call([
             UserSeeder::class,
             ChipSeeder::class,
@@ -29,6 +27,5 @@ class DatabaseSeeder extends Seeder
             ThuongHieuSeeder::class,
             CategorySeeder::class,
         ]);
->>>>>>> origin
     }
 }
