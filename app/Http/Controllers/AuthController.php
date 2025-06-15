@@ -11,7 +11,20 @@ class AuthController extends Controller
 
     public function showForm()
     {
-        return view('client.login-register');
+        if (Auth::check()) {
+            return redirect()->route('client.home');
+        }
+        return response()
+            ->view('client.login-register')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    }
+
+    public function showLoginForm()
+    {
+        if (Auth::check()) {
+            return redirect()->route('client.home');
+        }
+        return view('client.tk.access');
     }
 
     public function login(Request $request)
@@ -67,13 +80,6 @@ class AuthController extends Controller
         return redirect()->intended('/')->with('success', 'Đăng ký thành công! Bạn đã được đăng nhập.');
     }
 
-    public function showLoginForm()
-    {
-        return view('client.tk.access');
-    }
-    /**
-     * Đăng xuất
-     */
     public function logout(Request $request)
     {
         Auth::logout();
