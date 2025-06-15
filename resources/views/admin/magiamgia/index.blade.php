@@ -21,6 +21,48 @@
             </div>
         @endif
 
+<<<<<<< HEAD
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Mã</th>
+                <th>Loại</th>
+                <th>Giá trị</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Hoạt động</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($maGiamGias as $maGiamGia)
+                <tr>
+                    <td>{{ $maGiamGia->id }}</td>
+                    <td>{{ $maGiamGia->ma }}</td>
+                    <td>{{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</td>
+                    <td>{{ $maGiamGia->gia_tri }}</td>
+                    <td>{{ $maGiamGia->ngay_bat_dau ? $maGiamGia->ngay_bat_dau : 'N/A' }}</td>
+                    <td>{{ $maGiamGia->ngay_ket_thuc ? $maGiamGia->ngay_ket_thuc : 'N/A' }}</td>
+                    <td>{{ $maGiamGia->hoat_dong ? 'Có' : 'Không' }}</td>
+                    <td>
+                        <a href="{{ route('admin.magiamgia.edit', $maGiamGia->id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                        <form action="{{ route('admin.magiamgia.destroy', $maGiamGia->id) }}" method="POST" class="d-inline-block"
+                            onsubmit="return confirm('Bạn có chắc muốn xóa?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="8" class="text-center">Chưa có mã giảm giá nào.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+=======
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                 <a href="{{ route('admin.magiamgia.create') }}" class="btn btn-primary">Thêm Mã Giảm Giá Mới</a>
@@ -125,4 +167,5 @@
             </div>
         </div>
     </div>
+>>>>>>> origin
 @endsection
