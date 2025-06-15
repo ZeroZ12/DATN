@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
-use App\Http\Controllers\SanPhamController as ControllersSanPhamController;
+use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
 use App\Models\SanPham;
 
@@ -166,14 +166,13 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 })->name('admin.index');
 
 //Route client
-Route::get('/', [ControllersSanPhamController::class, 'index'])->name('client.home');
-Route::get('/sanpham/{id}', [ControllersSanPhamController::class, 'show'])->name('sanpham.show');
+Route::get('/', [ClientSanPhamController::class, 'index'])->name('client.home');
+Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
-  // Route tìm kiếm sản phẩm
-    Route::get('/search', [SanPhamController::class, 'search'])->name('search');
+// Route tìm kiếm sản phẩm
+Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
-

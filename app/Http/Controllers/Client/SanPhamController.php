@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+
+use App\Http\Controllers\Controller;
 use App\Models\Chip;
 use App\Models\Gpu;
 use App\Models\OCung;
