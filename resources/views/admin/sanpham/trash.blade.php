@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($sanphams as $sanpham)
+            @forelse ($trashedSanPhams as $sanpham)
                 <tr>
                     <td>{{ $sanpham->id }}</td>
                     <td>{{ $sanpham->ten }}</td>
@@ -75,13 +75,13 @@
     </table>
 
     <div class="d-flex justify-content-center">
-        {{ $sanphams->links() }}
+        {{ $trashedSanPhams->links() }}
     </div>
 </div>
 
 
     <div>
-        {{ $sanphams->links() }}
+        {{ $trashedSanPhams->links() }}
     </div>
 </div>
 @endsection
