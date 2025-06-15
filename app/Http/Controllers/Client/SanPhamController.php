@@ -47,7 +47,23 @@ class SanPhamController extends Controller
 
     return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs'));
 }
-
+public function danhmuc($id)
+{   
+    // Lấy sản phẩm theo id danh mục
+    $sanphams = SanPham::with(['thuongHieu', 'chip', 'mainboard', 'gpu', 'BienTheSanPhams.ram', 'BienTheSanPhams.oCung'])
+        ->where('id_category', $id)
+        
+        ->orderByDesc('id')
+        ->paginate(10)
+        ->withQueryString();
+    $thuongHieus = ThuongHieu::all();
+    $chips = Chip::all();
+    $gpus = GPU::all();
+    $rams = Ram::all();
+    $oCungs = OCung::all();
+    
+    return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs'));
+}
 public function show($id)
 {
     $sanpham = SanPham::with([
