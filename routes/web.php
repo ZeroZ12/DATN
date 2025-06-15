@@ -17,7 +17,6 @@ use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use App\Http\Middleware\CheckUserStatus;
-use App\Models\SanPham;
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -173,6 +172,12 @@ Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.
 Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
+Route::get ('/login', function (){
+    return redirect()->route('form', ['type' => 'login']);
+});
+Route::get ('/register', function (){
+    return redirect()->route('form', ['type' => 'register']);
+});
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
