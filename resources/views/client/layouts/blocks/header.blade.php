@@ -4,11 +4,13 @@
             <i class="fa-solid fa-gift me-2"></i>MUA PC GVN x MSI TẶNG MÀN OLED 240HZ
         </div>
         <div>
-            <span><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.5301</span>
+            <span><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.1009</span>
             <span><i class="fa-solid fa-location-dot me-1"></i>Hệ thống Showroom</span>
             <span><i class="fa-solid fa-box me-1"></i>Đơn hàng</span>
             {{-- CHỖ NÀY KHÔNG CẦN CHỈNH SỬA, VÌ CHÚNG TA SẼ XỬ LÝ ĐĂNG NHẬP/PROFILE Ở header-main --}}
-            <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
+
+            {{-- NHƯNG TÔI SẼ TẠM ĐÓNG NÓ VÀO CHO ĐẾN KHI ĐỘNG TỚI :v --}}
+            {{-- <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span> --}}
         </div>
     </div>
 </div>

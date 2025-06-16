@@ -1,14 +1,17 @@
         <header class="page-header row">
-            <div class="logo-wrapper d-flex align-items-center col-auto"><a href="{{ route('admin.index') }}"><img class="for-light"
-                        src="/assets/images/logo/logo.png" alt="logo"><img class="for-dark"
-                        src="/assets/images/logo/dark-logo.png" alt="logo"></a><a class="close-btn"
-                    href="javascript:void(0)">
+            <div class="logo-wrapper d-flex align-items-center col-auto">
+                <a href="{{ route('admin.index') }}">
+                    <img class="for-light" src="/assets/images/logo/logo.png" alt="logo">
+                    <img class="for-dark" src="/assets/images/logo/dark-logo.png" alt="logo">
+                </a>
+                <a class="close-btn" href="javascript:void(0)">
                     <div class="toggle-sidebar">
                         <div class="line"></div>
                         <div class="line"></div>
                         <div class="line"></div>
                     </div>
-                </a></div>
+                </a>
+            </div>
             <div class="page-main-header col">
                 <div class="header-left d-lg-block d-none">
                     <form class="search-form mb-0">
