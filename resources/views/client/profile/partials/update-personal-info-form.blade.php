@@ -16,24 +16,37 @@
         <div>
             <label for="ho_ten" class="form-label">Họ và Tên:</label> {{-- Đổi nhãn cho rõ ràng --}}
             {{-- THAY ĐỔI TÊN Ở ĐÂY --}}
-            <input id="ho_ten" name="ho_ten" type="text" class="form-control mt-1 block w-full" value="{{ old('ho_ten', $user->ho_ten) }}" required autofocus autocomplete="name">
-            @error('ho_ten') {{-- Đổi tên lỗi ở đây --}}
+            <input id="ho_ten" name="ho_ten" type="text" class="form-control mt-1 block w-full"
+                value="{{ old('ho_ten', $user->ho_ten) }}"  autofocus autocomplete="name">
+            @error('ho_ten')
+                {{-- Đổi tên lỗi ở đây --}}
+                <div class="text-danger mt-2">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div>
+            <label for="so_dien_thoai" class="form-label">Số điện thoại:</label>
+            <input id="so_dien_thoai" name="so_dien_thoai" type="number" class="form-control mt-1 block w-full"
+                value="{{ old('so_dien_thoai', $user->so_dien_thoai) }}" autocomplete="tel">
+            @error('so_dien_thoai')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
         </div>
 
         <div>
             <label for="email" class="form-label">Email:</label>
-            <input id="email" name="email" type="email" class="form-control mt-1 block w-full" value="{{ old('email', $user->email) }}" required autocomplete="username">
+            <input id="email" name="email" type="email" class="form-control mt-1 block w-full"
+                value="{{ old('email', $user->email) }}"  autocomplete="username">
             @error('email')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
                         Địa chỉ email của bạn chưa được xác minh.
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                        <button form="send-verification"
+                            class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             Nhấn vào đây để gửi lại email xác minh.
                         </button>
                     </p>
@@ -49,7 +62,8 @@
 
         <div>
             <label for="ten_dang_nhap" class="form-label">Tên đăng nhập:</label>
-            <input id="ten_dang_nhap" name="ten_dang_nhap" type="text" class="form-control mt-1 block w-full" value="{{ old('ten_dang_nhap', $user->ten_dang_nhap) }}" required autocomplete="username">
+            <input id="ten_dang_nhap" name="ten_dang_nhap" type="text" class="form-control mt-1 block w-full"
+                value="{{ old('ten_dang_nhap', $user->ten_dang_nhap) }}"  autocomplete="username">
             @error('ten_dang_nhap')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
@@ -59,13 +73,8 @@
             <button type="submit" class="btn btn-primary">Lưu</button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Đã lưu.') }}</p>
+                <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                    class="text-sm text-gray-600 dark:text-gray-400">{{ __('Đã lưu.') }}</p>
             @endif
         </div>
     </form>

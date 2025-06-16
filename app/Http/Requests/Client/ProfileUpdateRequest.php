@@ -28,7 +28,7 @@ class ProfileUpdateRequest extends FormRequest
 
         return [
             'ho_ten' => ['required', 'string', 'max:100'],
-            'so_dien_thoai' => ['nullable', 'string', 'max:20'],
+            'so_dien_thoai' => ['nullable', 'string', 'max:20',],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'ten_dang_nhap' => ['required', 'string', 'max:50', Rule::unique(User::class)->ignore($user->id, 'ten_dang_nhap')],
 
