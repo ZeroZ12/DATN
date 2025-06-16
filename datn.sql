@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 12, 2025 at 09:28 AM
+-- Generation Time: Jun 15, 2025 at 09:30 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.20
 
@@ -41,7 +41,14 @@ CREATE TABLE `anh_san_phams` (
 --
 
 INSERT INTO `anh_san_phams` (`id`, `id_product`, `duong_dan`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'images/anh_phu/Wd0XTsFZKzEpxuj5AQU15SfKOq2lDkUTuPToeDV8.jpg', '2025-06-10 01:29:24', '2025-06-10 01:29:24', NULL);
+(1, 1, 'images/anh_phu/Wd0XTsFZKzEpxuj5AQU15SfKOq2lDkUTuPToeDV8.jpg', '2025-06-10 01:29:24', '2025-06-10 01:29:24', NULL),
+(2, 1, 'images/iP8cGOPaSOQ6CNuZxKUcyIfhTgsj6r6gZB9ylNVH.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(3, 1, 'images/s5btQBkK0ew9y4QfOELGmvFk5DDXF9cF0GGMNhyp.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(4, 1, 'images/XbOvb8CsXr0KdGR0zXw8uNp9XRJusU9QZYvgCx7J.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(5, 1, 'images/uJAjKuEqAzPQjSGphZIuPeHg05EZ6EFyW3X8sztF.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(6, 1, 'images/4rKOl3djH7fBoFFUETB4hAqx9RIe18IeuduEty2i.png', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(7, 1, 'images/ZZcyPXgmqDJvL9yAZ67yaSRzkbVgHxanLmTDySn4.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL),
+(8, 1, 'images/pOTH6zErlm5lovB1ErR7RCuaggb4vDbyuxJc7J40.jpg', '2025-06-14 20:52:32', '2025-06-14 20:52:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -69,7 +76,8 @@ CREATE TABLE `bien_the_san_phams` (
 --
 
 INSERT INTO `bien_the_san_phams` (`id`, `id_product`, `id_ram`, `id_o_cung`, `gia`, `gia_so_sanh`, `ton_kho`, `ma_bien_the`, `anh_dai_dien`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, 1, '12000000.00', '1000000.00', 6, 'BT2540', NULL, '2025-06-10 01:29:25', '2025-06-10 01:29:25', NULL);
+(1, 1, 1, 1, '12000000.00', '1000000.00', 6, 'BT2540', NULL, '2025-06-10 01:29:25', '2025-06-10 01:29:25', NULL),
+(2, 1, 2, 2, '12566400.00', '1000000.00', 8, 'BT914314', NULL, '2025-06-15 00:44:20', '2025-06-15 00:44:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -115,7 +123,8 @@ CREATE TABLE `chips` (
 --
 
 INSERT INTO `chips` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'CPU Intel Core i5-11400F', 'Intel Core i5-11400F là sự lựa chọn đáng giá cho người dùng đang tìm kiếm một bộ xử lý toàn diện. Dù bạn đang cần một cỗ máy để làm việc hiệu quả, chơi game mượt mà hay hỗ trợ xử lý dữ liệu AI, CPU này đều đáp ứng hoàn hảo.', '2025-06-10 01:21:38', '2025-06-10 01:21:38', NULL);
+(1, 'CPU Intel Core i5-11400F', 'Intel Core i5-11400F là sự lựa chọn đáng giá cho người dùng đang tìm kiếm một bộ xử lý toàn diện. Dù bạn đang cần một cỗ máy để làm việc hiệu quả, chơi game mượt mà hay hỗ trợ xử lý dữ liệu AI, CPU này đều đáp ứng hoàn hảo.', '2025-06-10 01:21:38', '2025-06-10 01:21:38', NULL),
+(2, 'CPU Intel Core i5-11400F', 'Chip Trung', '2025-06-15 00:40:54', '2025-06-15 00:40:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -281,7 +290,8 @@ CREATE TABLE `gpus` (
 --
 
 INSERT INTO `gpus` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Card đồ họa Asus TUF RTX 4080 OC 16GB GAMING GDDR6X', 'Card đồ hoạ Asus TUF Gaming GeForce RTX 4080 OC Edition là sản phẩm cao cấp của Asus, được thiết kế dựa trên kiến trúc Ada Lovelace mới nhất của Nvidia. Card đồ hoạ này mang lại hiệu năng xử lý đồ hoạ tuyệt vời. Vì vậy, đây sẽ là lựa chọn hoàn hảo cho những người dùng đang tìm kiếm một card đồ hoạ cao cấp để chơi game và sáng tạo nội dung.', '2025-06-10 01:22:50', '2025-06-10 01:22:50', NULL);
+(1, 'Card đồ họa Asus TUF RTX 4080 OC 16GB GAMING GDDR6X', 'Card đồ hoạ Asus TUF Gaming GeForce RTX 4080 OC Edition là sản phẩm cao cấp của Asus, được thiết kế dựa trên kiến trúc Ada Lovelace mới nhất của Nvidia. Card đồ hoạ này mang lại hiệu năng xử lý đồ hoạ tuyệt vời. Vì vậy, đây sẽ là lựa chọn hoàn hảo cho những người dùng đang tìm kiếm một card đồ hoạ cao cấp để chơi game và sáng tạo nội dung.', '2025-06-10 01:22:50', '2025-06-10 01:22:50', NULL),
+(2, 'RTX 4050 6G', 'manhds', '2025-06-15 00:42:06', '2025-06-15 00:42:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -352,7 +362,8 @@ CREATE TABLE `mainboards` (
 --
 
 INSERT INTO `mainboards` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Mainboard Asus PRIME H510M-K (LGA 1200 - m-ATX Form Factor - DDR4)', 'Nếu bạn đang tìm một bo mạch chủ được thiết kế để phát huy hết tiềm năng của bộ vi xử lý Intel thế hệ 10 và 11 thì Asus PRIME H510M-K là một sự lựa chọn hoàn hảo ở phân khúc phổ thông. Với thiết kế mạnh mẽ, giải pháp làm mát toàn diện và các tùy chọn điều chỉnh thông minh, PRIME H510M-K sẽ không bao giờ khiến bạn phải thất vọng.', '2025-06-10 01:22:12', '2025-06-10 01:22:12', NULL);
+(1, 'Mainboard Asus PRIME H510M-K (LGA 1200 - m-ATX Form Factor - DDR4)', 'Nếu bạn đang tìm một bo mạch chủ được thiết kế để phát huy hết tiềm năng của bộ vi xử lý Intel thế hệ 10 và 11 thì Asus PRIME H510M-K là một sự lựa chọn hoàn hảo ở phân khúc phổ thông. Với thiết kế mạnh mẽ, giải pháp làm mát toàn diện và các tùy chọn điều chỉnh thông minh, PRIME H510M-K sẽ không bao giờ khiến bạn phải thất vọng.', '2025-06-10 01:22:12', '2025-06-10 01:22:12', NULL),
+(2, 'Main Gigabyte AS', 'Main mạnh', '2025-06-15 00:41:27', '2025-06-15 00:41:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -457,7 +468,8 @@ CREATE TABLE `o_cungs` (
 --
 
 INSERT INTO `o_cungs` (`id`, `loai`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Ổ Cứng SSD Kingston 500 GB M.2 NVMe', '500 GB', 'ổ cứng nhanh', '2025-06-10 01:28:17', '2025-06-10 01:28:17', NULL);
+(1, 'Ổ Cứng SSD Kingston 500 GB M.2 NVMe', '500 GB', 'ổ cứng nhanh', '2025-06-10 01:28:17', '2025-06-10 01:28:17', NULL),
+(2, 'ssd', '500 GB', 'mạnh', '2025-06-15 00:42:42', '2025-06-15 00:42:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -483,15 +495,16 @@ CREATE TABLE `phuong_thuc_thanh_toans` (
   `mo_ta` text COLLATE utf8mb4_unicode_ci,
   `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `phuong_thuc_thanh_toans`
 --
 
-INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten`, `mo_ta`, `hoat_dong`, `created_at`, `updated_at`) VALUES
-(1, 'COD', 'Thanh toán khi nhận hàng', 1, '2025-06-10 01:24:23', '2025-06-10 01:24:23');
+INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten`, `mo_ta`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'COD', 'Thanh toán khi nhận hàng', 1, '2025-06-10 01:24:23', '2025-06-10 01:24:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -513,7 +526,8 @@ CREATE TABLE `rams` (
 --
 
 INSERT INTO `rams` (`id`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'RAM Desktop G.Skill Ripjaws V 8GB DDR4 3200 MHz - ( F4-3200C16S-8GVKB )', 'G.SKILL Ripjaws V 8GB DDR4 3200MHz là một sản phẩm bộ nhớ DDR4 có dung lượng dồi dào và tốc độ cao. RAM còn có thêm tản nhiệt hầm hố bên ngoài để giữ cho nhiệt độ và hiệu năng ổn định trong thời gian dài.', '2025-06-10 01:23:15', '2025-06-10 01:23:15', NULL);
+(1, 'RAM Desktop G.Skill Ripjaws V 8GB DDR4 3200 MHz - ( F4-3200C16S-8GVKB )', 'G.SKILL Ripjaws V 8GB DDR4 3200MHz là một sản phẩm bộ nhớ DDR4 có dung lượng dồi dào và tốc độ cao. RAM còn có thêm tản nhiệt hầm hố bên ngoài để giữ cho nhiệt độ và hiệu năng ổn định trong thời gian dài.', '2025-06-10 01:23:15', '2025-06-10 01:23:15', NULL),
+(2, 'Ram 8G', 'FSFGG', '2025-06-15 00:42:21', '2025-06-15 00:42:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -566,7 +580,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('kvHTWKCActlvTIeBKoSYutW76CRZxW4X2aZMKTwV', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMlc5aUtTMlRXTDJ5VHVvOWVnb0xQeWdmb1dwdUhPemRYYXlSSUJiMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1749720161);
+('Ee9fUouqfD2RkGOMWpAO6mWksk6rYVU6vWqUUtM2', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiQ0pJdlhPclFCNjFTakRCeW85NXVESkJYenRaY2ZxUjZaY1J2Z3F1TSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDI6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9zYW5waGFtLzEvZWRpdCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1749973460),
+('FjCuIdmyHaAFugD5koRkoylQNLkqlqbP82i8jQ9m', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZFlMVWhKMXZZd1VYbk5NZlNMSTFBdm1vbEJzdXhpMkhPSnduUTlUWSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9mb3JtIjt9fQ==', 1749964543);
 
 -- --------------------------------------------------------
 
@@ -617,7 +632,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ten_dang_nhap`, `email`, `email_verified_at`, `password`, `ho_ten`, `so_dien_thoai`, `vai_tro`, `ngay_tao`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Long', 'longthph53584@gmail.com', NULL, '$2y$12$cqqtxjbbiEcYObIltOmn5.uvn5OwuzOKlsvCY1VAKuSYYgjA95YRC', 'H lONG', '0379354506', 'quan_tri', '2025-06-09 07:12:43', NULL, '2025-06-10 20:25:01', '2025-06-10 20:25:01', NULL);
+(1, 'Long', 'longthph53584@gmail.com', NULL, '$2y$12$cqqtxjbbiEcYObIltOmn5.uvn5OwuzOKlsvCY1VAKuSYYgjA95YRC', 'H lONG', '0379354506', 'quan_tri', '2025-06-09 07:12:43', NULL, '2025-06-10 20:25:01', '2025-06-10 20:25:01', NULL),
+(2, 'CSFSCF', 'longcfmlq1234@gmail.com', NULL, '$2y$12$tU9VjDxDtGTBMpMqCEoMOez/haJ3k39X5XqJ/hzYiGAcv5St8HWXe', 'H lONG', '08797867676', 'khach_hang', '2025-06-09 07:12:43', NULL, '2025-06-14 21:03:12', '2025-06-14 21:03:12', NULL);
 
 --
 -- Indexes for dumped tables
@@ -841,19 +857,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anh_san_phams`
 --
 ALTER TABLE `anh_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `bien_the_san_phams`
 --
 ALTER TABLE `bien_the_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `chips`
 --
 ALTER TABLE `chips`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `chi_tiet_don_hangs`
@@ -907,7 +923,7 @@ ALTER TABLE `gio_hangs`
 -- AUTO_INCREMENT for table `gpus`
 --
 ALTER TABLE `gpus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -925,7 +941,7 @@ ALTER TABLE `lich_su_xems`
 -- AUTO_INCREMENT for table `mainboards`
 --
 ALTER TABLE `mainboards`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `ma_giam_gias`
@@ -949,7 +965,7 @@ ALTER TABLE `nhat_ky_ton_khos`
 -- AUTO_INCREMENT for table `o_cungs`
 --
 ALTER TABLE `o_cungs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `phuong_thuc_thanh_toans`
@@ -961,7 +977,7 @@ ALTER TABLE `phuong_thuc_thanh_toans`
 -- AUTO_INCREMENT for table `rams`
 --
 ALTER TABLE `rams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `san_phams`
@@ -979,7 +995,7 @@ ALTER TABLE `thuong_hieus`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

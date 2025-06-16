@@ -34,8 +34,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
 
 
-
-
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
         Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
