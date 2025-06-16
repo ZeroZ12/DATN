@@ -32,10 +32,10 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'ten_dang_nhap' => ['required', 'string', 'max:50', Rule::unique(User::class)->ignore($user->id, 'ten_dang_nhap')],
 
-            // SỬA ĐỔI PHẦN NÀY CHO MẬT KHẨU
-            'password' => ['nullable', 'string', 'min:8'], // Mật khẩu có thể null, string, min 8
-            // Chỉ yêu cầu 'confirmed' khi trường 'password' CÓ MẶT (tức là người dùng đã nhập vào nó)
-            'password_confirmation' => ['nullable', 'string', 'min:8', 'same:password'], // Thêm 'same:password' thay vì 'confirmed' trên 'password' chính.
+            // // SỬA ĐỔI PHẦN NÀY CHO MẬT KHẨU
+            // 'password' => ['nullable', 'string', 'min:8'], // Mật khẩu có thể null, string, min 8
+            // // Chỉ yêu cầu 'confirmed' khi trường 'password' CÓ MẶT (tức là người dùng đã nhập vào nó)
+            // 'password_confirmation' => ['nullable', 'string', 'min:8', 'same:password'], // Thêm 'same:password' thay vì 'confirmed' trên 'password' chính.
         ];
     }
 }

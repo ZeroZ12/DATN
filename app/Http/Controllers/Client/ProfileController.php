@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 // use App\Models\User; // Không cần import trực tiếp User nữa nếu chỉ dùng $request->user()
 use App\Http\Requests\Client\ProfileUpdateRequest; // <<< Import Form Request mới
+use App\Http\Requests\Client\PasswordUpdateRequest;
 use Illuminate\Http\RedirectResponse; // <<< Thêm type hint cho RedirectResponse
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect; // <<< Import Redirect facade
 use Illuminate\View\View; // <<< Thêm type hint cho View
@@ -59,8 +61,23 @@ class ProfileController extends Controller
 
         // Chuyển hướng về lại trang profile với thông báo thành công.
         // Redirect::route() là cách chuẩn để chuyển hướng đến một route đã đặt tên.
-        return Redirect::route('client.profile.show')->with('success', 'Cập nhật thông tin cá nhân thành công!');
+        return Redirect::route('client.profile.show')->with('status', 'profile-updated');
     }
 
+    public function updatePassword(PasswordUpdateRequest $request): RedirectResponse // <<< Sử dụng PasswordUpdateRequest
+    {
+        /** @var \App\Models\User $user */ // DocBlock cho IDE
+        $user = Auth::user();
 
+        // Laravel tự động validate qua PasswordUpdateRequest.
+        // Mật khẩu mới đã được hashed tự động nếu bạn có thuộc tính 'password' => 'hashed' trong User model
+        // hoặc bạn có thể băm thủ công: Hash::make($request->password)
+
+        $user->update([
+            'password' => $request->password, // Laravel sẽ tự động băm nếu đã cấu hình 'hashed' trong $casts của User model
+            // Nếu không, hãy dùng Hash::make($request->password)
+        ]);
+
+        return Redirect::route('client.profile.show')->with('status', 'password-updated');
+    }
 }
