@@ -131,7 +131,7 @@
                   <span class="rating-text">({{ rand(3, 15) }})</span>
                 </div>
                 <div class="product-actions">
-                  <form action="" method="POST" class="add-to-cart-form" onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
+                    <form action="{{ route('client.cart.add') }}" method="POST" class="add-to-cart-form" onsubmit="return addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
                     @csrf
                     <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
                     <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
@@ -303,6 +303,16 @@
     min-width: 270px;
     max-width: 270px;
     flex: 0 0 270px;
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
   }
   .slider-btn {
     background: #fff;
@@ -410,27 +420,35 @@
     gap: 6px;
     position: relative;
     z-index: 2;
+    min-height: 38px;
   }
 
-  .add-to-cart-btn:hover {
+  .add-to-cart-btn:hover:not(:disabled) {
     background: #218838;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
   }
 
   .add-to-cart-btn:active {
-    transform: translateY(0);
+    transform: scale(0.98);
+  }
+
+  .add-to-cart-btn:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.8;
   }
 
   .add-to-cart-btn.loading {
-    background: #6c757d;
-    cursor: not-allowed;
+    background: #6c757d !important;
   }
 
-  .add-to-cart-btn.loading:hover {
-    background: #6c757d;
-    transform: none;
-    box-shadow: none;
+  .add-to-cart-btn.success {
+    background: #28a745 !important;
+  }
+
+  .add-to-cart-btn.error {
+    background: #dc3545 !important;
   }
 
   .product-detail-btn {
@@ -459,6 +477,10 @@
     box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
     color: white;
     text-decoration: none;
+  }
+
+  .product-detail-btn:active {
+    transform: scale(0.98);
   }
 
   .product-title {
@@ -533,6 +555,135 @@
     margin-top: 20px;
   }
 
+  .cart-count {
+    transition: all 0.3s ease;
+  }
+
+  /* Animation keyframes */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .fa-spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes progress {
+    from { width: 100%; }
+    to { width: 0%; }
+  }
+
+  /* Toast notification styles */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    min-width: 300px;
+    overflow: hidden;
+  }
+
+  .toast.success {
+    border-left: 4px solid #28a745;
+  }
+
+  .toast.error {
+    border-left: 4px solid #dc3545;
+  }
+
+  .toast.info {
+    border-left: 4px solid #17a2b8;
+  }
+
+  .toast.show {
+    transform: translateX(0);
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  .toast-content {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: auto;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .toast-close:hover {
+    background: #f0f0f0;
+    color: #666;
+  }
+
+  .toast::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: currentColor;
+    opacity: 0.3;
+    animation: progress 4s linear;
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .filter-tabs {
@@ -558,6 +709,22 @@
     .products-slider-wrapper {
       padding: 15px;
     }
+
+    .toast-container {
+      right: 10px;
+      left: 10px;
+      top: 10px;
+    }
+
+    .toast {
+      min-width: auto;
+      margin-bottom: 8px;
+    }
+
+    .toast-content {
+      padding: 12px 15px;
+      font-size: 13px;
+    }
   }
 
   @media (max-width: 576px) {
@@ -574,148 +741,152 @@
     }
   }
 </style>
+@endpush
 
+@push('js')
 <script>
-  function showFilterModal() {
-    // Implement filter modal functionality if needed
-    alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
-  }
-
-  function resetFilters() {
-    // Reset all select elements to their default values
-    const selects = document.querySelectorAll('.filter-tab-select');
-    selects.forEach(select => {
-      select.selectedIndex = 0;
-    });
-
-    // Submit the form to clear filters
-    document.querySelector('.filter-form').submit();
-  }
-
   function addToCart(event, sanPhamId, bienTheId) {
     event.preventDefault();
+    event.stopPropagation();
 
     const form = event.target;
     const button = form.querySelector('.add-to-cart-btn');
-    const originalText = button.innerHTML;
+    const originalContent = button.innerHTML;
 
-    // Show loading state
-    button.classList.add('loading');
+    // Kiểm tra CSRF token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
+        return;
+    }
+
+    // Reset any previous states
+    button.className = 'add-to-cart-btn loading';
+    button.disabled = true;
+    button.style.animation = '';
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
 
     // Create FormData from the form
     const formData = new FormData(form);
 
     fetch(form.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        // Show success state
-        button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
-        button.style.background = '#28a745';
-
-        // Update cart count if exists
-        const cartCount = document.querySelector('.cart-count');
-        if (cartCount) {
-          cartCount.textContent = data.cart_count || parseInt(cartCount.textContent) + 1;
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+            'Accept': 'application/json'
         }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            // Success state
+            button.className = 'add-to-cart-btn success';
+            button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
+            button.style.animation = 'pulse 0.6s ease-in-out';
 
-        // Reset button after 2 seconds
-        setTimeout(() => {
-          button.classList.remove('loading');
-          button.innerHTML = originalText;
-          button.style.background = '';
-        }, 2000);
+            // Update cart count
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount && data.cart_count) {
+                cartCount.textContent = data.cart_count;
+                cartCount.style.animation = 'bounce 0.6s ease-in-out';
+                setTimeout(() => cartCount.style.animation = '', 600);
+            }
 
-        // Show toast notification
-        showToast('Đã thêm sản phẩm vào giỏ hàng!', 'success');
-      } else {
-        throw new Error(data.message || 'Có lỗi xảy ra');
-      }
+            // Show success toast
+            showToast('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+
+            // Reset button after delay
+            setTimeout(() => {
+                button.className = 'add-to-cart-btn';
+                button.disabled = false;
+                button.innerHTML = originalContent;
+                button.style.animation = '';
+            }, 2000);
+
+        } else {
+            // Handle redirect (login required)
+            if (data.redirect) {
+                showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1000);
+                return;
+            }
+            throw new Error(data.message || 'Có lỗi xảy ra');
+        }
     })
     .catch(error => {
-      console.error('Error:', error);
+        console.error('Error:', error);
 
-      // Show error state
-      button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
-      button.style.background = '#dc3545';
+        // Error state
+        button.className = 'add-to-cart-btn error';
+        button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+        button.style.animation = 'shake 0.6s ease-in-out';
 
-      // Reset button after 2 seconds
-      setTimeout(() => {
-        button.classList.remove('loading');
-        button.innerHTML = originalText;
-        button.style.background = '';
-      }, 2000);
+        // Show error toast
+        showToast(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng!', 'error');
 
-      // Show error notification
-      showToast('Có lỗi xảy ra khi thêm vào giỏ hàng!', 'error');
+        // Reset button after delay
+        setTimeout(() => {
+            button.className = 'add-to-cart-btn';
+            button.disabled = false;
+            button.innerHTML = originalContent;
+            button.style.animation = '';
+        }, 2000);
     });
   }
 
   function showToast(message, type = 'success') {
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-      <div class="toast-content">
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-        <span>${message}</span>
-      </div>
-    `;
-
-    // Add toast styles if not exists
-    if (!document.querySelector('#toast-styles')) {
-      const style = document.createElement('style');
-      style.id = 'toast-styles';
-      style.textContent = `
-        .toast {
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-          z-index: 9999;
-          transform: translateX(100%);
-          transition: transform 0.3s ease;
-          border-left: 4px solid #28a745;
-        }
-        .toast.toast-error {
-          border-left-color: #dc3545;
-        }
-        .toast-content {
-          padding: 15px 20px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          color: #333;
-          font-size: 14px;
-        }
-        .toast.show {
-          transform: translateX(0);
-        }
-      `;
-      document.head.appendChild(style);
+    // Create toast container if it doesn't exist
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
     }
 
-    // Add to page
-    document.body.appendChild(toast);
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
 
-    // Show toast
+    // Icon based on type
+    let icon = 'check-circle';
+    if (type === 'error') icon = 'exclamation-circle';
+    if (type === 'info') icon = 'info-circle';
+
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+
+    // Add to container
+    container.appendChild(toast);
+
+    // Show toast with animation
     setTimeout(() => toast.classList.add('show'), 100);
 
-    // Remove toast after 3 seconds
+    // Remove toast after 4 seconds
     setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
+        toast.classList.remove('show');
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 300);
+    }, 4000);
   }
 
   function scrollProducts(btn, direction) {
@@ -723,8 +894,28 @@
     const slider = wrapper.querySelector('.products-slider');
     const card = slider.querySelector('.product-card');
     if (!card) return;
+
     const scrollAmount = card.offsetWidth + 20; // 20 là gap
-    slider.scrollBy({ left: direction * scrollAmount * 2, behavior: 'smooth' });
+    slider.scrollBy({
+        left: direction * scrollAmount * 2,
+        behavior: 'smooth'
+    });
+  }
+
+  function resetFilters() {
+    // Reset all select elements to their default values
+    const selects = document.querySelectorAll('.filter-tab-select');
+    selects.forEach(select => {
+        select.selectedIndex = 0;
+    });
+
+    // Submit the form to clear filters
+    document.querySelector('.filter-form').submit();
+  }
+
+  function showFilterModal() {
+    // Implement filter modal functionality if needed
+    alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
   }
 </script>
 @endpush

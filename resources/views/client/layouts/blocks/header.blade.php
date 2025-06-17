@@ -122,8 +122,9 @@
                 </a>
             @endauth
 
-            <a class="giohang text-white" href="/giohang.html">
+            <a class="giohang text-white position-relative" href="{{ route('client.cart.index') }}">
                 <span><i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng</span>
+                <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7em;">0</span>
             </a>
         </div>
     </div>
