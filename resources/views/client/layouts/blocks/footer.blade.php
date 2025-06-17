@@ -2,7 +2,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <h6>Về GEARVN</h6>
+          <h6>Về TopPC</h6>
           <ul class="list-unstyled">
             <li>Giới thiệu</li>
             <li>Tuyển dụng</li>
@@ -31,9 +31,9 @@
         <div class="col-md-3">
           <h6>Tổng đài hỗ trợ</h6>
           <ul class="list-unstyled">
-            <li>Mua hàng: 1900.5301</li>
-            <li>Khiếu nại: 1900.6173</li>
-            <li>Email: cskh@gearvn.com</li>
+            <li>Mua hàng: 1900.1009</li>
+            <li>Khiếu nại: 1900.1010</li>
+            <li>Email: cskh@toppc.com</li>
           </ul>
         </div>
       </div>

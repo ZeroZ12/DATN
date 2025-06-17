@@ -12,7 +12,7 @@ class CategorySeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $tenDanhMuc = ['Laptop', 'PC Gaming', 'Linh kiện', 'Màn hình', 'Phụ kiện'];
+        $tenDanhMuc = ['Laptop', 'PC Gaming', 'Linh kiện', 'Màn hình', 'Phụ kiện', 'PC Bán Chạy'];
 
         foreach ($tenDanhMuc as $ten) {
             DanhMuc::create([
