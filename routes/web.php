@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
-
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Client\UserAddressController;
@@ -195,3 +195,23 @@ Route::get('/register', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Cart routes
+Route::middleware(['auth'])->group(function () {
+    // Cart routes
+    Route::prefix('cart')->name('client.cart.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Client\CartController::class, 'index'])->name('index');
+        Route::post('/add', [App\Http\Controllers\Client\CartController::class, 'add'])->name('add');
+        Route::put('/update/{id}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('update');
+        Route::delete('/remove/{id}', [App\Http\Controllers\Client\CartController::class, 'remove'])->name('remove');
+        Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
+        Route::get('/checkout', [App\Http\Controllers\Client\CartController::class, 'checkout'])->name('checkout');
+        Route::post('/place-order', [App\Http\Controllers\Client\CartController::class, 'placeOrder'])->name('place-order');
+
+    });
+
+    // Payment routes
+    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
+    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
+});
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');

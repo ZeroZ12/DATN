@@ -98,16 +98,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainImage = document.querySelector('.product-gallery-main img');
   const thumbnails = document.querySelectorAll('.product-gallery-thumb img');
 
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', function() {
-      // Remove active class from all thumbnails
-      thumbnails.forEach(t => t.classList.remove('active'));
-      // Add active class to clicked thumbnail
-      this.classList.add('active');
-      // Update main image source
-      mainImage.src = this.src;
+  if (mainImage && thumbnails.length > 0) {
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        // Remove active class from all thumbnails
+        thumbnails.forEach(t => t.classList.remove('active'));
+        // Add active class to clicked thumbnail
+        this.classList.add('active');
+        // Update main image source
+        mainImage.src = this.src;
+      });
     });
-  });
+  }
 
   // User dropdown logic
   document.querySelectorAll('.user-toggle').forEach(function(toggle) {
@@ -133,33 +135,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = 'thongtincanhan.html';
     });
   });
-
-  // Cart quantity logic
-  document.querySelectorAll('.cart-item-qty').forEach(function(qtyBox) {
-    const minusBtn = qtyBox.querySelector('button.cart-qty-btn:first-child');
-    const plusBtn = qtyBox.querySelector('button.cart-qty-btn:last-child');
-    const input = qtyBox.querySelector('.cart-qty-input');
-    minusBtn.addEventListener('click', function() {
-      let val = parseInt(input.value);
-      if(val > 1) input.value = val - 1;
-      updateCartTotal();
-    });
-    plusBtn.addEventListener('click', function() {
-      let val = parseInt(input.value);
-      input.value = val + 1;
-      updateCartTotal();
-    });
-  });
-  function updateCartTotal() {
-    let total = 0;
-    document.querySelectorAll('.cart-item').forEach(function(item) {
-      const priceText = item.querySelector('.cart-item-price').textContent.replace(/[^\d]/g, '');
-      const qty = parseInt(item.querySelector('.cart-qty-input').value);
-      total += parseInt(priceText) * qty;
-    });
-    document.querySelector('.cart-total').textContent = 'Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫';
-  }
-  updateCartTotal();
 
   // Giỏ hàng toàn cục với localStorage và badge
   function getCart() {
@@ -195,66 +170,4 @@ document.addEventListener('DOMContentLoaded', function() {
     setCart(cart);
     updateCartBadge();
   }
-  // Gắn vào nút MUA NGAY ở trang chi tiết sản phẩm:
-  // <button onclick="addToCart({id: 'pc-13400f', name: 'PC GVN Intel i5-13400F/ VGA RTX 5060', price: 23990000, qty: 1, img: '...url...'})">MUA NGAY</button>
-
-  // Ở trang giỏ hàng: render từ localStorage, tăng/giảm số lượng cập nhật localStorage và badge
-  if(document.querySelector('.cart-box')) {
-    function renderCart() {
-      const cart = getCart();
-      const cartBox = document.querySelector('.cart-box');
-      const items = cart.map(item => `
-        <div class="cart-item">
-          <img src="${item.img}" alt="${item.name}">
-          <div class="flex-grow-1">
-            <div class="cart-item-title">${item.name}</div>
-            <div class="cart-item-qty mt-2">
-              <button class="cart-qty-btn" type="button">-</button>
-              <input type="text" class="cart-qty-input" value="${item.qty}" min="1" style="width:40px; text-align:center;" readonly>
-              <button class="cart-qty-btn" type="button">+</button>
-              <span class="cart-item-remove">Xoá</span>
-            </div>
-          </div>
-          <div class="text-end">
-            <div class="cart-item-price">${item.price.toLocaleString('vi-VN')}₫</div>
-          </div>
-        </div>`).join('');
-      cartBox.querySelectorAll('.cart-item').forEach(e => e.remove());
-      cartBox.insertAdjacentHTML('afterbegin', items);
-      updateCartTotal();
-      updateCartBadge();
-      bindCartEvents();
-    }
-    function bindCartEvents() {
-      document.querySelectorAll('.cart-item-qty').forEach(function(qtyBox, idx) {
-        const minusBtn = qtyBox.querySelector('button.cart-qty-btn:first-child');
-        const plusBtn = qtyBox.querySelector('button.cart-qty-btn:last-child');
-        const input = qtyBox.querySelector('.cart-qty-input');
-        minusBtn.onclick = function() {
-          let cart = getCart();
-          if(cart[idx].qty > 1) cart[idx].qty--;
-          setCart(cart); renderCart();
-        };
-        plusBtn.onclick = function() {
-          let cart = getCart();
-          cart[idx].qty++;
-          setCart(cart); renderCart();
-        };
-      });
-      document.querySelectorAll('.cart-item-remove').forEach(function(btn, idx) {
-        btn.onclick = function() {
-          let cart = getCart();
-          cart.splice(idx, 1);
-          setCart(cart); renderCart();
-        };
-      });
-    }
-    function updateCartTotal() {
-      let total = 0;
-      getCart().forEach(item => total += item.price * item.qty);
-      const totalDiv = document.querySelector('.cart-total');
-      if(totalDiv) totalDiv.textContent = 'Tổng tiền: ' + total.toLocaleString('vi-VN') + '₫';
-    }
-    renderCart();
-  }
-}); 
+});
