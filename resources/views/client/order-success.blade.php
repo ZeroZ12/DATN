@@ -28,13 +28,7 @@
                                     <tr>
                                         <td>Phương thức thanh toán:</td>
                                         <td class="text-end">
-                                            @if($donHang->phuong_thuc_thanh_toan === 'cod')
-                                                Thanh toán khi nhận hàng
-                                            @elseif($donHang->phuong_thuc_thanh_toan === 'banking')
-                                                Chuyển khoản ngân hàng
-                                            @else
-                                                Ví MoMo
-                                            @endif
+                                            {{ $donHang->phuongThucThanhToan->ten }}
                                         </td>
                                     </tr>
                                 </tbody>

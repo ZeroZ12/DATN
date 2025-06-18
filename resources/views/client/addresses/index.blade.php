@@ -26,9 +26,9 @@
             <div class="row">
                 @foreach ($addresses as $address)
                     <div class="col-md-6 mb-4">
-                        <div class="card @if ($address->mac_dinh) border-success @endif">
-                            <div class="card-header @if ($address->mac_dinh) bg-success text-white @endif">
-                                Địa chỉ @if ($address->mac_dinh)
+                        <div class="card @if ($address->la_mac_dinh) border-success @endif">
+                            <div class="card-header @if ($address->la_mac_dinh) bg-success text-white @endif">
+                                Địa chỉ @if ($address->la_mac_dinh)
                                     (Mặc định)
                                 @endif
                             </div>
@@ -42,7 +42,7 @@
                                     <a href="{{ route('client.addresses.edit', $address) }}"
                                         class="btn btn-sm btn-info">Sửa</a>
 
-                                    @if (!$address->mac_dinh)
+                                    @if (!$address->la_mac_dinh)
                                         <form action="{{ route('client.addresses.setDefault', $address) }}" method="POST"
                                             style="display:inline;">
                                             @csrf

@@ -71,9 +71,9 @@
 
             {{-- Checkbox Địa chỉ mặc định --}}
             <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="mac_dinh" name="mac_dinh" value="1"
-                    {{ old('mac_dinh', $address->mac_dinh) ? 'checked' : '' }}>
-                <label class="form-check-label" for="mac_dinh">Đặt làm địa chỉ mặc định</label>
+                <input type="checkbox" class="form-check-input" id="la_mac_dinh" name="la_mac_dinh" value="1"
+                    {{ old('la_mac_dinh', $address->la_mac_dinh) ? 'checked' : '' }}>
+                <label class="form-check-label" for="la_mac_dinh">Đặt làm địa chỉ mặc định</label>
             </div>
 
             <button type="submit" class="btn btn-primary">Cập nhật địa chỉ</button>

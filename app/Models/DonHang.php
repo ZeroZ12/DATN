@@ -54,10 +54,10 @@ class DonHang extends Model
     /**
      * Get the address used for the order.
      */
-    // public function diaChiNguoiDung()
-    // {
-    //     return $this->belongsTo(DiaChiNguoiDung::class, 'id_dia_chi_nguoi_dungs');
-    // }
+    public function diaChiNguoiDung()
+    {
+        return $this->belongsTo(DiaChiNguoiDung::class, 'id_dia_chi_nguoi_dungs');
+    }
 
     /**
      * Get the payment method used for the order.

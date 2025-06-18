@@ -17,7 +17,7 @@
                         <p class="text-muted">Vui lòng chọn phương thức thanh toán phù hợp</p>
                     </div>
 
-                    @if($donHang->phuong_thuc_thanh_toan === 'banking')
+                    @if($donHang->phuongThucThanhToan->id === 2)
                     <div class="payment-method mb-4">
                         <h6 class="mb-3">Thông tin chuyển khoản</h6>
                         <div class="bank-info p-3 bg-light rounded">
@@ -28,12 +28,26 @@
                             <p class="mb-0"><strong>Nội dung chuyển khoản:</strong> THANHTOAN {{ $donHang->id }}</p>
                         </div>
                     </div>
-                    @elseif($donHang->phuong_thuc_thanh_toan === 'momo')
+                    @elseif($donHang->phuongThucThanhToan->id === 3)
                     <div class="payment-method mb-4">
                         <h6 class="mb-3">Thanh toán qua MoMo</h6>
                         <div class="text-center">
                             <img src="{{ asset('images/momo-qr.png') }}" alt="MoMo QR Code" class="img-fluid mb-3" style="max-width: 200px;">
                             <p class="text-muted">Quét mã QR để thanh toán</p>
+                        </div>
+                    </div>
+                    @elseif($donHang->phuongThucThanhToan->id === 4)
+                    <div class="payment-method mb-4">
+                        <h6 class="mb-3">Thanh toán qua thẻ tín dụng</h6>
+                        <div class="text-center">
+                            <p class="text-muted">Vui lòng thanh toán tại cửa hàng</p>
+                        </div>
+                    </div>
+                    @else
+                    <div class="payment-method mb-4">
+                        <h6 class="mb-3">Thanh toán khi nhận hàng</h6>
+                        <div class="text-center">
+                            <p class="text-muted">Bạn sẽ thanh toán khi nhận được hàng</p>
                         </div>
                     </div>
                     @endif
@@ -54,13 +68,7 @@
                                     <tr>
                                         <td>Phương thức thanh toán:</td>
                                         <td class="text-end">
-                                            @if($donHang->phuong_thuc_thanh_toan === 'cod')
-                                                Thanh toán khi nhận hàng
-                                            @elseif($donHang->phuong_thuc_thanh_toan === 'banking')
-                                                Chuyển khoản ngân hàng
-                                            @else
-                                                Ví MoMo
-                                            @endif
+                                            {{ $donHang->phuongThucThanhToan->ten }}
                                         </td>
                                     </tr>
                                 </tbody>

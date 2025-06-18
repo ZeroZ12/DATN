@@ -92,7 +92,7 @@
                                                     <br>
                                                     {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa }},
                                                     {{ $address->quan_huyen }}, {{ $address->tinh_thanh_pho }}
-                                                    @if ($address->mac_dinh)
+                                                    @if ($address->la_mac_dinh)
                                                         <span class="badge bg-info ms-2">Mặc định</span>
                                                     @endif
                                                 </div>
@@ -106,7 +106,7 @@
                                                         <button type="submit" class="btn btn-sm btn-danger"
                                                             onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này không?');">Xóa</button>
                                                     </form>
-                                                    @if (!$address->mac_dinh)
+                                                    @if (!$address->la_mac_dinh)
                                                         <form
                                                             action="{{ route('client.addresses.setDefault', $address->id) }}"
                                                             method="POST" class="d-inline ms-2">
