@@ -22,7 +22,7 @@ class UserAddressController extends Controller
         $user = Auth::user();
         $addresses = $user->diaChiNguoiDungs()->orderByDesc('mac_dinh')->get();
 
-        return view('client.addresses.index', compact('addresses'));
+        return view('client.addresses.index', data: compact('addresses'));
     }
 
     /**

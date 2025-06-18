@@ -31,7 +31,7 @@ class User extends Authenticatable
 
     public function diaChiNguoiDungs()
     {
-        return $this->hasMany(DiaChiNguoiDung::class);
+        return $this->hasMany(DiaChiNguoiDung::class,'id_user');
     }
 
     /**

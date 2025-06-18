@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dia_chi_nguoi_dungs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->string('ten_nguoi_nhan', 255); // Tên người nhận
             $table->string('so_dien_thoai_nguoi_nhan', 20); // Số điện thoại người nhận
             $table->text('dia_chi_day_du'); // Địa chỉ đầy đủ (VD: Số nhà, tên đường, thôn, xóm...)
