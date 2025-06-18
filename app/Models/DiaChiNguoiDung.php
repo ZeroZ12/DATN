@@ -17,16 +17,16 @@ class DiaChiNguoiDung extends Model
         'tinh_thanh_pho',
         'quan_huyen',
         'phuong_xa',
-        'mac_dinh',
+        'la_mac_dinh',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function donHangs()
     {
-        return $this->hasMany(DonHang::class, 'dia_chi_id');
+        return $this->hasMany(DonHang::class, 'id_dia_chi_nguoi_dungs');
     }
 }

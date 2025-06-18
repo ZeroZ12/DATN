@@ -53,13 +53,13 @@
                                 <p class="mb-1">{{ $diaChi->so_dien_thoai }}</p>
                                 <p class="mb-0 text-muted">{{ $diaChi->dia_chi }}</p>
                             </div>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Thay đổi</a>
+                            <a href="{{ route('client.addresses.index') }}" class="btn btn-outline-primary btn-sm">Thay đổi</a>
                         </div>
                     </div>
                     @else
                     <div class="text-center py-4">
                         <p class="mb-3">Bạn chưa có địa chỉ giao hàng</p>
-                        <a href="#" class="btn btn-primary">Thêm địa chỉ</a>
+                        <a href="{{ route('client.addresses.create') }}" class="btn btn-primary">Thêm địa chỉ</a>
                     </div>
                     @endif
                 </div>
@@ -72,24 +72,31 @@
                 </div>
                 <div class="card-body">
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payment_method" id="cod" checked>
-                        <label class="form-check-label" for="cod">
+                        <input class="form-check-input" type="radio" name="payment_method" id="1" value="1" checked>
+                        <label class="form-check-label" for="1">
                             <i class="fas fa-money-bill-wave me-2"></i>
                             Thanh toán khi nhận hàng (COD)
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payment_method" id="banking">
-                        <label class="form-check-label" for="banking">
+                        <input class="form-check-input" type="radio" name="payment_method" id="2" value="2">
+                        <label class="form-check-label" for="2">
                             <i class="fas fa-university me-2"></i>
                             Chuyển khoản ngân hàng
                         </label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment_method" id="momo">
-                        <label class="form-check-label" for="momo">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="radio" name="payment_method" id="3" value="3">
+                        <label class="form-check-label" for="3">
                             <i class="fas fa-wallet me-2"></i>
                             Ví MoMo
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_method" id="4" value="4">
+                        <label class="form-check-label" for="4">
+                            <i class="fas fa-credit-card me-2"></i>
+                            Thẻ tín dụng
                         </label>
                     </div>
                 </div>
@@ -163,7 +170,7 @@ function placeOrder() {
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
 
     // Lấy phương thức thanh toán
-    const paymentMethod = document.querySelector('input[name="payment_method"]:checked').id;
+    const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
     // Gửi request đặt hàng
     fetch('{{ route("client.cart.place-order") }}', {
@@ -176,7 +183,14 @@ function placeOrder() {
             payment_method: paymentMethod
         })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                throw new Error(errorData.message || 'Có lỗi xảy ra khi đặt hàng');
+            });
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             // Chuyển hướng đến trang thanh toán
@@ -186,6 +200,7 @@ function placeOrder() {
         }
     })
     .catch(error => {
+        console.error('Error:', error);
         // Hiển thị lỗi
         showToast(error.message || 'Có lỗi xảy ra khi đặt hàng!', 'error');
 

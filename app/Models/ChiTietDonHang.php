@@ -27,11 +27,12 @@ class ChiTietDonHang extends Model
      */
     protected $fillable = [
         'id_don_hang',
+        'id_product',
         'id_bien_the',
         'ten_hien_thi',
         'so_luong',
         'don_gia',
-        'bao_hanh_thang',
+        'bao_hanh_thang'
     ];
 
     /**
@@ -56,13 +57,18 @@ class ChiTietDonHang extends Model
     }
 
     /**
+     * Get the product associated with the order detail.
+     */
+    public function sanPham()
+    {
+        return $this->belongsTo(SanPham::class, 'id_product');
+    }
+
+    /**
      * Get the product variant associated with the order detail.
-     * Lưu ý: Biến thể này có thể đã bị xóa mềm, nên bạn có thể cần withTrashed() khi truy cập.
      */
     public function bienTheSanPham()
     {
-        // Khi lấy biến thể, luôn eager load withTrashed() để đảm bảo lấy được bản ghi gốc
-        // ngay cả khi biến thể đã bị xóa mềm. Điều này quan trọng cho dữ liệu lịch sử.
-        return $this->belongsTo(BienTheSanPham::class, 'id_bien_the')->withTrashed();
+        return $this->belongsTo(BienTheSanPham::class, 'id_bien_the');
     }
 }

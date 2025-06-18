@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 use App\Models\BienTheSanPham;
 use App\Models\ChiTietGioHang;
 use App\Models\DiaChiNguoiDung;
+use App\Models\DonHang;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -119,7 +121,7 @@ class CartController extends Controller
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Cart add error: ' . $e->getMessage(), [
                 'request' => $request->all(),
-                'user_id' => Auth::id(),
+                'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
             ]);
 
@@ -277,5 +279,92 @@ class CartController extends Controller
         $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
 
         return view('client.checkout', compact('chiTietGioHang', 'tongTien', 'diaChi'));
+    }
+
+    public function placeOrder(Request $request)
+    {
+        try {
+            // Validate request
+            $validator = Validator::make($request->all(), [
+                'payment_method' => 'required|exists:phuong_thuc_thanh_toans,id'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Get cart
+            $gioHang = GioHang::where('id_user', Auth::id())
+                ->where('loai', 'chinh')
+                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe'])
+                ->first();
+
+            if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Giỏ hàng trống!'
+                ], 400);
+            }
+
+            // Get user's default address
+            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+            if (!$diaChi) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Vui lòng thêm địa chỉ giao hàng!'
+                ], 400);
+            }
+
+            // Calculate total
+            $tongTien = $gioHang->chiTietGioHangs->sum(function ($item) {
+                return $item->gia * $item->so_luong;
+            });
+
+            // Create order
+            $donHang = DonHang::create([
+                'ma_don' => 'DH' . time(),
+                'id_user' => Auth::id(),
+                'id_dia_chi_nguoi_dungs' => $diaChi->id,
+                'id_phuong_thuc_thanh_toan' => $request->payment_method,
+                'tong_tien' => $tongTien,
+                'trang_thai' => 'cho_xu_ly'
+            ]);
+
+            // Create order details
+            foreach ($gioHang->chiTietGioHangs as $item) {
+                $donHang->chiTietDonHangs()->create([
+                    'id_product' => $item->id_product,
+                    'id_bien_the' => $item->id_bien_the,
+                    'ten_hien_thi' => $item->sanPham->ten,
+                    'so_luong' => $item->so_luong,
+                    'don_gia' => $item->gia,
+                    'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
+                ]);
+            }
+
+            // Clear cart
+            $gioHang->chiTietGioHangs()->delete();
+
+            return response()->json([
+                'success' => true,
+                'redirect_url' => route('client.payment', ['id' => $donHang->id])
+            ]);
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'id_user' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi đặt hàng: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

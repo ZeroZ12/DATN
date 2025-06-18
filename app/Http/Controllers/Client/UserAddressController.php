@@ -20,7 +20,7 @@ class UserAddressController extends Controller
     {
         /** @var \App\Models\User $user */ // <<< Thêm DocBlock này
         $user = Auth::user();
-        $addresses = $user->diaChiNguoiDungs()->orderByDesc('mac_dinh')->get();
+        $addresses = $user->diaChiNguoiDungs()->orderByDesc('la_mac_dinh')->get();
 
         return view('client.addresses.index', compact('addresses'));
     }
@@ -39,7 +39,7 @@ class UserAddressController extends Controller
     public function edit(DiaChiNguoiDung $address)
     {
         // Đảm bảo chỉ người dùng sở hữu mới được chỉnh sửa địa chỉ
-        if (Auth::id() !== $address->user_id) {
+        if (Auth::id() !== $address->id_user) {
             abort(403); // Hoặc return back()->with('error', 'Bạn không có quyền chỉnh sửa địa chỉ này.');
         }
 
@@ -59,11 +59,11 @@ class UserAddressController extends Controller
 
         $isFirstAddress = !$user->diaChiNguoiDungs()->exists();
 
-        if (isset($validatedData['mac_dinh']) && $validatedData['mac_dinh'] || $isFirstAddress) {
-            $user->diaChiNguoiDungs()->update(['mac_dinh' => false]);
-            $validatedData['mac_dinh'] = true;
+        if (isset($validatedData['la_mac_dinh']) && $validatedData['la_mac_dinh'] || $isFirstAddress) {
+            $user->diaChiNguoiDungs()->update(['la_mac_dinh' => false]);
+            $validatedData['la_mac_dinh'] = true;
         } else {
-            $validatedData['mac_dinh'] = false;
+            $validatedData['la_mac_dinh'] = false;
         }
 
         $user->diaChiNguoiDungs()->create($validatedData);
@@ -85,23 +85,23 @@ class UserAddressController extends Controller
     {
         /** @var \App\Models\User $user */ // Thêm DocBlock này
         $user = Auth::user();
-        if ($user->id !== $address->user_id) { // Đảm bảo dùng $user->id
+        if ($user->id !== $address->id_user) { // Đảm bảo dùng $user->id
             abort(403, 'Bạn không có quyền cập nhật địa chỉ này.');
         }
 
         $validatedData = $request->validated();
 
-        if (isset($validatedData['mac_dinh']) && $validatedData['mac_dinh']) {
-            $user->diaChiNguoiDungs()->where('id', '!=', $address->id)->update(['mac_dinh' => false]);
-            $validatedData['mac_dinh'] = true;
+        if (isset($validatedData['la_mac_dinh']) && $validatedData['la_mac_dinh']) {
+            $user->diaChiNguoiDungs()->where('id', '!=', $address->id)->update(['la_mac_dinh' => false]);
+            $validatedData['la_mac_dinh'] = true;
         } else {
-            $validatedData['mac_dinh'] = false;
+            $validatedData['la_mac_dinh'] = false;
         }
 
         $address->update($validatedData);
 
-        if (!$user->diaChiNguoiDungs()->where('mac_dinh', true)->exists() && $user->diaChiNguoiDungs()->exists()) {
-            $user->diaChiNguoiDungs()->first()->update(['mac_dinh' => true]);
+        if (!$user->diaChiNguoiDungs()->where('la_mac_dinh', true)->exists() && $user->diaChiNguoiDungs()->exists()) {
+            $user->diaChiNguoiDungs()->first()->update(['la_mac_dinh' => true]);
         }
 
         return redirect()->route('client.addresses.index')->with('success', 'Địa chỉ đã được cập nhật thành công!');
@@ -119,7 +119,7 @@ class UserAddressController extends Controller
         $user = Auth::user();
 
         // 1. Kiểm tra quyền sở hữu (Đã sửa để hiển thị lỗi trên trang)
-        if ($user->id !== $address->user_id) {
+        if ($user->id !== $address->id_user) {
             return back()->with('error', 'Bạn không có quyền xóa địa chỉ này.');
         }
 
@@ -128,13 +128,13 @@ class UserAddressController extends Controller
             return back()->with('error', 'Bạn phải có ít nhất một địa chỉ. Không thể xóa địa chỉ duy nhất!');
         }
 
-        $wasDefault = $address->mac_dinh;
+        $wasDefault = $address->la_mac_dinh;
         $address->delete();
 
         if ($wasDefault) {
             $newDefault = $user->diaChiNguoiDungs()->first();
             if ($newDefault) {
-                $newDefault->update(['mac_dinh' => true]);
+                $newDefault->update(['la_mac_dinh' => true]);
             }
         }
 
@@ -150,12 +150,12 @@ class UserAddressController extends Controller
     {
         /** @var \App\Models\User $user */ // Thêm DocBlock này
         $user = Auth::user();
-        if ($user->id !== $address->user_id) { // Đảm bảo dùng $user->id
+        if ($user->id !== $address->id_user) { // Đảm bảo dùng $user->id
             abort(403, 'Bạn không có quyền thiết lập địa chỉ này làm mặc định.');
         }
 
-        $user->diaChiNguoiDungs()->update(['mac_dinh' => false]);
-        $address->update(['mac_dinh' => true]);
+        $user->diaChiNguoiDungs()->update(['la_mac_dinh' => false]);
+        $address->update(['la_mac_dinh' => true]);
 
         return redirect()->route('client.addresses.index')->with('success', 'Địa chỉ mặc định đã được cập nhật!');
     }
