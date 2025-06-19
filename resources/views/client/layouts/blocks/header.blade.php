@@ -118,7 +118,7 @@
                 </a>
             @endauth
 
-            <a class="giohang text-white" href="/giohang.html">
+            <a class="giohang text-white" href="{{ route('giohang.index') }}">
                 <span><i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng</span>
             </a>
         </div>

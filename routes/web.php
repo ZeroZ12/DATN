@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\GioHangController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ChipController;
@@ -169,8 +170,16 @@ Route::get('/', [ClientSanPhamController::class, 'index'])->name('client.home');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
 Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 // Route tìm kiếm sản phẩm
-Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
+Route::middleware(['auth'])->prefix('gio-hang')->group(function () {
+    Route::get('/', [GioHangController::class, 'index'])->name('giohang.index');
+    Route::post('/them', [GioHangController::class, 'themSanPham'])->name('giohang.them');
+    Route::post('/cap-nhat/{id}', [GioHangController::class, 'capNhatSoLuong'])->name('giohang.capnhat');
+    Route::delete('/xoa-san-pham/{id}', [GioHangController::class, 'xoaSanPham'])->name('giohang.xoaSanPham');
+    Route::delete('/xoa-tat-ca', [GioHangController::class, 'xoaGioHang'])->name('giohang.xoaTatCa');
+});
+
+Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::get ('/login', function (){
     return redirect()->route('form', ['type' => 'login']);
