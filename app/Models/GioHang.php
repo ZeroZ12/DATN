@@ -1,9 +1,11 @@
 <?php
+// app/Models/GioHang.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GioHang extends Model
 {
@@ -23,13 +25,9 @@ class GioHang extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function chiTietGioHangs()
-    {
-        return $this->hasMany(ChiTietGioHang::class, 'id_gio_hang');
-    }
+   public function chiTietGioHangs()
+{
+    return $this->hasMany(ChiTietGioHang::class, 'id_gio_hang');
+}
 
-    public function maGiamGia()
-    {
-        return $this->belongsTo(MaGiamGia::class, 'id_giam_gia');
-    }
 }
