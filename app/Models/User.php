@@ -29,6 +29,11 @@ class User extends Authenticatable
         'trang_thai'
     ];
 
+    public function diaChiNguoiDungs()
+    {
+        return $this->hasMany(DiaChiNguoiDung::class,'id_user');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

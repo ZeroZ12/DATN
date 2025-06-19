@@ -12,5 +12,11 @@ class PhuongThucThanhToan extends Model
     protected $table = 'phuong_thuc_thanh_toans';
     protected $fillable = ['ten', 'mo_ta', 'hoat_dong'];
 
-
+    /**
+     * Get the orders that use this payment method.
+     */
+    public function donHangs()
+    {
+        return $this->hasMany(DonHang::class, 'id_phuong_thuc_thanh_toan');
+    }
 }

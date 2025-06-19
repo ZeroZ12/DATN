@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('rams', function (Blueprint $table) {
             $table->id();
             $table->string('dung_luong', 100);
+            $table->decimal('gia', 10, 2);
+            $table->decimal('gia_sale', 10, 2);
             $table->text('mo_ta')->nullable();
             $table->timestamps();
             $table->softDeletes();

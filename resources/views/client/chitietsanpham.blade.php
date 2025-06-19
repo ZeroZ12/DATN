@@ -103,8 +103,295 @@
         box-shadow: 0 2px 8px rgba(220,53,69,0.10);
         transform: scale(1.05);
     }
+    #sp-tuong-tu .sp-card {
+        border-radius: 14px;
+        transition: box-shadow 0.2s, transform 0.2s;
+        overflow: hidden;
+        background: #fff;
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    #sp-tuong-tu .sp-card:hover {
+        box-shadow: 0 6px 24px rgba(220,53,69,0.12), 0 1.5px 6px rgba(0,0,0,0.04);
+        transform: translateY(-4px) scale(1.03);
+    }
+    #sp-tuong-tu .sp-card-img-box {
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+        overflow: hidden;
+        height: 160px;
+    }
+    #sp-tuong-tu .sp-card-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        transition: transform 0.3s;
+    }
+    #sp-tuong-tu .sp-card:hover .sp-card-img {
+        transform: scale(1.07);
+    }
+    #sp-tuong-tu .card-body {
+        padding: 1rem 0.7rem 1.2rem 0.7rem;
+    }
+    #sp-tuong-tu .btn {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+    .product-card {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        position: relative;
+        height: 100%;
+        min-width: 0;
+    }
+    .product-badges {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+    }
+    .product-image {
+        width: 100%;
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        overflow: hidden;
+        padding: 0;
+    }
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        border-radius: 0;
+    }
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+    .product-info {
+        padding: 15px;
+    }
+    .product-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 12px;
+        line-height: 1.4;
+        height: 40px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    .product-price {
+        margin-bottom: 10px;
+    }
+    .old-price {
+        color: #999;
+        text-decoration: line-through;
+        font-size: 12px;
+        margin-bottom: 2px;
+    }
+    .current-price {
+        color: #dc3545;
+        font-weight: bold;
+        font-size: 16px;
+    }
+    .discount-badge {
+        display: inline-block;
+        background: #dc3545;
+        color: white;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .stars {
+        color: #ffc107;
+        font-size: 12px;
+    }
+    .rating-text {
+        color: #666;
+        font-size: 12px;
+    }
+    .product-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 15px;
+    }
+    .add-to-cart-form {
+        flex: 1;
+    }
+    .add-to-cart-btn {
+        width: 100%;
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 0;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        position: relative;
+        z-index: 2;
+        min-width: 0;
+        height: 40px;
+    }
+    .product-detail-btn {
+        flex: 1;
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 0;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        position: relative;
+        z-index: 2;
+        min-width: 0;
+        height: 40px;
+        text-decoration: none;
+    }
+    .product-detail-btn:hover {
+        background: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+    .product-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 60px);
+        z-index: 1;
+    }
+    @media (max-width: 1200px) {
+        .products-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        .product-image {
+            height: 160px;
+        }
+    }
+    @media (max-width: 992px) {
+        .products-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .product-image {
+            height: 140px;
+        }
+    }
+    @media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .product-info {
+            padding: 14px;
+        }
+        .product-title {
+            font-size: 13px;
+        }
+        .current-price {
+            font-size: 15px;
+        }
+        .product-image {
+            height: 120px;
+        }
+    }
+    @media (max-width: 576px) {
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+        .product-image {
+            height: 100px;
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-title {
+            font-size: 12px;
+            height: 2.4em;
+        }
+        .current-price {
+            font-size: 14px;
+        }
+        .add-to-cart-btn,
+        .product-detail-btn {
+            padding: 8px 0;
+            font-size: 12px;
+            height: 36px;
+        }
+        .product-detail-btn span,
+        .add-to-cart-btn span {
+            display: none;
+        }
+    }
+    .bestseller-badge {
+        background: #dc3545;
+        color: #fff;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    .gift-badge {
+        background: #28a745;
+        color: #fff;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
 </style>
 <div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('client.home') }}">Trang chủ</a></li>
+            @if(isset($sanpham->danhMuc) && $sanpham->danhMuc)
+                <li class="breadcrumb-item"><a href="{{ route('danhmuc.index', $sanpham->danhMuc->id) }}">{{ $sanpham->danhMuc->ten }}</a></li>
+            @else
+                <li class="breadcrumb-item">Danh mục</li>
+            @endif
+            <li class="breadcrumb-item active" aria-current="page">{{ $sanpham->ten }}</li>
+        </ol>
+    </nav>
     <!-- Chi tiết sản phẩm -->
     <div class="row">
         <!-- Hình ảnh sản phẩm -->
@@ -240,21 +527,74 @@
     <!-- Sản phẩm tương tự -->
     <div class="mt-5">
         <h5 class="fw-bold mb-3">Sản phẩm tương tự</h5>
-        <div class="d-flex overflow-auto gap-3">
+        <div class="products-grid">
             @foreach ($sanphamTuongTu as $sp)
-                <div class="card" style="min-width: 200px;">
-                    <img src="{{ asset('storage/' . $sp->anh_dai_dien) }}"
-                         onerror="this.onerror=null;this.src='{{ asset('images/default.png') }}';"
-                         class="card-img-top"
-                         style="height: 150px; object-fit: cover;"
-                         alt="{{ $sp->ten }}">
-                    <div class="card-body">
-                        <h6 class="card-title">{{ $sp->ten }}</h6>
-                        <p class="text-danger fw-bold mb-2">
-                            {{ number_format($sp->gia_khuyen_mai ?? $sp->gia, 0, ',', '.') }}đ
-                        </p>
-                        <a href="{{ route('sanpham.show', $sp->id) }}" class="btn btn-outline-primary btn-sm">Xem chi tiết</a>
+                @php
+                    $bienThe = $sp->BienTheSanPhams->first();
+                    $discountPercent = 0;
+                    if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia) {
+                        $discountPercent = round(100 * ($bienThe->gia_so_sanh - $bienThe->gia) / $bienThe->gia_so_sanh);
+                    }
+                @endphp
+                <div class="product-card position-relative">
+                    <div class="product-badges">
+                        @if ($sp->is_hot)
+                            <span class="product-badge hot-badge">
+                                <i class="fas fa-gift"></i> Quà tặng HOT
+                            </span>
+                        @elseif(rand(1,3) == 1)
+                            <span class="product-badge bestseller-badge">
+                                <i class="fas fa-fire"></i> Bán chạy
+                            </span>
+                        @elseif(rand(1,2) == 1)
+                            <span class="product-badge gift-badge">
+                                <i class="fas fa-gift"></i> Quà tặng
+                            </span>
+                        @endif
                     </div>
+                    <div class="product-image">
+                        <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
+                             alt="{{ $sp->ten }}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ $sp->ten }}</h3>
+                        <div class="product-price">
+                            @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                                <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
+                            @endif
+                            <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                        </div>
+                        @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                            <div class="discount-badge">
+                                -{{ $discountPercent }}%
+                            </div>
+                        @endif
+                        <div class="product-rating">
+                            <div class="stars">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+                            </div>
+                            <span class="rating-text">({{ rand(3, 15) }})</span>
+                        </div>
+                        <div class="product-actions">
+                            <form action="" method="POST" class="add-to-cart-form d-inline-block" onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
+                                @csrf
+                                <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                <input type="hidden" name="so_luong" value="1">
+                                <button type="submit" class="add-to-cart-btn">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span>Thêm vào giỏ</span>
+                                </button>
+                            </form>
+                            <a href="{{ route('sanpham.show', $sp->id) }}" class="product-detail-btn d-inline-block">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Chi tiết</span>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
                 </div>
             @endforeach
         </div>
