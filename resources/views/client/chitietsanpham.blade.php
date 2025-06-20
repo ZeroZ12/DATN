@@ -526,37 +526,14 @@
                 </div>
             </div>
 
-            <div class="col-md-8">
-                <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
-
-                {{-- HIỂN THỊ ĐÁNH GIÁ TRUNG BÌNH VÀ TỔNG SỐ ĐÁNH GIÁ --}}
-                <div class="d-flex align-items-center mb-3">
-                    <span class="fs-5 text-warning me-2">
-                        @php
-                            $fullStars = floor($averageRating);
-                            $halfStar = $averageRating - $fullStars >= 0.5 ? 1 : 0;
-                            $emptyStars = 5 - $fullStars - $halfStar;
-                        @endphp
-                        @for ($i = 0; $i < $fullStars; $i++)
-                            <i class="fas fa-star"></i>
-                        @endfor
-                        @if ($halfStar)
-                            <i class="fas fa-star-half-alt"></i>
-                        @endif
-                        @for ($i = 0; $i < $emptyStars; $i++)
-                            <i class="far fa-star"></i>
-                        @endfor
-                    </span>
-                    <span class="fs-5 fw-bold me-2">{{ number_format($averageRating, 1) }}</span>
-                    <span class="text-muted">({{ $totalReviews }} đánh giá)</span>
-                </div>
-                {{-- HẾT PHẦN ĐÁNH GIÁ TRUNG BÌNH --}}
-
-                <div class="d-md-flex gap-3">
-                    <div class="flex-fill" style="min-width:0;">
-                        <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
-                            @csrf
-                            <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
+        <!-- Thông tin & chọn biến thể + số lượng + nút + box chính sách song song -->
+        <div class="col-md-8">
+            <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
+            <div class="d-md-flex gap-3">
+                <div class="flex-fill" style="min-width:0;">
+                    <form action="{{ route('giohang.them')}}" method="POST" class="mt-4">
+    @csrf
+                        <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
 
                             <div class="mb-3">
                                 <label class="form-label"><strong>Chọn cấu hình:</strong></label>
