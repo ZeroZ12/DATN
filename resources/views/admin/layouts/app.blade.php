@@ -110,8 +110,7 @@
 
     <!-- CKEditor 5 -->
     @yield('js-custom')
-    @stack('scripts')
-    
+
 </body>
 <style>
     body,
@@ -119,5 +118,7 @@
         font-family: 'Inter', sans-serif;
     }
 </style>
+
 @stack('scripts')
+
 </html>
