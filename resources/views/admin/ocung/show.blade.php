@@ -12,7 +12,7 @@
                 <li><strong>ID:</strong> {{ $oCung->id }}</li>
                 <li><strong>Loại:</strong> {{ $oCung->loai }}</li>
                 <li><strong>Dung lượng:</strong> {{ $oCung->dung_luong }}</li>
-                <li><strong>Mô tả:</strong> {{ $oCung->mo_ta ?? 'N/A' }}</li>
+                <li><strong>Mô tả:</strong> {!! $oCung->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $oCung->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $oCung->updated_at->format('d/m/Y H:i') }}</li>
             </ul>

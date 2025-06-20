@@ -11,7 +11,7 @@ class Ram extends Model
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'rams';
-    protected $fillable = ['dung_luong', 'mo_ta'];
+    protected $fillable = ['dung_luong','gia','gia_sale', 'mo_ta'];
 
     // Quan hệ với bảng Biến Thể Sản Phẩm
     public function bienTheSanPhams()

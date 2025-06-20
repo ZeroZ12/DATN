@@ -50,8 +50,7 @@
     <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome CDN -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -109,8 +108,9 @@
     <!-- custom script -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
 
-    @stack('scripts')
-
+    <!-- CKEditor 5 -->
+    @yield('js-custom')
+    
 </body>
 <style>
     body,
@@ -118,5 +118,4 @@
         font-family: 'Inter', sans-serif;
     }
 </style>
-
 </html>

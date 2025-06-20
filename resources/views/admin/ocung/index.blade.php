@@ -30,6 +30,7 @@
                             <th>ID</th>
                             <th>Loại</th>
                             <th>Dung lượng</th>
+                            <th>Giá</th>
                             <th>Mô tả</th>
                             <th>Hành động</th>
                         </tr>
@@ -40,7 +41,13 @@
                                 <td>{{ $oCung->id }}</td>
                                 <td>{{ $oCung->loai }}</td>
                                 <td>{{ $oCung->dung_luong }}</td>
-                                <td>{{ $oCung->mo_ta ?? 'N/A' }}</td>
+                                @if (!empty($oCung->gia_sale)&& $oCung->gia_sale > 0 )
+                                    {{-- Kiểm tra nếu giá không rỗng --}}
+                                    <td>{{ number_format($oCung->gia_sale, 0, ',', '.') }}đ</td>
+                                @else
+                                    <td>{{ number_format($oCung->gia, 0, ',', '.') }}đ</td>
+                                @endif
+                                <td>{{ \Illuminate\Support\Str::limit(strip_tags($oCung->mo_ta), 100, '...') }}</td>
                                 <td>
                                     <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-sm btn-warning">Sửa</a>
                                     <a href="{{ route('admin.ocung.show', $oCung->id) }}" class="btn btn-sm btn-info">Xem</a>

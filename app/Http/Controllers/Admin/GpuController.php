@@ -34,11 +34,15 @@ class GpuController extends Controller
     {
         $data = $request->validate([
             'ten' => 'required|string|max:255',
+            'gia'      => 'nullable|numeric',
+            'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên GPU không được để trống.',
             'ten.string' => 'Tên GPU phải là chuỗi ký tự.',
             'ten.max' => 'Tên GPU không được vượt quá 255 ký tự.',
+            'gia.numeric'    => 'Giá phải là số.',
+            'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         Gpu::create($data);
@@ -71,11 +75,15 @@ class GpuController extends Controller
         $gpu = Gpu::findOrFail($id);
         $data = $request->validate([
             'ten' => 'required|string|max:255',
+            'gia'      => 'nullable|numeric',
+            'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên GPU không được để trống.',
             'ten.string' => 'Tên GPU phải là chuỗi ký tự.',
             'ten.max' => 'Tên GPU không được vượt quá 255 ký tự.',
+            'gia.numeric'    => 'Giá phải là số.',
+            'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         $gpu->update($data);

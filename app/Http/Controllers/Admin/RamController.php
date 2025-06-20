@@ -34,11 +34,15 @@ class RamController extends Controller
     {
         $data = $request->validate([
             'dung_luong' => 'required|string|max:100',
+            'gia'      => 'nullable|numeric',
+            'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'dung_luong.required' => 'Dung lượng RAM không được để trống.',
             'dung_luong.string' => 'Dung lượng RAM phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng RAM không được vượt quá 100 ký tự.',
+            'gia.numeric'    => 'Giá phải là số.',
+            'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         Ram::create($data);
@@ -71,11 +75,15 @@ class RamController extends Controller
         $ram = Ram::findOrFail($id);
         $data = $request->validate([
             'dung_luong' => 'required|string|max:100',
+            'gia'      => 'nullable|numeric',
+            'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'dung_luong.required' => 'Dung lượng RAM không được để trống.',
             'dung_luong.string' => 'Dung lượng RAM phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng RAM không được vượt quá 100 ký tự.',
+            'gia.numeric'    => 'Giá phải là số.',
+            'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         $ram->update($data);

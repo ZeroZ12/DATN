@@ -13,10 +13,26 @@
 
                     <div class="mb-3">
                         <label for="ten" class="form-label">Tên GPU <span class="text-danger">*</span></label>
-                        <input type="text" name="ten" id="ten" class="form-control"
-                            value="{{ old('ten') }}">
+                        <input type="text" name="ten" id="ten" class="form-control" value="{{ old('ten') }}">
                         @error('ten')
                             <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="gia" class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
+                        <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia') }}">
+                        @error('ten')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gia_sale" class="form-label fw-semibold">Giá sale </label>
+                        <input type="number" name="gia_sale" id="gia_sale" class="form-control"
+                            value="{{ old('gia_sale') }}">
+                        @error('ten')
+                            <div class="text-danger small">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -36,4 +52,17 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js-custom')
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
+<script>
+        tinymce.init({
+            selector: '#mo_ta',
+            height: 300,
+            plugins: 'image link table lists code',
+            toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | image link table | code',
+            menubar: false
+        });
+    </script>
 @endsection

@@ -26,6 +26,7 @@
                         <tr>
                             <th>#ID</th>
                             <th>Tên chip</th>
+                            <th>Giá</th>
                             <th>Mô tả</th>
                             <th class="text-center">Hành động</th>
                         </tr>
@@ -35,7 +36,13 @@
                             <tr>
                                 <td>{{ $chip->id }}</td>
                                 <td class="fw-semibold">{{ $chip->ten }}</td>
-                                <td>{{ $chip->mo_ta ?? '—' }}</td>
+                                @if (!empty($chip->gia_sale)&& $chip->gia_sale > 0 )
+                                    {{-- Kiểm tra nếu giá không rỗng --}}
+                                    <td>{{ number_format($chip->gia_sale, 0, ',', '.') }}đ</td>
+                                @else
+                                    <td>{{ number_format($chip->gia, 0, ',', '.') }}đ</td>
+                                @endif
+                                <td>{{ \Illuminate\Support\Str::limit(strip_tags($chip->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-sm btn-warning me-1">✏️
                                         Sửa</a>
