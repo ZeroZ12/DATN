@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('so_sao');
             $table->text('binh_luan')->nullable();
             $table->timestamps();
+            $table->enum('trang_thai', ['cho_duyet', 'da_duyet', 'tu_choi'])->default('cho_duyet');
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('danh_gia_san_phams', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
         Schema::dropIfExists('danh_gia_san_phams');
     }
 };

@@ -31,7 +31,12 @@ class User extends Authenticatable
 
     public function diaChiNguoiDungs()
     {
-        return $this->hasMany(DiaChiNguoiDung::class,'id_user');
+        return $this->hasMany(DiaChiNguoiDung::class, 'id_user');
+    }
+
+    public function danhGiaSanPhams()
+    {
+        return $this->hasMany(DanhGiaSanPham::class, 'id_user');
     }
 
     /**
@@ -57,9 +62,7 @@ class User extends Authenticatable
         ];
     }
     public function gioHang()
-{
-    return $this->hasOne(GioHang::class, 'id_user');
-}
-
-
+    {
+        return $this->hasOne(GioHang::class, 'id_user');
+    }
 }

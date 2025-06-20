@@ -29,7 +29,7 @@
                         <tr>
                             <th>#ID</th>
                             <th>Dung lượng</th>
-                            <th>Giá</th>
+                            {{-- <th>Giá</th> --}}
                             <th>Mô tả</th>
                             <th class="text-center">Hành động</th>
                         </tr>
@@ -39,12 +39,7 @@
                             <tr>
                                 <td>{{ $ram->id }}</td>
                                 <td class="fw-semibold">{{ $ram->dung_luong }}</td>
-                                @if (!empty($ram->gia_sale)&& $ram->gia_sale > 0 )
-                                    {{-- Kiểm tra nếu giá không rỗng --}}
-                                    <td>{{ number_format($ram->gia_sale, 0, ',', '.') }}đ</td>
-                                @else
-                                    <td>{{ number_format($ram->gia, 0, ',', '.') }}đ</td>
-                                @endif
+
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($ram->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.ram.edit', $ram->id) }}" class="btn btn-sm btn-warning me-1">

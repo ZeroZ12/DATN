@@ -34,15 +34,15 @@ class ChipController extends Controller
     {
         $data = $request->validate([
             'ten' => 'required|string|max:255',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            // 'gia'      => 'nullable|numeric',
+            // 'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên chip không được để trống.',
             'ten.string' => 'Tên chip phải là chuỗi ký tự.',
             'ten.max' => 'Tên chip không được vượt quá 255 ký tự.',
-            'gia.numeric'    => 'Giá phải là số.',
-            'gia_sale.numeric' => 'Giá sale phải là số.',
+            // 'gia.numeric'    => 'Giá phải là số.',
+            // 'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         Chip::create($data);
@@ -75,15 +75,15 @@ class ChipController extends Controller
         $chip = Chip::findOrFail($id);
         $data = $request->validate([
             'ten' => 'required|string|max:255',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            // 'gia'      => 'nullable|numeric',
+            // 'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên chip không được để trống.',
             'ten.string' => 'Tên chip phải là chuỗi ký tự.',
             'ten.max' => 'Tên chip không được vượt quá 255 ký tự.',
-            'gia.numeric'    => 'Giá phải là số.',
-            'gia_sale.numeric' => 'Giá sale phải là số.',
+            // 'gia.numeric'    => 'Giá phải là số.',
+            // 'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         $chip->update($data);

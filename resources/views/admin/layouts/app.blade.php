@@ -110,6 +110,7 @@
 
     <!-- CKEditor 5 -->
     @yield('js-custom')
+    @stack('scripts')
     
 </body>
 <style>

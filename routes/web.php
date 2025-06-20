@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -47,7 +48,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
         // Resource route
 
-        Route::resource('', SanPhamController::class)->parameters(['' => 'sanpham']);
+        Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
 
         Route::resource('{sanpham}/bienthe', BienTheSanPhamController::class)->except(['show']);
 
@@ -172,6 +173,13 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
+    Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
+
+    // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
+    Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
+
+    // Route để xóa đánh giá (sử dụng DELETE)
+    Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
 });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
@@ -208,7 +216,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
         Route::get('/checkout', [App\Http\Controllers\Client\CartController::class, 'checkout'])->name('checkout');
         Route::post('/place-order', [App\Http\Controllers\Client\CartController::class, 'placeOrder'])->name('place-order');
-
     });
 
     // Payment routes

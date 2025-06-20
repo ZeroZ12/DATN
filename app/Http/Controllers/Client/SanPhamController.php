@@ -12,6 +12,8 @@ use App\Models\SanPham;
 use App\Models\ThuongHieu;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
+use App\Models\DanhGiaSanPham;
+
 
 class SanPhamController extends Controller
 {
@@ -121,11 +123,21 @@ class SanPhamController extends Controller
             'gpu',
             'danhMuc',
             'thuongHieu',
-            'bienTheSanPhams',
+            'bienTheSanPhams.ram', // Load ram cho biến thể
+            'bienTheSanPhams.oCung', // Load oCung cho biến thể
             'anhPhu',
+            'danhGiaSanPhams' => function ($query) { // Eager load các đánh giá
+                $query->where('trang_thai', 'da_duyet') // Chỉ lấy đánh giá đã được duyệt
+                    ->with('user') // Eager load thông tin user cho mỗi đánh giá
+                    ->orderBy('created_at', 'desc'); // Sắp xếp đánh giá mới nhất lên trước
+            },
         ])->findOrFail($id);
 
         $bienTheSanPhams = $sanpham->bienTheSanPhams;
+
+        // Tính toán đánh giá trung bình và tổng số lượt đánh giá
+        $averageRating = $sanpham->danhGiaSanPhams->avg('so_sao');
+        $totalReviews = $sanpham->danhGiaSanPhams->count();
 
         $sanphamTuongTu = SanPham::where('id_category', $sanpham->id_category)
             ->where('id', '!=', $sanpham->id)
@@ -137,7 +149,9 @@ class SanPhamController extends Controller
         return view('client.chitietsanpham', compact(
             'sanpham',
             'sanphamTuongTu',
-            'bienTheSanPhams'
+            'bienTheSanPhams',
+            'averageRating', // Truyền biến này sang view
+            'totalReviews' // Truyền biến này sang view
         ));
     }
 }
