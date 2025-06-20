@@ -10,7 +10,7 @@
                         <h5 class="mb-0">Thông tin tài khoản</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('profile.update') }}" method="POST">
+                        <form action="{{ route('client.profile.update') }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <div class="mb-3">

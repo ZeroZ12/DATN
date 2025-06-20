@@ -31,12 +31,9 @@ class CartController extends Controller
             ]);
         }
 
-        $total = $gioHang->chiTietGioHangs()
-            ->with(['sanPham', 'bienThe'])
-            ->get()
-            ->sum(function ($item) {
-                return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
-            });
+        $total = $gioHang->chiTietGioHangs->sum(function($item) {
+            return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
+        });
 
         $maGiamGias = MaGiamGia::where('hoat_dong', true)->get();
 
@@ -46,6 +43,7 @@ class CartController extends Controller
     public function add(Request $request)
     {
         try {
+            // Kiểm tra user đã đăng nhập chưa
             if (!Auth::check()) {
                 if ($request->ajax()) {
                     return response()->json([
@@ -66,19 +64,28 @@ class CartController extends Controller
             $user = Auth::user();
             $gioHang = GioHang::firstOrCreate(['id_user' => $user->id]);
 
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
             $chiTietGioHang = ChiTietGioHang::where('id_gio_hang', $gioHang->id)
                 ->where('id_product', $request->san_pham_id)
                 ->where('id_bien_the', $request->bien_the_id)
                 ->first();
 
             if ($chiTietGioHang) {
+                // Nếu đã có thì tăng số lượng
                 $chiTietGioHang->so_luong += $request->so_luong;
                 $chiTietGioHang->save();
             } else {
+                // Nếu chưa có thì tạo mới
                 $sanPham = SanPham::findOrFail($request->san_pham_id);
-                $gia = $request->bien_the_id
-                    ? BienTheSanPham::findOrFail($request->bien_the_id)->gia
-                    : $sanPham->gia ?? 0;
+
+                // Kiểm tra bien_the_id có tồn tại không
+                if ($request->bien_the_id) {
+                    $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                    $gia = $bienThe->gia;
+                } else {
+                    // Nếu không có biến thể, lấy giá từ sản phẩm chính
+                    $gia = $sanPham->gia ?? 0;
+                }
 
                 ChiTietGioHang::create([
                     'id_gio_hang' => $gioHang->id,
@@ -89,6 +96,7 @@ class CartController extends Controller
                 ]);
             }
 
+            // Tính tổng số lượng sản phẩm trong giỏ hàng
             $cartCount = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
 
             if ($request->ajax()) {
@@ -100,6 +108,7 @@ class CartController extends Controller
             }
 
             return redirect()->back()->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -108,8 +117,9 @@ class CartController extends Controller
                 ], 422);
             }
             return redirect()->back()->withErrors($e->validator)->withInput();
+
         } catch (\Exception $e) {
-            Log::error('Cart add error: ' . $e->getMessage(), [
+            \Illuminate\Support\Facades\Log::error('Cart add error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
@@ -145,7 +155,7 @@ class CartController extends Controller
         $total = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function ($item) {
+            ->sum(function($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -170,7 +180,7 @@ class CartController extends Controller
         $total = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function ($item) {
+            ->sum(function($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -184,7 +194,10 @@ class CartController extends Controller
     public function count()
     {
         $gioHang = GioHang::where('id_user', Auth::id())->first();
-        $count = $gioHang ? $gioHang->chiTietGioHangs()->sum('so_luong') : 0;
+        if (!$gioHang) {
+            return response()->json(['count' => 0]);
+        }
+        $count = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
         return response()->json(['count' => $count]);
     }
 
@@ -209,10 +222,11 @@ class CartController extends Controller
             ->where('loai', 'chinh')
             ->first();
 
+        // Kiểm tra điều kiện áp dụng mã giảm giá
         $cartTotal = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function ($item) {
+            ->sum(function($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -223,9 +237,11 @@ class CartController extends Controller
             ]);
         }
 
+        // Cập nhật mã giảm giá cho giỏ hàng
         $gioHang->id_giam_gia = $maGiamGia->id;
         $gioHang->save();
 
+        // Tính toán giá sau khi áp dụng mã giảm giá
         $discount = $maGiamGia->loai === 'percent'
             ? ($cartTotal * $maGiamGia->gia_tri / 100)
             : $maGiamGia->gia_tri;
@@ -254,10 +270,12 @@ class CartController extends Controller
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống!');
         }
 
+        // Tính tổng tiền
         $tongTien = $chiTietGioHang->sum(function ($item) {
             return $item->gia * $item->so_luong;
         });
 
+        // Lấy thông tin địa chỉ của user
         $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
 
         return view('client.checkout', compact('chiTietGioHang', 'tongTien', 'diaChi'));
@@ -266,6 +284,7 @@ class CartController extends Controller
     public function placeOrder(Request $request)
     {
         try {
+            // Validate request
             $validator = Validator::make($request->all(), [
                 'payment_method' => 'required|exists:phuong_thuc_thanh_toans,id'
             ]);
@@ -278,6 +297,7 @@ class CartController extends Controller
                 ], 422);
             }
 
+            // Get cart
             $gioHang = GioHang::where('id_user', Auth::id())
                 ->where('loai', 'chinh')
                 ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe'])
@@ -290,6 +310,7 @@ class CartController extends Controller
                 ], 400);
             }
 
+            // Get user's default address
             $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
             if (!$diaChi) {
                 return response()->json([
@@ -298,12 +319,12 @@ class CartController extends Controller
                 ], 400);
             }
 
-            /** @var \Illuminate\Support\Collection $items */
-            $items = $gioHang->chiTietGioHangs;
-            $tongTien = $items->sum(function ($item) {
+            // Calculate total
+            $tongTien = $gioHang->chiTietGioHangs->sum(function ($item) {
                 return $item->gia * $item->so_luong;
             });
 
+            // Create order
             $donHang = DonHang::create([
                 'ma_don' => 'DH' . time(),
                 'id_user' => Auth::id(),
@@ -313,6 +334,7 @@ class CartController extends Controller
                 'trang_thai' => 'cho_xu_ly'
             ]);
 
+            // Create order details
             foreach ($gioHang->chiTietGioHangs as $item) {
                 $donHang->chiTietDonHangs()->create([
                     'id_product' => $item->id_product,
@@ -324,14 +346,16 @@ class CartController extends Controller
                 ]);
             }
 
+            // Clear cart
             $gioHang->chiTietGioHangs()->delete();
 
             return response()->json([
                 'success' => true,
                 'redirect_url' => route('client.payment', ['id' => $donHang->id])
             ]);
+
         } catch (\Exception $e) {
-            Log::error('Place order error: ' . $e->getMessage(), [
+            \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
