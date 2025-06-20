@@ -427,8 +427,8 @@
             <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
             <div class="d-md-flex gap-3">
                 <div class="flex-fill" style="min-width:0;">
-                    <form action="#" method="POST" class="mt-4">
-                        @csrf
+                    <form action="{{ route('giohang.them')}}" method="POST" class="mt-4">
+    @csrf
                         <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
 
                         <div class="mb-3">
@@ -473,7 +473,7 @@
 
                         <!-- Nút -->
                         <div class="d-flex gap-2 mb-2">
-                            <button type="button" class="btn btn-outline-danger btn-lg flex-fill" id="add-to-cart"><i class="fa fa-shopping-cart me-2"></i>THÊM VÀO GIỎ</button>
+                            <button type="submit" class="btn btn-outline-danger btn-lg flex-fill">THÊM VÀO GIỎ</button>
                             <button type="submit" class="btn btn-danger btn-lg flex-fill">MUA NGAY</button>
                         </div>
                     </form>
