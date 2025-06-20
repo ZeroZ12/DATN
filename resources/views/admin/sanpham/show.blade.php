@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th>Mô tả</th>
-                <td>{{ $sanpham->mo_ta }}</td>
+                <td>{!! $sanpham->mo_ta !!}</td>
             </tr>
             <tr>
                 <th>Danh mục</th>

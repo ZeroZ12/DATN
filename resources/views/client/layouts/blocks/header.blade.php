@@ -1,4 +1,4 @@
-<div class="header-top">
+{{-- <div class="header-top">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
             <i class="fa-solid fa-gift me-2"></i>MUA PC GVN x MSI TẶNG MÀN OLED 240HZ
@@ -7,13 +7,10 @@
             <span><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.1009</span>
             <span><i class="fa-solid fa-location-dot me-1"></i>Hệ thống Showroom</span>
             <span><i class="fa-solid fa-box me-1"></i>Đơn hàng</span>
-            {{-- CHỖ NÀY KHÔNG CẦN CHỈNH SỬA, VÌ CHÚNG TA SẼ XỬ LÝ ĐĂNG NHẬP/PROFILE Ở header-main --}}
-
-            {{-- NHƯNG TÔI SẼ TẠM ĐÓNG NÓ VÀO CHO ĐẾN KHI ĐỘNG TỚI :v --}}
-            {{-- <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span> --}}
+            <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
         </div>
     </div>
-</div>
+</div> --}}
 <div class="header-main">
     <div class="container d-flex align-items-center">
         <a href="/" class="logo-link" title="Về trang chủ TopPC">

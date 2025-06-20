@@ -24,9 +24,18 @@
         </div>
 
         <div class="mb-3">
+            <label for="mo_ta" class="form-label fw-semibold">Mô tả</label>
+            <textarea name="mo_ta" id="mo_ta" class="form-control"
+                rows="6">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
+            @error('mo_ta')
+                <div class="text-danger small">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- <div class="mb-3">
             <label>Mô tả</label>
             <textarea name="mo_ta" class="form-control">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
-        </div>
+        </div> --}}
 
         <div class="row mb-3">
             <div class="col">
@@ -240,3 +249,15 @@
     });
 </script>
 @endpush
+@section('js-custom')
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#mo_ta',
+            height: 300,
+            plugins: 'image link table lists code',
+            toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | image link table | code',
+            menubar: false
+        });
+    </script>
+@endsection
