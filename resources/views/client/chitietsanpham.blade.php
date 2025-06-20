@@ -427,7 +427,7 @@
             <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
             <div class="d-md-flex gap-3">
                 <div class="flex-fill" style="min-width:0;">
-                    <form action="{{ route('giohang.them')}}" method="POST" class="mt-4">
+                    <form action="{{ route('client.cart.add')}}" method="POST" class="mt-4">
     @csrf
                         <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
 
