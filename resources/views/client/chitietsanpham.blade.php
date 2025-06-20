@@ -385,7 +385,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('client.home') }}">Trang chủ</a></li>
             @if(isset($sanpham->danhMuc) && $sanpham->danhMuc)
-                <li class="breadcrumb-item"><a href="{{ route('danhmuc.index', $sanpham->danhMuc->id) }}">{{ $sanpham->danhMuc->ten }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('danhmuc.show', $sanpham->danhMuc->id) }}">{{ $sanpham->danhMuc->ten }}</a></li>
             @else
                 <li class="breadcrumb-item">Danh mục</li>
             @endif

@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Middleware\CheckUserStatus;
 
 Route::middleware('auth')->group(function () {
@@ -186,6 +187,15 @@ Route::get ('/login', function (){
 });
 Route::get ('/register', function (){
     return redirect()->route('form', ['type' => 'register']);
+});
+Route::middleware(['auth'])->prefix('cart')->name('client.cart.')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/add', [CartController::class, 'add'])->name('add');
+    Route::put('/update/{id}', [CartController::class, 'update'])->name('update');
+    Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
+    Route::post('/apply-coupon', [CartController::class, 'applyCoupon'])->name('applyCoupon');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/place-order', [CartController::class, 'placeOrder'])->name('placeOrder');
 });
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
