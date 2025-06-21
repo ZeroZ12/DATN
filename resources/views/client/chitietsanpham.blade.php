@@ -478,6 +478,25 @@
             color: #ccc;
             /* Màu xám cho sao rỗng trong hiển thị */
         }
+        /* Giới hạn nội dung mô tả sản phẩm không tràn ra ngoài */
+        .product-description-content {
+            max-width: 100%;
+            overflow-x: auto;
+            word-break: break-word;
+        }
+        .product-description-content img,
+        .product-description-content video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 16px auto;
+        }
+        .product-description-content table {
+            max-width: 100%;
+            width: 100% !important;
+            display: block;
+            overflow-x: auto;
+        }
     </style>
     <div class="container mt-4">
         {{-- Phần thông báo thành công/lỗi --}}
@@ -641,7 +660,7 @@
             <div class="col-md-8">
                 <div class="bg-light p-3 rounded mb-4">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div>{!! nl2br(e($sanpham->mo_ta)) !!}</div>
+                    <div class="product-description-content">{!! $sanpham->mo_ta !!}</div>
                 </div>
             </div>
 
@@ -692,7 +711,7 @@
                                     <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
                                         class="@error('so_sao') is-invalid @enderror">
                                     @error('so_sao')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback d-block">{{ $errors->first('so_sao') }}</div>
                                     @enderror
                                 </div>
 
@@ -701,7 +720,7 @@
                                     <textarea name="binh_luan" id="binh_luan" rows="4"
                                         class="form-control @error('binh_luan') is-invalid @enderror">{{ old('binh_luan') }}</textarea>
                                     @error('binh_luan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('binh_luan') }}</div>
                                     @enderror
                                 </div>
 
