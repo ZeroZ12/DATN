@@ -24,12 +24,14 @@
           <div class="mb-4">
             <ul class="list-unstyled category-list">
               @foreach($danhmucs ?? [] as $dm)
+              @if(is_object($dm))
               <li>
                 <a href="{{ route('danhmuc.index', $dm->id) }}"
                    class="text-decoration-none text-dark py-1 d-block small {{ request()->route('category') == $dm->id ? 'active' : '' }}">
                   {{ $dm->ten }}
                 </a>
               </li>
+              @endif
               @endforeach
             </ul>
           </div>
@@ -37,12 +39,14 @@
           <h6 class="fw-bold mb-3">Thương hiệu</h6>
           <div class="mb-4">
             @foreach($thuongHieus ?? [] as $brand)
+            @if(is_object($brand))
             <div class="form-check mb-1">
               <input class="form-check-input form-check-input-sm" type="checkbox"
                      id="brand_{{ $brand->id }}" name="brand[]" value="{{ $brand->id }}"
                      {{ in_array($brand->id, request('brand', [])) ? 'checked' : '' }}>
               <label class="form-check-label small" for="brand_{{ $brand->id }}">{{ $brand->ten }}</label>
             </div>
+            @endif
             @endforeach
           </div>
           <!-- Lọc giá -->

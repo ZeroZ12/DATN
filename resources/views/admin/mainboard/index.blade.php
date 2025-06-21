@@ -41,12 +41,12 @@
                             <tr>
                                 <td>{{ $mainboard->id }}</td>
                                 <td class="fw-semibold">{{ $mainboard->ten }}</td>
-                                {{-- @if (!empty($mainboard->gia_sale)&& $mainboard->gia_sale > 0 ) --}}
+                                @if (!empty($mainboard->gia_sale)&& $mainboard->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
-                                    {{-- <td>{{ number_format($mainboard->gia_sale, 0, ',', '.') }}đ</td>
-                                @else --}}
-                                    {{-- <td>{{ number_format($mainboard->gia, 0, ',', '.') }}đ</td>
-                                @endif --}}
+                                    <td>{{ number_format($mainboard->gia_sale, 0, ',', '.') }}đ</td>
+                                @else
+                                    <td>{{ number_format($mainboard->gia, 0, ',', '.') }}đ</td>
+                                @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($mainboard->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.mainboard.edit', $mainboard->id) }}"

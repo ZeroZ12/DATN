@@ -12,7 +12,7 @@ class OCung extends Model
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'o_cungs';
-    protected $fillable = ['loai', 'dung_luong','mo_ta'];
+    protected $fillable = ['loai', 'dung_luong','gia','gia_sale','mo_ta'];
 
     // Quan hệ với bảng Biến Thể Sản Phẩm
     public function bienTheSanPhams()

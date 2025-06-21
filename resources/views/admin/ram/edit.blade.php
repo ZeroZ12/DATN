@@ -19,7 +19,7 @@
                 @enderror
             </div>
             
-            {{-- <div class="mb-3">
+            <div class="mb-3">
                 <label for="gia" class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
                 <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia') }}">
                 @error('gia')
@@ -33,7 +33,7 @@
                 @error('gia_sale')
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
-            </div> --}}
+            </div>
 
             <div class="mb-3">
                 <label for="mo_ta" class="form-label">Mô tả</label>

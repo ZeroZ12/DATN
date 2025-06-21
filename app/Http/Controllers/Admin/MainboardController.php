@@ -34,15 +34,15 @@ class MainboardController extends Controller
     {
         $data = $request->validate([
             'ten' => 'required|string|max:255',
-            // 'gia'      => 'nullable|numeric',
-            // 'gia_sale' => 'nullable|numeric',
+            'gia'      => 'nullable|numeric',
+            'gia_sale' => 'nullable|numeric',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên mainboard không được để trống.',
             'ten.string' => 'Tên mainboard phải là chuỗi ký tự.',
             'ten.max' => 'Tên mainboard không được vượt quá 255 ký tự.',
-            // 'gia.numeric'    => 'Giá phải là số.',
-            // 'gia_sale.numeric' => 'Giá sale phải là số.',
+            'gia.numeric'    => 'Giá phải là số.',
+            'gia_sale.numeric' => 'Giá sale phải là số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         Mainboard::create($data);
