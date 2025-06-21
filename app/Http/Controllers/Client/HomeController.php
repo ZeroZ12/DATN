@@ -28,12 +28,12 @@ class HomeController extends Controller
                 'BienTheSanPhams.ram',
                 'BienTheSanPhams.oCung',
             ])
-            // === THAY ĐỔI TẠI ĐÂY: Thêm withAvg để tính trung bình số sao ===
-            ->withAvg(['danhGiaSanPhams as average_rating' => function ($query) {
-                $query->where('danh_gia_san_phams.trang_thai', 'da_duyet');
+            ->withAvg(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
             }], 'so_sao')
-            // ===============================================================
-
+            ->withCount(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }])
             ->when($request->filled('id_brand'), fn($q) => $q->where('id_brand', $request->id_brand))
             ->when($request->filled('id_chip'), fn($q) => $q->where('id_chip', $request->id_chip))
             ->when($request->filled('id_gpu'), fn($q) => $q->where('id_gpu', $request->id_gpu))

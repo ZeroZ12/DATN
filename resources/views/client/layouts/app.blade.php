@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/clients/style.css') }}">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
   @stack('css')
+  <title>@yield('title', 'Electro - Cửa hàng máy tính')</title>
 </head>
 <body>
   <!-- Header Top -->

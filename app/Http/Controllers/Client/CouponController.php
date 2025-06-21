@@ -52,7 +52,7 @@ class CouponController extends Controller
 
             // Tính giảm giá
             $discountAmount = 0;
-            if ($coupon->loai === 'percent') {
+            if ($coupon->loai === 'phan_tram') {
                 $discountAmount = $total * ($coupon->gia_tri / 100);
             } else {
                 $discountAmount = $coupon->gia_tri;

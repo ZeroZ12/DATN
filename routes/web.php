@@ -234,3 +234,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
+Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');

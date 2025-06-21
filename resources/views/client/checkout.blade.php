@@ -49,9 +49,9 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-1">{{ $diaChi->ho_ten }}</h6>
-                                <p class="mb-1">{{ $diaChi->so_dien_thoai }}</p>
-                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi }}</p>
+                                <h6 class="mb-1">{{ $diaChi->ten_nguoi_nhan }}</h6>
+                                <p class="mb-1">{{ $diaChi->so_dien_thoai_nguoi_nhan }}</p>
+                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa }}, {{ $diaChi->quan_huyen }}, {{ $diaChi->tinh_thanh_pho }}</p>
                             </div>
                             <a href="{{ route('client.addresses.index') }}" class="btn btn-outline-primary btn-sm">Thay đổi</a>
                         </div>
@@ -112,8 +112,14 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Tạm tính</span>
-                        <span>{{ number_format($tongTien) }}₫</span>
+                        <span>{{ number_format($tongTienGoc) }}₫</span>
                     </div>
+                    @if($giamGia > 0)
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Giảm giá</span>
+                        <span class="text-success">-{{ number_format($giamGia) }}₫</span>
+                    </div>
+                    @endif
                     <div class="d-flex justify-content-between mb-2">
                         <span>Phí vận chuyển</span>
                         <span>Miễn phí</span>
@@ -121,10 +127,27 @@
                     <hr>
                     <div class="d-flex justify-content-between mb-3">
                         <strong>Tổng cộng</strong>
-                        <strong class="text-danger">{{ number_format($tongTien) }}₫</strong>
+                        <strong class="text-danger">{{ number_format($tongTienSauGiam) }}₫</strong>
                     </div>
-                    <button type="button" class="btn btn-primary w-100" onclick="placeOrder()">
-                        Đặt hàng
+                    @if($giamGia > 0)
+                    <div class="alert alert-success small mb-3">
+                        <i class="fas fa-check-circle"></i>
+                        Đã áp dụng mã giảm giá: <strong>{{ $gioHang->maGiamGia->ma }}</strong>
+                        @if($gioHang->maGiamGia->loai == 'phan_tram')
+                            (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
+                        @else
+                            (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
+                        @endif
+                    </div>
+                    @endif
+                    @if(!$diaChi)
+                    <div class="alert alert-warning small mb-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng
+                    </div>
+                    @endif
+                    <button type="button" class="btn btn-primary w-100" onclick="placeOrder()" @if(!$diaChi) disabled @endif>
+                        @if(!$diaChi) Vui lòng thêm địa chỉ @else Đặt hàng @endif
                     </button>
                 </div>
             </div>
@@ -163,6 +186,12 @@
 @push('js')
 <script>
 function placeOrder() {
+    // Kiểm tra địa chỉ
+    @if(!$diaChi)
+    showToast('Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng!', 'error');
+    return;
+    @endif
+
     // Hiển thị loading
     const button = event.target;
     const originalText = button.innerHTML;

@@ -40,12 +40,56 @@
         <select class="form-select w-auto d-inline-block" id="ma-giam-gia-select">
           <option selected>Sử dụng mã giảm giá</option>
           @foreach($maGiamGias as $maGiamGia)
-            <option value="{{ $maGiamGia->ma }}">{{ $maGiamGia->ma }}</option>
+            <option value="{{ $maGiamGia->ma }}">
+              {{ $maGiamGia->ma }} -
+              @if($maGiamGia->loai == 'phan_tram')
+                Giảm {{ $maGiamGia->gia_tri }}%
+              @else
+                Giảm {{ number_format($maGiamGia->gia_tri) }}₫
+              @endif
+              @if($maGiamGia->dieu_kien > 0)
+                (ĐH tối thiểu {{ number_format($maGiamGia->dieu_kien) }}₫)
+              @endif
+            </option>
           @endforeach
         </select>
+        @if($gioHang->maGiamGia)
+          <div class="mt-2">
+            <small class="text-success">
+              <i class="fas fa-check-circle"></i>
+              Đã áp dụng mã: {{ $gioHang->maGiamGia->ma }}
+              @if($gioHang->maGiamGia->loai == 'phan_tram')
+                (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
+              @else
+                (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
+              @endif
+              <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="removeCoupon()">
+                <i class="fas fa-times"></i> Xóa
+              </button>
+            </small>
+          </div>
+        @endif
       </div>
 
-      <div class="cart-total">Tổng tiền: {{ number_format($total) }}₫</div>
+      <div class="cart-total">
+        Tổng tiền: {{ number_format($total) }}₫
+        @if($gioHang->maGiamGia)
+          @php
+            $discount = $gioHang->maGiamGia->loai == 'phan_tram'
+              ? ($total * $gioHang->maGiamGia->gia_tri / 100)
+              : $gioHang->maGiamGia->gia_tri;
+            $finalTotal = max(0, $total - $discount);
+          @endphp
+          <br>
+          <small class="text-success">
+            Giảm giá: -{{ number_format($discount) }}₫
+          </small>
+          <br>
+          <strong class="text-danger">
+            Thành tiền: {{ number_format($finalTotal) }}₫
+          </strong>
+        @endif
+      </div>
       <button class="btn btn-danger w-100 cart-checkout-btn" onclick="window.location.href='{{ route('client.cart.checkout') }}'">ĐẶT HÀNG NGAY</button>
     @else
       <div class="text-center py-5">
@@ -257,8 +301,19 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          document.querySelector('.cart-total').textContent = `Tổng tiền: ${data.finalTotal.toLocaleString()}₫`;
+          const cartTotalElement = document.querySelector('.cart-total');
+          if (data.discount > 0) {
+            cartTotalElement.innerHTML = `
+              Tổng tiền: ${data.originalTotal.toLocaleString()}₫<br>
+              <small class="text-success">Giảm giá: -${data.discount.toLocaleString()}₫</small><br>
+              <strong class="text-danger">Thành tiền: ${data.finalTotal.toLocaleString()}₫</strong>
+            `;
+          } else {
+            cartTotalElement.textContent = `Tổng tiền: ${data.finalTotal.toLocaleString()}₫`;
+          }
           showToast('Áp dụng mã giảm giá thành công!', 'success');
+          // Reload trang để cập nhật hiển thị mã giảm giá đã áp dụng
+          setTimeout(() => location.reload(), 1000);
         } else {
           showToast(data.message || 'Có lỗi xảy ra', 'error');
           this.value = 'Sử dụng mã giảm giá';
@@ -374,6 +429,29 @@ function showToast(message, type = 'success') {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 300);
   }, 3000);
+}
+
+function removeCoupon() {
+  if (confirm('Bạn có chắc muốn xóa mã giảm giá này?')) {
+    fetch('/cart/remove-coupon', {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Đã xóa mã giảm giá', 'success');
+        setTimeout(() => location.reload(), 1000);
+      } else {
+        showToast(data.message || 'Có lỗi xảy ra', 'error');
+      }
+    })
+    .catch(error => {
+      showToast('Có lỗi xảy ra khi xóa mã giảm giá', 'error');
+    });
+  }
 }
 </script>
 @endpush

@@ -27,7 +27,10 @@ class DonHang extends Model
         'id_user',
         'id_dia_chi_nguoi_dungs',
         'id_phuong_thuc_thanh_toan',
+        'id_ma_giam_gia',
         'tong_tien',
+        'tong_tien_goc',
+        'giam_gia',
         'trang_thai', // 'cho_xu_ly', 'dang_giao', 'hoan_thanh', 'huy'
     ];
 
@@ -65,6 +68,14 @@ class DonHang extends Model
     public function phuongThucThanhToan()
     {
         return $this->belongsTo(PhuongThucThanhToan::class, 'id_phuong_thuc_thanh_toan');
+    }
+
+    /**
+     * Get the discount code used for the order.
+     */
+    public function maGiamGia()
+    {
+        return $this->belongsTo(MaGiamGia::class, 'id_ma_giam_gia');
     }
 
     /**

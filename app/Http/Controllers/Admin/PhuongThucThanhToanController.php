@@ -142,7 +142,7 @@ class PhuongThucThanhToanController extends Controller
         try{
             DB::beginTransaction();
             $phuongThucThanhToan = PhuongThucThanhToan::withTrashed()->findOrFail($id);
-            if ($phuongThucThanhToan->orders()->withTrashed()->exists()) {
+            if ($phuongThucThanhToan->donHangs()->withTrashed()->exists()) {
                 DB::rollBack();
                 return redirect()->route('admin.phuongthucthanhtoan.index')->with('error', 'Không thể xóa phương thức thanh toán này vì nó đang được sử dụng trong đơn hàng.');
             }

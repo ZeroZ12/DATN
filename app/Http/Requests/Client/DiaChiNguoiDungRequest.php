@@ -30,6 +30,7 @@ class DiaChiNguoiDungRequest extends FormRequest
             'tinh_thanh_pho' => ['required', 'string', 'max:100'],
             'quan_huyen' => ['required', 'string', 'max:100'],
             'phuong_xa' => ['required', 'string', 'max:100'],
+            'mac_dinh' => ['sometimes', 'boolean'], // Thêm validation cho mac_dinh
             // 'mac_dinh' => ['boolean'], // Mặc định sẽ được xử lý trong controller
         ];
     }

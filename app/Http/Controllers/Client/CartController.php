@@ -21,7 +21,7 @@ class CartController extends Controller
     {
         $gioHang = GioHang::where('id_user', Auth::id())
             ->where('loai', 'chinh')
-            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe'])
+            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
             ->first();
 
         if (!$gioHang) {
@@ -242,10 +242,10 @@ class CartController extends Controller
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
-        if ($maGiamGia->dieu_kien > $cartTotal) {
+        if ($maGiamGia->dieu_kien > 0 && $cartTotal < $maGiamGia->dieu_kien) {
             return response()->json([
                 'success' => false,
-                'message' => 'Đơn hàng chưa đủ điều kiện áp dụng mã giảm giá'
+                'message' => 'Đơn hàng chưa đủ điều kiện áp dụng mã giảm giá (tối thiểu ' . number_format($maGiamGia->dieu_kien) . '₫)'
             ]);
         }
 
@@ -254,7 +254,7 @@ class CartController extends Controller
         $gioHang->save();
 
         // Tính toán giá sau khi áp dụng mã giảm giá
-        $discount = $maGiamGia->loai === 'percent'
+        $discount = $maGiamGia->loai === 'phan_tram'
             ? ($cartTotal * $maGiamGia->gia_tri / 100)
             : $maGiamGia->gia_tri;
 
@@ -263,13 +263,34 @@ class CartController extends Controller
         return response()->json([
             'success' => true,
             'discount' => $discount,
-            'finalTotal' => $finalTotal
+            'finalTotal' => $finalTotal,
+            'originalTotal' => $cartTotal
+        ]);
+    }
+
+    public function removeCoupon()
+    {
+        $gioHang = GioHang::where('id_user', Auth::id())
+            ->where('loai', 'chinh')
+            ->first();
+
+        if ($gioHang) {
+            $gioHang->id_giam_gia = null;
+            $gioHang->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa mã giảm giá'
         ]);
     }
 
     public function checkout()
     {
-        $gioHang = GioHang::where('id_user', Auth::id())->first();
+        $gioHang = GioHang::where('id_user', Auth::id())
+            ->where('loai', 'chinh')
+            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
+            ->first();
         if (!$gioHang) {
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống!');
         }
@@ -282,15 +303,34 @@ class CartController extends Controller
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống!');
         }
 
-        // Tính tổng tiền
-        $tongTien = $chiTietGioHang->sum(function ($item) {
+        // Tính tổng tiền gốc
+        $tongTienGoc = $chiTietGioHang->sum(function ($item) {
             return $item->gia * $item->so_luong;
         });
 
-        // Lấy thông tin địa chỉ của user
-        $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+        // Tính toán giảm giá nếu có mã giảm giá
+        $giamGia = 0;
+        $tongTienSauGiam = $tongTienGoc;
 
-        return view('client.checkout', compact('chiTietGioHang', 'tongTien', 'diaChi'));
+        if ($gioHang->maGiamGia) {
+            if ($gioHang->maGiamGia->loai === 'phan_tram') {
+                $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
+            } else {
+                $giamGia = $gioHang->maGiamGia->gia_tri;
+            }
+            $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
+        }
+
+        // Lấy thông tin địa chỉ của user
+        $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
+            ->where('mac_dinh', true)
+            ->first();
+
+        if (!$diaChi) {
+            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+        }
+
+        return view('client.checkout', compact('chiTietGioHang', 'tongTienGoc', 'giamGia', 'tongTienSauGiam', 'diaChi', 'gioHang'));
     }
 
     public function placeOrder(Request $request)
@@ -312,7 +352,7 @@ class CartController extends Controller
             // Get cart
             $gioHang = GioHang::where('id_user', Auth::id())
                 ->where('loai', 'chinh')
-                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe'])
+                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
                 ->first();
 
             if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
@@ -323,7 +363,14 @@ class CartController extends Controller
             }
 
             // Get user's default address
-            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
+                ->where('mac_dinh', true)
+                ->first();
+
+            if (!$diaChi) {
+                $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+            }
+
             if (!$diaChi) {
                 return response()->json([
                     'success' => false,
@@ -332,9 +379,22 @@ class CartController extends Controller
             }
 
             // Calculate total
-            $tongTien = $gioHang->chiTietGioHangs->sum(function ($item) {
+            $tongTienGoc = $gioHang->chiTietGioHangs->sum(function ($item) {
                 return $item->gia * $item->so_luong;
             });
+
+            // Tính toán giảm giá nếu có mã giảm giá
+            $giamGia = 0;
+            $tongTienSauGiam = $tongTienGoc;
+
+            if ($gioHang->maGiamGia) {
+                if ($gioHang->maGiamGia->loai === 'phan_tram') {
+                    $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
+                } else {
+                    $giamGia = $gioHang->maGiamGia->gia_tri;
+                }
+                $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
+            }
 
             // Create order
             $donHang = DonHang::create([
@@ -342,7 +402,10 @@ class CartController extends Controller
                 'id_user' => Auth::id(),
                 'id_dia_chi_nguoi_dungs' => $diaChi->id,
                 'id_phuong_thuc_thanh_toan' => $request->payment_method,
-                'tong_tien' => $tongTien,
+                'id_ma_giam_gia' => $gioHang->id_giam_gia,
+                'tong_tien' => $tongTienSauGiam,
+                'tong_tien_goc' => $tongTienGoc,
+                'giam_gia' => $giamGia,
                 'trang_thai' => 'cho_xu_ly'
             ]);
 
@@ -360,6 +423,8 @@ class CartController extends Controller
 
             // Clear cart
             $gioHang->chiTietGioHangs()->delete();
+            $gioHang->id_giam_gia = null;
+            $gioHang->save();
 
             return response()->json([
                 'success' => true,

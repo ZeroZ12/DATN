@@ -55,16 +55,16 @@
             @enderror
         </div>
 
-        @if (!$hasAddresses) {{-- Nếu đây là địa chỉ đầu tiên, không cho phép bỏ chọn mặc định --}}
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="la_mac_dinh" name="la_mac_dinh" value="1" checked disabled>
-                <label class="form-check-label" for="la_mac_dinh">Đặt làm địa chỉ mặc định (Bạn phải có ít nhất một địa chỉ mặc định)</label>
+        @if($isFirstAddress)
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="mac_dinh_first" name="mac_dinh" value="1" checked disabled>
+                <label class="form-check-label" for="mac_dinh_first">Đặt làm địa chỉ mặc định (Bạn phải có ít nhất một địa chỉ mặc định)</label>
+                <input type="hidden" name="mac_dinh" value="1">
             </div>
-            <input type="hidden" name="la_mac_dinh" value="1"> {{-- Gửi giá trị 1 ẩn để controller xử lý --}}
         @else
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="la_mac_dinh" name="la_mac_dinh" value="1" {{ old('la_mac_dinh') ? 'checked' : '' }}>
-                <label class="form-check-label" for="la_mac_dinh">Đặt làm địa chỉ mặc định</label>
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="mac_dinh" name="mac_dinh" value="1" {{ old('mac_dinh') ? 'checked' : '' }}>
+                <label class="form-check-label" for="mac_dinh">Đặt làm địa chỉ mặc định</label>
             </div>
         @endif
 
