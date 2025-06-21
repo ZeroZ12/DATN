@@ -62,7 +62,10 @@ class CartController extends Controller
             ]);
 
             $user = Auth::user();
-            $gioHang = GioHang::firstOrCreate(['id_user' => $user->id]);
+            $gioHang = GioHang::firstOrCreate([
+                'id_user' => $user->id,
+                'loai' => 'chinh'
+            ]);
 
             // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
             $chiTietGioHang = ChiTietGioHang::where('id_gio_hang', $gioHang->id)
@@ -193,7 +196,9 @@ class CartController extends Controller
 
     public function count()
     {
-        $gioHang = GioHang::where('id_user', Auth::id())->first();
+        $gioHang = GioHang::where('id_user', Auth::id())
+            ->where('loai', 'chinh')
+            ->first();
         if (!$gioHang) {
             return response()->json(['count' => 0]);
         }
@@ -221,6 +226,13 @@ class CartController extends Controller
         $gioHang = GioHang::where('id_user', Auth::id())
             ->where('loai', 'chinh')
             ->first();
+
+        if (!$gioHang) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Giỏ hàng không tồn tại'
+            ]);
+        }
 
         // Kiểm tra điều kiện áp dụng mã giảm giá
         $cartTotal = $gioHang->chiTietGioHangs()

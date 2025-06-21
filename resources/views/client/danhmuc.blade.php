@@ -160,22 +160,24 @@
                   @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
                     <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
                   @endif
-                  <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                  <div class="current-price-wrapper">
+                    <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                    @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                      <div class="discount-badge">
+                        -{{ $discountPercent }}%
+                      </div>
+                    @endif
+                  </div>
                 </div>
 
-                @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                  <div class="discount-badge">
-                    -{{ $discountPercent }}%
-                  </div>
-                @endif
-
                 <div class="product-rating">
-                  <div class="stars">
-                    @for($i = 1; $i <= 5; $i++)
-                      <i class="fas fa-star"></i>
-                    @endfor
-                  </div>
-                  <span class="rating-text">({{ rand(3, 15) }})</span>
+                    @php
+                        $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                        $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                    @endphp
+                    <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                    <i class="fas fa-star text-warning"></i>
+                    <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
                 </div>
 
                 <div class="product-actions">
@@ -190,15 +192,10 @@
                       <span>Thêm vào giỏ</span>
                     </button>
                   </form>
-
-                  <a href="{{ route('sanpham.show', $sp->id) }}" class="product-detail-btn">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Chi tiết</span>
-                  </a>
                 </div>
               </div>
 
-              <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
+              <a href="{{ route('client.sanphams.show', $sp->id) }}" class="product-link"></a>
             </div>
             @empty
             <div class="col-12">
@@ -325,12 +322,13 @@
     overflow: hidden;
     transition: all 0.3s ease;
     position: relative;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .product-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   /* Product badges */
@@ -388,6 +386,9 @@
   /* Product info */
   .product-info {
     padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .product-title {
@@ -415,33 +416,44 @@
     margin-bottom: 2px;
   }
 
-  .current-price {
+  .current-price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .product-price .current-price {
     color: #dc3545;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .discount-badge {
-    display: inline-block;
-    background: #dc3545;
-    color: white;
-    padding: 2px 6px;
+    background-color: white;
+    color: #dc3545;
+    padding: 3px 8px;
     border-radius: 4px;
-    font-size: 11px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #dc3545;
   }
 
   /* Rating section */
   .product-rating {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 5px;
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
 
-  .stars {
+  .product-rating .stars {
     color: #ffc107;
-    font-size: 12px;
+    display: flex;
+    gap: 2px;
   }
 
   .rating-text {
@@ -451,9 +463,7 @@
 
   /* Action buttons */
   .product-actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 15px;
+    margin-top: auto;
   }
 
   .add-to-cart-form {
@@ -461,24 +471,29 @@
   }
 
   .add-to-cart-btn {
-    width: 100%;
-    background: #28a745;
+    background-color: #28a745;
     color: white;
     border: none;
-    padding: 10px 0;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    position: relative;
-    z-index: 2;
-    min-width: 0;
-    height: 40px;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+
+  .add-to-cart-btn:active {
+    transform: scale(0.95);
   }
 
   .product-detail-btn {
@@ -501,27 +516,6 @@
     min-width: 0;
     height: 40px;
     text-decoration: none;
-  }
-
-  .add-to-cart-btn:hover {
-    background: #218838;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-  }
-
-  .add-to-cart-btn:active {
-    transform: translateY(0);
-  }
-
-  .add-to-cart-btn.loading {
-    background: #6c757d;
-    cursor: not-allowed;
-  }
-
-  .add-to-cart-btn.loading:hover {
-    background: #6c757d;
-    transform: none;
-    box-shadow: none;
   }
 
   .product-detail-btn:hover {
@@ -691,6 +685,56 @@
   .form-check {
     position: relative;
     z-index: 2;
+  }
+
+  .product-price .old-price {
+    text-decoration: line-through;
+    color: #6c757d;
+    font-size: 14px;
+  }
+
+  .current-price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .product-price .current-price {
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .discount-badge {
+    background-color: white;
+    color: #dc3545;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #dc3545;
+  }
+
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .product-rating .stars {
+    color: #ffc107;
+    display: flex;
+    gap: 2px;
+  }
+
+  .rating-text {
+    color: #666;
+    font-size: 12px;
   }
 </style>
 @endpush

@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('danh_gia_san_phams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_product')->constrained('san_phams');
-            $table->foreignId('id_user')->constrained('users');
+            $table->foreignId('id_product')->constrained('san_phams')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->integer('so_sao');
             $table->text('binh_luan')->nullable();
             $table->timestamps();

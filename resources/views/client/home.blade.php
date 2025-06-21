@@ -116,36 +116,23 @@
                                         @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
                                             <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
                                         @endif
-                                        <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                                        <div class="current-price-wrapper">
+                                            <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                                            @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                                                <div class="discount-badge">
+                                                    -{{ round((100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh) }}%
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
-                                    @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                                        <div class="discount-badge">
-                                            -{{ round((100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh) }}%
-                                        </div>
-                                    @endif
                                     <div class="product-rating">
-                                        <div class="stars">
-                                            @php
-                                                // Lấy giá trị sao trung bình từ thuộc tính 'average_rating_avg' được thêm bởi withAvg
-                                                $avgStars = $sp->average_rating;
-                                                // Làm tròn số sao để hiển thị icon (ví dụ: 3.5 sao làm tròn thành 4 sao)
-                                                $displayStars = $avgStars !== null ? round($avgStars) : 0;
-                                            @endphp
-
-                                            @for ($i = 1; $i <= 5; $i++)
-                                                @if ($i <= $displayStars)
-                                                    <i class="fas fa-star text-warning"></i> {{-- Sao đầy, màu vàng --}}
-                                                @else
-                                                    <i class="far fa-star text-muted"></i> {{-- Sao rỗng, màu xám --}}
-                                                @endif
-                                            @endfor
-                                        </div>
-                                        {{-- Hiển thị điểm số chi tiết và tổng số đánh giá (nếu có) --}}
-                                        @if ($avgStars !== null)
-                                            <span class="rating-text">({{ number_format($avgStars, 1) }})</span>
-                                        @else
-                                            <span class="rating-text">(Chưa có đánh giá)</span>
-                                        @endif
+                                        @php
+                                            $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                                            $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                                        @endphp
+                                        <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                        <i class="fas fa-star text-warning"></i>
+                                        <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
                                     </div>
                                     <div class="product-actions">
                                         <form action="{{ route('client.cart.add') }}" method="POST"
@@ -160,10 +147,6 @@
                                                 <span>Thêm vào giỏ</span>
                                             </button>
                                         </form>
-                                        <a href="{{ route('sanpham.show', $sp->id) }}" class="product-detail-btn">
-                                            <i class="fas fa-info-circle"></i>
-                                            <span>Chi tiết</span>
-                                        </a>
                                     </div>
                                 </div>
                                 <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
@@ -331,6 +314,9 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
@@ -434,12 +420,13 @@
 
         .product-info {
             padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 15px;
+            margin-top: auto;
         }
 
         .add-to-cart-form {
@@ -447,33 +434,29 @@
         }
 
         .add-to-cart-btn {
-            width: 100%;
-            background: #28a745;
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            position: relative;
-            z-index: 2;
-            min-height: 38px;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
-        .add-to-cart-btn:hover:not(:disabled) {
-            background: #218838;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+        .add-to-cart-btn:hover {
+            background-color: #218838;
+            transform: scale(1.05);
         }
 
         .add-to-cart-btn:active {
-            transform: scale(0.98);
+            transform: scale(0.95);
         }
 
         .add-to-cart-btn:disabled {
@@ -495,7 +478,7 @@
         }
 
         .product-detail-btn {
-            background: #007bff;
+            background-color: #007bff;
             color: white;
             border: none;
             padding: 10px 12px;
@@ -550,32 +533,44 @@
             margin-bottom: 2px;
         }
 
-        .current-price {
+        .current-price-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-price .current-price {
             color: #dc3545;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .discount-badge {
-            display: inline-block;
-            background: #dc3545;
-            color: white;
-            padding: 2px 6px;
+            background-color: white;
+            color: #dc3545;
+            padding: 3px 8px;
             border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #dc3545;
+            margin-bottom: 0;
         }
 
         .product-rating {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 10px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
         }
 
-        .stars {
+        .product-rating .stars {
             color: #ffc107;
-            font-size: 12px;
+            display: flex;
+            gap: 2px;
         }
 
         .rating-text {
@@ -830,6 +825,50 @@
                 padding: 10px 15px;
                 font-size: 13px;
             }
+        }
+
+        .product-price .old-price {
+            text-decoration: line-through;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .current-price-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-price .current-price {
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .discount-badge {
+            margin-bottom: 0;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 10px;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        .product-rating .stars {
+            color: #ffc107;
+            display: flex;
+            gap: 2px;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 12px;
         }
     </style>
 @endpush

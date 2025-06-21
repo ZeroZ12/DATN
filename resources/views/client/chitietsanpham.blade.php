@@ -575,7 +575,7 @@
                     <div class="flex-fill" style="min-width:0;">
                         <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
                             @csrf
-                            <input type="hidden" name="id_san_pham" value="{{ $sanpham->id }}">
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
 
                             <div class="mb-3">
                                 <label class="form-label"><strong>Chọn cấu hình:</strong></label>
@@ -607,7 +607,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <input type="hidden" name="id_bien_the" id="selected_variant" required>
+                                <input type="hidden" name="bien_the_id" id="selected_variant" required>
                             </div>
 
                             <div id="bienthe-info" class="mb-3" style="display: none;">
@@ -882,14 +882,14 @@
                                         <span>Thêm vào giỏ</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('client.sanphams.show', $sp->id) }}"
+                                <a href="{{ route('sanpham.show', $sp->id) }}"
                                     class="product-detail-btn d-inline-block"> {{-- Đảm bảo route đúng --}}
                                     <i class="fas fa-info-circle"></i>
                                     <span>Chi tiết</span>
                                 </a>
                             </div>
                         </div>
-                        <a href="{{ route('client.sanphams.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
+                        <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
                         {{-- Đảm bảo route đúng --}}
                     </div>
                 @endforeach

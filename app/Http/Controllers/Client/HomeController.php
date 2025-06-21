@@ -30,8 +30,7 @@ class HomeController extends Controller
             ])
             // === THAY ĐỔI TẠI ĐÂY: Thêm withAvg để tính trung bình số sao ===
             ->withAvg(['danhGiaSanPhams as average_rating' => function ($query) {
-                // Chỉ tính trung bình từ các đánh giá có trạng thái 'da_duyet'
-                $query->where('trang_thai', 'da_duyet');
+                $query->where('danh_gia_san_phams.trang_thai', 'da_duyet');
             }], 'so_sao')
             // ===============================================================
 

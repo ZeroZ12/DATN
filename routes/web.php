@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -17,6 +16,9 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
+use App\Http\Controllers\Admin\DanhGiaController;
+
+use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProfileController;
@@ -158,6 +160,17 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
+
+    Route::get('danhgias', [DanhGiaController::class, 'index'])->name('danhgias.index');
+    Route::get('danhgias/{danhGia}', [DanhGiaController::class, 'show'])->name('danhgias.show');
+    Route::get('danhgias/{danhGia}/edit', [DanhGiaController::class, 'edit'])->name('danhgias.edit');
+    Route::put('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
+    // Hoặc nếu bạn chỉ muốn dùng PATCH cho update: Route::patch('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
+
+    // Xóa đánh giá (DELETE /admin/danhgias/{danhgia})
+    Route::delete('danhgias/{danhGia}', [DanhGiaController::class, 'destroy'])->name('danhgias.destroy');
+    Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
+    Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
@@ -174,10 +187,8 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
-
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
-
     // Route để xóa đánh giá (sử dụng DELETE)
     Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
 });
