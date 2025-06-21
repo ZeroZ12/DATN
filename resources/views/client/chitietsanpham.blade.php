@@ -863,14 +863,14 @@
                                         <span>Thêm vào giỏ</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('client.sanphams.show', $sp->id) }}"
+                                <a href="{{ route('sanpham.show', $sp->id) }}"
                                     class="product-detail-btn d-inline-block"> {{-- Đảm bảo route đúng --}}
                                     <i class="fas fa-info-circle"></i>
                                     <span>Chi tiết</span>
                                 </a>
                             </div>
                         </div>
-                        <a href="{{ route('client.sanphams.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
+                        <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
                         {{-- Đảm bảo route đúng --}}
                     </div>
                 @endforeach
