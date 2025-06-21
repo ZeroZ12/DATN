@@ -641,7 +641,7 @@
             <div class="col-md-8">
                 <div class="bg-light p-3 rounded mb-4">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div>{!! nl2br(e($sanpham->mo_ta)) !!}</div>
+                    <div>{!! $sanpham->mo_ta !!}</div>
                 </div>
             </div>
 
