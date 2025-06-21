@@ -149,7 +149,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <a href="{{ route('client.sanphams.show', $sp->id) }}" class="product-link"></a>
+                                <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
                             </div>
                         @endforeach
                     </div>

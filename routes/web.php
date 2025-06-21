@@ -201,7 +201,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 Route::get('/', [HomeController::class, 'index'])->name('client.home');
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
 Route::get('/danhmuc/{id}/show', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.show');
-Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('client.sanphams.show');
+Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
 // Route tìm kiếm sản phẩm
 Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
