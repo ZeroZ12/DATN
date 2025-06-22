@@ -222,6 +222,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('cart')->name('client.cart.')->group(function () {
         Route::get('/', [App\Http\Controllers\Client\CartController::class, 'index'])->name('index');
         Route::post('/add', [App\Http\Controllers\Client\CartController::class, 'add'])->name('add');
+        Route::post('/buy-now', [App\Http\Controllers\Client\CartController::class, 'buyNow'])->name('buy-now');
         Route::put('/update/{id}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('update');
         Route::delete('/remove/{id}', [App\Http\Controllers\Client\CartController::class, 'remove'])->name('remove');
         Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
