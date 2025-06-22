@@ -21,7 +21,6 @@
 @include('client.layouts.blocks.header')
 
 
-
   <!-- Danh sách sản phẩm -->
 @yield('content')
   <!-- Footer -->

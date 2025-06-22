@@ -83,10 +83,9 @@
                     <div class="products-slider">
                         @foreach ($sanphams->where('id_category', $danhMuc->id) as $sp)
                             @php
-                                $bienThe =
-                                    $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                                $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
                                         return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                                            (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+                                               (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
                                     }) ?? $sp->BienTheSanPhams->first();
                             @endphp
 
@@ -138,10 +137,10 @@
                                         <form action="{{ route('client.cart.add') }}" method="POST"
                                             class="add-to-cart-form"
                                             data-product-id="{{ $sp->id }}"
-                                            data-variant-id="{{ $bienThe->id ?? '' }}">
+                                            data-variant-id="{{ $bienThe->id ?? '' }}"> {{-- NGHI NGỜ --}}
                                             @csrf
                                             <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                            <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                            <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> {{-- NGHI NGỜ --}}
                                             <input type="hidden" name="so_luong" value="1">
                                             <button type="submit" class="add-to-cart-btn">
                                                 <i class="fas fa-shopping-cart"></i>
@@ -876,6 +875,7 @@
 
 @push('js')
     <script>
+        
         document.addEventListener('submit', function(event) {
             if (event.target.matches('.add-to-cart-form')) {
                 console.log('Form submission detected for .add-to-cart-form. Preventing default action.');

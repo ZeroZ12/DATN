@@ -31,9 +31,10 @@ class CartController extends Controller
             ]);
         }
 
-        $total = $gioHang->chiTietGioHangs->sum(function($item) {
-            return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
-        });
+        $total = 0;
+        foreach ($gioHang->chiTietGioHangs as $item) {
+            $total += $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
+        }
 
         $maGiamGias = MaGiamGia::where('hoat_dong', true)->get();
 
@@ -42,6 +43,7 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        Log::info('Cart add request', $request->all());
         try {
             // Kiểm tra user đã đăng nhập chưa
             if (!Auth::check()) {
@@ -196,12 +198,18 @@ class CartController extends Controller
 
     public function count()
     {
+        if(!Auth::check()) {
+            return response()->json(['count' => 0]);
+        }
+
         $gioHang = GioHang::where('id_user', Auth::id())
             ->where('loai', 'chinh')
             ->first();
+
         if (!$gioHang) {
             return response()->json(['count' => 0]);
         }
+        
         $count = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
         return response()->json(['count' => $count]);
     }
@@ -379,9 +387,9 @@ class CartController extends Controller
             }
 
             // Calculate total
-            $tongTienGoc = $gioHang->chiTietGioHangs->sum(function ($item) {
+            $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
                 return $item->gia * $item->so_luong;
-            });
+            })->sum();
 
             // Tính toán giảm giá nếu có mã giảm giá
             $giamGia = 0;
