@@ -177,7 +177,7 @@
                 </div>
 
                 <div class="product-actions">
-                  <form action="" method="POST" class="add-to-cart-form" onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
+                  <form action="{{ route('client.cart.add') }}" method="POST" class="add-to-cart-form">
                     @csrf
                     <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
                     <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
@@ -191,7 +191,7 @@
                 </div>
               </div>
 
-              <a href="{{ route('client.sanphams.show', $sp->id) }}" class="product-link"></a>
+              <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
             </div>
             @empty
             <div class="col-12">
@@ -460,10 +460,14 @@
   /* Action buttons */
   .product-actions {
     margin-top: auto;
+    position: relative;
+    z-index: 10;
   }
 
   .add-to-cart-form {
     flex: 1;
+    position: relative;
+    z-index: 10;
   }
 
   .add-to-cart-btn {
@@ -481,6 +485,8 @@
     font-weight: 500;
     transition: all 0.3s ease;
     width: 100%;
+    position: relative;
+    z-index: 10;
   }
 
   .add-to-cart-btn:hover {
@@ -732,6 +738,110 @@
     color: #666;
     font-size: 12px;
   }
+
+  /* Toast notification styles */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    min-width: 300px;
+    overflow: hidden;
+  }
+
+  .toast.success {
+    border-left: 4px solid #28a745;
+  }
+
+  .toast.error {
+    border-left: 4px solid #dc3545;
+  }
+
+  .toast.info {
+    border-left: 4px solid #17a2b8;
+  }
+
+  .toast.show {
+    transform: translateX(0);
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  .toast-content {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+    font-size: 14px;
+    position: relative;
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: auto;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .toast-close:hover {
+    background: #f0f0f0;
+    color: #666;
+  }
+
+  /* Button states */
+  .add-to-cart-btn.loading {
+    background: #6c757d !important;
+  }
+
+  .add-to-cart-btn.success {
+    background: #28a745 !important;
+  }
+
+  .add-to-cart-btn.error {
+    background: #dc3545 !important;
+  }
+
+  /* Animation keyframes */
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .fa-spinner {
+    animation: spin 1s linear infinite;
+  }
 </style>
 @endpush
 
@@ -824,5 +934,121 @@ document.addEventListener('DOMContentLoaded', function() {
         const select = document.querySelector('select[name="sort"]');
         if (select) select.value = sortValue;
     }
+
+    // Add cart form event listeners
+    document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            addToCart(this);
+        });
+    });
+
+    // Prevent product link from being triggered when clicking add to cart button
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    });
 });
+
+function addToCart(form) {
+    const button = form.querySelector('.add-to-cart-btn');
+    const originalContent = button.innerHTML;
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
+        return;
+    }
+
+    button.className = 'add-to-cart-btn loading';
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => {
+                throw new Error(err.message || `Lỗi ${response.status}`);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            button.className = 'add-to-cart-btn success';
+            button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
+
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount && data.cart_count) {
+                cartCount.textContent = data.cart_count;
+            }
+
+            showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+        } else {
+            if (data.redirect) {
+                showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                setTimeout(() => { window.location.href = data.redirect; }, 1000);
+                return;
+            }
+            throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+        }
+    })
+    .catch(error => {
+        button.className = 'add-to-cart-btn error';
+        button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+        showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
+    })
+    .finally(() => {
+        setTimeout(() => {
+            button.className = 'add-to-cart-btn';
+            button.disabled = false;
+            button.innerHTML = originalContent;
+        }, 2000);
+    });
+}
+
+function showToast(message, type = 'success') {
+    // Create toast container if it doesn't exist
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+
+    // Icon based on type
+    let icon = 'check-circle';
+    if (type === 'error') icon = 'exclamation-circle';
+    if (type === 'info') icon = 'info-circle';
+
+    toast.innerHTML = `
+        <div class="toast-content">
+            <i class="fas fa-${icon}"></i>
+            <span>${message}</span>
+            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => toast.remove(), 5000);
+}
 </script>

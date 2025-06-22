@@ -2,6 +2,7 @@
 
 @section('content')
     @include('client.layouts.blocks.banner')
+
     <div class="container py-4">
         <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
@@ -149,7 +150,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link"></a>
+                                <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
                             </div>
                         @endforeach
                     </div>
@@ -875,20 +876,36 @@
 
 @push('js')
     <script>
-        
-        document.addEventListener('submit', function(event) {
-            if (event.target.matches('.add-to-cart-form')) {
-                console.log('Form submission detected for .add-to-cart-form. Preventing default action.');
-                event.preventDefault();
-                event.stopPropagation();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hiển thị toast nếu có session message
+            @if (session('success'))
+                showToast("{{ session('success') }}", 'success');
+            @endif
 
-                try {
-                    addToCart(event.target);
-                } catch (e) {
-                    console.error('A critical error occurred while trying to call addToCart:', e);
-                    showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
-                }
-            }
+            @if (session('error'))
+                showToast("{{ session('error') }}", 'error');
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    showToast("{{ $error }}", 'error');
+                @endforeach
+            @endif
+
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    console.log('Form submission detected for .add-to-cart-form. Preventing default action.');
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    try {
+                        addToCart(this);
+                    } catch (e) {
+                        console.error('A critical error occurred while trying to call addToCart:', e);
+                        showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
+                    }
+                });
+            });
         });
 
         function addToCart(form) {
@@ -989,30 +1006,18 @@
             if (type === 'info') icon = 'info-circle';
 
             toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-${icon}"></i>
-            <span>${message}</span>
-            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    `;
+                <div class="toast-content">
+                    <i class="fas fa-${icon}"></i>
+                    <span>${message}</span>
+                    <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
 
-            // Add to container
             container.appendChild(toast);
-
-            // Show toast with animation
             setTimeout(() => toast.classList.add('show'), 100);
-
-            // Remove toast after 4 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    if (toast.parentElement) {
-                        toast.remove();
-                    }
-                }, 300);
-            }, 4000);
+            setTimeout(() => toast.remove(), 5000);
         }
 
         function scrollProducts(button, direction) {

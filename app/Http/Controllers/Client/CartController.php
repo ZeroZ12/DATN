@@ -452,4 +452,94 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    public function buyNow(Request $request)
+    {
+        try {
+            // Kiểm tra user đã đăng nhập chưa
+            if (!Auth::check()) {
+                if ($request->ajax()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Vui lòng đăng nhập để mua sản phẩm',
+                        'redirect' => route('login')
+                    ], 401);
+                }
+                return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để mua sản phẩm');
+            }
+
+            $request->validate([
+                'san_pham_id' => 'required|exists:san_phams,id',
+                'bien_the_id' => 'nullable|exists:bien_the_san_phams,id',
+                'so_luong' => 'required|integer|min:1'
+            ]);
+
+            $user = Auth::user();
+            $gioHang = GioHang::firstOrCreate([
+                'id_user' => $user->id,
+                'loai' => 'chinh'
+            ]);
+
+            // Xóa tất cả sản phẩm trong giỏ hàng hiện tại
+            ChiTietGioHang::where('id_gio_hang', $gioHang->id)->delete();
+
+            // Thêm sản phẩm mới vào giỏ hàng
+            $sanPham = SanPham::findOrFail($request->san_pham_id);
+
+            // Kiểm tra bien_the_id có tồn tại không
+            if ($request->bien_the_id) {
+                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                $gia = $bienThe->gia;
+            } else {
+                // Nếu không có biến thể, lấy giá từ sản phẩm chính
+                $gia = $sanPham->gia ?? 0;
+            }
+
+            ChiTietGioHang::create([
+                'id_gio_hang' => $gioHang->id,
+                'id_product' => $request->san_pham_id,
+                'id_bien_the' => $request->bien_the_id,
+                'so_luong' => $request->so_luong,
+                'gia' => $gia
+            ]);
+
+            // Tính tổng số lượng sản phẩm trong giỏ hàng
+            $cartCount = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã thêm sản phẩm vào giỏ hàng và chuyển hướng',
+                    'cart_count' => $cartCount,
+                    'redirect' => route('client.cart.index')
+                ]);
+            }
+
+            return redirect()->route('client.cart.index')->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ: ' . implode(', ', $e->validator->errors()->all())
+                ], 422);
+            }
+            return redirect()->back()->withErrors($e->validator)->withInput();
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Buy now error: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'id_user' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra khi mua sản phẩm'
+                ], 500);
+            }
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi mua sản phẩm');
+        }
+    }
 }
