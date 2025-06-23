@@ -80,8 +80,8 @@
                                                     <h6 class="mb-0">{{ $item->ten_hien_thi }}</h6>
                                                     @if($item->bienTheSanPham)
                                                     <small class="text-muted">
-                                                        RAM: {{ $item->bienTheSanPham->ram->ten ?? 'N/A' }} |
-                                                        Ổ cứng: {{ $item->bienTheSanPham->oCung->ten ?? 'N/A' }}
+                                                        RAM: {{ $item->bienTheSanPham->ram->dung_luong ?? 'N/A' }} |
+                                                        Ổ cứng: {{ $item->bienTheSanPham->oCung->dung_luong ?? 'N/A' }}
                                                     </small>
                                                     @endif
                                                 </div>
