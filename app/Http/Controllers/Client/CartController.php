@@ -209,7 +209,7 @@ class CartController extends Controller
         if (!$gioHang) {
             return response()->json(['count' => 0]);
         }
-        
+
         $count = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
         return response()->json(['count' => $count]);
     }
@@ -414,7 +414,7 @@ class CartController extends Controller
                 'tong_tien' => $tongTienSauGiam,
                 'tong_tien_goc' => $tongTienGoc,
                 'giam_gia' => $giamGia,
-                'trang_thai' => 'cho_xu_ly'
+                'trang_thai' => 'cho_xac_nhan'
             ]);
 
             // Create order details

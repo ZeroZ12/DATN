@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DonHangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -171,6 +172,11 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('danhgias/{danhGia}', [DanhGiaController::class, 'destroy'])->name('danhgias.destroy');
     Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
     Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
+
+    //Đơn hàng
+      Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
+    Route::get('don-hang/{id}', [DonHangController::class, 'show'])->name('don-hang.show');
+    Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
