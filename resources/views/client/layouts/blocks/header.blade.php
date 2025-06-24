@@ -126,3 +126,14 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cập nhật số lượng sản phẩm trong giỏ hàng
+        fetch('/cart/count')
+            .then(res =>res.json())
+            .then(data => {
+                const cartCount = document.querySelector('.cart-count');
+                if(cartCount) cartCount.textContent = data.count;
+            });
+    });
+</script>

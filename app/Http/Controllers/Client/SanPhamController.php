@@ -55,7 +55,6 @@ class SanPhamController extends Controller
         $gpus = GPU::all();
         $rams = Ram::all();
         $oCungs = OCung::all();
-
         return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs'));
     }
     public function danhmuc($id, Request $request)

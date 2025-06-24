@@ -13,7 +13,14 @@ class PaymentController extends Controller
     {
         $donHang = DonHang::where('id_user', Auth::id())
             ->where('id', $id)
-            ->with(['phuongThucThanhToan'])
+            ->with([
+                'phuongThucThanhToan',
+                'maGiamGia',
+                'chiTietDonHangs.sanPham',
+                'chiTietDonHangs.bienTheSanPham',
+                'chiTietDonHangs.bienTheSanPham.ram',
+                'chiTietDonHangs.bienTheSanPham.oCung'
+            ])
             ->firstOrFail();
 
         return view('client.payment', compact('donHang'));

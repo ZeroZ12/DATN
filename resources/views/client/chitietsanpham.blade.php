@@ -257,17 +257,27 @@
         .product-rating {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
         }
 
-        .stars {
-            color: #ffc107;
-            font-size: 12px;
+        .rating-score {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .product-rating .fas.fa-star {
+            font-size: 13px;
         }
 
         .rating-text {
+            font-size: 13px;
             color: #666;
-            font-size: 12px;
+        }
+
+        .current-price-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .product-actions {
@@ -299,6 +309,33 @@
             z-index: 2;
             min-width: 0;
             height: 40px;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .add-to-cart-btn:disabled {
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .add-to-cart-btn.loading {
+            background: #6c757d !important;
+        }
+
+        .add-to-cart-btn.success {
+            background: #28a745 !important;
+        }
+
+        .add-to-cart-btn.error {
+            background: #dc3545 !important;
         }
 
         .product-detail-btn {
@@ -628,8 +665,16 @@
 
                             <div class="d-flex gap-2 mb-2">
                                 <button type="submit" class="btn btn-outline-danger btn-lg flex-fill">THÊM VÀO GIỎ</button>
-                                <button type="submit" class="btn btn-danger btn-lg flex-fill">MUA NGAY</button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn">MUA NGAY</button>
                             </div>
+                        </form>
+
+                        {{-- Form ẩn cho chức năng MUA NGAY --}}
+                        <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                            <input type="hidden" name="bien_the_id" id="buy-now-bien-the-id">
+                            <input type="hidden" name="so_luong" id="buy-now-so-luong">
                         </form>
                         <p class="mt-2 text-muted small">Giao tận nơi hoặc nhận tại cửa hàng</p>
                     </div>
@@ -660,7 +705,7 @@
             <div class="col-md-8">
                 <div class="bg-light p-3 rounded mb-4">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div class="product-description-content">{!! $sanpham->mo_ta !!}</div>
+                    <div>{!! nl2br(e($sanpham->mo_ta)) !!}</div>
                 </div>
             </div>
 
@@ -821,15 +866,15 @@
             <div class="products-grid">
                 @foreach ($sanphamTuongTu as $sp)
                     @php
-                        $bienThe = $sp->bienTheSanPhams->first(); // Lấy biến thể đầu tiên để hiển thị giá
-                        $discountPercent = 0;
-                        if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia) {
-                            $discountPercent = round(
-                                (100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh,
-                            );
-                        }
+                        // Lấy biến thể phù hợp với filter
+                        $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                            return
+                                (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+                        }) ?? $sp->BienTheSanPhams->first();
                     @endphp
-                    <div class="product-card position-relative">
+
+                    <div class="product-card">
                         <div class="product-badges">
                             @if ($sp->is_hot)
                                 <span class="product-badge hot-badge">
@@ -855,24 +900,29 @@
                                 @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
                                     <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
                                 @endif
-                                <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                                <div class="current-price-wrapper">
+                                    <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                                    @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                                        <div class="discount-badge">
+                                            -{{ round((100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh) }}%
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                            @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                                <div class="discount-badge">
-                                    -{{ $discountPercent }}%
-                                </div>
-                            @endif
                             <div class="product-rating">
-                                <div class="stars">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-                                </div>
-                                <span class="rating-text">({{ rand(3, 15) }})</span>
+                                @php
+                                    $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                                    $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                                @endphp
+                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
                             </div>
                             <div class="product-actions">
-                                <form action="" method="POST" class="add-to-cart-form d-inline-block"
-                                    onsubmit="addToCart(event, {{ $sp->id }}, {{ $bienThe->id ?? 'null' }})">
+                                <form action="{{ route('client.cart.add') }}" method="POST"
+                                    class="add-to-cart-form"
+                                    data-product-id="{{ $sp->id }}"
+                                    data-variant-id="{{ $bienThe->id ?? '' }}">
                                     @csrf
                                     <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
                                     <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
@@ -882,15 +932,9 @@
                                         <span>Thêm vào giỏ</span>
                                     </button>
                                 </form>
-                                <a href="{{ route('sanpham.show', $sp->id) }}"
-                                    class="product-detail-btn d-inline-block"> {{-- Đảm bảo route đúng --}}
-                                    <i class="fas fa-info-circle"></i>
-                                    <span>Chi tiết</span>
-                                </a>
                             </div>
                         </div>
-                        <a href="{{ route('sanpham.show', $sp->id) }}" class="product-link" tabindex="-1"></a>
-                        {{-- Đảm bảo route đúng --}}
+                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
                     </div>
                 @endforeach
             </div>
@@ -899,6 +943,27 @@
 
     <!-- JS đổi ảnh chính & cập nhật biến thể -->
     <script>
+        // Hàm hiển thị thông báo
+        function showToast(message, type = 'info') {
+            // Tạo toast element
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
+            toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Tự động xóa sau 3 giây
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 3000);
+        }
+
         // Biến theo dõi trạng thái animation
         let isAnimating = false;
         let currentImageIndex = 1; // 1 hoặc 2
@@ -1025,6 +1090,73 @@
             qty.value = parseInt(qty.value) + 1;
         };
 
+        // Xử lý nút MUA NGAY
+        document.getElementById('buy-now-btn').addEventListener('click', function() {
+            // Kiểm tra xem đã chọn biến thể chưa
+            const selectedVariant = document.getElementById('selected_variant').value;
+            const soLuong = document.getElementById('so_luong').value;
+
+            if (!selectedVariant) {
+                alert('Vui lòng chọn cấu hình sản phẩm trước khi mua!');
+                return;
+            }
+
+            // Cập nhật form ẩn
+            document.getElementById('buy-now-bien-the-id').value = selectedVariant;
+            document.getElementById('buy-now-so-luong').value = soLuong;
+
+            // Hiển thị loading
+            const button = this;
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = 'Đang xử lý...';
+
+            // Gửi form
+            const form = document.getElementById('buy-now-form');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Cập nhật số lượng giỏ hàng nếu có
+                    const cartCount = document.querySelector('.cart-count');
+                    if (cartCount && data.cart_count) {
+                        cartCount.textContent = data.cart_count;
+                    }
+
+                    // Chuyển hướng đến giỏ hàng
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        window.location.href = '{{ route("client.cart.index") }}';
+                    }
+                } else {
+                    if (data.redirect) {
+                        // Chuyển đến trang đăng nhập
+                        window.location.href = data.redirect;
+                    } else {
+                        alert(data.message || 'Có lỗi xảy ra khi mua sản phẩm!');
+                        button.disabled = false;
+                        button.textContent = originalText;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi mua sản phẩm!');
+                button.disabled = false;
+                button.textContent = originalText;
+            });
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             // Logic cho form Gửi Đánh giá mới (từ ví dụ trước)
@@ -1050,6 +1182,39 @@
                 });
                 const initialRating = newReviewHiddenInput.value ? parseInt(newReviewHiddenInput.value) : 0;
                 updateStars(newReviewStars, initialRating);
+            }
+
+            // Tự động chọn cấu hình dựa trên parameter variant từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const variantId = urlParams.get('variant');
+
+            if (variantId) {
+                const targetVariant = bienThes.find(v => v.id === variantId);
+                if (targetVariant) {
+                    // Tự động chọn RAM và SSD tương ứng
+                    selectedRam = targetVariant.ram;
+                    selectedSsd = targetVariant.ssd;
+
+                    // Cập nhật giao diện
+                    document.querySelectorAll('.ram-btn').forEach(btn => {
+                        if (btn.dataset.ram === selectedRam) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+
+                    document.querySelectorAll('.ssd-btn').forEach(btn => {
+                        if (btn.dataset.ssd === selectedSsd) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+
+                    // Cập nhật thông tin biến thể
+                    updateVariantInfo();
+                }
             }
 
             // Logic cho form SỬA Đánh giá
@@ -1128,6 +1293,70 @@
                     }
                 });
             }
+
+            // Xử lý form thêm vào giỏ cho sản phẩm tương tự
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const button = this.querySelector('.add-to-cart-btn');
+                    const originalContent = button.innerHTML;
+
+                    // Hiển thị loading
+                    button.className = 'add-to-cart-btn loading';
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
+
+                    const formData = new FormData(this);
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Cập nhật số lượng giỏ hàng
+                            const cartCount = document.querySelector('.cart-count');
+                            if (cartCount && data.cart_count) {
+                                cartCount.textContent = data.cart_count;
+                            }
+
+                            // Hiển thị thành công
+                            button.className = 'add-to-cart-btn success';
+                            button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
+
+                            // Hiển thị thông báo
+                            showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                        } else {
+                            if (data.redirect) {
+                                // Chuyển đến trang đăng nhập
+                                window.location.href = data.redirect;
+                            } else {
+                                throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        button.className = 'add-to-cart-btn error';
+                        button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+                        showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
+                    })
+                    .finally(() => {
+                        setTimeout(() => {
+                            button.className = 'add-to-cart-btn';
+                            button.disabled = false;
+                            button.innerHTML = originalContent;
+                        }, 2000);
+                    });
+                });
+            });
         });
     </script>
 

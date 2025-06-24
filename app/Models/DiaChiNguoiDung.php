@@ -17,7 +17,7 @@ class DiaChiNguoiDung extends Model
         'tinh_thanh_pho',
         'quan_huyen',
         'phuong_xa',
-        'la_mac_dinh',
+        'mac_dinh',
     ];
 
     public function user()

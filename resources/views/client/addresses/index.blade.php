@@ -26,38 +26,37 @@
             <div class="row">
                 @foreach ($addresses as $address)
                     <div class="col-md-6 mb-4">
-                        <div class="card @if ($address->la_mac_dinh) border-success @endif">
-                            <div class="card-header @if ($address->la_mac_dinh) bg-success text-white @endif">
-                                Địa chỉ @if ($address->la_mac_dinh)
-                                    (Mặc định)
+                        <div class="card @if ($address->mac_dinh) border-success @endif">
+                            <div class="card-header @if ($address->mac_dinh) bg-success text-white @endif">
+                                Địa chỉ @if ($address->mac_dinh)
+                                    <span class="badge bg-light text-success">Mặc định</span>
                                 @endif
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $address->ten_nguoi_nhan }}</h5>
-                                <p class="card-text">Điện thoại: {{ $address->so_dien_thoai_nguoi_nhan }}</p>
-                                <p class="card-text">Địa chỉ: {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa }},
-                                    {{ $address->quan_huyen }}, {{ $address->tinh_thanh_pho }}</p>
-
-                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                    <a href="{{ route('client.addresses.edit', $address) }}"
-                                        class="btn btn-sm btn-info">Sửa</a>
-
-                                    @if (!$address->la_mac_dinh)
-                                        <form action="{{ route('client.addresses.setDefault', $address) }}" method="POST"
-                                            style="display:inline;">
+                                <h6 class="card-title">{{ $address->ten_nguoi_nhan }}</h6>
+                                <p class="card-text">
+                                    <strong>Số điện thoại:</strong> {{ $address->so_dien_thoai_nguoi_nhan }}<br>
+                                    <strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa }}, {{ $address->quan_huyen }}, {{ $address->tinh_thanh_pho }}
+                                </p>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('client.addresses.edit', $address) }}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </a>
+                                    @if (!$address->mac_dinh)
+                                        <form action="{{ route('client.addresses.setDefault', $address) }}" method="POST" class="d-inline">
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-outline-success">Đặt làm mặc
-                                                định</button>
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="fas fa-star"></i> Đặt mặc định
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('client.addresses.destroy', $address) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')">
+                                                <i class="fas fa-trash"></i> Xóa
+                                            </button>
                                         </form>
                                     @endif
-
-                                    <form action="{{ route('client.addresses.destroy', $address) }}" method="POST"
-                                        style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này?');">Xóa</button>
-                                    </form>
                                 </div>
                             </div>
                         </div>

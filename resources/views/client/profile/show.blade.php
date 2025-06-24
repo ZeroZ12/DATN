@@ -83,43 +83,48 @@
                                 @if ($user->diaChiNguoiDungs->isEmpty())
                                     <p>Bạn chưa có địa chỉ nào. Hãy thêm một địa chỉ mới!</p>
                                 @else
-                                    <ul class="list-group">
+                                    <div class="list-group">
                                         @foreach ($user->diaChiNguoiDungs as $address)
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <strong>{{ $address->ten_nguoi_nhan }}</strong>
-                                                    ({{ $address->so_dien_thoai_nguoi_nhan }})
-                                                    <br>
-                                                    {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa }},
-                                                    {{ $address->quan_huyen }}, {{ $address->tinh_thanh_pho }}
-                                                    @if ($address->la_mac_dinh)
-                                                        <span class="badge bg-info ms-2">Mặc định</span>
-                                                    @endif
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div>
+                                                            <h6 class="card-title">{{ $address->ten_nguoi_nhan }}</h6>
+                                                            <p class="card-text mb-1">
+                                                                <strong>Số điện thoại:</strong> {{ $address->so_dien_thoai_nguoi_nhan }}
+                                                            </p>
+                                                            <p class="card-text mb-1">
+                                                                <strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa }}, {{ $address->quan_huyen }}, {{ $address->tinh_thanh_pho }}
+                                                            </p>
+                                                            @if ($address->mac_dinh)
+                                                                <span class="badge bg-success">Địa chỉ mặc định</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="btn-group">
+                                                            <a href="{{ route('client.addresses.edit', $address) }}" class="btn btn-sm btn-outline-primary">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            @if (!$address->mac_dinh)
+                                                                <form action="{{ route('client.addresses.setDefault', $address) }}" method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-sm btn-outline-success">
+                                                                        <i class="fas fa-star"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <form action="{{ route('client.addresses.destroy', $address) }}" method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <a href="{{ route('client.addresses.edit', $address->id) }}"
-                                                        class="btn btn-sm btn-warning me-2">Sửa</a>
-                                                    <form action="{{ route('client.addresses.destroy', $address->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này không?');">Xóa</button>
-                                                    </form>
-                                                    @if (!$address->la_mac_dinh)
-                                                        <form
-                                                            action="{{ route('client.addresses.setDefault', $address->id) }}"
-                                                            method="POST" class="d-inline ms-2">
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-outline-primary">Đặt làm mặc
-                                                                định</button>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                            </li>
+                                            </div>
                                         @endforeach
-                                    </ul>
+                                    </div>
                                 @endif
                             </div>
                         </div>

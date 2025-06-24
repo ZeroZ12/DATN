@@ -52,6 +52,51 @@
                     </div>
                     @endif
 
+                    <!-- Thông tin sản phẩm -->
+                    <div class="order-items mb-4">
+                        <h6 class="mb-3">Sản phẩm đã đặt</h6>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th class="text-center">Số lượng</th>
+                                        <th class="text-end">Đơn giá</th>
+                                        <th class="text-end">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($donHang->chiTietDonHangs as $item)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien ?? 'images/no-image.png')) }}"
+                                                         alt="{{ $item->ten_hien_thi }}"
+                                                         class="img-thumbnail"
+                                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">{{ $item->ten_hien_thi }}</h6>
+                                                    @if($item->bienTheSanPham)
+                                                    <small class="text-muted">
+                                                        RAM: {{ $item->bienTheSanPham->ram->ten ?? 'N/A' }} |
+                                                        Ổ cứng: {{ $item->bienTheSanPham->oCung->ten ?? 'N/A' }}
+                                                    </small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">{{ $item->so_luong }}</td>
+                                        <td class="text-end">{{ number_format($item->don_gia) }}₫</td>
+                                        <td class="text-end">{{ number_format($item->don_gia * $item->so_luong) }}₫</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="order-info mb-4">
                         <h6 class="mb-3">Thông tin đơn hàng</h6>
                         <div class="table-responsive">
@@ -61,6 +106,29 @@
                                         <td>Mã đơn hàng:</td>
                                         <td class="text-end">#{{ $donHang->id }}</td>
                                     </tr>
+                                    @if($donHang->giam_gia > 0)
+                                    <tr>
+                                        <td>Tổng tiền gốc:</td>
+                                        <td class="text-end text-muted text-decoration-line-through">{{ number_format($donHang->tong_tien_goc) }}₫</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giảm giá:</td>
+                                        <td class="text-end text-success">-{{ number_format($donHang->giam_gia) }}₫</td>
+                                    </tr>
+                                    @if($donHang->maGiamGia)
+                                    <tr>
+                                        <td>Mã giảm giá:</td>
+                                        <td class="text-end text-success">
+                                            {{ $donHang->maGiamGia->ma }}
+                                            @if($donHang->maGiamGia->loai == 'phan_tram')
+                                                (Giảm {{ $donHang->maGiamGia->gia_tri }}%)
+                                            @else
+                                                (Giảm {{ number_format($donHang->maGiamGia->gia_tri) }}₫)
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endif
                                     <tr>
                                         <td>Tổng tiền:</td>
                                         <td class="text-end text-danger fw-bold">{{ number_format($donHang->tong_tien) }}₫</td>
@@ -107,6 +175,10 @@
     .bank-info {
         background-color: #f8f9fa;
         border: 1px solid #dee2e6;
+    }
+    .order-items .table th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
     }
 </style>
 @endpush

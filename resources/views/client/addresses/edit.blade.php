@@ -34,9 +34,9 @@
             {{-- Các trường khác của địa chỉ (địa chỉ đầy đủ, tỉnh/thành phố, quận/huyện, phường/xã) --}}
             {{-- Bạn sẽ điền tiếp các trường này tương tự như trên --}}
             <div class="mb-3">
-                <label for="dia_chi_day_du" class="form-label">Địa chỉ đầy đủ:</label>
-                <input type="text" class="form-control @error('dia_chi_day_du') is-invalid @enderror" id="dia_chi_day_du"
-                    name="dia_chi_day_du" value="{{ old('dia_chi_day_du', $address->dia_chi_day_du) }}" required>
+                <label for="dia_chi_day_du" class="form-label">Địa chỉ đầy đủ (Số nhà, tên đường, thôn, xóm...):</label>
+                <textarea class="form-control @error('dia_chi_day_du') is-invalid @enderror" id="dia_chi_day_du"
+                    name="dia_chi_day_du" rows="3" required>{{ old('dia_chi_day_du', $address->dia_chi_day_du) }}</textarea>
                 @error('dia_chi_day_du')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -71,9 +71,9 @@
 
             {{-- Checkbox Địa chỉ mặc định --}}
             <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="la_mac_dinh" name="la_mac_dinh" value="1"
-                    {{ old('la_mac_dinh', $address->la_mac_dinh) ? 'checked' : '' }}>
-                <label class="form-check-label" for="la_mac_dinh">Đặt làm địa chỉ mặc định</label>
+                <input type="checkbox" class="form-check-input" id="mac_dinh" name="mac_dinh" value="1"
+                    {{ old('mac_dinh', $address->mac_dinh) ? 'checked' : '' }}>
+                <label class="form-check-label" for="mac_dinh">Đặt làm địa chỉ mặc định</label>
             </div>
 
             <button type="submit" class="btn btn-primary">Cập nhật địa chỉ</button>
