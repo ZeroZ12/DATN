@@ -31,8 +31,43 @@ class DonHang extends Model
         'tong_tien',
         'tong_tien_goc',
         'giam_gia',
-        'trang_thai', // 'cho_xu_ly', 'dang_giao', 'hoan_thanh', 'huy'
+        'trang_thai',
     ];
+
+     const TRANG_THAI = [
+        'cho_xac_nhan',
+        'cho_thanh_toan',
+        'da_xac_nhan',
+        'chuan_bi_hang',
+        'dang_giao_hang',
+        'giao_thanh_cong',
+        'giao_that_bai',
+        'hoan_thanh',
+        'da_huy',
+        'da_hoan_tien'
+    ];
+
+    /**
+     * Map trạng thái đơn hàng sang tiếng Việt.
+     */
+    public static function getTenTrangThai($trangThai)
+    {
+        $danhSach = [
+            'cho_xac_nhan' => 'Chờ xác nhận',
+            'cho_thanh_toan' => 'Chờ thanh toán',
+            'da_xac_nhan' => 'Đã xác nhận',
+            'chuan_bi_hang' => 'Chuẩn bị hàng',
+            'dang_giao_hang' => 'Đang giao hàng',
+            'giao_thanh_cong' => 'Giao thành công',
+            'giao_that_bai' => 'Giao thất bại',
+            'hoan_thanh' => 'Hoàn thành',
+            'da_huy' => 'Đã hủy',
+            'da_hoan_tien' => 'Đã hoàn tiền',
+        ];
+
+        return $danhSach[$trangThai] ?? $trangThai;
+    }
+
 
     /**
      * The attributes that should be cast.
