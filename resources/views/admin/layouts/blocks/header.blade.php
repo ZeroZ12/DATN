@@ -15,23 +15,18 @@
             <div class="page-main-header col">
                 <div class="header-left d-lg-block d-none">
                     <form class="search-form mb-0">
-                        <div class="input-group"><span class="input-group-text pe-0">
-                                <svg class="search-bg svg-color">
-                                    <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Search">
-                                    </use>
-                                </svg></span>
-                            <input class="form-control" type="text" placeholder="Search anything.">
+                        <div class="input-group">
+                            <input class="form-control pe-0" type="text" placeholder="Tìm kiếm ...">
+                            <span class="input-group-text">
+                               <i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </form>
                 </div>
                 <div class="nav-right">
                     <ul class="header-right">
-                        <li class="modes d-flex"><a class="dark-mode">
-                                <svg class="svg-color">
-                                    <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Moon">
-                                    </use>
-                                </svg></a></li>
-                        <li class="serchinput d-lg-none d-flex"><a class="search-mode">
+                        <li class="modes px-3 d-flex"><a class="dark-mode">
+                                <i class="fa-solid fa-circle-half-stroke"></i></a></li>
+                        {{-- <li class="serchinput d-lg-none d-flex"><a class="search-mode">
                                 <svg class="svg-color">
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Search">
                                     </use>
@@ -39,9 +34,9 @@
                             <div class="form-group search-form">
                                 <input type="text" placeholder="Search here.">
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- Notification menu-->
-                        <li class="custom-dropdown"><a href="javascript:void(0)">
+                        {{-- <li class="custom-dropdown"><a href="javascript:void(0)">
                                 <svg class="svg-color circle-color">
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Bell">
                                     </use>
@@ -83,9 +78,9 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- Bookmark menu-->
-                        <li class="custom-dropdown"><a href="javascript:void(0)">
+                        {{-- <li class="custom-dropdown"><a href="javascript:void(0)">
                                 <svg class="svg-color">
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Star">
                                     </use>
@@ -156,9 +151,9 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- Cart menu-->
-                        <li class="custom-dropdown"><a href="javascript:void(0)">
+                        {{-- <li class="custom-dropdown"><a href="javascript:void(0)">
                                 <svg class="svg-color">
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Bag">
                                     </use>
@@ -253,9 +248,9 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <!-- Bookmark menu-->
-                        <li class="custom-dropdown"><a href="javascript:void(0)">
+                        {{-- <li class="custom-dropdown"><a href="javascript:void(0)">
                                 <svg class="svg-color">
                                     <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Message">
                                     </use>
@@ -325,11 +320,12 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                         <li class="profile-dropdown custom-dropdown">
                             <div class="d-flex align-items-center"><img src="/assets/images/profile.png" alt="">
                                 <div class="flex-grow-1">
-                                    <h5>Wade Warren</h5><span>UI Designer</span>
+                                    <h5>{{ Auth::user()->ho_ten ?? Auth::user()->ten_dang_nhap }}</h5>
+                                    <span>{{ Auth::user()->vai_tro }}</span>
                                 </div>
                             </div>
                             <div class="custom-menu overflow-hidden">

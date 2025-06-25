@@ -365,6 +365,7 @@
                 max-width: 180px;
                 flex: 0 0 180px;
             }
+          
         }
 
         .product-badges {
@@ -868,6 +869,10 @@
         .rating-text {
             color: #666;
             font-size: 12px;
+        }
+        span{
+            font-size: 14px;
+
         }
     </style>
 @endpush
