@@ -116,7 +116,7 @@
     let shouldShowRegisterForm = false;
 
     // Kiểm tra nếu có bất kỳ lỗi nào từ form Đăng ký (ưu tiên)
-    // Các lỗi này thường là: first_name, last_name, phone, password_confirmation
+    // Các lỗi này thường là: , phone, password_confirmation
     // hoặc lỗi 'password' khi không khớp 'password_confirmation'
     @if ($errors->has('ten_dang_nhap') || $errors->has('phone') || $errors->has('password_register') || $errors->has('password_confirmation') || old('form_type') === 'register')
         shouldShowRegisterForm = true;
