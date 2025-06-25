@@ -88,18 +88,7 @@
                                     <button class="btn-view btn-danger">Thất bại</button>
                                 </form>
 
-                            @elseif ($trangThai === 'giao_thanh_cong')
-                                <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="trang_thai" value="hoan_thanh">
-                                    <button class="btn-view btn-success">Hoàn thành</button>
-                                </form>
 
-                                <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="trang_thai" value="da_hoan_tien">
-                                    <button class="btn-view btn-warning">Hoàn tiền</button>
-                                </form>
                             @endif
                         </td>
                     </tr>

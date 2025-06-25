@@ -341,117 +341,117 @@ class CartController extends Controller
         return view('client.checkout', compact('chiTietGioHang', 'tongTienGoc', 'giamGia', 'tongTienSauGiam', 'diaChi', 'gioHang'));
     }
 
-    public function placeOrder(Request $request)
-    {
-        try {
-            // Validate request
-            $validator = Validator::make($request->all(), [
-                'payment_method' => 'required|exists:phuong_thuc_thanh_toans,id'
-            ]);
+    // public function placeOrder(Request $request)
+    // {
+    //     try {
+    //         // Validate request
+    //         $validator = Validator::make($request->all(), [
+    //             'payment_method' => 'required|exists:phuong_thuc_thanh_toans,id'
+    //         ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Dữ liệu không hợp lệ',
-                    'errors' => $validator->errors()
-                ], 422);
-            }
+    //         if ($validator->fails()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Dữ liệu không hợp lệ',
+    //                 'errors' => $validator->errors()
+    //             ], 422);
+    //         }
 
-            // Get cart
-            $gioHang = GioHang::where('id_user', Auth::id())
-                ->where('loai', 'chinh')
-                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
-                ->first();
+    //         // Get cart
+    //         $gioHang = GioHang::where('id_user', Auth::id())
+    //             ->where('loai', 'chinh')
+    //             ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
+    //             ->first();
 
-            if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Giỏ hàng trống!'
-                ], 400);
-            }
+    //         if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Giỏ hàng trống!'
+    //             ], 400);
+    //         }
 
-            // Get user's default address
-            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
-                ->where('mac_dinh', true)
-                ->first();
+    //         // Get user's default address
+    //         $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
+    //             ->where('mac_dinh', true)
+    //             ->first();
 
-            if (!$diaChi) {
-                $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
-            }
+    //         if (!$diaChi) {
+    //             $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+    //         }
 
-            if (!$diaChi) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Vui lòng thêm địa chỉ giao hàng!'
-                ], 400);
-            }
+    //         if (!$diaChi) {
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Vui lòng thêm địa chỉ giao hàng!'
+    //             ], 400);
+    //         }
 
-            // Calculate total
-            $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
-                return $item->gia * $item->so_luong;
-            })->sum();
+    //         // Calculate total
+    //         $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
+    //             return $item->gia * $item->so_luong;
+    //         })->sum();
 
-            // Tính toán giảm giá nếu có mã giảm giá
-            $giamGia = 0;
-            $tongTienSauGiam = $tongTienGoc;
+    //         // Tính toán giảm giá nếu có mã giảm giá
+    //         $giamGia = 0;
+    //         $tongTienSauGiam = $tongTienGoc;
 
-            if ($gioHang->maGiamGia) {
-                if ($gioHang->maGiamGia->loai === 'phan_tram') {
-                    $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
-                } else {
-                    $giamGia = $gioHang->maGiamGia->gia_tri;
-                }
-                $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
-            }
+    //         if ($gioHang->maGiamGia) {
+    //             if ($gioHang->maGiamGia->loai === 'phan_tram') {
+    //                 $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
+    //             } else {
+    //                 $giamGia = $gioHang->maGiamGia->gia_tri;
+    //             }
+    //             $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
+    //         }
 
-            // Create order
-            $donHang = DonHang::create([
-                'ma_don' => 'DH' . time(),
-                'id_user' => Auth::id(),
-                'id_dia_chi_nguoi_dungs' => $diaChi->id,
-                'id_phuong_thuc_thanh_toan' => $request->payment_method,
-                'id_ma_giam_gia' => $gioHang->id_giam_gia,
-                'tong_tien' => $tongTienSauGiam,
-                'tong_tien_goc' => $tongTienGoc,
-                'giam_gia' => $giamGia,
-                'trang_thai' => 'cho_xac_nhan'
-            ]);
+    //         // Create order
+    //         $donHang = DonHang::create([
+    //             'ma_don' => 'DH' . time(),
+    //             'id_user' => Auth::id(),
+    //             'id_dia_chi_nguoi_dungs' => $diaChi->id,
+    //             'id_phuong_thuc_thanh_toan' => $request->payment_method,
+    //             'id_ma_giam_gia' => $gioHang->id_giam_gia,
+    //             'tong_tien' => $tongTienSauGiam,
+    //             'tong_tien_goc' => $tongTienGoc,
+    //             'giam_gia' => $giamGia,
+    //             'trang_thai' => 'cho_xac_nhan'
+    //         ]);
 
-            // Create order details
-            foreach ($gioHang->chiTietGioHangs as $item) {
-                $donHang->chiTietDonHangs()->create([
-                    'id_product' => $item->id_product,
-                    'id_bien_the' => $item->id_bien_the,
-                    'ten_hien_thi' => $item->sanPham->ten,
-                    'so_luong' => $item->so_luong,
-                    'don_gia' => $item->gia,
-                    'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
-                ]);
-            }
+    //         // Create order details
+    //         foreach ($gioHang->chiTietGioHangs as $item) {
+    //             $donHang->chiTietDonHangs()->create([
+    //                 'id_product' => $item->id_product,
+    //                 'id_bien_the' => $item->id_bien_the,
+    //                 'ten_hien_thi' => $item->sanPham->ten,
+    //                 'so_luong' => $item->so_luong,
+    //                 'don_gia' => $item->gia,
+    //                 'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
+    //             ]);
+    //         }
 
-            // Clear cart
-            $gioHang->chiTietGioHangs()->delete();
-            $gioHang->id_giam_gia = null;
-            $gioHang->save();
+    //         // Clear cart
+    //         $gioHang->chiTietGioHangs()->delete();
+    //         $gioHang->id_giam_gia = null;
+    //         $gioHang->save();
 
-            return response()->json([
-                'success' => true,
-                'redirect_url' => route('client.payment', ['id' => $donHang->id])
-            ]);
+    //         return response()->json([
+    //             'success' => true,
+    //             'redirect_url' => route('client.payment', ['id' => $donHang->id])
+    //         ]);
 
-        } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
-                'request' => $request->all(),
-                'id_user' => Auth::id(),
-                'trace' => $e->getTraceAsString()
-            ]);
+    //     } catch (\Exception $e) {
+    //         \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
+    //             'request' => $request->all(),
+    //             'id_user' => Auth::id(),
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Có lỗi xảy ra khi đặt hàng: ' . $e->getMessage()
-            ], 500);
-        }
-    }
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Có lỗi xảy ra khi đặt hàng: ' . $e->getMessage()
+    //         ], 500);
+    //     }
+    // }
 
     public function buyNow(Request $request)
     {
@@ -542,4 +542,174 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi mua sản phẩm');
         }
     }
+ public function placeOrder(Request $request)
+    {
+        try {
+            // Validate request
+            $validator = Validator::make($request->all(), [
+                'payment_method' => 'required|exists:phuong_thuc_thanh_toans,id'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Dữ liệu không hợp lệ',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            // Get cart
+            $gioHang = GioHang::where('id_user', Auth::id())
+                ->where('loai', 'chinh')
+                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
+                ->first();
+
+            if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Giỏ hàng trống!'
+                ], 400);
+            }
+
+            // Get user's default address
+            $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
+                ->where('mac_dinh', true)
+                ->first();
+
+            if (!$diaChi) {
+                $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
+            }
+
+            if (!$diaChi) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Vui lòng thêm địa chỉ giao hàng!'
+                ], 400);
+            }
+
+            // Calculate total
+            $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
+                return $item->gia * $item->so_luong;
+            })->sum();
+
+            // Tính toán giảm giá nếu có mã giảm giá
+            $giamGia = 0;
+            $tongTienSauGiam = $tongTienGoc;
+
+            if ($gioHang->maGiamGia) {
+                if ($gioHang->maGiamGia->loai === 'phan_tram') {
+                    $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
+                } else {
+                    $giamGia = $gioHang->maGiamGia->gia_tri;
+                }
+                $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
+            }
+
+            // Create order
+            $donHang = DonHang::create([
+                'ma_don' => 'DH' . time(),
+                'id_user' => Auth::id(),
+                'id_dia_chi_nguoi_dungs' => $diaChi->id,
+                'id_phuong_thuc_thanh_toan' => $request->payment_method,
+                'id_ma_giam_gia' => $gioHang->id_giam_gia,
+                'tong_tien' => $tongTienSauGiam,
+                'tong_tien_goc' => $tongTienGoc,
+                'giam_gia' => $giamGia,
+                'trang_thai' => $request->payment_method == 2 ? 'cho_thanh_toan' : 'cho_xac_nhan'
+
+            ]);
+
+            // Create order details
+            foreach ($gioHang->chiTietGioHangs as $item) {
+                $donHang->chiTietDonHangs()->create([
+                    'id_product' => $item->id_product,
+                    'id_bien_the' => $item->id_bien_the,
+                    'ten_hien_thi' => $item->sanPham->ten,
+                    'so_luong' => $item->so_luong,
+                    'don_gia' => $item->gia,
+                    'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
+                ]);
+            }
+
+           // Clear cart
+$gioHang->chiTietGioHangs()->delete();
+$gioHang->id_giam_gia = null;
+$gioHang->save();
+
+if ($request->payment_method == 2) { // Giả sử ID 2 là phương thức VNPay
+    // Chuẩn bị dữ liệu cho VNPay
+    $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    $vnp_Returnurl = route('client.vnpay.return');
+    $vnp_TmnCode = "3D6CARP9";
+    $vnp_HashSecret = "VZ4OJHBNFW0TL0DNSY6HFY7P23HKKSDG";
+
+    $vnp_TxnRef = $donHang->id;
+    $vnp_Amount = $donHang->tong_tien * 100;
+    $vnp_OrderInfo = "Thanh toán đơn hàng #" . $donHang->ma_don;
+    $vnp_OrderType = "pay";
+    $vnp_Locale = "vn";
+    $vnp_BankCode = "";
+    $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+    $inputData = array(
+        "vnp_Version" => "2.1.0",
+        "vnp_TmnCode" => $vnp_TmnCode,
+        "vnp_Amount" => $vnp_Amount,
+        "vnp_Command" => "pay",
+        "vnp_CreateDate" => date('YmdHis'),
+        "vnp_CurrCode" => "VND",
+        "vnp_IpAddr" => $vnp_IpAddr,
+        "vnp_Locale" => $vnp_Locale,
+        "vnp_OrderInfo" => $vnp_OrderInfo,
+        "vnp_OrderType" => $vnp_OrderType,
+        "vnp_ReturnUrl" => $vnp_Returnurl,
+        "vnp_TxnRef" => $vnp_TxnRef
+    );
+
+    ksort($inputData);
+    $query = "";
+    $i = 0;
+    $hashdata = "";
+    foreach ($inputData as $key => $value) {
+        if ($i == 1) {
+            $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+        } else {
+            $hashdata .= urlencode($key) . "=" . urlencode($value);
+            $i = 1;
+        }
+        $query .= urlencode($key) . "=" . urlencode($value) . '&';
+    }
+
+    $vnp_Url = $vnp_Url . "?" . $query;
+    if (isset($vnp_HashSecret)) {
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+    }
+
+    return response()->json([
+        'success' => true,
+        'redirect_url' => $vnp_Url
+    ]);
+} else {
+    return response()->json([
+        'success' => true,
+        'redirect_url' => route('client.payment', ['id' => $donHang->id])
+    ]);
+}
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'id_user' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi đặt hàng: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+
 }
