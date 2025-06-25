@@ -1,7 +1,6 @@
 @extends('client.layouts.app')
 @section('content')
     @include('client.layouts.blocks.banner')
-
     <div class="container py-4">
         <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
