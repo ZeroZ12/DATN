@@ -185,23 +185,41 @@
 
 @push('js')
 <script>
+    function thanhToanVNPay() {
+    fetch('{{ url('/payment/hehe') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === '00' && data.data) {
+            // Redirect ngay sang trang thanh toán VNPay
+            window.location.href = data.data;
+        } else {
+            alert('Có lỗi xảy ra khi tạo link thanh toán!');
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Có lỗi xảy ra khi tạo đơn hàng!');
+    });
+}
 function placeOrder() {
-    // Kiểm tra địa chỉ
     @if(!$diaChi)
     showToast('Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng!', 'error');
     return;
     @endif
 
-    // Hiển thị loading
     const button = event.target;
     const originalText = button.innerHTML;
     button.disabled = true;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
 
-    // Lấy phương thức thanh toán
     const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
-    // Gửi request đặt hàng
     fetch('{{ route("client.cart.place-order") }}', {
         method: 'POST',
         headers: {
@@ -222,18 +240,21 @@ function placeOrder() {
     })
     .then(data => {
         if (data.success) {
-            // Chuyển hướng đến trang thanh toán
-            window.location.href = data.redirect_url;
+            if (data.vnpay_url) {
+                window.location.href = data.vnpay_url;
+            } else if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                showToast('Đặt hàng thành công!', 'success');
+                location.reload();
+            }
         } else {
             throw new Error(data.message || 'Có lỗi xảy ra');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        // Hiển thị lỗi
         showToast(error.message || 'Có lỗi xảy ra khi đặt hàng!', 'error');
-
-        // Reset button
         button.disabled = false;
         button.innerHTML = originalText;
     });

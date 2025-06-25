@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DonHangController;
+use App\Http\Controllers\Client\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -238,6 +239,15 @@ Route::middleware(['auth'])->group(function () {
 
     // Payment routes
     Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
+Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
+Route::get('/payment-success/{id}', function($id) {
+    return "Thanh toán thành công! Đơn hàng: #" . $id;
+})->name('client.payment.success');
+
+Route::get('/payment-fail/{id}', function($id) {
+    return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
+})->name('client.payment.fail');
+
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
