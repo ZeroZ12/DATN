@@ -100,6 +100,15 @@
                 </ul>
             </li>
 
+               <li class="sidebar-list mt-3">
+                <a href="{{ route('admin.don-hang.index') }}" class="sidebar-link d-flex align-items-center">
+                    <svg class="stroke-icon me-2">
+                        <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Home"></use>
+                    </svg>
+                    <span>Quản lý đơn hàng</span>
+                </a>
+            </li>
+
             <li class="sidebar-list mt-3">
                 <a href="{{ route('client.home') }}" class="sidebar-link d-flex align-items-center">
                     <svg class="stroke-icon me-2">
