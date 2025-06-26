@@ -515,6 +515,9 @@
             color: #ccc;
             /* Màu xám cho sao rỗng trong hiển thị */
         }
+        span{
+            font-size: 14px;
+        }
     </style>
     <div class="container mt-4">
         {{-- Phần thông báo thành công/lỗi --}}

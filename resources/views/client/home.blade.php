@@ -105,6 +105,9 @@
                                     @endif
                                 </div>
                                 <div class="product-image">
+                                    @php
+                                        // dd($sp);
+                                    @endphp
                                     <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
                                         alt="{{ $sp->ten }}">
                                 </div>
@@ -163,7 +166,6 @@
             {{ $sanphams->links() }}
         </div>
     </div>
-@endsection
 
 @push('css')
     <style>
