@@ -515,8 +515,7 @@
             color: #ccc;
             /* Màu xám cho sao rỗng trong hiển thị */
         }
-                span /* sửa cỡ chữ phần nav */
-        {
+        span{
             font-size: 14px;
         }
     </style>

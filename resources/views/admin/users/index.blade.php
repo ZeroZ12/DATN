@@ -45,7 +45,7 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <a href="{{ route('admin.users.edit', $user) }}" title="Chỉnh sửa" class="btn btn-warning btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                 <form action="{{ route('admin.users.hide', $user) }}" method="POST"
                                     style="display:inline;">
                                     @csrf

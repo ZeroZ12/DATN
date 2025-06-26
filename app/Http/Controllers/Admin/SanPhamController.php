@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSanPhamRequest;
+use App\Http\Requests\UpdateSanPhamRequest;
 use App\Models\AnhSanPham;
 use App\Models\BienTheSanPham;
 use App\Models\Chip;
@@ -13,6 +15,7 @@ use App\Models\OCung;
 use App\Models\Ram;
 use App\Models\SanPham;
 use App\Models\ThuongHieu;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -89,32 +92,12 @@ class SanPhamController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(UpdateSanPhamRequest $request, string $id)
     {
         $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
 
         // Validate dữ liệu sản phẩm và biến thể
-        $validatedData = $request->validate([
-            'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id,
-            'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
-            'id_category' => 'required|exists:danh_mucs,id',
-            'id_brand' => 'required|exists:thuong_hieus,id',
-            'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048',
-            'anh_phu.*' => 'nullable|image|max:2048',
-
-            'variants' => 'required|array',
-            'variants.*.id' => 'nullable|exists:bien_the_san_phams,id',
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required|integer|min:0',
-        ]);
+        $validatedData = $request->validated();
 
         // Cập nhật ảnh đại diện nếu có
         if ($request->hasFile('anh_dai_dien')) {
@@ -196,7 +179,7 @@ class SanPhamController extends Controller
      */
 
 
-    public function store(Request $request)
+    public function store(StoreSanPhamRequest $request)
     {
         // Tạo mã sản phẩm: WD + 4 số, không trùng DB
         do {
@@ -205,26 +188,7 @@ class SanPhamController extends Controller
         $request->merge(['ma_san_pham' => $randomCode]);
 
         // Validate dữ liệu (bỏ ma_bien_the vì sinh tự động)
-        $validatedData = $request->validate([
-            'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
-            'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
-            'id_category' => 'required|exists:danh_mucs,id',
-            'id_brand' => 'required|exists:thuong_hieus,id',
-            'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048',
-            'anh_phu.*' => 'nullable|image|max:2048',
-            'variants' => 'required|array',
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|max:2048'
-        ]);
+        $validatedData = $request->validated();
 
         // Lưu ảnh đại diện chính nếu có
         if ($request->hasFile('anh_dai_dien')) {

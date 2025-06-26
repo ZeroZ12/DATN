@@ -1,8 +1,6 @@
 @extends('client.layouts.app')
-
 @section('content')
     @include('client.layouts.blocks.banner')
-
     <div class="container py-4">
         <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
@@ -107,6 +105,9 @@
                                     @endif
                                 </div>
                                 <div class="product-image">
+                                    @php
+                                        // dd($sp);
+                                    @endphp
                                     <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
                                         alt="{{ $sp->ten }}">
                                 </div>
@@ -165,7 +166,6 @@
             {{ $sanphams->links() }}
         </div>
     </div>
-@endsection
 
 @push('css')
     <style>
@@ -367,6 +367,7 @@
                 max-width: 180px;
                 flex: 0 0 180px;
             }
+          
         }
 
         .product-badges {
@@ -871,10 +872,9 @@
             color: #666;
             font-size: 12px;
         }
-        
-        span /* sửa cỡ chữ phần nav */
-        {
+        span{
             font-size: 14px;
+
         }
     </style>
 @endpush
@@ -1055,3 +1055,6 @@
         }
     </script>
 @endpush
+@endsection
+
+
