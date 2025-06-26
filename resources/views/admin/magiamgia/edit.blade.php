@@ -41,6 +41,15 @@
             </div>
 
             <div class="mb-3">
+                <label for="gia_tri_toi_da" class="form-label">Giá trị tối đa <span class="text-danger">*</span></label>
+                <input type="number" name="gia_tri_toi_da" id="gia_tri_toi_da" class="form-control" value="{{ old('gia_tri_toi_da') }}"
+                    step="1000" min="0">
+                @error('gia_tri_toi_da')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
                 <label for="dieu_kien" class="form-label">Điều kiện áp dụng (VNĐ)</label>
                 <input type="number" name="dieu_kien" id="dieu_kien" class="form-control"
                     value="{{ old('dieu_kien', $maGiamGia->dieu_kien ?? 0) }}" step="1000" min="0" placeholder="0 = không giới hạn">

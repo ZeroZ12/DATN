@@ -265,7 +265,9 @@ class CartController extends Controller
         $discount = $maGiamGia->loai === 'phan_tram'
             ? ($cartTotal * $maGiamGia->gia_tri / 100)
             : $maGiamGia->gia_tri;
-
+        if (isset($maGiamGia->gia_tri_toi_da) && $discount > $maGiamGia->gia_tri_toi_da) {
+            $discount = min($discount, $maGiamGia->gia_tri_toi_da);
+        }
         $finalTotal = max(0, $cartTotal - $discount);
 
         return response()->json([
@@ -326,9 +328,12 @@ class CartController extends Controller
             } else {
                 $giamGia = $gioHang->maGiamGia->gia_tri;
             }
+            if (isset($gioHang->maGiamGia->gia_tri_toi_da) && $giamGia > $gioHang->maGiamGia->gia_tri_toi_da) {
+                $giamGia = min($giamGia, $gioHang->maGiamGia->gia_tri_toi_da);
+            }
             $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
         }
-
+        
         // Lấy thông tin địa chỉ của user
         $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
             ->where('mac_dinh', true)
@@ -601,6 +606,9 @@ class CartController extends Controller
                     $giamGia = $tongTienGoc * ($gioHang->maGiamGia->gia_tri / 100);
                 } else {
                     $giamGia = $gioHang->maGiamGia->gia_tri;
+                }
+                if (isset($gioHang->maGiamGia->gia_tri_toi_da) && $giamGia > $gioHang->maGiamGia->gia_tri_toi_da) {
+                    $giamGia = min($giamGia, $gioHang->maGiamGia->gia_tri_toi_da);
                 }
                 $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
             }

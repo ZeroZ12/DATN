@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\MaGiamGia;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreMaGiamGiaRequest;
 
 class MaGiamGiaController extends Controller
 {
@@ -42,40 +44,14 @@ class MaGiamGiaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMaGiamGiaRequest $request)
     {
-        $request->validate([
-            'ma' => 'required|string|max:50|unique:ma_giam_gias,ma',
-            'loai' => 'required|in:phan_tram,tien_mat',
-            'gia_tri' => 'required|numeric|min:0',
-            'dieu_kien' => 'nullable|numeric|min:0',
-            'ngay_bat_dau' => 'nullable|date',
-            'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
-            'hoat_dong' => 'required|boolean',
-        ], [
-            'ma.required' => 'Mã giảm giá không được để trống.',
-            'ma.string' => 'Mã giảm giá phải là chuỗi ký tự.',
-            'ma.max' => 'Mã giảm giá không được vượt quá 50 ký tự.',
-            'ma.unique' => 'Mã giảm giá đã tồn tại.',
-            'loai.required' => 'Loại mã giảm giá không được để trống.',
-            'loai.in' => 'Loại mã giảm giá phải là "Phần trăm" hoặc "Tiền mặt".',
-            'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
-            'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
-            'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
-            'dieu_kien.numeric' => 'Điều kiện áp dụng phải là số.',
-            'dieu_kien.min' => 'Điều kiện áp dụng phải lớn hơn hoặc bằng 0.',
-            'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.date' => 'Ngày kết thúc phải là định dạng ngày hợp lệ.',
-            'ngay_ket_thuc.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
-            'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
-            'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
-        ]);
+        $request->validated();
 
         // Ràng buộc bổ sung nếu là loại phần trăm
         if ($request->loai === 'phan_tram' && $request->gia_tri > 100) {
             return back()->withInput()->withErrors(['gia_tri' => 'Giá trị phần trăm không được vượt quá 100.']);
         }
-
         MaGiamGia::create($request->all());
 
         return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được tạo thành công.');
@@ -113,6 +89,7 @@ class MaGiamGiaController extends Controller
             'ma' => 'required|string|max:50|unique:ma_giam_gias,ma,' . $id,
             'loai' => 'required|in:phan_tram,tien_mat',
             'gia_tri' => 'required|numeric|min:0',
+            'gia_tri_toi_da' => 'required_if:loai,phan_tram',
             'dieu_kien' => 'nullable|numeric|min:0',
             'ngay_bat_dau' => 'nullable|date',
             'ngay_ket_thuc' => 'nullable|date|after_or_equal:ngay_bat_dau',
@@ -127,6 +104,7 @@ class MaGiamGiaController extends Controller
             'gia_tri.required' => 'Giá trị mã giảm giá không được để trống.',
             'gia_tri.numeric' => 'Giá trị mã giảm giá phải là số.',
             'gia_tri.min' => 'Giá trị mã giảm giá phải lớn hơn hoặc bằng 0.',
+            'gia_tri_toi_da.required_if' => 'Giá trị tối đa không được để trống nếu loại là "Phần trăm".',
             'dieu_kien.numeric' => 'Điều kiện áp dụng phải là số.',
             'dieu_kien.min' => 'Điều kiện áp dụng phải lớn hơn hoặc bằng 0.',
             'ngay_bat_dau.date' => 'Ngày bắt đầu phải là định dạng ngày hợp lệ.',
@@ -135,7 +113,11 @@ class MaGiamGiaController extends Controller
             'hoat_dong.required' => 'Trạng thái hoạt động không được để trống.',
             'hoat_dong.boolean' => 'Trạng thái hoạt động phải là giá trị Có hoặc Không.',
         ]);
-
+        
+        // Nếu là tiền mặt, không cần kiểm tra giá trị tối đa
+        if ($data['loai'] === 'tien_mat') {
+            $data['gia_tri_toi_da'] = $data['gia_tri']; // Đặt giá trị tối đa bằng giá trị nếu là tiền mặt
+        }   
         // Kiểm tra bổ sung nếu là phần trăm thì không được vượt quá 100
         if ($data['loai'] === 'phan_tram' && $data['gia_tri'] > 100) {
             return back()->withInput()->withErrors([
@@ -144,7 +126,6 @@ class MaGiamGiaController extends Controller
         }
 
         $maGiamGia->update($data);
-
         return redirect()->route('admin.magiamgia.index')->with('message', 'Mã giảm giá đã được cập nhật thành công.');
     }
 
