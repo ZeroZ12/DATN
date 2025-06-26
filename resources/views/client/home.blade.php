@@ -871,6 +871,11 @@
             color: #666;
             font-size: 12px;
         }
+        
+        span /* sửa cỡ chữ phần nav */
+        {
+            font-size: 14px;
+        }
     </style>
 @endpush
 

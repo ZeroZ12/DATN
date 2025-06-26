@@ -16,7 +16,7 @@
             <table class="table table-bordered table-striped">
                 <thead class="table-dark">
                     <tr>
-                        <th>#</th>
+                        <th>Id</th>
                         <th>Họ tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
@@ -45,12 +45,11 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm">Chỉnh
-                                    sửa</a>
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning btn-sm" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                 <form action="{{ route('admin.users.hide', $user) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">Ẩn</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Ẩn"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
                                 </form>
                             </td>
                         </tr>
