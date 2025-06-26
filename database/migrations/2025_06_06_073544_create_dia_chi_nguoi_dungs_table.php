@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('dia_chi_nguoi_dungs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->text('dia_chi');
-            $table->string('thanh_pho', 100);
-            $table->string('quan_huyen', 100);
-            $table->string('phuong_xa', 100);
-            $table->boolean('la_mac_dinh')->default(false);
-            $table->timestamps();
+            $table->string('ten_nguoi_nhan', 255); // Tên người nhận
+            $table->string('so_dien_thoai_nguoi_nhan', 20); // Số điện thoại người nhận
+            $table->text('dia_chi_day_du'); // Địa chỉ đầy đủ (VD: Số nhà, tên đường, thôn, xóm...)
+            $table->string('tinh_thanh_pho', 100); // Tỉnh/Thành phố (Đổi 'thanh_pho' cho rõ ràng)
+            $table->string('quan_huyen', 100);    // Quận/Huyện
+            $table->string('phuong_xa', 100);     // Phường/Xã
+            $table->boolean('mac_dinh')->default(false);
+            $table->timestamps(); // created_at và updated_at
         });
     }
 

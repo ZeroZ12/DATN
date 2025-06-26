@@ -64,12 +64,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <!-- <div class="mb-3">
-                            <input type="text" name="first_name" class="form-control form-control-lg @error('first_name') is-invalid @enderror" placeholder="Tên" value="{{ old('first_name') }}">
-                            @error('first_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div> -->
                         <div class="mb-3">
                             <input type="tel" name="phone" class="form-control form-control-lg @error('phone') is-invalid @enderror" placeholder="Số điện thoại" value="{{ old('phone') }}">
                             @error('phone')
@@ -122,7 +116,7 @@
     let shouldShowRegisterForm = false;
 
     // Kiểm tra nếu có bất kỳ lỗi nào từ form Đăng ký (ưu tiên)
-    // Các lỗi này thường là: first_name, last_name, phone, password_confirmation
+    // Các lỗi này thường là: , phone, password_confirmation
     // hoặc lỗi 'password' khi không khớp 'password_confirmation'
     @if ($errors->has('ho_ten') || $errors->has('phone') || $errors->has('password_register') || $errors->has('password_confirmation') || old('form_type') === 'register')
         shouldShowRegisterForm = true;

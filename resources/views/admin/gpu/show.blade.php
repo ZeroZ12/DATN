@@ -12,7 +12,7 @@
                 <ul class="list-unstyled mb-4">
                     <li><strong>ID:</strong> {{ $gpu->id }}</li>
                     <li><strong>Tên GPU:</strong> {{ $gpu->ten }}</li>
-                    <li><strong>Mô tả:</strong> {{ $gpu->mo_ta ?? 'N/A' }}</li>
+                    <li><strong>Mô tả:</strong> {!! $gpu->mo_ta ?? 'N/A' !!}</li>
                     <li><strong>Ngày tạo:</strong> {{ $gpu->created_at->format('d/m/Y H:i') }}</li>
                     <li><strong>Ngày cập nhật:</strong> {{ $gpu->updated_at->format('d/m/Y H:i') }}</li>
                 </ul>

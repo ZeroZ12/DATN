@@ -1,223 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEARVN - Your Gaming PC Destination</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        /* General Body Styling */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* A common, clean font */
-            background-color: #f8f9fa;
-            /* Light background */
-        }
-
-        /* Header Top Bar */
-        .header-top {
-            font-size: 0.85rem;
-        }
-
-        /* Header Main Bar */
-        .header-main {
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .header-main .dropdown-toggle {
-            border-radius: 0.375rem;
-            /* Match Bootstrap's default btn border-radius */
-        }
-
-        .header-main .input-group .form-control {
-            border-right: none;
-        }
-
-        .header-main .input-group .btn-danger {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        /* Links in header main */
-        .header-main a {
-            transition: color 0.2s ease-in-out;
-        }
-
-        .header-main a:hover {
-            color: #dc3545 !important;
-            /* Bootstrap's danger color */
-        }
-
-        /* Banner Section */
-        .banner img {
-            object-fit: cover;
-            width: 100%;
-        }
-
-        /* Product Filters */
-        .product-filters .form-select,
-        .product-filters .btn {
-            border-radius: 0.375rem;
-        }
-
-        .product-filters .btn-primary {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-
-        .product-filters .btn-primary:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
-
-        /* Example Product Card (adjust as needed for actual product display) */
-        .card-title {
-            font-weight: 600;
-        }
-
-        .card-text.fw-bold {
-            font-size: 1.1rem;
-        }
-    </style>
-</head>
-
-<body>
-
-    <header class="header">
-        <div class="header-top py-2 bg-dark text-white-50">
-            <div class="container d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <i class="fa-solid fa-gift me-2 text-danger"></i>
-                    <span class="text-uppercase fw-bold">MUA PC GVN x MSI TẶNG MÀN OLED 240HZ</span>
-                </div>
-                <div class="d-none d-md-flex align-items-center">
-                    <span class="me-3"><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.5301</span>
-                    <span class="me-3"><i class="fa-solid fa-location-dot me-1"></i>Hệ thống Showroom</span>
-                    <span class="me-3"><i class="fa-solid fa-box me-1"></i>Đơn hàng</span>
-                    <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="header-main py-3 bg-white shadow-sm">
-            <div class="container d-flex align-items-center">
-                <a href="index.html" class="me-3">
-                    <img src="https://file.hstatic.net/200000636033/file/logo_fd11946b31524fbe98765f34f3de0628.svg"
-                        alt="GEARVN Logo" height="30">
-                </a>
-
-                <div class="dropdown me-3">
-                    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="fa-solid fa-bars me-2"></i><span class="d-none d-lg-inline">Danh mục</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-laptop me-2"></i>Laptop Gaming</a>
-                        </li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-desktop me-2"></i>PC Gaming</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-display me-2"></i>Màn hình</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-mouse me-2"></i>Chuột - Bàn phím</a>
-                        </li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-headphones me-2"></i>Tai nghe</a>
-                        </li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-plug me-2"></i>Phụ kiện</a></li>
-                    </ul>
-                </div>
-
-                <form class="input-group flex-grow-1 me-3" role="search">
-                    <input class="form-control" type="search" placeholder="Bạn cần tìm gì?" aria-label="Search">
-                    <button class="btn btn-danger" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
-
-                <div class="d-none d-lg-flex align-items-center ms-auto text-dark">
-                    <a href="#" class="text-decoration-none text-dark me-3">
-                        <i class="fa-solid fa-screwdriver-wrench me-1"></i>Dịch vụ kỹ thuật tại nhà
-                    </a>
-                    <a href="#" class="text-decoration-none text-dark me-3">
-                        <i class="fa-solid fa-credit-card me-1"></i>Trả góp
-                    </a>
-                    @guest
-                    <a href="{{ route('login') }}" class="text-decoration-none text-dark me-3">
-                        <i class="fa-solid fa-user me-1"></i>Đăng nhập
-                    </a>
-                    @else
-                    <a href="{{ route('dashboard') }}" class="text-decoration-none text-dark me-3">
-                        <i class="fa-solid fa-user me-1"></i>{{ Auth::user()->name }}
-                    </a>
-                    @endguest
-                    <a class="text-decoration-none text-dark" href="/giohang.html">
-                        <i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <section class="banner my-3">
-            <div class="container">
-                <img src="https://file.hstatic.net/200000722513/file/banner_1920x420_132deaa451444c268495aedb72728389.jpg"
-                    class="img-fluid rounded" alt="Promotional Banner">
-            </div>
-        </section>
-
-        <section class="product-filters my-4">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center gap-3">
-                    <select class="form-select w-auto">
-                        <option selected>-- Thương hiệu --</option>
-                        <option value="1">Asus</option>
-                        <option value="2">MSI</option>
-                        <option value="3">Acer</option>
-                    </select>
-                    <select class="form-select w-auto">
-                        <option selected>-- CPU --</option>
-                        <option value="1">Intel Core i9</option>
-                        <option value="2">AMD Ryzen 9</option>
-                    </select>
-                    <select class="form-select w-auto">
-                        <option selected>-- GPU --</option>
-                        <option value="1">NVIDIA RTX 4090</option>
-                        <option value="2">AMD RX 7900 XTX</option>
-                    </select>
-                    <select class="form-select w-auto">
-                        <option selected>-- RAM --</option>
-                        <option value="1">32GB</option>
-                        <option value="2">64GB</option>
-                    </select>
-                    <select class="form-select w-auto">
-                        <option selected>-- Ổ cứng --</option>
-                        <option value="1">1TB SSD</option>
-                        <option value="2">2TB SSD</option>
-                    </select>
-                    <button class="btn btn-primary">Lọc</button>
-                    <button class="btn btn-outline-secondary">Đặt lại</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-area py-5">
-            <div class="container">
-                <h2 class="mb-4">Sản phẩm nổi bật</h2>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col">
-                        <div class="card h-100 shadow-sm">
-                            <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="Product Image">
-                            <div class="card-body">
-                                <h5 class="card-title">PC Gaming XYZ</h5>
-                                <p class="card-text text-danger fw-bold">45.000.000 VNĐ</p>
-                                <a href="#" class="btn btn-primary btn-sm">Xem chi tiết</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CKEditor 5 - Quick start CDN</title>
+		<link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.2.0/ckeditor5.css">
+		<style>
+			.main-container {
+				width: 795px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main-container">
+			<div id="editor">
+				<p>Hello from CKEditor 5!</p>
+			</div>
+		</div>
+		<script src="https://cdn.ckeditor.com/ckeditor5/45.2.0/ckeditor5.umd.js"></script>
+		<script>
+			const {
+				ClassicEditor,
+				Essentials,
+				Paragraph,
+				Bold,
+				Italic,
+				Font
+			} = CKEDITOR;
+			// Create a free account and get <YOUR_LICENSE_KEY>
+			// https://portal.ckeditor.com/checkout?plan=free
+			ClassicEditor
+				.create( document.querySelector( '#editor' ), {
+					licenseKey: '<YOUR_LICENSE_KEY>',
+					plugins: [ Essentials, Paragraph, Bold, Italic, Font ],
+					toolbar: [
+						'undo', 'redo', '|', 'bold', 'italic', '|',
+						'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+					]
+				} )
+				.then( editor => {
+					window.editor = editor;
+				} )
+				.catch( error => {
+					console.error( error );
+				} );
+		</script>
+	</body>
 </html>

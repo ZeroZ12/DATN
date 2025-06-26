@@ -1,0 +1,125 @@
+[33m876fdfd[m[33m ([m[1;36mHEAD -> [m[1;32mdungndph51446[m[33m, [m[1;31morigin/dungndph51446[m[33m)[m Thêm sản phẩm vào giỏ hàng
+[33m1618994[m Sửa form sửa sản phẩm
+[33mddb41e5[m sửa /login , /register
+[33m2e045e4[m sửa lại DN + DX
+[33mc442d7f[m Sửa tính năng thêm, sửa sản phẩm
+[33m7b2f1a4[m Sửa thêm, sửa sản phẩm
+[33m35e9e84[m chi tiết sp
+[33m452c2e8[m sửa banner
+[33m2c2ae5d[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m8893d8a[m up lại
+[33m9b3fdbf[m Thêm client cho Controller
+[33m6a2751b[m hien thi danh muc client
+[33m3040c09[m loc
+[33m8fb49e1[m dang ki
+[33mda2dca7[m Xem chi tiết sản phẩm
+[33m3f24932[m Xem chi tiết sản phẩm
+[33m8271483[m Xem chi tiết sản phẩm
+[33me8c59a0[m Chi tiet san pham
+[33m2ffd9ef[m Merge pull request #17 from ZeroZ12/longthph53584
+[33me92b9e6[m[33m ([m[1;31morigin/longthph53584[m[33m)[m đăng nhập + đăng ký(ổn)
+[33m4ce052c[m Merge pull request #15 from ZeroZ12/longthph53584
+[33ma34d1c2[m sửa đg dẫn + aside
+[33mfee45e7[m sua admin
+[33m3cc3deb[m sua admin
+[33me33da82[m Sửa
+[33ma4eb5a3[m Merge pull request #14 from ZeroZ12/longthph53584
+[33m80ab4f8[m Updated routes/web.php after merge
+[33mffcd419[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m48e9d49[m Đăng nhập + đăng xuất(Tạm)
+[33m60fb82c[m home
+[33mc0f876a[m font
+[33m13d976e[m up nhanh
+[33m7e6efa7[m Tạm
+[33m7373dc4[m Sửa lại
+[33m1ded062[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m9d02f23[m Lưu trc khi pull
+[33m9794a84[m Sửa sliderbar
+[33m878bc97[m Sửa sliderbar
+[33m9c39736[m admin
+[33m00d1a6e[m 1
+[33mf0a58a0[m dang nhap dki
+[33ma140568[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m99f221c[m Merge pull request #12 from ZeroZ12/longthph53584
+[33m79d2d9d[m up tạm
+[33m88fb603[m danhmuc
+[33me63ebf3[m login
+[33m9dde2c1[m sửa create, update mã giảm giá
+[33m830b442[m sua
+[33ma307c6a[m sửa create, update mã giảm giá
+[33mac7f5ab[m admin
+[33m355c5d0[m sua
+[33m49af7da[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m9aae650[m logo
+[33m5925b88[m fix crud
+[33m7487a5d[m Sửa tý
+[33m8983d17[m fake
+[33m0f46cbe[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33me6dd01a[m dmtc
+[33m7d0c503[m sau
+[33md3f5f25[m sua
+[33m8bd36a5[m sua
+[33me525eae[m sua
+[33m6593d8a[m sua
+[33m3c44dc4[m sửa tạm giao diện + route trang chủ
+[33m4a1520b[m sua admin
+[33me1cb508[m 2
+[33mb1b72d6[m 1
+[33m5e1ad30[m Merge branch 'main' of https://github.com/ZeroZ12/DATN
+[33m348d531[m nut login
+[33ma08babd[m  CSDL NEW
+[33mb8678c5[m sửa đg dẫn
+[33m1c9d144[m sửa lại ddgf dẫn trang chủ
+[33m12f7e98[m Lọc
+[33mf2b5158[m Lọc
+[33m3c81bca[m tạm thời
+[33m09e4eb7[m Lưu thay đổi tạm thời
+[33mb254d0b[m Merge pull request #9 from ZeroZ12/dungndph51446
+[33mdff7817[m Sua giao dien trang chu
+[33m1b385c4[m sửa 1 tí
+[33m180ea85[m Thêm Giao diện
+[33m7d3ac7c[m Hoàn thiện các chỉnh sửa
+[33m6094903[m Hoàn tất xung đột
+[33m30d02da[m Update giao diện và chức năng admin
+[33mb00f98d[m xoa mem ocung
+[33m9cb3648[m Merge pull request #8 from ZeroZ12/dungndph51446
+[33m8275322[m Giao dien trang chu
+[33mbedb6ac[m xoa mem ram
+[33ma1900ea[m xoa mem gpu
+[33me4d0d64[m xoa mem mainboard
+[33m61062ce[m xoa mem chip
+[33ma3f6ced[m user
+[33mca8d222[m Merge pull request #7 from ZeroZ12/longthph53584
+[33m883f6af[m Sửa mã giảm giá
+[33m511d3ed[m Merge pull request #6 from ZeroZ12/dungndph51446
+[33m992dcc8[m Sua them san pham bien the
+[33m777609e[m Merge pull request #5 from ZeroZ12/dungndph51446
+[33m20992fd[m fix
+[33m45dbc96[m Xóa ảnh
+[33mde5e197[m Title
+[33m14addeb[m Merge pull request #4 from ZeroZ12/dungndph51446
+[33mb2cb5ca[m Thêm sản phẩm có ảnh phụ
+[33m0457190[m bienther
+[33mc3698f7[m bienthe
+[33m585ab00[m sua ti
+[33mb11af03[m route
+[33m1cbbc08[m fix conflics
+[33m7f9a717[m SanPham
+[33mcbae679[m Merge pull request #3 from ZeroZ12/phinvph53102
+[33m7fd0050[m CRUD
+[33mc58487a[m Merge pull request #2 from ZeroZ12/phinvph53102
+[33m17607c0[m tach giao dien
+[33m9fc7be1[m[33m ([m[1;31morigin/phongtvph52541[m[33m)[m  Giao diện trang chủ admin
+[33m5902f75[m users
+[33ma47c39a[m sua_migrate
+[33m155467f[m sua_migrate
+[33m2eb187d[m sua_migrate
+[33m084d0e7[m SQL
+[33mccf1589[m #1 SQL
+[33m7f8e59a[m Resolve merge conflicts
+[33m944ccd4[m Initial commit
+[33ma944ce8[m Giải quyết xung đột
+[33m54b1a47[m Cập nhật DanhMucController.php
+[33m0914c4c[m DanhMuc
+[33m1e951a1[m #1 Start
+[33m293ba81[m Initial commit

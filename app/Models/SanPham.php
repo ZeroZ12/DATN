@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,14 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SanPham extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'san_phams';
 
     protected $fillable = [
-        'ten', 'ma_san_pham', 'mo_ta', 'id_chip', 'id_mainboard', 'id_gpu',
-        'id_category', 'id_brand', 'bao_hanh_thang', 'hoat_dong', 'anh_dai_dien'
+        'ten',
+        'ma_san_pham',
+        'mo_ta',
+        'id_chip',
+        'id_mainboard',
+        'id_gpu',
+        'id_category',
+        'id_brand',
+        'bao_hanh_thang',
+        'hoat_dong',
+        'anh_dai_dien'
     ];
 
     // Quan hệ với bảng Chip
@@ -53,8 +63,12 @@ class SanPham extends Model
     }
 
     public function anhPhu()
-{
-    return $this->hasMany(AnhSanPham::class, 'id_product');
-}
-
+    {
+        return $this->hasMany(AnhSanPham::class, 'id_product');
+    }
+    
+        public function danhGiaSanPhams()
+    {
+        return $this->hasMany(DanhGiaSanPham::class, 'id_product');
+    }
 }

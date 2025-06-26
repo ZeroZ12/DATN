@@ -56,7 +56,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'ten_dang_nhap' => 'required|string|max:50',
+            'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap',
             'ho_ten'     => 'required|string|max:255',
             'email'          => 'required|email|unique:users,email',
             'phone'          => 'required|string|max:20|unique:users,so_dien_thoai',
@@ -77,7 +77,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended('/')->with('success', 'Đăng ký thành công! Bạn đã được đăng nhập.');
+        return redirect('/')->with('success', 'Đăng ký thành công! Bạn đã được đăng nhập.');
     }
 
     public function logout(Request $request)

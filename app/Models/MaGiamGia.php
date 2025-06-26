@@ -12,7 +12,13 @@ class MaGiamGia extends Model
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'ma_giam_gias';
-    protected $fillable = ['ma', 'loai', 'gia_tri', 'ngay_bat_dau', 'ngay_ket_thuc', 'hoat_dong'];
+    protected $fillable = ['ma', 'loai', 'gia_tri', 'dieu_kien', 'ngay_bat_dau', 'ngay_ket_thuc', 'hoat_dong'];
 
-    // Quan hệ với bảng Giỏ Hàng
+    /**
+     * Get the orders that use this discount code.
+     */
+    public function donHangs()
+    {
+        return $this->hasMany(DonHang::class, 'id_ma_giam_gia');
+    }
 }

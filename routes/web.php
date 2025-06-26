@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\DonHangController;
+use App\Http\Controllers\Client\PaymentController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Middleware\CheckUserStatus;
+
 use App\Http\Controllers\Admin\DanhMucController;
 use App\Http\Controllers\Admin\SanPhamController;
 use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ChipController;
 use App\Http\Controllers\Admin\MainboardController;
 use App\Http\Controllers\Admin\GpuController;
@@ -15,15 +18,21 @@ use App\Http\Controllers\Admin\OCungController;
 use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
-use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
-// use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
-use App\Http\Middleware\CheckUserStatus;
+use App\Http\Controllers\Admin\DanhGiaController;
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+use App\Http\Controllers\Client\DanhGiaSanPhamController;
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\Client\UserAddressController;
+use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
+
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -43,7 +52,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
         // Resource route
 
-        Route::resource('', SanPhamController::class)->parameters(['' => 'sanpham']);
+        Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
 
         Route::resource('{sanpham}/bienthe', BienTheSanPhamController::class)->except(['show']);
 
@@ -153,12 +162,42 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
+
+    Route::get('danhgias', [DanhGiaController::class, 'index'])->name('danhgias.index');
+    Route::get('danhgias/{danhGia}', [DanhGiaController::class, 'show'])->name('danhgias.show');
+    Route::get('danhgias/{danhGia}/edit', [DanhGiaController::class, 'edit'])->name('danhgias.edit');
+    Route::put('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
+    // Hoặc nếu bạn chỉ muốn dùng PATCH cho update: Route::patch('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
+
+    // Xóa đánh giá (DELETE /admin/danhgias/{danhgia})
+    Route::delete('danhgias/{danhGia}', [DanhGiaController::class, 'destroy'])->name('danhgias.destroy');
+    Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
+    Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
+
+    //Đơn hàng
+      Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
+    Route::get('don-hang/{id}', [DonHangController::class, 'show'])->name('don-hang.show');
+    Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
 });
 
-Route::middleware(['auth', CheckUserStatus::class])->group(function () {
+Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', function () {
         return view('client.tk.access');
     })->name('dashboard');
+
+
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::resource('addresses', UserAddressController::class)->except(['show']); // Không cần show riêng lẻ, index sẽ list
+    Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
+    Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
+
+    Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
+    // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
+    Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
+    // Route để xóa đánh giá (sử dụng DELETE)
+    Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
 });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
@@ -166,20 +205,50 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
 })->name('admin.index');
 
 //Route client
-Route::get('/', [ClientSanPhamController::class, 'index'])->name('client.home');
+Route::get('/', [HomeController::class, 'index'])->name('client.home');
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
+Route::get('/danhmuc/{id}/show', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.show');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
-Route::get('/danh-muc/{id}', [DanhMucController::class, 'show'])->name('danhmuc.show');
 // Route tìm kiếm sản phẩm
 Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
-Route::get ('/login', function (){
+Route::get('/login', function () {
     return redirect()->route('form', ['type' => 'login']);
 });
-Route::get ('/register', function (){
+Route::get('/register', function () {
     return redirect()->route('form', ['type' => 'register']);
 });
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+// Cart routes
+Route::middleware(['auth'])->group(function () {
+    // Cart routes
+    Route::prefix('cart')->name('client.cart.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Client\CartController::class, 'index'])->name('index');
+        Route::post('/add', [App\Http\Controllers\Client\CartController::class, 'add'])->name('add');
+        Route::post('/buy-now', [App\Http\Controllers\Client\CartController::class, 'buyNow'])->name('buy-now');
+        Route::put('/update/{id}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('update');
+        Route::delete('/remove/{id}', [App\Http\Controllers\Client\CartController::class, 'remove'])->name('remove');
+        Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
+        Route::get('/checkout', [App\Http\Controllers\Client\CartController::class, 'checkout'])->name('checkout');
+        Route::post('/place-order', [App\Http\Controllers\Client\CartController::class, 'placeOrder'])->name('place-order');
+    });
+
+    // Payment routes
+    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
+Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
+Route::get('/payment-success/{id}', function($id) {
+    return "Thanh toán thành công! Đơn hàng: #" . $id;
+})->name('client.payment.success');
+
+Route::get('/payment-fail/{id}', function($id) {
+    return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
+})->name('client.payment.fail');
+
+    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
+});
+Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
+Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');

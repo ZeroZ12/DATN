@@ -29,6 +29,16 @@ class User extends Authenticatable
         'trang_thai'
     ];
 
+    public function diaChiNguoiDungs()
+    {
+        return $this->hasMany(DiaChiNguoiDung::class, 'id_user');
+    }
+
+    public function danhGiaSanPhams()
+    {
+        return $this->hasMany(DanhGiaSanPham::class, 'id_user');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,5 +60,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function gioHang()
+    {
+        return $this->hasOne(GioHang::class, 'id_user');
     }
 }
