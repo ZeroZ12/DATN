@@ -30,7 +30,7 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>#</th>
+                        <th>Id</th>
                         <th>Tên sản phẩm</th>
                         <th>Mã sản phẩm</th>
                         <th>Danh mục</th>

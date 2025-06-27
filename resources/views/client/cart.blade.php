@@ -43,7 +43,7 @@
             <option value="{{ $maGiamGia->ma }}">
               {{ $maGiamGia->ma }} -
               @if($maGiamGia->loai == 'phan_tram')
-                Giảm {{ $maGiamGia->gia_tri }}%
+                Giảm {{ $maGiamGia->gia_tri }}% - tối đa {{$maGiamGia->gia_tri_toi_da}} VND
               @else
                 Giảm {{ number_format($maGiamGia->gia_tri) }}₫
               @endif
@@ -59,7 +59,7 @@
               <i class="fas fa-check-circle"></i>
               Đã áp dụng mã: {{ $gioHang->maGiamGia->ma }}
               @if($gioHang->maGiamGia->loai == 'phan_tram')
-                (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
+                (Giảm {{ $gioHang->maGiamGia->gia_tri }}% - tối đa {{ $gioHang->maGiamGia->gia_tri_toi_da}} VND)
               @else
                 (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
               @endif
@@ -78,6 +78,9 @@
             $discount = $gioHang->maGiamGia->loai == 'phan_tram'
               ? ($total * $gioHang->maGiamGia->gia_tri / 100)
               : $gioHang->maGiamGia->gia_tri;
+            if (isset($gioHang->maGiamGia->gia_tri_toi_da) && $discount > $gioHang->maGiamGia->gia_tri_toi_da) {
+                    $discount = min($discount, $gioHang->maGiamGia->gia_tri_toi_da);
+                }
             $finalTotal = max(0, $total - $discount);
           @endphp
           <br>

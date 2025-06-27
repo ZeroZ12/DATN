@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSanPhamRequest;
+use App\Http\Requests\UpdateSanPhamRequest;
 use App\Models\AnhSanPham;
 use App\Models\BienTheSanPham;
 use App\Models\Chip;
@@ -16,6 +18,7 @@ use App\Models\OCung;
 use App\Models\Ram;
 use App\Models\SanPham;
 use App\Models\ThuongHieu;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -104,7 +107,7 @@ class SanPhamController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(UpdateSanPhamRequest $request, string $id)
     {
         $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
 
@@ -215,7 +218,7 @@ class SanPhamController extends Controller
      */
 
 
-    public function store(Request $request)
+    public function store(StoreSanPhamRequest $request)
     {
         // dd($request->all());
         // Tạo mã sản phẩm: WD + 4 số, không trùng DB

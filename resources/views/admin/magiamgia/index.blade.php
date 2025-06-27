@@ -44,6 +44,7 @@
                                 <th>Mã</th>
                                 <th>Loại</th>
                                 <th>Giá Trị</th>
+                                <th>Giá Trị Tối Đa</th>
                                 <th>Ngày Bắt Đầu</th>
                                 <th>Ngày Kết Thúc</th>
                                 <th>Hoạt Động</th>
@@ -58,6 +59,7 @@
                                     <td>{{ $maGiamGia->ma }}</td>
                                     <td>{{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</td>
                                     <td>{{ $maGiamGia->gia_tri }}</td>
+                                    <td>{{ $maGiamGia->gia_tri_toi_da ?? '' }}</td>
                                     <td>{{ $maGiamGia->ngay_bat_dau ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('d/m/Y') : 'N/A' }}
                                     </td>
                                     <td>{{ $maGiamGia->ngay_ket_thuc ? \Carbon\Carbon::parse($maGiamGia->ngay_ket_thuc)->format('d/m/Y') : 'N/A' }}

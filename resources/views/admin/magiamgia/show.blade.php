@@ -13,6 +13,7 @@
                 <li><strong>Mã:</strong> {{ $maGiamGia->ma }}</li>
                 <li><strong>Loại:</strong> {{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</li>
                 <li><strong>Giá trị:</strong> {{ $maGiamGia->gia_tri }}</li>
+                <li><strong>Giá trị tối đa:</strong> {{ $maGiamGia->gia_tri_toi_da }}</li>
                 <li><strong>Ngày bắt đầu:</strong>
                     {{ !empty($maGiamGia->ngay_bat_dau) ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('d/m/Y') : 'N/A' }}
                 </li>

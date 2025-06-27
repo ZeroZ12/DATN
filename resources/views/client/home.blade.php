@@ -1,8 +1,6 @@
 @extends('client.layouts.app')
-
 @section('content')
     @include('client.layouts.blocks.banner')
-
     <div class="container py-4">
         <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
@@ -11,70 +9,70 @@
                     <h2 class="section-title">{{ $danhMuc->ten }}</h2>
                     <form method="GET" action="{{ route('client.home') }}" class="filter-form">
                         {{-- <div class="filter-tabs">
-            <button type="button"
-                    class="filter-tab {{ !request()->hasAny(['id_brand', 'id_chip', 'id_gpu', 'id_ram', 'id_o_cung']) ? 'active' : '' }}">
-              Tình trạng sản phẩm
-            </button>
-            <button type="button" class="filter-tab">Giá</button>
+                        <button type="button"
+                                class="filter-tab {{ !request()->hasAny(['id_brand', 'id_chip', 'id_gpu', 'id_ram', 'id_o_cung']) ? 'active' : '' }}">
+                        Tình trạng sản phẩm
+                        </button>
+                        <button type="button" class="filter-tab">Giá</button>
 
-            <select name="id_brand" class="filter-tab-select">
-              <option value="">Hãng</option>
-              @foreach ($thuongHieus as $item)
-                <option value="{{ $item->id }}" {{ request('id_brand') == $item->id ? 'selected' : '' }}>
-                  {{ $item->ten }}
-                </option>
-              @endforeach
-            </select>
+                        <select name="id_brand" class="filter-tab-select">
+                        <option value="">Hãng</option>
+                        @foreach ($thuongHieus as $item)
+                            <option value="{{ $item->id }}" {{ request('id_brand') == $item->id ? 'selected' : '' }}>
+                            {{ $item->ten }}
+                            </option>
+                        @endforeach
+                        </select>
 
-            <select name="id_chip" class="filter-tab-select">
-              <option value="">CPU</option>
-              @foreach ($chips as $item)
-                <option value="{{ $item->id }}" {{ request('id_chip') == $item->id ? 'selected' : '' }}>
-                  {{ $item->ten }}
-                </option>
-              @endforeach
-            </select>
+                        <select name="id_chip" class="filter-tab-select">
+                        <option value="">CPU</option>
+                        @foreach ($chips as $item)
+                            <option value="{{ $item->id }}" {{ request('id_chip') == $item->id ? 'selected' : '' }}>
+                            {{ $item->ten }}
+                            </option>
+                        @endforeach
+                        </select>
 
-            <select name="id_ram" class="filter-tab-select">
-              <option value="">RAM</option>
-              @foreach ($rams as $item)
-                <option value="{{ $item->id }}" {{ request('id_ram') == $item->id ? 'selected' : '' }}>
-                  {{ $item->dung_luong }}
-                </option>
-              @endforeach
-            </select>
+                        <select name="id_ram" class="filter-tab-select">
+                        <option value="">RAM</option>
+                        @foreach ($rams as $item)
+                            <option value="{{ $item->id }}" {{ request('id_ram') == $item->id ? 'selected' : '' }}>
+                            {{ $item->dung_luong }}
+                            </option>
+                        @endforeach
+                        </select>
 
-            <select name="id_o_cung" class="filter-tab-select">
-              <option value="">SSD</option>
-              @foreach ($oCungs as $item)
-                <option value="{{ $item->id }}" {{ request('id_o_cung') == $item->id ? 'selected' : '' }}>
-                  {{ $item->dung_luong }}
-                </option>
-              @endforeach
-            </select>
+                        <select name="id_o_cung" class="filter-tab-select">
+                        <option value="">SSD</option>
+                        @foreach ($oCungs as $item)
+                            <option value="{{ $item->id }}" {{ request('id_o_cung') == $item->id ? 'selected' : '' }}>
+                            {{ $item->dung_luong }}
+                            </option>
+                        @endforeach
+                        </select>
 
-            <select name="id_gpu" class="filter-tab-select">
-              <option value="">VGA</option>
-              @foreach ($gpus as $item)
-                <option value="{{ $item->id }}" {{ request('id_gpu') == $item->id ? 'selected' : '' }}>
-                  {{ $item->ten }}
-                </option>
-              @endforeach
-            </select>
+                        <select name="id_gpu" class="filter-tab-select">
+                        <option value="">VGA</option>
+                        @foreach ($gpus as $item)
+                            <option value="{{ $item->id }}" {{ request('id_gpu') == $item->id ? 'selected' : '' }}>
+                            {{ $item->ten }}
+                            </option>
+                        @endforeach
+                        </select>
 
-            <button type="submit" class="filter-submit-btn">
-              <i class="fas fa-search"></i> Lọc
-            </button>
+                        <button type="submit" class="filter-submit-btn">
+                        <i class="fas fa-search"></i> Lọc
+                        </button>
 
-            <button type="button" class="filter-reset-btn" onclick="resetFilters()">
-              <i class="fas fa-times"></i> Xóa bộ lọc
-            </button>
+                        <button type="button" class="filter-reset-btn" onclick="resetFilters()">
+                        <i class="fas fa-times"></i> Xóa bộ lọc
+                        </button>
 
-            <button type="button" class="filter-tab" onclick="showFilterModal()">
-              <i class="fas fa-filter"></i> Bộ lọc
-            </button>
-          </div>
-        </form> --}}
+                        <button type="button" class="filter-tab" onclick="showFilterModal()">
+                        <i class="fas fa-filter"></i> Bộ lọc
+                        </button>
+                    </div>
+                    </form> --}}
                 </div>
 
                 <!-- Danh sách sản phẩm -->
@@ -107,6 +105,9 @@
                                     @endif
                                 </div>
                                 <div class="product-image">
+                                    @php
+                                        // dd($sp);
+                                    @endphp
                                     <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
                                         alt="{{ $sp->ten }}">
                                 </div>
@@ -165,7 +166,6 @@
             {{ $sanphams->links() }}
         </div>
     </div>
-@endsection
 
 @push('css')
     <style>
@@ -367,6 +367,7 @@
                 max-width: 180px;
                 flex: 0 0 180px;
             }
+          
         }
 
         .product-badges {
@@ -871,6 +872,10 @@
             color: #666;
             font-size: 12px;
         }
+        span{
+            font-size: 14px;
+
+        }
     </style>
 @endpush
 
@@ -1050,3 +1055,6 @@
         }
     </script>
 @endpush
+@endsection
+
+

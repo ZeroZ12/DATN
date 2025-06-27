@@ -515,6 +515,9 @@
             color: #ccc;
             /* Màu xám cho sao rỗng trong hiển thị */
         }
+        span{
+            font-size: 14px;
+        }
     </style>
     <div class="container mt-4">
         {{-- Phần thông báo thành công/lỗi --}}
@@ -737,7 +740,7 @@
                                     <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
                                         class="@error('so_sao') is-invalid @enderror">
                                     @error('so_sao')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback d-block">{{ $errors->first('so_sao') }}</div>
                                     @enderror
                                 </div>
 
@@ -746,7 +749,7 @@
                                     <textarea name="binh_luan" id="binh_luan" rows="4"
                                         class="form-control @error('binh_luan') is-invalid @enderror">{{ old('binh_luan') }}</textarea>
                                     @error('binh_luan')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('binh_luan') }}</div>
                                     @enderror
                                 </div>
 
