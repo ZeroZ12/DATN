@@ -1,30 +1,32 @@
 <?php
 
-use App\Http\Controllers\Admin\DonHangController;
-use App\Http\Controllers\Client\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
+use App\Http\Controllers\Admin\BannerController;
 
-use App\Http\Controllers\Admin\DanhMucController;
-use App\Http\Controllers\Admin\SanPhamController;
-use App\Http\Controllers\Admin\BienTheSanPhamController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\ChipController;
-use App\Http\Controllers\Admin\MainboardController;
 use App\Http\Controllers\Admin\GpuController;
 use App\Http\Controllers\Admin\RamController;
+use App\Http\Controllers\Admin\ChipController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\OCungController;
-use App\Http\Controllers\Admin\ThuongHieuController;
-use App\Http\Controllers\Admin\PhuongThucThanhToanController;
-use App\Http\Controllers\Admin\MaGiamGiaController;
-use App\Http\Controllers\Admin\DanhGiaController;
-
-use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\Admin\DanhGiaController;
+use App\Http\Controllers\Admin\DanhMucController;
+use App\Http\Controllers\Admin\DonHangController;
+use App\Http\Controllers\Admin\SanPhamController;
+use App\Http\Controllers\Client\PaymentController;
+
 use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\Admin\MaGiamGiaController;
+use App\Http\Controllers\Admin\MainboardController;
+use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Client\UserAddressController;
+use App\Http\Controllers\Admin\BienTheSanPhamController;
+use App\Http\Controllers\Client\DanhGiaSanPhamController;
+use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 
 
@@ -65,6 +67,21 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
             ->withTrashed(); // <-- Sửa {id} thành {bienthe} và THÊM DÒNG NÀY
     });
 
+    // Route banner
+    Route::prefix('banner')->name('banner.')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('index');
+        Route::get('/create', [BannerController::class, 'create'])->name('create');
+        Route::post('/', [BannerController::class, 'store'])->name('store');
+        Route::get('/show/{id}', [BannerController::class, 'show'])->name('show');
+    
+        Route::get('edit/{id}', [BannerController::class, 'edit'])->name('edit');
+        Route::put('update/{id}', [BannerController::class, 'update'])->name('update');
+        Route::delete('destroy/{id}', [BannerController::class, 'destroy'])->name('destroy');
+        Route::get('trashed/', [BannerController::class, 'trashed'])->name('trashed');
+        Route::post('restore/{id}', [BannerController::class, 'restore'])->name('restore');
+        Route::delete('force-delete/{id}', [BannerController::class, 'forceDelete'])->name('forceDelete');
+        Route::get('showall', [BannerController::class, 'showall'])->name('showall');
+    });
 
 
 
