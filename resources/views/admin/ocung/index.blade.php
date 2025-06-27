@@ -41,12 +41,12 @@
                                 <td>{{ $oCung->id }}</td>
                                 <td>{{ $oCung->loai }}</td>
                                 <td>{{ $oCung->dung_luong }}</td>
-                                {{-- @if (!empty($oCung->gia_sale)&& $oCung->gia_sale > 0 ) --}}
+                                @if (!empty($oCung->gia_sale)&& $oCung->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
-                                    {{-- <td>{{ number_format($oCung->gia_sale, 0, ',', '.') }}đ</td>
-                                @else --}}
-                                    {{-- <td>{{ number_format($oCung->gia, 0, ',', '.') }}đ</td>
-                                @endif --}}
+                                    <td>{{ number_format($oCung->gia_sale, 0, ',', '.') }}đ</td>
+                                @else
+                                    <td>{{ number_format($oCung->gia, 0, ',', '.') }}đ</td>
+                                @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($oCung->mo_ta), 100, '...') }}</td>
                                 <td>
                                     <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-sm btn-warning">Sửa</a>

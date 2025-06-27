@@ -34,15 +34,3 @@
         </div>
     </div>
 @endsection
-
-{{-- @section('scripts')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#editor').summernote({
-                height: 200
-            });
-        });
-    </script>
-@endsection --}}

@@ -20,6 +20,9 @@ class SanPham extends Model
         'id_chip',
         'id_mainboard',
         'id_gpu',
+        'id_case',
+        'id_tannhiet',
+        'id_nguon',
         'id_category',
         'id_brand',
         'bao_hanh_thang',
@@ -43,6 +46,24 @@ class SanPham extends Model
     public function gpu()
     {
         return $this->belongsTo(Gpu::class, 'id_gpu');
+    }
+
+    // Quan hệ với bảng Case
+    public function case()
+    {
+        return $this->belongsTo(Cases::class, 'id_case');
+    }
+
+    // Quan hệ với bảng Tản Nhiệt
+    public function tanNhiet()
+    {
+        return $this->belongsTo(TanNhiet::class, 'id_tannhiet');
+    }
+
+    // Quan hệ với bảng Nguồn
+    public function nguon()
+    {
+        return $this->belongsTo(Nguon::class, 'id_nguon');
     }
 
     // Quan hệ với bảng Danh Mục

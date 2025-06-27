@@ -45,6 +45,18 @@
                 <td>{{ $sanpham->gpu->ten ?? 'Không có GPU' }}</td>
             </tr>
             <tr>
+                <th>Tản Nhiệt</th>
+                <td>{{ $sanpham->tannhiet->ten ?? 'Không có Tản Nhiệt' }}</td>
+            </tr>
+            <tr>
+                <th>Nguồn</th>
+                <td>{{ $sanpham->nguon->ten ?? 'Không có Nguồn' }}</td>
+            </tr>
+            <tr>
+                <th>Vỏ Case</th>
+                <td>{{ $sanpham->case->ten ?? 'Không có Vỏ Case' }}</td>
+            </tr>
+            <tr>
                 <th>Bảo hành</th>
                 <td>{{ $sanpham->bao_hanh_thang }} tháng</td>
             </tr>

@@ -12,7 +12,7 @@ class Chip extends Model
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'chips';
-    protected $fillable = ['ten','mo_ta'];
+    protected $fillable = ['ten','gia','gia_sale','mo_ta'];
 
     // Quan hệ với bảng Sản Phẩm
     public function sanPhams()

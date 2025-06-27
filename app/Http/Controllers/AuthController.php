@@ -55,6 +55,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap',
             'ho_ten'     => 'required|string|max:255',

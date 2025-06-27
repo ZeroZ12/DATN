@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('chips', function (Blueprint $table) {
             $table->id();
             $table->string('ten', 255);
-            // $table->decimal('gia', 10, 2);
-            // $table->decimal('gia_sale', 10, 2);
+            $table->decimal('gia', 12, 2);
+            $table->decimal('gia_sale', 12, 2)->nullable();
             $table->longText('mo_ta')->nullable();
             $table->timestamps();
             $table->softDeletes();

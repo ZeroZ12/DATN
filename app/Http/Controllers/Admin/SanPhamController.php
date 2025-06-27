@@ -11,6 +11,9 @@ use App\Models\Chip;
 use App\Models\DanhMuc;
 use App\Models\Gpu;
 use App\Models\Mainboard;
+use App\Models\Nguon;
+use App\Models\Tannhiet;
+use App\Models\Cases;
 use App\Models\OCung;
 use App\Models\Ram;
 use App\Models\SanPham;
@@ -44,6 +47,9 @@ class SanPhamController extends Controller
         $gpus = Gpu::all();
         $rams = Ram::all();
         $o_cungs = OCung::all();
+        $nguons = Nguon::all();
+        $tannhiets = Tannhiet::all();
+        $cases = Cases::all();
 
         return view('admin.sanpham.create', compact(
             'danhmucs',
@@ -52,7 +58,10 @@ class SanPhamController extends Controller
             'mainboards',
             'gpus',
             'rams',
-            'o_cungs'
+            'o_cungs',
+            'nguons',
+            'tannhiets',
+            'cases'
         ));
     }
 
@@ -60,7 +69,7 @@ class SanPhamController extends Controller
 
     public function show(string $id)
     {
-        $sanpham = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu', 'anhPhu'])->findOrFail($id);
+        $sanpham = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu', 'nguon' , 'anhPhu'])->findOrFail($id);
         return view('admin.sanpham.show', compact('sanpham'));
     }
 
@@ -78,6 +87,9 @@ class SanPhamController extends Controller
         $gpus = Gpu::all();
         $rams = Ram::all();
         $o_cungs = OCung::all();
+        $nguons = Nguon::all();
+        $tannhiets = Tannhiet::all();
+        $cases = Cases::all();
 
         return view('admin.sanpham.edit', compact(
             'sanpham',
@@ -87,7 +99,10 @@ class SanPhamController extends Controller
             'mainboards',
             'gpus',
             'rams',
-            'o_cungs'
+            'o_cungs',
+            'nguons',
+            'tannhiets',
+            'cases'
         ));
     }
 
@@ -97,7 +112,31 @@ class SanPhamController extends Controller
         $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
 
         // Validate dữ liệu sản phẩm và biến thể
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'ten' => 'required|string|max:255',
+            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id,
+            'mo_ta' => 'nullable|string',
+            'id_chip' => 'required|exists:chips,id',
+            'id_mainboard' => 'required|exists:mainboards,id',
+            'id_gpu' => 'required|exists:gpus,id',
+            'id_case' => 'nullable|exists:cases,id',
+            'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
+            'id_nguon' => 'nullable|exists:nguons,id',
+            'id_category' => 'required|exists:danh_mucs,id',
+            'id_brand' => 'required|exists:thuong_hieus,id',
+            'bao_hanh_thang' => 'nullable|integer|min:0',
+            'anh_dai_dien' => 'nullable|image|max:2048',
+            'anh_phu.*' => 'nullable|image|max:2048',
+
+            'variants' => 'required|array',
+            'variants.*.id' => 'nullable|exists:bien_the_san_phams,id',
+            'variants.*.ram_id' => 'required|exists:rams,id',
+            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
+            'variants.*.tannhiet_id' => 'nullable|exists:tannhiets,id',
+            'variants.*.gia' => 'required|numeric|min:0',
+            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
+            'variants.*.ton_kho' => 'required|integer|min:0',
+        ]);
 
         // Cập nhật ảnh đại diện nếu có
         if ($request->hasFile('anh_dai_dien')) {
@@ -181,6 +220,7 @@ class SanPhamController extends Controller
 
     public function store(StoreSanPhamRequest $request)
     {
+        // dd($request->all());
         // Tạo mã sản phẩm: WD + 4 số, không trùng DB
         do {
             $randomCode = 'WD' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
@@ -188,7 +228,29 @@ class SanPhamController extends Controller
         $request->merge(['ma_san_pham' => $randomCode]);
 
         // Validate dữ liệu (bỏ ma_bien_the vì sinh tự động)
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'ten' => 'required|string|max:255',
+            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
+            'mo_ta' => 'nullable|string',
+            'id_chip' => 'required|exists:chips,id',
+            'id_mainboard' => 'required|exists:mainboards,id',
+            'id_gpu' => 'required|exists:gpus,id',
+            'id_case' => 'nullable|exists:cases,id',
+            'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
+            'id_nguon' => 'nullable|exists:nguons,id',
+            'id_category' => 'required|exists:danh_mucs,id',
+            'id_brand' => 'required|exists:thuong_hieus,id',
+            'bao_hanh_thang' => 'nullable|integer|min:0',
+            'anh_dai_dien' => 'nullable|image|max:2048',
+            'anh_phu.*' => 'nullable|image|max:2048',
+            'variants' => 'required|array',
+            'variants.*.ram_id' => 'required|exists:rams,id',
+            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
+            'variants.*.gia' => 'required|numeric|min:0',
+            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
+            'variants.*.ton_kho' => 'required|integer|min:0',
+            'variants.*.anh_dai_dien' => 'nullable|image|max:2048'
+        ]);
 
         // Lưu ảnh đại diện chính nếu có
         if ($request->hasFile('anh_dai_dien')) {

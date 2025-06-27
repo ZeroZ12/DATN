@@ -19,6 +19,9 @@ use App\Http\Controllers\Admin\ThuongHieuController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Admin\MaGiamGiaController;
 use App\Http\Controllers\Admin\DanhGiaController;
+use App\Http\Controllers\Admin\TanNhietController;
+use App\Http\Controllers\Admin\CasesController;
+use App\Http\Controllers\Admin\NguonController;
 
 use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use App\Http\Controllers\Client\CartController;
@@ -145,6 +148,55 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::put('/{ocung}', [OCungController::class, 'update'])->name('update');
         Route::delete('/{ocung}', [OCungController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('case')->name('case.')->group(function () {
+        // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
+        Route::get('/trash', [CasesController::class, 'trash'])->name('trash');
+        Route::patch('/restore/{id}', [CasesController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [CasesController::class, 'forceDelete'])->name('forceDelete');
+
+        // ❗ SAU ĐÓ mới đến route động
+        Route::get('/', [CasesController::class, 'index'])->name('index');
+        Route::get('/create', [CasesController::class, 'create'])->name('create');
+        Route::post('/', [CasesController::class, 'store'])->name('store');
+        Route::get('/{cases}', [CasesController::class, 'show'])->name('show');
+        Route::get('/{cases}/edit', [CasesController::class, 'edit'])->name('edit');
+        Route::put('/{cases}', [CasesController::class, 'update'])->name('update');
+        Route::delete('/{cases}', [CasesController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('nguon')->name('nguon.')->group(function () {
+        // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
+        Route::get('/trash', [NguonController::class, 'trash'])->name('trash');
+        Route::patch('/restore/{id}', [NguonController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [NguonController::class, 'forceDelete'])->name('forceDelete');
+
+        // ❗ SAU ĐÓ mới đến route động
+        Route::get('/', [NguonController::class, 'index'])->name('index');
+        Route::get('/create', [NguonController::class, 'create'])->name('create');
+        Route::post('/', [NguonController::class, 'store'])->name('store');
+        Route::get('/{nguon}', [NguonController::class, 'show'])->name('show');
+        Route::get('/{nguon}/edit', [NguonController::class, 'edit'])->name('edit');
+        Route::put('/{nguon}', [NguonController::class, 'update'])->name('update');
+        Route::delete('/{nguon}', [NguonController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('tannhiet')->name('tannhiet.')->group(function () {
+        // ✔ CÁC ROUTE CỤ THỂ TRƯỚC
+        Route::get('/trash', [TanNhietController::class, 'trash'])->name('trash');
+        Route::patch('/restore/{id}', [TanNhietController::class, 'restore'])->name('restore');
+        Route::delete('/force-delete/{id}', [TanNhietController::class, 'forceDelete'])->name('forceDelete');
+
+        // ❗ SAU ĐÓ mới đến route động
+        Route::get('/', [TanNhietController::class, 'index'])->name('index');
+        Route::get('/create', [TanNhietController::class, 'create'])->name('create');
+        Route::post('/', [TanNhietController::class, 'store'])->name('store');
+        Route::get('/{tannhiet}', [TanNhietController::class, 'show'])->name('show');
+        Route::get('/{tannhiet}/edit', [TanNhietController::class, 'edit'])->name('edit');
+        Route::put('/{tannhiet}', [TanNhietController::class, 'update'])->name('update');
+        Route::delete('/{tannhiet}', [TanNhietController::class, 'destroy'])->name('destroy');
+    });
+
     Route::post('thuonghieu/{id}/restore', [ThuongHieuController::class, 'restore'])->name('thuonghieu.restore');
     Route::delete('thuonghieu/{id}/forceDelete', [ThuongHieuController::class, 'forceDelete'])->name('thuonghieu.forceDelete');
     Route::resource('thuonghieu', ThuongHieuController::class);

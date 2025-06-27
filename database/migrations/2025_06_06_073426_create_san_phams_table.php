@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreignId('id_chip')->constrained('chips');
             $table->foreignId('id_mainboard')->constrained('mainboards');
             $table->foreignId('id_gpu')->constrained('gpus');
+            $table->foreignId('id_tannhiet')->constrained('tan_nhiets');
+            $table->foreignId('id_case')->constrained('cases');
+            $table->foreignId('id_nguon')->constrained('nguons');
             $table->foreignId('id_category')->constrained('danh_mucs');
             $table->foreignId('id_brand')->constrained('thuong_hieus');
             $table->integer('bao_hanh_thang');
