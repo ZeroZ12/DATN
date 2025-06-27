@@ -52,11 +52,13 @@
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
                     <li><a href="{{ route('admin.chip.index') }}"><i class="fa fa-microchip me-2"></i>Chip</a></li>
-                    <li><a href="{{ route('admin.mainboard.index') }}"><i class="fa fa-server me-2"></i>Mainboard</a>
-                    </li>
+                    <li><a href="{{ route('admin.mainboard.index') }}"><i class="fa fa-server me-2"></i>Mainboard</a></li>
                     <li><a href="{{ route('admin.gpu.index') }}"><i class="fa fa-video me-2"></i>GPU</a></li>
                     <li><a href="{{ route('admin.ram.index') }}"><i class="fa fa-memory me-2"></i>RAM</a></li>
                     <li><a href="{{ route('admin.ocung.index') }}"><i class="fa fa-hdd me-2"></i>Ổ cứng</a></li>
+                    <li><a href="{{ route('admin.nguon.index') }}"><i class="fa fa-plug me-2"></i>Nguồn</a></li>
+                    <li><a href="{{ route('admin.tannhiet.index') }}"><i class="fa fa-fan me-2"></i>Tản Nhiệt</a></li>
+                    <li><a href="{{ route('admin.case.index') }}"><i class="fa fa-desktop me-2"></i>Case</a></li>
                 </ul>
             </li>
 

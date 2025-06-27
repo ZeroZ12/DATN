@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chips', function (Blueprint $table) {
+        Schema::create('cases', function (Blueprint $table) {
             $table->id();
             $table->string('ten', 255);
-            $table->decimal('gia', 12, 2);
-            $table->decimal('gia_sale', 12, 2)->nullable();
+            $table->decimal('gia', 10, 2);
+            $table->decimal('gia_sale', 10, 2)->nullable();
             $table->longText('mo_ta')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -27,10 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('chips', function (Blueprint $table) {
-            $table->dropSoftDeletes(); // Xóa cột deleted_at khi rollback
-        });
-        
-        Schema::dropIfExists('chips');
+        Schema::dropIfExists('cases');
     }
 };
