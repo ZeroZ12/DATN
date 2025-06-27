@@ -515,6 +515,7 @@
             color: #ccc;
             /* Màu xám cho sao rỗng trong hiển thị */
         }
+<<<<<<< HEAD
         /* Giới hạn nội dung mô tả sản phẩm không tràn ra ngoài */
         .product-description-content {
             max-width: 100%;
@@ -533,6 +534,10 @@
             width: 100% !important;
             display: block;
             overflow-x: auto;
+=======
+        span{
+            font-size: 14px;
+>>>>>>> 99e151749821526cb35b9f96e5753b0fc4efa1ef
         }
     </style>
     <div class="container mt-4">

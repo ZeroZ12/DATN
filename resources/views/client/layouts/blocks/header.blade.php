@@ -126,6 +126,12 @@
         </div>
     </div>
 </div>
+<style>
+span
+{
+    font-size: 14px;
+}
+</style>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Cập nhật số lượng sản phẩm trong giỏ hàng
