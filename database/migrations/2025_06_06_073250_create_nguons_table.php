@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chips', function (Blueprint $table) {
+        Schema::create('nguons', function (Blueprint $table) {
             $table->id();
             $table->string('ten', 255);
             $table->decimal('gia', 12, 2);
@@ -27,10 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('chips', function (Blueprint $table) {
-            $table->dropSoftDeletes(); // Xóa cột deleted_at khi rollback
-        });
-        
-        Schema::dropIfExists('chips');
+        Schema::dropIfExists('nguons');
     }
 };
