@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Mail\OrderSuccessMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\GioHang;
 use App\Models\SanPham;
@@ -113,7 +116,6 @@ class CartController extends Controller
             }
 
             return redirect()->back()->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -122,9 +124,8 @@ class CartController extends Controller
                 ], 422);
             }
             return redirect()->back()->withErrors($e->validator)->withInput();
-
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Cart add error: ' . $e->getMessage(), [
+            Log::error('Cart add error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
@@ -160,7 +161,7 @@ class CartController extends Controller
         $total = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function($item) {
+            ->sum(function ($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -185,7 +186,7 @@ class CartController extends Controller
         $total = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function($item) {
+            ->sum(function ($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -198,7 +199,7 @@ class CartController extends Controller
 
     public function count()
     {
-        if(!Auth::check()) {
+        if (!Auth::check()) {
             return response()->json(['count' => 0]);
         }
 
@@ -246,7 +247,7 @@ class CartController extends Controller
         $cartTotal = $gioHang->chiTietGioHangs()
             ->with(['sanPham', 'bienThe'])
             ->get()
-            ->sum(function($item) {
+            ->sum(function ($item) {
                 return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
             });
 
@@ -333,7 +334,7 @@ class CartController extends Controller
             }
             $tongTienSauGiam = max(0, $tongTienGoc - $giamGia);
         }
-        
+
         // Lấy thông tin địa chỉ của user
         $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())
             ->where('mac_dinh', true)
@@ -521,7 +522,6 @@ class CartController extends Controller
             }
 
             return redirect()->route('client.cart.index')->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->ajax()) {
                 return response()->json([
@@ -530,9 +530,8 @@ class CartController extends Controller
                 ], 422);
             }
             return redirect()->back()->withErrors($e->validator)->withInput();
-
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Buy now error: ' . $e->getMessage(), [
+            Log::error('Buy now error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
@@ -547,7 +546,7 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi mua sản phẩm');
         }
     }
- public function placeOrder(Request $request)
+    public function placeOrder(Request $request)
     {
         try {
             // Validate request
@@ -638,75 +637,84 @@ class CartController extends Controller
                     'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
                 ]);
             }
+            $customer = User::find(Auth::id());
+            $customerLink = route('client.order.success', $donHang->id);
+            Mail::to($customer->email)->send(new OrderSuccessMail($donHang, $customer, $customerLink, 'Xem chi tiết đơn hàng'));
 
-           // Clear cart
-$gioHang->chiTietGioHangs()->delete();
-$gioHang->id_giam_gia = null;
-$gioHang->save();
+            $admins = User::where('vai_tro', 'quan_tri')->where('trang_thai', 'hoat_dong')->get();
+            foreach ($admins as $admin) {
+                $adminLink = route('admin.don-hang.show', $donHang->id);
+                Mail::to($admin->email)->send(new OrderSuccessMail($donHang, $admin, $adminLink, 'Xem đơn hàng'));
+            }
 
-if ($request->payment_method == 2) { // Giả sử ID 2 là phương thức VNPay
-    // Chuẩn bị dữ liệu cho VNPay
-    $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    $vnp_Returnurl = route('client.vnpay.return');
-    $vnp_TmnCode = "3D6CARP9";
-    $vnp_HashSecret = "VZ4OJHBNFW0TL0DNSY6HFY7P23HKKSDG";
 
-    $vnp_TxnRef = $donHang->id;
-    $vnp_Amount = $donHang->tong_tien * 100;
-    $vnp_OrderInfo = "Thanh toán đơn hàng #" . $donHang->ma_don;
-    $vnp_OrderType = "pay";
-    $vnp_Locale = "vn";
-    $vnp_BankCode = "";
-    $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+            // Clear cart
+            $gioHang->chiTietGioHangs()->delete();
+            $gioHang->id_giam_gia = null;
+            $gioHang->save();
 
-    $inputData = array(
-        "vnp_Version" => "2.1.0",
-        "vnp_TmnCode" => $vnp_TmnCode,
-        "vnp_Amount" => $vnp_Amount,
-        "vnp_Command" => "pay",
-        "vnp_CreateDate" => date('YmdHis'),
-        "vnp_CurrCode" => "VND",
-        "vnp_IpAddr" => $vnp_IpAddr,
-        "vnp_Locale" => $vnp_Locale,
-        "vnp_OrderInfo" => $vnp_OrderInfo,
-        "vnp_OrderType" => $vnp_OrderType,
-        "vnp_ReturnUrl" => $vnp_Returnurl,
-        "vnp_TxnRef" => $vnp_TxnRef
-    );
+            if ($request->payment_method == 2) { // Giả sử ID 2 là phương thức VNPay
+                // Chuẩn bị dữ liệu cho VNPay
+                $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+                $vnp_Returnurl = route('client.vnpay.return');
+                $vnp_TmnCode = "3D6CARP9";
+                $vnp_HashSecret = "VZ4OJHBNFW0TL0DNSY6HFY7P23HKKSDG";
 
-    ksort($inputData);
-    $query = "";
-    $i = 0;
-    $hashdata = "";
-    foreach ($inputData as $key => $value) {
-        if ($i == 1) {
-            $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-        } else {
-            $hashdata .= urlencode($key) . "=" . urlencode($value);
-            $i = 1;
-        }
-        $query .= urlencode($key) . "=" . urlencode($value) . '&';
-    }
+                $vnp_TxnRef = $donHang->id;
+                $vnp_Amount = $donHang->tong_tien * 100;
+                $vnp_OrderInfo = "Thanh toán đơn hàng #" . $donHang->ma_don;
+                $vnp_OrderType = "pay";
+                $vnp_Locale = "vn";
+                $vnp_BankCode = "";
+                $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
 
-    $vnp_Url = $vnp_Url . "?" . $query;
-    if (isset($vnp_HashSecret)) {
-        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
-        $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-    }
+                $inputData = array(
+                    "vnp_Version" => "2.1.0",
+                    "vnp_TmnCode" => $vnp_TmnCode,
+                    "vnp_Amount" => $vnp_Amount,
+                    "vnp_Command" => "pay",
+                    "vnp_CreateDate" => date('YmdHis'),
+                    "vnp_CurrCode" => "VND",
+                    "vnp_IpAddr" => $vnp_IpAddr,
+                    "vnp_Locale" => $vnp_Locale,
+                    "vnp_OrderInfo" => $vnp_OrderInfo,
+                    "vnp_OrderType" => $vnp_OrderType,
+                    "vnp_ReturnUrl" => $vnp_Returnurl,
+                    "vnp_TxnRef" => $vnp_TxnRef
+                );
 
-    return response()->json([
-        'success' => true,
-        'redirect_url' => $vnp_Url
-    ]);
-} else {
-    return response()->json([
-        'success' => true,
-        'redirect_url' => route('client.payment', ['id' => $donHang->id])
-    ]);
-}
+                ksort($inputData);
+                $query = "";
+                $i = 0;
+                $hashdata = "";
+                foreach ($inputData as $key => $value) {
+                    if ($i == 1) {
+                        $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+                    } else {
+                        $hashdata .= urlencode($key) . "=" . urlencode($value);
+                        $i = 1;
+                    }
+                    $query .= urlencode($key) . "=" . urlencode($value) . '&';
+                }
 
+                $vnp_Url = $vnp_Url . "?" . $query;
+                if (isset($vnp_HashSecret)) {
+                    $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+                    $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'redirect_url' => $vnp_Url
+                ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'redirect_url' => route('client.payment', ['id' => $donHang->id])
+                ]);
+            }
         } catch (\Exception $e) {
-            \Illuminate\Support\Facades\Log::error('Place order error: ' . $e->getMessage(), [
+            Log::error('Place order error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),
                 'trace' => $e->getTraceAsString()
@@ -718,6 +726,4 @@ if ($request->payment_method == 2) { // Giả sử ID 2 là phương thức VNPa
             ], 500);
         }
     }
-
-
 }
