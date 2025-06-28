@@ -6,7 +6,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">🗑️ Banner đã xóa mềm</h2>
-            <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary" title="Quay lại"><i class="fa fa-reply" aria-hidden="true"></i></a>
+            <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary" title="Banner Hoạt động"><i class="fa fa-image" aria-hidden="true"></i> Banner Hoạt động</a>
         </div>
 
         @if (session('message'))

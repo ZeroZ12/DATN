@@ -121,5 +121,4 @@
 </style>
 
 @stack('scripts')
-
 </html>

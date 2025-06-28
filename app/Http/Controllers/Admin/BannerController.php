@@ -158,7 +158,7 @@ class BannerController extends Controller
         }
         
         $banner->restore();
-        return redirect()->route('admin.banner.index')->with('success', 'Khôi phục banner thành công.');
+        return redirect()->route('admin.banner.trashed')->with('success', 'Khôi phục banner thành công.');
     }
     /**
      * Force delete the specified resource.
@@ -172,7 +172,7 @@ class BannerController extends Controller
             return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
         }
         $banner->forceDelete();
-        return redirect()->route('admin.banner.index')->with('success', 'Xóa vĩnh viễn banner thành công.');
+        return redirect()->route('admin.banner.showall')->with('success', 'Xóa vĩnh viễn banner thành công.');
     }
 
     public function showall()

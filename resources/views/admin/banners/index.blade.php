@@ -7,9 +7,11 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">📂 Danh sách banner đang hoạt động</h2>
             <div>
-                <a href="{{ route('admin.banner.create') }}" class="btn btn-primary" title="Thêm mới"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
-                <a href="{{ route('admin.banner.trashed') }}" class="btn btn-secondary me-2" title="Thùng rác"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                <a href="{{ route('admin.banner.showall') }}" class="btn btn-primary" title="Tất cả Banner"><i class="fa fa-image" aria-hidden="true"></i> Tất cả</a>
+                <a href="{{ route('admin.banner.create') }}" class="btn btn-primary" title="Thêm mới"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
+                <a href="{{ route('admin.banner.trashed') }}" class="btn btn-secondary me-2" title="Thùng rác"><i
+                        class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
+                <a href="{{ route('admin.banner.showall') }}" class="btn btn-primary" title="Tất cả Banner"><i
+                        class="fa fa-image" aria-hidden="true"></i> Tất cả</a>
             </div>
         </div>
 
@@ -39,7 +41,8 @@
                                 <td class="text-center">{{ $banner->title }}</td>
                                 <td class="text-center image_banner">
                                     @if ($banner->image_url)
-                                        <img class="w-100 h-100" src="{{ asset('storage/' . $banner->image_url) }}" alt="Ảnh lỗi">
+                                        <img class="w-100 h-100" src="{{ asset('storage/' . $banner->image_url) }}"
+                                            alt="Ảnh lỗi">
                                     @else
                                         <span>Không có ảnh</span>
                                     @endif
@@ -57,14 +60,17 @@
                                     @endif
                                 </td>
                                 <td class="text-center d-flex justify-content-center gap-1">
-                                    <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-sm btn-warning" title="Sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                    <a href="{{ route('admin.banner.show', $banner->id) }}" class="btn btn-sm btn-info" title="Chi tiết"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                    <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-sm btn-warning"
+                                        title="Sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                    <a href="{{ route('admin.banner.show', $banner->id) }}" class="btn btn-sm btn-info"
+                                        title="Chi tiết"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                     <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST"
-                                          class="d-inline-block"
-                                          data-bs-toggle="modal" data-bs-target="#confirmModal" data-type="delete" data-id="{{ $banner->id }}">
+                                        class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" title="Xóa mềm"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                        <button onclick="return confirm('Bạn chắc muốn xóa mềm banner này?')" type="submit" class="btn btn-sm btn-danger" title="Xóa mềm">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -83,186 +89,8 @@
                     {{ $banners->links('pagination::bootstrap-5') }}
                 </nav>
             </div>
-
-            <!-- Modal xác nhận -->
-            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmModalLabel">Xác nhận hành động</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p id="confirmMessage">Bạn có chắc muốn xóa mềm banner này?</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-danger" id="confirmActionBtn">Xác nhận</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-                .pagination {
-                    --bs-pagination-padding-x: 1.1rem;
-                    --bs-pagination-padding-y: 0.6rem;
-                    --bs-pagination-font-size: 1.1rem;
-                    --bs-pagination-border-radius: 0.75rem;
-                    --bs-pagination-bg: #fff;
-                    --bs-pagination-border-color: #dee2e6;
-                    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-                    transition: all 0.3s ease-in-out;
-                }
-
-                .pagination .page-item {
-                    margin: 0 0.25rem;
-                }
-
-                .pagination .page-link {
-                    color: #dc3545;
-                    border: 1px solid #dc3545;
-                    border-radius: 0.5rem;
-                    transition: all 0.2s ease-in-out;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-                }
-
-                .pagination .page-link:hover {
-                    background-color: #dc3545;
-                    color: #fff;
-                    border-color: #dc3545;
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-                }
-
-                .pagination .page-link:focus {
-                    box-shadow: var(--bs-pagination-focus-box-shadow);
-                }
-
-                .pagination .page-item.active .page-link {
-                    background-color: #dc3545;
-                    border-color: #dc3545;
-                    color: #fff;
-                    box-shadow: 0 3px 6px rgba(220, 53, 69, 0.2);
-                }
-
-                .pagination .page-item.disabled .page-link {
-                    color: #6c757d;
-                    border-color: #dee2e6;
-                    background-color: #f8f9fa;
-                    cursor: not-allowed;
-                    box-shadow: none;
-                    transform: none;
-                }
-                .image_banner {
-                    width: 240px;
-                    height: 120px;
-                }
-
-                /* Căn chỉnh nút hành động */
-                .table td.d-flex {
-                    gap: 0.5rem; /* Khoảng cách giữa các nút */
-                }
-                .table td.d-flex .btn {
-                    min-width: 40px; /* Đặt độ rộng tối thiểu để đồng đều */
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-                .table td.d-flex form {
-                    margin: 0; /* Loại bỏ margin mặc định của form */
-                }
-
-                /* Tùy chỉnh modal */
-                #confirmModal .modal-content {
-                    border-radius: 12px;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                }
-
-                #confirmModal .modal-header {
-                    border-bottom: 1px solid #eee;
-                    background: #fff;
-                }
-
-                #confirmModal .modal-title {
-                    font-weight: 600;
-                    color: #333;
-                }
-
-                #confirmModal .modal-body {
-                    font-size: 16px;
-                    color: #555;
-                    padding: 20px;
-                }
-
-                #confirmModal .modal-footer {
-                    border-top: 1px solid #eee;
-                    padding: 15px;
-                    justify-content: flex-end;
-                }
-
-                #confirmModal .btn {
-                    border-radius: 8px;
-                    padding: 8px 20px;
-                    font-weight: 500;
-                }
-
-                #confirmModal .btn-secondary {
-                    background: #6c757d;
-                    color: #fff;
-                    border: none;
-                }
-
-                #confirmModal .btn-secondary:hover {
-                    background: #5a6268;
-                }
-
-                #confirmModal .btn-danger {
-                    background: #dc3545;
-                    color: #fff;
-                    border: none;
-                }
-
-                #confirmModal .btn-danger:hover {
-                    background: #c82333;
-                }
-            </style>
         </div>
     </div>
 @endsection
 
-@push('js')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const confirmModal = document.getElementById('confirmModal');
-    if (confirmModal) {
-        confirmModal.addEventListener('show.bs.modal', function(event) {
-            const button = event.relatedTarget;
-            const type = button.getAttribute('data-type');
-            const id = button.getAttribute('data-id');
-            const form = button.closest('form');
 
-            const modalBody = confirmModal.querySelector('.modal-body #confirmMessage');
-            const confirmBtn = confirmModal.querySelector('#confirmActionBtn');
-
-            if (type === 'delete') {
-                modalBody.textContent = 'Bạn có chắc muốn xóa mềm banner này?';
-                confirmBtn.onclick = function() {
-                    form.submit();
-                };
-            }
-
-            confirmBtn.setAttribute('data-type', type);
-            confirmBtn.setAttribute('data-id', id || '');
-        });
-
-        confirmModal.addEventListener('hide.bs.modal', function() {
-            const confirmBtn = confirmModal.querySelector('#confirmActionBtn');
-            confirmBtn.onclick = null;
-            confirmBtn.removeAttribute('data-type');
-            confirmBtn.removeAttribute('data-id');
-        });
-    }
-});
-</script>
-@endpush
