@@ -476,51 +476,39 @@
             margin-bottom: 5px;
         }
 
-        /* Trong file CSS của bạn */
-
         .rating-stars {
             font-size: 1.5rem;
-            /* Kích thước ngôi sao */
             color: #ccc;
-            /* Màu mặc định của ngôi sao rỗng */
             cursor: pointer;
             display: inline-block;
-            /* Để các ngôi sao nằm cùng hàng */
         }
 
         .rating-stars .star {
             color: #ffd700;
-            /* Màu vàng cho ngôi sao đã chọn */
             transition: color 0.2s;
         }
 
         .rating-stars .star:hover,
         .rating-stars .star.selected {
             color: #ffc107;
-            /* Màu sáng hơn khi rê chuột hoặc đã chọn */
         }
 
-        /* Thêm vào nếu muốn hover đẹp hơn */
         .rating-stars .star:hover~.star:not(.selected) {
             color: #eee;
         }
 
-        /* Cho các ngôi sao hiển thị trên phần danh sách đánh giá */
         .card-subtitle .fas.fa-star {
             color: #ffc107;
-            /* Màu vàng cho sao đã được đánh giá */
         }
 
         .card-subtitle .far.fa-star {
             color: #ccc;
-            /* Màu xám cho sao rỗng trong hiển thị */
         }
         span{
             font-size: 14px;
         }
     </style>
     <div class="container mt-4">
-        {{-- Phần thông báo thành công/lỗi --}}
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -569,7 +557,6 @@
             <div class="col-md-8">
                 <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
 
-                {{-- HIỂN THỊ ĐÁNH GIÁ TRUNG BÌNH VÀ TỔNG SỐ ĐÁNH GIÁ --}}
                 <div class="d-flex align-items-center mb-3">
                     <span class="fs-5 text-warning me-2">
                         @php
@@ -590,7 +577,6 @@
                     <span class="fs-5 fw-bold me-2">{{ number_format($averageRating, 1) }}</span>
                     <span class="text-muted">({{ $totalReviews }} đánh giá)</span>
                 </div>
-                {{-- HẾT PHẦN ĐÁNH GIÁ TRUNG BÌNH --}}
 
                 <div class="d-md-flex gap-3">
                     <div class="flex-fill" style="min-width:0;">
@@ -653,7 +639,6 @@
                             </div>
                         </form>
 
-                        {{-- Form ẩn cho chức năng MUA NGAY --}}
                         <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
                             @csrf
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
@@ -683,7 +668,7 @@
             </div>
         </div>
 
-        <hr> {{-- Thêm đường kẻ ngang để tách các phần --}}
+        <hr>
 
         <div class="row mt-5">
             <div class="col-md-8">
@@ -699,7 +684,6 @@
                     <ul class="list-unstyled">
                         <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Không có' }}</li>
                         <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Không có' }}</li>
-                        {{-- Dưới đây là các phần bạn cần điều chỉnh nếu RAM/SSD/GPU được quản lý qua biến thể thay vì trực tiếp từ sản phẩm --}}
                         <li><strong>RAM:</strong> {{ $sanpham->ram->dung_luong ?? 'Không có' }}</li>
                         <li><strong>SSD:</strong> {{ $sanpham->ssd->dung_luong ?? 'Không có' }}</li>
                         <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Không có' }}</li>
@@ -710,18 +694,16 @@
 
         <hr>
 
-        {{-- PHẦN ĐÁNH GIÁ SẢN PHẨM MỚI TÍCH HỢP --}}
         <div class="row mt-5">
             <div class="col-12">
                 <h3>Đánh giá sản phẩm</h3>
 
-                {{-- Form Gửi Đánh giá --}}
                 <div class="card mb-4">
                     <div class="card-header">
                         Gửi đánh giá của bạn
                     </div>
                     <div class="card-body">
-                        @auth {{-- Chỉ hiển thị form nếu người dùng đã đăng nhập --}}
+                        @auth
                             <form action="{{ route('client.reviews.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id_product" value="{{ $sanpham->id }}">
@@ -729,14 +711,12 @@
                                 <div class="mb-3">
                                     <label class="form-label">Số sao:</label>
                                     <div id="rating-stars-input" class="rating-stars">
-                                        {{-- Các ngôi sao tương tác, sẽ được JS xử lý để thêm class fas/far --}}
                                         <i class="far fa-star star-icon" data-value="1"></i>
                                         <i class="far fa-star star-icon" data-value="2"></i>
                                         <i class="far fa-star star-icon" data-value="3"></i>
                                         <i class="far fa-star star-icon" data-value="4"></i>
                                         <i class="far fa-star star-icon" data-value="5"></i>
                                     </div>
-                                    {{-- Input ẩn để gửi giá trị số sao thực tế --}}
                                     <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
                                         class="@error('so_sao') is-invalid @enderror">
                                     @error('so_sao')
@@ -761,7 +741,6 @@
                     </div>
                 </div>
 
-                {{-- HIỂN THỊ DANH SÁCH CÁC ĐÁNH GIÁ ĐÃ DUYỆT --}}
                 <h6 class="fw-bold mb-3">Tất cả đánh giá ({{ $totalReviews }})</h6>
                 @if ($sanpham->danhGiaSanPhams->count() > 0)
                     @foreach ($sanpham->danhGiaSanPhams as $danhGia)
@@ -769,7 +748,6 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $danhGia->user->ho_ten ?? 'Người dùng ẩn danh' }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    {{-- Hiển thị các ngôi sao đánh giá --}}
                                     @for ($i = 0; $i < $danhGia->so_sao; $i++)
                                         <i class="fas fa-star text-warning"></i>
                                     @endfor
@@ -783,7 +761,6 @@
                                 <small class="text-muted">Đăng vào:
                                     {{ $danhGia->created_at->format('H:i d/m/Y') }}</small>
 
-                                {{-- Nút Sửa/Xóa (chỉ hiển thị nếu là chủ sở hữu hoặc admin) --}}
                                 @auth
                                     @if (Auth::id() === $danhGia->id_user || Auth::user()->vai_tro === 'admin')
                                         <div class="mt-2">
@@ -800,18 +777,16 @@
                                             </form>
                                         </div>
 
-                                        {{-- Form sửa ẩn (sẽ hiển thị khi click nút Sửa bởi JavaScript) --}}
                                         <div id="edit-form-{{ $danhGia->id }}" style="display: none;"
                                             class="mt-3 p-3 border rounded bg-light">
                                             <h6>Chỉnh sửa đánh giá của bạn</h6>
                                             <form action="{{ route('client.reviews.update', $danhGia->id) }}" method="POST">
                                                 @csrf
-                                                @method('PATCH') {{-- Sử dụng PATCH cho cập nhật --}}
+                                                @method('PATCH')
 
                                                 <div class="mb-3">
                                                     <label class="form-label">Số sao:</label>
                                                     <div class="rating-stars" id="edit-stars-{{ $danhGia->id }}">
-                                                        {{-- Các ngôi sao tương tác cho form sửa, sẽ được JS xử lý --}}
                                                         @for ($i = 1; $i <= 5; $i++)
                                                             <i class="far fa-star star-icon"
                                                                 data-value="{{ $i }}"></i>
@@ -841,7 +816,6 @@
                 @endif
             </div>
         </div>
-        {{-- KẾT THÚC PHẦN ĐÁNH GIÁ SẢN PHẨM MỚI --}}
 
         <hr>
 
@@ -850,7 +824,6 @@
             <div class="products-grid">
                 @foreach ($sanphamTuongTu as $sp)
                     @php
-                        // Lấy biến thể phù hợp với filter
                         $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
                             return
                                 (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
@@ -925,11 +898,9 @@
         </div>
     </div>
 
-    <!-- JS đổi ảnh chính & cập nhật biến thể -->
     <script>
         // Hàm hiển thị thông báo
         function showToast(message, type = 'info') {
-            // Tạo toast element
             const toast = document.createElement('div');
             toast.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed`;
             toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
@@ -937,10 +908,7 @@
                 ${message}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
-
             document.body.appendChild(toast);
-
-            // Tự động xóa sau 3 giây
             setTimeout(() => {
                 if (toast.parentNode) {
                     toast.parentNode.removeChild(toast);
@@ -950,56 +918,39 @@
 
         // Biến theo dõi trạng thái animation
         let isAnimating = false;
-        let currentImageIndex = 1; // 1 hoặc 2
+        let currentImageIndex = 1;
 
         // Đổi ảnh chính với hiệu ứng trượt liền mạch
         document.querySelectorAll('.img-thumb').forEach(img => {
             img.addEventListener('click', function() {
-                // Ngăn spam click khi animation đang chạy
                 if (isAnimating) return;
-
                 const newSrc = this.src;
                 const currentImg = document.getElementById(`main-image-${currentImageIndex}`);
                 const nextImg = document.getElementById(`main-image-${currentImageIndex === 1 ? 2 : 1}`);
 
-                // Nếu ảnh đã được chọn thì không làm gì
                 if (currentImg.src === newSrc) return;
-
-                // Đặt flag animation
                 isAnimating = true;
-
-                // Cập nhật active state cho thumbnail
                 document.querySelectorAll('.img-thumb').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
 
-                // Preload ảnh mới vào ảnh tiếp theo
                 const preloadImg = new Image();
                 preloadImg.onload = function() {
-                    // Đặt ảnh mới vào ảnh tiếp theo và hiển thị
                     nextImg.src = newSrc;
                     nextImg.style.display = 'block';
                     nextImg.className = 'img-fluid rounded main-img next';
 
-                    // Chờ một chút để đảm bảo ảnh đã render
                     setTimeout(() => {
-                        // Bắt đầu animation: ảnh hiện tại trượt ra trái, ảnh mới trượt vào
                         currentImg.classList.add('sliding');
                         nextImg.classList.remove('next');
                         nextImg.classList.add('current');
 
-                        // Sau khi animation hoàn thành
                         setTimeout(() => {
-                            // Ẩn ảnh cũ và reset class
                             currentImg.style.display = 'none';
                             currentImg.classList.remove('sliding', 'current');
                             currentImg.classList.add('next');
-
-                            // Chuyển đổi index
                             currentImageIndex = currentImageIndex === 1 ? 2 : 1;
-
-                            // Reset animation flag
                             isAnimating = false;
-                        }, 600); // Khớp với thời gian transition
+                        }, 600);
                     }, 10);
                 };
                 preloadImg.src = newSrc;
@@ -1064,38 +1015,79 @@
             }
         }
 
-        // Tăng giảm số lượng
+        // Tăng giảm số lượng với kiểm tra tồn kho
         document.getElementById('qty-minus').onclick = function() {
             var qty = document.getElementById('so_luong');
-            if (parseInt(qty.value) > 1) qty.value = parseInt(qty.value) - 1;
+            if (parseInt(qty.value) > 1) {
+                qty.value = parseInt(qty.value) - 1;
+            }
         };
+
         document.getElementById('qty-plus').onclick = function() {
             var qty = document.getElementById('so_luong');
-            qty.value = parseInt(qty.value) + 1;
+            const selectedVariantId = document.getElementById('selected_variant').value;
+
+            if (selectedVariantId) {
+                const variant = bienThes.find(v => v.id === selectedVariantId);
+                if (variant) {
+                    const maxStock = parseInt(variant.stock);
+                    if (parseInt(qty.value) < maxStock) {
+                        qty.value = parseInt(qty.value) + 1;
+                    } else {
+                        console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+                    }
+                }
+            } else {
+                showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
+            }
         };
+
+        document.getElementById('so_luong').addEventListener('input', function() {
+            const selectedVariantId = document.getElementById('selected_variant').value;
+            if (selectedVariantId) {
+                const variant = bienThes.find(v => v.id === selectedVariantId);
+                if (variant) {
+                    const maxStock = parseInt(variant.stock);
+                    let currentQty = parseInt(this.value);
+
+                    if (isNaN(currentQty) || currentQty < 1) {
+                        this.value = 1;
+                        showToast('Số lượng tối thiểu là 1!', 'error');
+                    } else if (currentQty > maxStock) {
+                        this.value = maxStock;
+                        console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+                    }
+                }
+            } else {
+                this.value = 1;
+                showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
+            }
+        });
 
         // Xử lý nút MUA NGAY
         document.getElementById('buy-now-btn').addEventListener('click', function() {
-            // Kiểm tra xem đã chọn biến thể chưa
             const selectedVariant = document.getElementById('selected_variant').value;
-            const soLuong = document.getElementById('so_luong').value;
+            const soLuong = parseInt(document.getElementById('so_luong').value);
 
             if (!selectedVariant) {
-                alert('Vui lòng chọn cấu hình sản phẩm trước khi mua!');
+                showToast('Vui lòng chọn cấu hình sản phẩm trước khi mua!', 'error');
                 return;
             }
 
-            // Cập nhật form ẩn
+            const variant = bienThes.find(v => v.id === selectedVariant);
+            if (variant && soLuong > parseInt(variant.stock)) {
+                console.log(`Số lượng không được vượt quá ${variant.stock} sản phẩm!`);
+                return;
+            }
+
             document.getElementById('buy-now-bien-the-id').value = selectedVariant;
             document.getElementById('buy-now-so-luong').value = soLuong;
 
-            // Hiển thị loading
             const button = this;
             const originalText = button.textContent;
             button.disabled = true;
             button.textContent = 'Đang xử lý...';
 
-            // Gửi form
             const form = document.getElementById('buy-now-form');
             const formData = new FormData(form);
 
@@ -1111,13 +1103,10 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Cập nhật số lượng giỏ hàng nếu có
                     const cartCount = document.querySelector('.cart-count');
                     if (cartCount && data.cart_count) {
                         cartCount.textContent = data.cart_count;
                     }
-
-                    // Chuyển hướng đến giỏ hàng
                     if (data.redirect) {
                         window.location.href = data.redirect;
                     } else {
@@ -1125,10 +1114,9 @@
                     }
                 } else {
                     if (data.redirect) {
-                        // Chuyển đến trang đăng nhập
                         window.location.href = data.redirect;
                     } else {
-                        alert(data.message || 'Có lỗi xảy ra khi mua sản phẩm!');
+                        showToast(data.message || 'Có lỗi xảy ra khi mua sản phẩm!', 'error');
                         button.disabled = false;
                         button.textContent = originalText;
                     }
@@ -1136,16 +1124,15 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Có lỗi xảy ra khi mua sản phẩm!');
+                showToast('Có lỗi xảy ra khi mua sản phẩm!', 'error');
                 button.disabled = false;
                 button.textContent = originalText;
             });
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Logic cho form Gửi Đánh giá mới (từ ví dụ trước)
             const newReviewStarsContainer = document.getElementById('rating-stars-input');
-            if (newReviewStarsContainer) { // Kiểm tra nếu phần tử tồn tại
+            if (newReviewStarsContainer) {
                 const newReviewHiddenInput = document.getElementById('so_sao_input');
                 const newReviewStars = newReviewStarsContainer.querySelectorAll('.star-icon');
 
@@ -1168,18 +1155,15 @@
                 updateStars(newReviewStars, initialRating);
             }
 
-            // Tự động chọn cấu hình dựa trên parameter variant từ URL
             const urlParams = new URLSearchParams(window.location.search);
             const variantId = urlParams.get('variant');
 
             if (variantId) {
                 const targetVariant = bienThes.find(v => v.id === variantId);
                 if (targetVariant) {
-                    // Tự động chọn RAM và SSD tương ứng
                     selectedRam = targetVariant.ram;
                     selectedSsd = targetVariant.ssd;
 
-                    // Cập nhật giao diện
                     document.querySelectorAll('.ram-btn').forEach(btn => {
                         if (btn.dataset.ram === selectedRam) {
                             btn.classList.add('active');
@@ -1196,12 +1180,10 @@
                         }
                     });
 
-                    // Cập nhật thông tin biến thể
                     updateVariantInfo();
                 }
             }
 
-            // Logic cho form SỬA Đánh giá
             document.querySelectorAll('.edit-review-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const reviewId = this.dataset.reviewId;
@@ -1214,18 +1196,14 @@
                     const editStarsContainer = document.getElementById(`edit-stars-${reviewId}`);
                     const editStars = editStarsContainer.querySelectorAll('.star-icon');
 
-                    // Ẩn nội dung bình luận và hiện form sửa
                     document.getElementById(`review-content-${reviewId}`).style.display = 'none';
                     editForm.style.display = 'block';
 
-                    // Đổ dữ liệu cũ vào form sửa
                     commentTextarea.value = currentComment;
                     soSaoInput.value = currentStars;
 
-                    // Cập nhật trạng thái sao trên form sửa
                     updateStars(editStars, parseInt(currentStars));
 
-                    // Thêm listeners cho sao trên form sửa
                     editStars.forEach((star, index) => {
                         star.onclick = () => {
                             const rating = index + 1;
@@ -1244,7 +1222,6 @@
                 });
             });
 
-            // Logic cho nút Hủy sửa
             document.querySelectorAll('.cancel-edit-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const reviewId = this.dataset.reviewId;
@@ -1253,7 +1230,6 @@
                 });
             });
 
-            // Hàm chung để cập nhật/highlight sao
             function updateStars(starsArray, rating) {
                 starsArray.forEach((star, index) => {
                     if (index < rating) {
@@ -1285,8 +1261,15 @@
 
                     const button = this.querySelector('.add-to-cart-btn');
                     const originalContent = button.innerHTML;
+                    const variantId = this.querySelector('input[name="bien_the_id"]').value;
+                    const qty = parseInt(this.querySelector('input[name="so_luong"]').value);
 
-                    // Hiển thị loading
+                    const variant = bienThes.find(v => v.id === variantId);
+                    if (variant && qty > parseInt(variant.stock)) {
+                        console.log(`Số lượng không được vượt quá ${variant.stock} sản phẩm!`);
+                        return;
+                    }
+
                     button.className = 'add-to-cart-btn loading';
                     button.disabled = true;
                     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
@@ -1305,21 +1288,15 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Cập nhật số lượng giỏ hàng
                             const cartCount = document.querySelector('.cart-count');
                             if (cartCount && data.cart_count) {
                                 cartCount.textContent = data.cart_count;
                             }
-
-                            // Hiển thị thành công
                             button.className = 'add-to-cart-btn success';
                             button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
-
-                            // Hiển thị thông báo
                             showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
                         } else {
                             if (data.redirect) {
-                                // Chuyển đến trang đăng nhập
                                 window.location.href = data.redirect;
                             } else {
                                 throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
@@ -1344,6 +1321,5 @@
         });
     </script>
 
-    <!-- FontAwesome CDN for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 @endsection

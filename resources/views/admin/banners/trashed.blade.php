@@ -39,11 +39,11 @@
                                 <td class="text-center">{{ $banner->title }}</td>
                                 <td class="text-center">
                                     @if ($banner->deleted_at)
-                                        <div class="hide btn btn-warning">
+                                        <div class="hide badge badge-warning">
                                             Vô hiệu
                                         </div>
                                     @else
-                                        <div class="show btn btn-success">
+                                        <div class="show badge badge-success">
                                             Hoạt động
                                         </div>
                                     @endif
