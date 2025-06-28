@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client; // Lưu ý namespace có thể là App\Http\Controllers nếu bạn không dùng Client subfolder
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Chip;
 use App\Models\Gpu;
 use App\Models\OCung;
@@ -68,9 +69,12 @@ class HomeController extends Controller
         $gpus = GPU::all();
         $rams = Ram::all();
         $oCungs = OCung::all();
+        $banners = Banner::where('deleted_at', null) // Lọc các banner chưa bị xóa
+            ->orderBy('created_at', 'desc')
+            ->take(3) // Lấy 3 banner mới nhất
+            ->get();
 
-
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs'));
+        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners'));
     }
 
     public function addToCart(Request $request)

@@ -80,6 +80,8 @@
                     </li>
                     <li><a href="{{ route('admin.magiamgia.index') }}"><i class="fa fa-gift me-2"></i>Mã giảm giá</a>
                     </li>
+                    <li><a href="{{ route('admin.banner.index') }}"><i class="fa fa-image" aria-hidden="true"></i> Banner</a>
+                    </li>
                 </ul>
             </li>
 
