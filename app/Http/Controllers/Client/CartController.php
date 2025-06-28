@@ -343,6 +343,18 @@ class CartController extends Controller
         if (!$diaChi) {
             $diaChi = DiaChiNguoiDung::where('id_user', Auth::id())->first();
         }
+        // Load dữ liệu từ file JSON trong public/assets/data
+        $tinhData = json_decode(file_get_contents(public_path('assets/data/tinh_tp.json')), true);
+        $huyenData = json_decode(file_get_contents(public_path('assets/data/quan_huyen.json')), true);
+        $xaData = json_decode(file_get_contents(public_path('assets/data/xa_phuong.json')), true);
+
+        // Nếu có địa chỉ thì gán tên địa phương
+        if ($diaChi) {
+            $diaChi->tinh_thanh_pho = $tinhData[$diaChi->tinh_thanh_pho]['name_with_type'] ?? $diaChi->tinh_thanh_pho;
+            $diaChi->quan_huyen = $huyenData[$diaChi->quan_huyen]['name_with_type'] ?? $diaChi->quan_huyen;
+            $diaChi->phuong_xa = $xaData[$diaChi->phuong_xa]['name_with_type'] ?? $diaChi->phuong_xa;
+        }
+
 
         return view('client.checkout', compact('chiTietGioHang', 'tongTienGoc', 'giamGia', 'tongTienSauGiam', 'diaChi', 'gioHang'));
     }

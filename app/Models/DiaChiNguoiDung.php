@@ -15,14 +15,17 @@ class DiaChiNguoiDung extends Model
         'so_dien_thoai_nguoi_nhan',
         'dia_chi_day_du',
         'tinh_thanh_pho',
+        'tinh_thanh_pho_name',
         'quan_huyen',
+        'quan_huyen_name',
         'phuong_xa',
+        'phuong_xa_name',
         'mac_dinh',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class,'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function donHangs()
