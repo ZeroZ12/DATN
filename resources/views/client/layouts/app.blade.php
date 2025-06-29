@@ -19,15 +19,18 @@
   <title>@yield('title', 'Electro - Cửa hàng máy tính')</title>
 </head>
 <body>
-  <!-- Header Top -->
-@include('client.layouts.blocks.header')
+  <div class="d-flex flex-column min-vh-100">
+    <!-- Header Top -->
+    @include('client.layouts.blocks.header')
 
+    <!-- Danh sách sản phẩm -->
+    @yield('content')
 
-  <!-- Danh sách sản phẩm -->
-@yield('content')
-  <!-- Footer -->
-@include('client.layouts.blocks.footer')
-
-@stack('js')
+    <!-- Footer -->
+    <div class="mt-auto">
+      @include('client.layouts.blocks.footer')
+    </div>
+  </div>
+  @stack('js')
 </body>
 </html>
