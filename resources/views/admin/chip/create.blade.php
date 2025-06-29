@@ -18,7 +18,22 @@
                         @enderror
                     </div>
 
-                    {{-- <div class="mb-3">
+                    {{-- <div class="form-group">
+                        <label>Danh mục</label>
+                        <select name="id_category" class="form-control">
+                            <option value="">-- Chọn danh mục --</option>
+                            @foreach ($danhmucs as $item)
+                                <option value="{{ $item->id }}" {{ old('id_category') == $item->id ? 'selected' : '' }}>
+                                    {{ $item->ten }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('id_category')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
+
+                    <div class="mb-3">
                         <label for="gia" class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
                         <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia') }}">
                         @error('gia')
@@ -33,7 +48,7 @@
                         @error('gia_sale')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
-                    </div> --}}
+                    </div>
 
                     <div class="mb-3">
                         <label for="mo_ta" class="form-label fw-semibold">Mô tả</label>
@@ -55,8 +70,8 @@
 
 @endsection
 @section('js-custom')
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
-<script>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
+    <script>
         tinymce.init({
             selector: '#mo_ta',
             height: 300,

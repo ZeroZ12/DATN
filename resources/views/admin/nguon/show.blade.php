@@ -11,6 +11,8 @@
             <ul class="list-unstyled">
                 <li><strong>ID:</strong> {{ $nguon->id }}</li>
                 <li><strong>Nguồn:</strong> {{ $nguon->ten }}</li>
+                <li><strong>Giá:</strong> {{ number_format($nguon->gia ?? '—') }} đ</li>
+                <li><strong>Giá Sale:</strong> {{ number_format($nguon->gia_sale ?? '—') }} đ</li>
                 <li><strong>Mô tả:</strong> {!! $nguon->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $nguon->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $nguon->updated_at->format('d/m/Y H:i') }}</li>

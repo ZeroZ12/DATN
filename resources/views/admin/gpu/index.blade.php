@@ -30,7 +30,7 @@
                         <tr>
                             <th scope="col">#ID</th>
                             <th scope="col">🧩 Tên GPU</th>
-                            {{-- <th>Giá</th> --}}
+                            <th>Giá</th>
                             <th scope="col">📄 Mô tả</th>
                             <th scope="col" class="text-center">⚙️ Hành động</th>
                         </tr>
@@ -40,7 +40,12 @@
                             <tr>
                                 <td>{{ $gpu->id }}</td>
                                 <td class="fw-semibold">{{ $gpu->ten }}</td>
-
+                                @if (!empty($gpu->gia_sale)&& $gpu->gia_sale > 0 )
+                                    {{-- Kiểm tra nếu giá không rỗng --}}
+                                    <td>{{ number_format($gpu->gia_sale, 0, ',', '.') }} đ</td>
+                                @else
+                                    <td>{{ number_format($gpu->gia, 0, ',', '.') }} đ</td>
+                                @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($gpu->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.gpu.edit', $gpu->id) }}" class="btn btn-warning btn-sm me-1">

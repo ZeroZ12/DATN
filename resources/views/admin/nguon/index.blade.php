@@ -41,9 +41,9 @@
                                 <td class="fw-semibold">{{ $nguon->ten }}</td>
                                 @if (!empty($nguon->gia_sale)&& $nguon->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
-                                    <td>{{ number_format($nguon->gia_sale, 0, ',', '.') }}đ</td>
+                                    <td>{{ number_format($nguon->gia_sale, 0, ',', '.') }} đ</td>
                                 @else
-                                    <td>{{ number_format($nguon->gia, 0, ',', '.') }}đ</td>
+                                    <td>{{ number_format($nguon->gia, 0, ',', '.') }} đ</td>
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($nguon->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">

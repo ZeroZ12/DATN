@@ -41,9 +41,9 @@
                                 <td class="fw-semibold">{{ $tannhiet->ten }}</td>
                                 @if (!empty($tannhiet->gia_sale)&& $tannhiet->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
-                                    <td>{{ number_format($tannhiet->gia_sale, 0, ',', '.') }}đ</td>
+                                    <td>{{ number_format($tannhiet->gia_sale, 0, ',', '.') }} đ</td>
                                 @else
-                                    <td>{{ number_format($tannhiet->gia, 0, ',', '.') }}đ</td>
+                                    <td>{{ number_format($tannhiet->gia, 0, ',', '.') }} đ</td>
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($tannhiet->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">

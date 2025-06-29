@@ -1,6 +1,6 @@
 @extends('client.layouts.app')
 @section('content')
-@include('client.layouts.blocks.banner')
+{{-- @include('client.layouts.blocks.banner') --}}
 
 <!-- Container chính để align với banner -->
 <div class="container px-3 px-md-4">

@@ -16,6 +16,12 @@
                         <strong>Tên chip:</strong> {{ $chip->ten }}
                     </li>
                     <li class="list-group-item">
+                        <strong>Giá:</strong> {{ number_format($chip->gia ?? '—') }} đ
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Giá Sale:</strong> {{ number_format($chip->gia_sale ?? '—') }} đ
+                    </li>
+                    <li class="list-group-item">
                         <strong>Mô tả:</strong> {!! $chip->mo_ta ?? '—' !!}
                     </li>
                     <li class="list-group-item">

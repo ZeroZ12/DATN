@@ -11,6 +11,8 @@
             <ul class="list-unstyled">
                 <li><strong>ID:</strong> {{ $mainboard->id }}</li>
                 <li><strong>Tên mainboard:</strong> {{ $mainboard->ten }}</li>
+                <li><strong>Giá:</strong> {{ number_format($mainboard->gia ?? '—') }} đ</li>
+                <li><strong>Giá Sale:</strong> {{ number_format($mainboard->gia_sale ?? '—') }} đ</li>
                 <li><strong>Mô tả:</strong> {!! $mainboard->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $mainboard->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $mainboard->updated_at->format('d/m/Y H:i') }}</li>
