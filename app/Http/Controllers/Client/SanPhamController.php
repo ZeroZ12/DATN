@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Chip;
 use App\Models\Gpu;
 use App\Models\OCung;
@@ -55,7 +56,14 @@ class SanPhamController extends Controller
         $gpus = GPU::all();
         $rams = Ram::all();
         $oCungs = OCung::all();
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs'));
+
+        // Add banners for the banner component
+        $banners = Banner::where('deleted_at', null)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners'));
     }
     public function danhmuc($id, Request $request)
     {
@@ -126,7 +134,13 @@ class SanPhamController extends Controller
         $rams = Ram::all();
         $oCungs = OCung::all();
 
-        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs'));
+        // Add banners for the banner component
+        $banners = Banner::where('deleted_at', null)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners'));
     }
     public function show($id)
     {

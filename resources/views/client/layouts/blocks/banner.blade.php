@@ -7,18 +7,22 @@
         <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
       <div class="carousel-inner">
-        @foreach ($banners as $banner)
-        @if ($banner->image_url)
-          <div class="carousel-item active">
-          <img src="{{ asset('storage/' . $banner->image_url) }}" class="d-block w-100" alt="{{ $banner->title }}">
-        </div>
+        @if(isset($banners) && $banners->count() > 0)
+          @foreach ($banners as $banner)
+          @if ($banner->image_url)
+            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+            <img src="{{ asset('storage/' . $banner->image_url) }}" class="d-block w-100" alt="{{ $banner->title }}">
+          </div>
+          @else
+              <span>Không có ảnh</span>
+          @endif
+          @endforeach
         @else
-            <span>Không có ảnh</span>
+          <!-- Default banner or placeholder when no banners are available -->
+          <div class="carousel-item active">
+            <img src="{{ asset('assets/images/banner/default-banner.jpg') }}" class="d-block w-100" alt="Default Banner">
+          </div>
         @endif
-        @endforeach
-
-
-
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
