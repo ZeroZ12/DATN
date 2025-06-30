@@ -24,7 +24,7 @@ class CartController extends Controller
     {
         $gioHang = GioHang::where('id_user', Auth::id())
             ->where('loai', 'chinh')
-            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
+            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe.ram', 'chiTietGioHangs.bienThe.oCung', 'maGiamGia'])
             ->first();
 
         if (!$gioHang) {

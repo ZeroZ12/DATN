@@ -20,6 +20,17 @@
         <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}">
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
+          @php
+            $ram = isset($item->bienThe->ram) && $item->bienThe->ram ? 'RAM: ' . $item->bienThe->ram->dung_luong : null;
+            $ssd = isset($item->bienThe->oCung) && $item->bienThe->oCung ? 'SSD: ' . $item->bienThe->oCung->loai . ' ' . $item->bienThe->oCung->dung_luong : null;
+          @endphp
+          @if($ram || $ssd)
+            <div class="text-muted small">
+              @if($ram) {{ $ram }} @endif
+              @if($ram && $ssd) <span class="mx-2">|</span> @endif
+              @if($ssd) {{ $ssd }} @endif
+            </div>
+          @endif
           <div class="cart-item-qty mt-2">
             <button class="cart-qty-btn decrease" type="button">-</button>
             <input type="text" class="cart-qty-input" value="{{ $item->so_luong }}" min="1" style="width:40px; text-align:center;" readonly>
