@@ -9,7 +9,7 @@
     <div class="order-info">
         <div><strong>Khách hàng:</strong> {{ $donHang->user->ho_ten ?? '---' }}</div>
         <div><strong>Địa chỉ nhận hàng:</strong> {{ $donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }}</div>
-        <div><strong>Phương thức thanh toán:</strong> {{ $donHang->phuongThucThanhToan->ten_phuong_thuc ?? '---' }}</div>
+        <div><strong>Phương thức thanh toán:</strong> {{ $donHang->phuongThucThanhToan->ten ?? '---' }}</div>
         <div><strong>Mã giảm giá:</strong> {{ $donHang->maGiamGia->ma ?? '---' }}</div>
         <div><strong>Tổng tiền gốc:</strong> {{ number_format($donHang->tong_tien_goc, 0) }}đ</div>
         <div><strong>Giảm giá:</strong> {{ number_format($donHang->giam_gia, 0) }}đ</div>
@@ -22,18 +22,20 @@
     </div>
 
     {{-- Form cập nhật trạng thái --}}
-    <h4 class="mt-4">Cập nhật trạng thái</h4>
-    <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
-        @csrf
-        <select name="trang_thai" class="status-select">
-            @foreach (App\Models\DonHang::TRANG_THAI as $trangThai)
-                <option value="{{ $trangThai }}" {{ $donHang->trang_thai == $trangThai ? 'selected' : '' }}>
-                    {{ App\Models\DonHang::getTenTrangThai($trangThai) }}
-                </option>
-            @endforeach
-        </select>
-        <button type="submit" class="btn-update">Cập nhật</button>
-    </form>
+    <div class="mt-4">
+        <h4>Cập nhật trạng thái</h4>
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}" class="d-flex align-items-center">
+            @csrf
+            <select name="trang_thai" class="status-select">
+                @foreach (App\Models\DonHang::TRANG_THAI as $trangThai)
+                    <option value="{{ $trangThai }}" {{ $donHang->trang_thai == $trangThai ? 'selected' : '' }}>
+                        {{ App\Models\DonHang::getTenTrangThai($trangThai) }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit" class="btn-update">Cập nhật</button>
+        </form>
+    </div>
 
     {{-- Danh sách sản phẩm --}}
     <h4 class="mt-4">Danh sách sản phẩm</h4>
@@ -50,7 +52,7 @@
             <tbody>
                 @foreach ($donHang->chiTietDonHangs as $ct)
                     <tr>
-                        <td>{{ $ct->sanPham->ten_san_pham ?? '---' }}</td>
+                        <td>{{ $ct->ten_hien_thi }}</td>
                         <td>{{ $ct->so_luong }}</td>
                         <td>{{ number_format($ct->don_gia, 0) }}đ</td>
                         <td>{{ number_format($ct->so_luong * $ct->don_gia, 0) }}đ</td>
@@ -128,6 +130,12 @@
 }
 .mt-4 {
     margin-top: 1.5rem;
+}
+.d-flex {
+    display: flex;
+}
+.align-items-center {
+    align-items: center;
 }
 </style>
 @endpush

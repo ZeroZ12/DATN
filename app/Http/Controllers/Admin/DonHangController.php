@@ -23,8 +23,13 @@ class DonHangController extends Controller
 
     public function show($id)
     {
-       $donHang= DonHang::with(['user', 'diaChiNguoiDung', 'phuongThucThanhToan', 'maGiamGia', 'chiTietDonHangs.sanPham'])->findOrFail($id);
-
+       $donHang = DonHang::with([
+           'user',
+           'diaChiNguoiDung',
+           'phuongThucThanhToan',
+           'maGiamGia',
+           'chiTietDonHangs.bienTheSanPham.sanPham'
+        ])->findOrFail($id);
 
         return view('admin.donhang.show', compact('donHang'));
     }
