@@ -25,24 +25,26 @@
 
             <div class="mb-3">
                 <label for="mo_ta" class="form-label fw-semibold">Mô tả</label>
-                <textarea name="mo_ta" id="mo_ta" class="form-control" rows="6">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
+                <textarea name="mo_ta" id="mo_ta" class="form-control"
+                    rows="6">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
                 @error('mo_ta')
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
             </div>
 
             {{-- <div class="mb-3">
-            <label>Mô tả</label>
-            <textarea name="mo_ta" class="form-control">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
-        </div> --}}
+                <label>Mô tả</label>
+                <textarea name="mo_ta" class="form-control">{{ old('mo_ta', $sanpham->mo_ta) }}</textarea>
+            </div> --}}
 
             <div class="row mb-3">
                 <div class="col">
                     <label>Chip</label>
                     <select name="id_chip" class="form-select">
                         @foreach ($chips as $chip)
-                            <option value="{{ $chip->id }}" {{ $sanpham->id_chip == $chip->id ? 'selected' : '' }}>
-                                {{ $chip->ten }}</option>
+                            <option value="{{ $chip->id }}" data-price="{{ $chip->gia }}" data-sale="{{ $chip->gia_sale }}" {{ $sanpham->id_chip == $chip->id ? 'selected' : '' }}>
+                                {{ $chip->ten }} ({{ number_format($chip->gia) }}đ{{ $chip->gia_sale ? ' - Sale: ' . number_format($chip->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -51,8 +53,10 @@
                     <label>Mainboard</label>
                     <select name="id_mainboard" class="form-select">
                         @foreach ($mainboards as $mb)
-                            <option value="{{ $mb->id }}" {{ $sanpham->id_mainboard == $mb->id ? 'selected' : '' }}>
-                                {{ $mb->ten }}</option>
+                            <option value="{{ $mb->id }}"  data-price="{{ $mb->gia }}" data-sale="{{ $mb->gia_sale }}"  {{ $sanpham->id_mainboard == $mb->id ? 'selected' : '' }}>
+                                {{ $mb->ten }}
+                                ({{ number_format($mb->gia) }}đ{{ $mb->gia_sale ? ' - Sale: ' . number_format($mb->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -61,38 +65,46 @@
                     <label>GPU</label>
                     <select name="id_gpu" class="form-select">
                         @foreach ($gpus as $gpu)
-                            <option value="{{ $gpu->id }}" {{ $sanpham->id_gpu == $gpu->id ? 'selected' : '' }}>
-                                {{ $gpu->ten }}</option>
+                            <option value="{{ $gpu->id }}" data-price="{{ $gpu->gia }}" data-sale="{{ $gpu->gia_sale }}" {{ $sanpham->id_gpu == $gpu->id ? 'selected' : '' }}>
+                                {{ $gpu->ten }}
+                                ({{ number_format($gpu->gia) }}đ{{ $gpu->gia_sale ? ' - Sale: ' . number_format($gpu->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col">
                     <label>Tản Nhiệt</label>
-                    <select name="id_gpu" class="form-select">
+                    <select name="id_tannhiet" class="form-select">
                         @foreach ($tannhiets as $tannhiet)
-                            <option value="{{ $gpu->id }}" {{ $sanpham->id_tannhiet == $tannhiet->id ? 'selected' : '' }}>
-                                {{ $tannhiet->ten }}</option>
+                            <option value="{{ $tannhiet->id }}" data-price="{{ $tannhiet->gia }}" data-sale="{{ $tannhiet->gia_sale }}" {{ $sanpham->id_tannhiet == $tannhiet->id ? 'selected' : '' }}>
+                                {{ $tannhiet->ten }}
+                                ({{ number_format($tannhiet->gia) }}đ{{ $tannhiet->gia_sale ? ' - Sale: ' . number_format($tannhiet->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col">
                     <label>Nguồn</label>
-                    <select name="id_gpu" class="form-select">
+                    <select name="id_nguon" class="form-select">
                         @foreach ($nguons as $nguon)
-                            <option value="{{ $nguon->id }}" {{ $sanpham->id_nguon == $nguon->id ? 'selected' : '' }}>
-                                {{ $nguon->ten }}</option>
+                            <option value="{{ $nguon->id }}" data-price="{{ $nguon->gia }}" data-sale="{{ $nguon->gia_sale }}" {{ $sanpham->id_nguon == $nguon->id ? 'selected' : '' }}>
+                                {{ $nguon->ten }}
+                                ({{ number_format($nguon->gia) }}đ{{ $nguon->gia_sale ? ' - Sale: ' . number_format($nguon->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col">
                     <label>Case</label>
-                    <select name="id_gpu" class="form-select">
+                    <select name="id_case" class="form-select">
                         @foreach ($cases as $case)
-                            <option value="{{ $case->id }}" {{ $sanpham->id_gpu == $case->id ? 'selected' : '' }}>
-                                {{ $case->ten }}</option>
+                            <option value="{{ $case->id }}" data-price="{{ $case->gia }}" data-sale="{{ $case->gia_sale }}" {{ $sanpham->id_case == $case->id ? 'selected' : '' }}>
+                                {{ $case->ten }}
+                                ({{ number_format($case->gia) }}đ{{ $case->gia_sale ? ' - Sale: ' . number_format($case->gia_sale) . 'đ' : '' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -104,7 +116,9 @@
                     <select name="id_category" class="form-select">
                         @foreach ($danhmucs as $dm)
                             <option value="{{ $dm->id }}" {{ $sanpham->id_category == $dm->id ? 'selected' : '' }}>
-                                {{ $dm->ten }}</option>
+                                {{ $dm->ten }}
+
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -114,7 +128,8 @@
                     <select name="id_brand" class="form-select">
                         @foreach ($thuonghieus as $th)
                             <option value="{{ $th->id }}" {{ $sanpham->id_brand == $th->id ? 'selected' : '' }}>
-                                {{ $th->ten }}</option>
+                                {{ $th->ten }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -145,8 +160,7 @@
 
             <div class="form-group mb-3">
                 <label for="hoat_dong">Hoạt động</label>
-                <input type="checkbox" name="hoat_dong" id="hoat_dong"
-                    {{ old('hoat_dong', $sanpham->hoat_dong) ? 'checked' : '' }}>
+                <input type="checkbox" name="hoat_dong" id="hoat_dong" {{ old('hoat_dong', $sanpham->hoat_dong) ? 'checked' : '' }}>
                 @error('hoat_dong')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -161,6 +175,19 @@
                 </div>
             </div>
 
+            {{-- Giá chung và tổng giá linh kiện --}}
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    {{-- <label>Giá áp dụng cho tất cả</label>
+                    <input type="number" step="0.01" id="global-price" class="form-control" value="0"> --}}
+                    <label>Tổng giá PC: <span id="tong-gia-linh-kien" class="fw-bold text-danger">0</span> đ</label>
+                </div>
+                {{-- <div class="col-md-4">
+                    <label>Giá so sánh áp dụng</label>
+                    <input type="number" step="0.01" id="global-price-compare" class="form-control">
+                </div> --}}
+            </div>
+
             <div id="bulk-variant-form" class="card card-body mb-3" style="display: none;">
                 <h5>Chọn RAM và Ổ cứng để tạo biến thể</h5>
                 <div class="row">
@@ -170,8 +197,7 @@
                             <div class="form-check">
                                 <input class="form-check-input ram-checkbox" type="checkbox" value="{{ $ram->id }}"
                                     id="ram{{ $ram->id }}">
-                                <label class="form-check-label"
-                                    for="ram{{ $ram->id }}">{{ $ram->dung_luong }}</label>
+                                <label class="form-check-label" for="ram{{ $ram->id }}">{{ $ram->dung_luong }}</label>
                             </div>
                         @endforeach
                     </div>
@@ -200,8 +226,8 @@
                                 <label>RAM</label>
                                 <select name="variants[{{ $i }}][ram_id]" class="form-select">
                                     @foreach ($rams as $ram)
-                                        <option value="{{ $ram->id }}"
-                                            {{ $variant->id_ram == $ram->id ? 'selected' : '' }}>{{ $ram->dung_luong }}
+                                        <option value="{{ $ram->id }}" {{ $variant->id_ram == $ram->id ? 'selected' : '' }}>
+                                            {{ $ram->dung_luong }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -210,21 +236,20 @@
                                 <label>Ổ cứng</label>
                                 <select name="variants[{{ $i }}][o_cung_id]" class="form-select">
                                     @foreach ($o_cungs as $oc)
-                                        <option value="{{ $oc->id }}"
-                                            {{ $variant->id_o_cung == $oc->id ? 'selected' : '' }}>{{ $oc->loai }} -
-                                            {{ $oc->dung_luong }}</option>
+                                        <option value="{{ $oc->id }}" {{ $variant->id_o_cung == $oc->id ? 'selected' : '' }}>
+                                            {{ $oc->loai }} -
+                                            {{ $oc->dung_luong }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col"><label>Giá</label><input type="number"
-                                    name="variants[{{ $i }}][gia]" class="form-control"
-                                    value="{{ $variant->gia }}"></div>
+                            <div class="col"><label>Giá</label><input type="number" name="variants[{{ $i }}][gia]"
+                                    class="form-control" value="{{ $variant->gia }}"></div>
                             <div class="col"><label>Giá so sánh</label><input type="number"
                                     name="variants[{{ $i }}][gia_so_sanh]" class="form-control"
                                     value="{{ $variant->gia_so_sanh }}"></div>
-                            <div class="col"><label>Tồn kho</label><input type="number"
-                                    name="variants[{{ $i }}][ton_kho]" class="form-control"
-                                    value="{{ $variant->ton_kho }}"></div>
+                            <div class="col"><label>Tồn kho</label><input type="number" name="variants[{{ $i }}][ton_kho]"
+                                    class="form-control" value="{{ $variant->ton_kho }}"></div>
                             <div class="col"><label>Mã biến thể</label><input type="text" class="form-control"
                                     value="{{ $variant->ma_bien_the }}" disabled></div>
                             <div class="col-auto d-flex align-items-end"><button type="button"
@@ -241,44 +266,73 @@
 
 @push('scripts')
     <script>
+
+        function getSelectedOptionPrice(selector) {
+            const select = document.querySelector(selector);
+            if (!select) return 0;
+            const selected = select.options[select.selectedIndex];
+            return selected && selected.dataset.price ? parseFloat(selected.dataset.price) : 0;
+        }
+
+        function tinhTongGiaLinhKien() {
+            let tong = 0;
+            tong += getSelectedOptionPrice('select[name="id_chip"]');
+            tong += getSelectedOptionPrice('select[name="id_mainboard"]');
+            tong += getSelectedOptionPrice('select[name="id_gpu"]');
+            tong += getSelectedOptionPrice('select[name="id_case"]');
+            tong += getSelectedOptionPrice('select[name="id_tannhiet"]');
+            tong += getSelectedOptionPrice('select[name="id_nguon"]');
+            // Nếu có thêm các select khác, bổ sung vào đây
+            document.getElementById('tong-gia-linh-kien').innerText = tong.toLocaleString();
+        }
+
+        // Gắn sự kiện cho tất cả select
+        document.querySelectorAll('select').forEach(el => {
+            el.addEventListener('change', tinhTongGiaLinhKien);
+        });
+
+        // Gọi lần đầu khi load trang
+        tinhTongGiaLinhKien();
+
+
         let variantIndex = {{ $sanpham->bienTheSanPhams->count() }};
 
-        document.getElementById('add-variant').addEventListener('click', function() {
+        document.getElementById('add-variant').addEventListener('click', function () {
             const html = `
-        <div class="border p-3 mb-2 variant-item">
-            <div class="row">
-                <div class="col">
-                    <label>RAM</label>
-                    <select name="variants[${variantIndex}][ram_id]" class="form-select">
-                        @foreach ($rams as $ram)
-                            <option value="{{ $ram->id }}">{{ $ram->dung_luong }}</option>
-                        @endforeach
-                    </select>
+            <div class="border p-3 mb-2 variant-item">
+                <div class="row">
+                    <div class="col">
+                        <label>RAM</label>
+                        <select name="variants[${variantIndex}][ram_id]" class="form-select">
+                            @foreach ($rams as $ram)
+                                <option value="{{ $ram->id }}">{{ $ram->dung_luong }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Ổ cứng</label>
+                        <select name="variants[${variantIndex}][o_cung_id]" class="form-select">
+                            @foreach ($o_cungs as $oc)
+                                <option value="{{ $oc->id }}">{{ $oc->loai }} - {{ $oc->dung_luong }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col"><label>Giá</label><input type="number" name="variants[${variantIndex}][gia]" class="form-control"></div>
+                    <div class="col"><label>Giá so sánh</label><input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control"></div>
+                    <div class="col"><label>Tồn kho</label><input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control"></div>
+                    <div class="col-auto d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-variant">Xóa</button></div>
                 </div>
-                <div class="col">
-                    <label>Ổ cứng</label>
-                    <select name="variants[${variantIndex}][o_cung_id]" class="form-select">
-                        @foreach ($o_cungs as $oc)
-                            <option value="{{ $oc->id }}">{{ $oc->loai }} - {{ $oc->dung_luong }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col"><label>Giá</label><input type="number" name="variants[${variantIndex}][gia]" class="form-control"></div>
-                <div class="col"><label>Giá so sánh</label><input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control"></div>
-                <div class="col"><label>Tồn kho</label><input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control"></div>
-                <div class="col-auto d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-variant">Xóa</button></div>
-            </div>
-        </div>`;
+            </div>`;
             document.getElementById('variant-container').insertAdjacentHTML('beforeend', html);
             variantIndex++;
         });
 
-        document.getElementById('add-multiple-variants').addEventListener('click', function() {
+        document.getElementById('add-multiple-variants').addEventListener('click', function () {
             const form = document.getElementById('bulk-variant-form');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
         });
 
-        document.getElementById('generate-multiple-variants').addEventListener('click', function() {
+        document.getElementById('generate-multiple-variants').addEventListener('click', function () {
             const rams = document.querySelectorAll('.ram-checkbox:checked');
             const ocs = document.querySelectorAll('.oc-checkbox:checked');
             const container = document.getElementById('variant-container');
@@ -286,16 +340,16 @@
             rams.forEach(ram => {
                 ocs.forEach(oc => {
                     const html = `
-                <div class="border p-3 mb-2 variant-item">
-                    <div class="row">
-                        <div class="col"><label>RAM</label><input type="hidden" name="variants[${variantIndex}][ram_id]" value="${ram.value}" class="form-control" readonly> <input type="text" value="${ram.nextElementSibling.innerText}" class="form-control" disabled></div>
-                        <div class="col"><label>Ổ cứng</label><input type="hidden" name="variants[${variantIndex}][o_cung_id]" value="${oc.value}" class="form-control" readonly> <input type="text" value="${oc.nextElementSibling.innerText}" class="form-control" disabled></div>
-                        <div class="col"><label>Giá</label><input type="number" name="variants[${variantIndex}][gia]" class="form-control"></div>
-                        <div class="col"><label>Giá so sánh</label><input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control"></div>
-                        <div class="col"><label>Tồn kho</label><input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control"></div>
-                        <div class="col-auto d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-variant">Xóa</button></div>
-                    </div>
-                </div>`;
+                    <div class="border p-3 mb-2 variant-item">
+                        <div class="row">
+                            <div class="col"><label>RAM</label><input type="hidden" name="variants[${variantIndex}][ram_id]" value="${ram.value}" class="form-control" readonly> <input type="text" value="${ram.nextElementSibling.innerText}" class="form-control" disabled></div>
+                            <div class="col"><label>Ổ cứng</label><input type="hidden" name="variants[${variantIndex}][o_cung_id]" value="${oc.value}" class="form-control" readonly> <input type="text" value="${oc.nextElementSibling.innerText}" class="form-control" disabled></div>
+                            <div class="col"><label>Giá</label><input type="number" name="variants[${variantIndex}][gia]" class="form-control"></div>
+                            <div class="col"><label>Giá so sánh</label><input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control"></div>
+                            <div class="col"><label>Tồn kho</label><input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control"></div>
+                            <div class="col-auto d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-variant">Xóa</button></div>
+                        </div>
+                    </div>`;
                     container.insertAdjacentHTML('beforeend', html);
                     variantIndex++;
                 });
@@ -304,7 +358,7 @@
             document.getElementById('bulk-variant-form').style.display = 'none';
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (e.target.classList.contains('remove-variant')) {
                 e.target.closest('.variant-item').remove();
             }
