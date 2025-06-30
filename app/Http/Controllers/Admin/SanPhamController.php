@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class SanPhamController extends Controller
 {
@@ -109,107 +110,126 @@ class SanPhamController extends Controller
 
     public function update(UpdateSanPhamRequest $request, string $id)
     {
-        $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
+        try {
+            DB::beginTransaction();
 
-        // Validate dữ liệu sản phẩm và biến thể
-        $validatedData = $request->validate([
-            'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham,' . $sanPham->id,
-            'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
-            'id_case' => 'nullable|exists:cases,id',
-            'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
-            'id_nguon' => 'nullable|exists:nguons,id',
-            'id_category' => 'required|exists:danh_mucs,id',
-            'id_brand' => 'required|exists:thuong_hieus,id',
-            'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048',
-            'anh_phu.*' => 'nullable|image|max:2048',
+            $sanPham = SanPham::with(['bienTheSanPhams', 'anhPhu'])->findOrFail($id);
+            $validatedData = $request->validated();
 
-            'variants' => 'required|array',
-            'variants.*.id' => 'nullable|exists:bien_the_san_phams,id',
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.tannhiet_id' => 'nullable|exists:tannhiets,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required|integer|min:0',
-        ]);
-
-        // Cập nhật ảnh đại diện nếu có
-        if ($request->hasFile('anh_dai_dien')) {
-            if ($sanPham->anh_dai_dien && Storage::disk('public')->exists($sanPham->anh_dai_dien)) {
-                Storage::disk('public')->delete($sanPham->anh_dai_dien);
-            }
-            $validatedData['anh_dai_dien'] = $request->file('anh_dai_dien')->store('images', 'public');
-        }
-
-        $validatedData['hoat_dong'] = $request->has('hoat_dong') ? true : false;
-
-
-        // Cập nhật sản phẩm (loại bỏ dữ liệu không thuộc cột bảng san_phams)
-        $sanPham->update(Arr::except($validatedData, ['variants', 'anh_phu', 'xoa_anh_phu']));
-
-        // Xử lý ảnh phụ: xóa
-        if ($request->has('xoa_anh_phu')) {
-            $anhXoaIds = $request->input('xoa_anh_phu');
-            $anhCanXoa = AnhSanPham::whereIn('id', $anhXoaIds)->get();
-            foreach ($anhCanXoa as $anh) {
-                if (Storage::disk('public')->exists($anh->duong_dan)) {
-                    Storage::disk('public')->delete($anh->duong_dan);
+            // Cập nhật ảnh đại diện nếu có
+            if ($request->hasFile('anh_dai_dien')) {
+                try {
+                    if ($sanPham->anh_dai_dien && Storage::disk('public')->exists($sanPham->anh_dai_dien)) {
+                        Storage::disk('public')->delete($sanPham->anh_dai_dien);
+                    }
+                    $validatedData['anh_dai_dien'] = $request->file('anh_dai_dien')->store('images', 'public');
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['anh_dai_dien' => 'Không thể upload ảnh đại diện: ' . $e->getMessage()]);
                 }
-                $anh->delete();
             }
-        }
 
-        // Thêm ảnh phụ mới
-        if ($request->hasFile('anh_phu')) {
-            foreach ($request->file('anh_phu') as $file) {
-                $path = $file->store('images', 'public');
-                AnhSanPham::create([
-                    'id_product' => $sanPham->id,
-                    'duong_dan' => $path,
-                ]);
-            }
-        }
+            $validatedData['hoat_dong'] = $request->has('hoat_dong') ? true : false;
 
-        // Xử lý biến thể
-        $variantIdsFromForm = [];
+            // Cập nhật sản phẩm
+            $sanPham->update(Arr::except($validatedData, ['variants', 'anh_phu', 'xoa_anh_phu']));
 
-        foreach ($validatedData['variants'] as $variantData) {
-            // Chỉ cho update các trường cho phép
-            $dataToSave = [
-                'id_ram' => $variantData['ram_id'],
-                'id_o_cung' => $variantData['o_cung_id'],
-                'gia' => $variantData['gia'],
-                'gia_so_sanh' => $variantData['gia_so_sanh'] ?? null,
-                'ton_kho' => $variantData['ton_kho'],
-            ];
-
-            if (!empty($variantData['id'])) {
-                $variant = $sanPham->bienTheSanPhams->firstWhere('id', $variantData['id']);
-                if ($variant) {
-                    $variant->update($dataToSave);
-                    $variantIdsFromForm[] = $variant->id;
+            // Xử lý ảnh phụ: xóa
+            if ($request->has('xoa_anh_phu')) {
+                $anhXoaIds = $request->input('xoa_anh_phu');
+                $anhCanXoa = AnhSanPham::whereIn('id', $anhXoaIds)->get();
+                foreach ($anhCanXoa as $anh) {
+                    try {
+                        if (Storage::disk('public')->exists($anh->duong_dan)) {
+                            Storage::disk('public')->delete($anh->duong_dan);
+                        }
+                        $anh->delete();
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['anh_phu' => 'Không thể xóa ảnh phụ: ' . $e->getMessage()]);
+                    }
                 }
-            } else {
-                // Tạo mã biến thể ngẫu nhiên kiểu BTxxxxxx
-                $dataToSave['ma_bien_the'] = 'BT' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-                $newVariant = $sanPham->bienTheSanPhams()->create($dataToSave);
-                $variantIdsFromForm[] = $newVariant->id;
             }
-        }
 
-        // Xóa biến thể không còn trong form
-        $variantsToDelete = $sanPham->bienTheSanPhams->whereNotIn('id', $variantIdsFromForm);
-        foreach ($variantsToDelete as $variant) {
-            $variant->delete();
-        }
+            // Thêm ảnh phụ mới
+            if ($request->hasFile('anh_phu')) {
+                foreach ($request->file('anh_phu') as $file) {
+                    try {
+                        $path = $file->store('images', 'public');
+                        AnhSanPham::create([
+                            'id_product' => $sanPham->id,
+                            'duong_dan' => $path,
+                        ]);
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['anh_phu' => 'Không thể upload ảnh phụ: ' . $e->getMessage()]);
+                    }
+                }
+            }
 
-        return redirect()->route('admin.sanpham.edit', $sanPham->id)
-            ->with('message', 'Cập nhật sản phẩm và biến thể thành công!');
+            // Xử lý biến thể
+            $variantIdsFromForm = [];
+
+            foreach ($validatedData['variants'] as $variantData) {
+                try {
+                    // Chỉ cho update các trường cho phép
+                    $dataToSave = [
+                        'id_ram' => $variantData['ram_id'],
+                        'id_o_cung' => $variantData['o_cung_id'],
+                        'gia' => $variantData['gia'],
+                        'gia_so_sanh' => $variantData['gia_so_sanh'] ?? null,
+                        'ton_kho' => $variantData['ton_kho'],
+                    ];
+
+                    if (!empty($variantData['id'])) {
+                        $variant = $sanPham->bienTheSanPhams->firstWhere('id', $variantData['id']);
+                        if ($variant) {
+                            $variant->update($dataToSave);
+                            $variantIdsFromForm[] = $variant->id;
+                        }
+                    } else {
+                        // Tạo mã biến thể ngẫu nhiên kiểu BTxxxxxx
+                        $dataToSave['ma_bien_the'] = 'BT' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+                        $newVariant = $sanPham->bienTheSanPhams()->create($dataToSave);
+                        $variantIdsFromForm[] = $newVariant->id;
+                    }
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['variants' => 'Không thể cập nhật biến thể: ' . $e->getMessage()]);
+                }
+            }
+
+            // Xóa biến thể không còn trong form
+            $variantsToDelete = $sanPham->bienTheSanPhams->whereNotIn('id', $variantIdsFromForm);
+            foreach ($variantsToDelete as $variant) {
+                try {
+                    $variant->delete();
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['variants' => 'Không thể xóa biến thể: ' . $e->getMessage()]);
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('admin.sanpham.edit', $sanPham->id)
+                ->with('message', 'Cập nhật sản phẩm và biến thể thành công!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
+        }
     }
 
 

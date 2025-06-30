@@ -4,6 +4,16 @@
     <div class="container">
         <h1>Chỉnh sửa sản phẩm</h1>
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         @if (session('message'))
             <div class="alert alert-success">{{ session('message') }}</div>
         @endif
@@ -15,12 +25,18 @@
             <div class="mb-3">
                 <label>Tên sản phẩm</label>
                 <input type="text" name="ten" class="form-control" value="{{ old('ten', $sanpham->ten) }}">
+                @error('ten')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label>Mã sản phẩm</label>
                 <input type="text" class="form-control" value="{{ old('ma_san_pham', $sanpham->ma_san_pham) }}" disabled>
                 <input type="hidden" name="ma_san_pham" value="{{ old('ma_san_pham', $sanpham->ma_san_pham) }}">
+                @error('ma_san_pham')
+                    <div class="text-danger small">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -244,12 +260,15 @@
                                 </select>
                             </div>
                             <div class="col"><label>Giá</label><input type="number" name="variants[{{ $i }}][gia]"
-                                    class="form-control" value="{{ $variant->gia }}"></div>
+                                    class="form-control" value="{{ $variant->gia }}">
+                            </div>
                             <div class="col"><label>Giá so sánh</label><input type="number"
                                     name="variants[{{ $i }}][gia_so_sanh]" class="form-control"
-                                    value="{{ $variant->gia_so_sanh }}"></div>
+                                    value="{{ $variant->gia_so_sanh }}">
+                            </div>
                             <div class="col"><label>Tồn kho</label><input type="number" name="variants[{{ $i }}][ton_kho]"
-                                    class="form-control" value="{{ $variant->ton_kho }}"></div>
+                                    class="form-control" value="{{ $variant->ton_kho }}">
+                            </div>
                             <div class="col"><label>Mã biến thể</label><input type="text" class="form-control"
                                     value="{{ $variant->ma_bien_the }}" disabled></div>
                             <div class="col-auto d-flex align-items-end"><button type="button"
@@ -266,6 +285,65 @@
 
 @push('scripts')
     <script>
+        // Validate form trước khi submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            let hasError = false;
+            const errorMessages = [];
+
+            // Validate tên sản phẩm
+            const ten = document.querySelector('input[name="ten"]').value;
+            if (!ten) {
+                hasError = true;
+                errorMessages.push('Tên sản phẩm là bắt buộc');
+            }
+
+            // Validate mô tả
+            const moTa = tinymce.get('mo_ta').getContent();
+            if (!moTa) {
+                hasError = true;
+                errorMessages.push('Mô tả là bắt buộc');
+            }
+
+            // Validate biến thể
+            const variants = document.querySelectorAll('.variant-item');
+            if (variants.length === 0) {
+                hasError = true;
+                errorMessages.push('Phải có ít nhất một biến thể');
+            }
+
+            variants.forEach((variant, index) => {
+                const gia = variant.querySelector('input[name^="variants"][name$="[gia]"]').value;
+                const giaSoSanh = variant.querySelector('input[name^="variants"][name$="[gia_so_sanh]"]').value;
+                const tonKho = variant.querySelector('input[name^="variants"][name$="[ton_kho]"]').value;
+
+                if (!gia || gia < 0) {
+                    hasError = true;
+                    errorMessages.push(`Biến thể ${index + 1}: Giá không hợp lệ`);
+                }
+
+                if (giaSoSanh && (giaSoSanh < 0 || parseFloat(giaSoSanh) > parseFloat(gia))) {
+                    hasError = true;
+                    errorMessages.push(`Biến thể ${index + 1}: Giá so sánh không hợp lệ`);
+                }
+
+                if (!tonKho || tonKho < 0) {
+                    hasError = true;
+                    errorMessages.push(`Biến thể ${index + 1}: Tồn kho không hợp lệ`);
+                }
+            });
+
+            if (hasError) {
+                e.preventDefault();
+                alert('Vui lòng kiểm tra lại form:\n' + errorMessages.join('\n'));
+            }
+        });
+
+        // Format số cho các trường giá và tồn kho
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value < 0) this.value = 0;
+            });
+        });
 
         function getSelectedOptionPrice(selector) {
             const select = document.querySelector(selector);
@@ -317,9 +395,18 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col"><label>Giá</label><input type="number" name="variants[${variantIndex}][gia]" class="form-control"></div>
-                    <div class="col"><label>Giá so sánh</label><input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control"></div>
-                    <div class="col"><label>Tồn kho</label><input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control"></div>
+                    <div class="col">
+                        <label>Giá</label>
+                        <input type="number" name="variants[${variantIndex}][gia]" class="form-control">
+                    </div>
+                    <div class="col">
+                        <label>Giá so sánh</label>
+                        <input type="number" name="variants[${variantIndex}][gia_so_sanh]" class="form-control">
+                    </div>
+                    <div class="col">
+                        <label>Tồn kho</label>
+                        <input type="number" name="variants[${variantIndex}][ton_kho]" class="form-control">
+                    </div>
                     <div class="col-auto d-flex align-items-end"><button type="button" class="btn btn-danger btn-sm remove-variant">Xóa</button></div>
                 </div>
             </div>`;
@@ -360,7 +447,9 @@
 
         document.addEventListener('click', function (e) {
             if (e.target.classList.contains('remove-variant')) {
-                e.target.closest('.variant-item').remove();
+                if (confirm('Bạn có chắc chắn muốn xóa biến thể này?')) {
+                    e.target.closest('.variant-item').remove();
+                }
             }
         });
     </script>

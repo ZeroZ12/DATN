@@ -39,9 +39,12 @@ class UpdateSanPhamRequest extends FormRequest
             'mo_ta' => 'nullable|string',
             'id_category' => 'required|exists:danh_mucs,id',
             'id_brand' => 'required|exists:thuong_hieus,id',
-            'id_chip' => 'nullable|exists:chips,id',
-            'id_mainboard' => 'nullable|exists:mainboards,id',
-            'id_gpu' => 'nullable|exists:gpus,id',
+            'id_chip' => 'required|exists:chips,id',
+            'id_mainboard' => 'required|exists:mainboards,id',
+            'id_gpu' => 'required|exists:gpus,id',
+            'id_case' => 'nullable|exists:cases,id',
+            'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
+            'id_nguon' => 'nullable|exists:nguons,id',
             'bao_hanh_thang' => 'nullable|integer|min:0',
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'anh_phu.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -54,7 +57,7 @@ class UpdateSanPhamRequest extends FormRequest
             'variants.*.ram_id' => 'required|exists:rams,id',
             'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
             'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0|lte:variants.*.gia',
+            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
             'variants.*.ton_kho' => 'required|integer|min:0',
             'variants.*.anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'xoa_bien_the' => 'nullable|array',
@@ -97,7 +100,6 @@ class UpdateSanPhamRequest extends FormRequest
             'variants.*.gia.min' => 'Giá biến thể không được âm.',
             'variants.*.gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
             'variants.*.gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'variants.*.gia_so_sanh.lte' => 'Giá so sánh không được lớn hơn giá bán.',
             'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
             'variants.*.ton_kho.integer' => 'Tồn kho biến thể phải là số nguyên.',
             'variants.*.ton_kho.min' => 'Tồn kho biến thể không được âm.',
@@ -105,5 +107,23 @@ class UpdateSanPhamRequest extends FormRequest
             'variants.*.anh_dai_dien.max' => 'Ảnh biến thể không được vượt quá 2MB.',
             'xoa_bien_the.*.exists' => 'ID biến thể cần xóa không tồn tại.',
         ];
+    }
+
+    /**
+     * Validate thủ công: Giá so sánh phải lớn hơn giá bán (giá_so_sanh > gia).
+     * Nếu giá so sánh nhỏ hơn hoặc bằng giá bán thì báo lỗi.
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $variants = $this->input('variants', []);
+            foreach ($variants as $i => $variant) {
+                $gia = isset($variant['gia']) ? floatval($variant['gia']) : 0;
+                $giaSoSanh = isset($variant['gia_so_sanh']) ? floatval($variant['gia_so_sanh']) : null;
+                if ($giaSoSanh !== null && $giaSoSanh <= $gia) {
+                    $validator->errors()->add("variants.$i.gia_so_sanh", "Giá so sánh phải lớn hơn giá bán.");
+                }
+            }
+        });
     }
 }

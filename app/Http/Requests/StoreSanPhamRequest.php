@@ -40,7 +40,7 @@ class StoreSanPhamRequest extends FormRequest
             'variants.*.ram_id' => 'required|exists:rams,id',
             'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
             'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0|lte:variants.*.gia', // gia_so_sanh <= gia
+            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0', // validate số, kiểm tra lớn hơn giá bán ở withValidator
             'variants.*.ton_kho' => 'required|integer|min:0',
             'variants.*.anh_dai_dien' => 'nullable|image|max:2048', // Ảnh cho từng biến thể
         ];
@@ -85,12 +85,28 @@ class StoreSanPhamRequest extends FormRequest
             'variants.*.gia.min' => 'Giá biến thể không được âm.',
             'variants.*.gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
             'variants.*.gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'variants.*.gia_so_sanh.lte' => 'Giá so sánh không được lớn hơn giá bán.',
             'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
             'variants.*.ton_kho.integer' => 'Tồn kho biến thể phải là số nguyên.',
             'variants.*.ton_kho.min' => 'Tồn kho biến thể không được âm.',
             'variants.*.anh_dai_dien.image' => 'Ảnh biến thể phải là định dạng ảnh hợp lệ.',
             'variants.*.anh_dai_dien.max' => 'Ảnh biến thể không được vượt quá 2MB.',
         ];
+    }
+
+    /**
+     * Validate thủ công: Giá so sánh phải lớn hơn giá bán (gia_so_sanh > gia).
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $variants = $this->input('variants', []);
+            foreach ($variants as $i => $variant) {
+                $gia = isset($variant['gia']) ? floatval($variant['gia']) : 0;
+                $giaSoSanh = isset($variant['gia_so_sanh']) ? floatval($variant['gia_so_sanh']) : null;
+                if ($giaSoSanh !== null && $giaSoSanh <= $gia) {
+                    $validator->errors()->add("variants.$i.gia_so_sanh", "Giá so sánh phải lớn hơn giá bán.");
+                }
+            }
+        });
     }
 }
