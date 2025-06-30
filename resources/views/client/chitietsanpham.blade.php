@@ -682,11 +682,11 @@
                 <div class="bg-light p-3 rounded">
                     <h5 class="fw-bold">Cấu hình sản phẩm</h5>
                     <ul class="list-unstyled">
-                        <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Không có' }}</li>
-                        <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Không có' }}</li>
-                        <li><strong>RAM:</strong> {{ $sanpham->ram->dung_luong ?? 'Không có' }}</li>
-                        <li><strong>SSD:</strong> {{ $sanpham->ssd->dung_luong ?? 'Không có' }}</li>
-                        <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Không có' }}</li>
+                        <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Tùy chọn' }}</li>
+                        <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Tùy chọn' }}</li>
+                        <li><strong>RAM:</strong> {{ $sanpham->ram->dung_luong ?? 'Tùy chọn' }}</li>
+                        <li><strong>SSD:</strong> {{ $sanpham->ssd->dung_luong ?? 'Tùy chọn' }}</li>
+                        <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
                     </ul>
                 </div>
             </div>
