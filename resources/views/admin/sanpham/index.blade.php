@@ -21,9 +21,21 @@
             </div>
         @endif
 
-        <div class="mb-3 d-flex justify-content-between">
-            <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary">➕ Thêm sản phẩm mới</a>
-            <a href="{{ route('admin.sanpham.trash') }}" class="btn btn-outline-danger">🗑️ Thùng rác</a>
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+            <div>
+                <form method="GET" class="d-flex align-items-center gap-2">
+                    <label for="filter_bienthe" class="mb-0">Loại sản phẩm:</label>
+                    <select name="filter_bienthe" id="filter_bienthe" class="form-select form-select-sm" style="width: 180px;" onchange="this.form.submit()">
+                        <option value="">Tất cả</option>
+                        <option value="1" {{ request('filter_bienthe') === '1' ? 'selected' : '' }}>Có biến thể</option>
+                        <option value="0" {{ request('filter_bienthe') === '0' ? 'selected' : '' }}>Không có biến thể</option>
+                    </select>
+                </form>
+            </div>
+            <div>
+                <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary">➕ Thêm sản phẩm mới</a>
+                <a href="{{ route('admin.sanpham.trash') }}" class="btn btn-outline-danger">🗑️ Thùng rác</a>
+            </div>
         </div>
 
         <div class="card shadow-sm">
@@ -38,6 +50,8 @@
                         <th>Chip</th>
                         <th>Bảo hành</th>
                         <th>Ảnh đại diện</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -57,6 +71,20 @@
                                         class="img-fluid rounded" style="max-height: 60px;">
                                 @else
                                     <span class="text-muted">Không có ảnh</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if (!$sanpham->co_bien_the)
+                                    {{ number_format($sanpham->gia) }} đ
+                                @else
+                                    <span class="text-muted">Xem biến thể</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if (!$sanpham->co_bien_the)
+                                    {{ $sanpham->so_luong }}
+                                @else
+                                    <span class="text-muted">Xem biến thể</span>
                                 @endif
                             </td>
                             <td>

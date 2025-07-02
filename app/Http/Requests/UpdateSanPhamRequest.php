@@ -24,24 +24,19 @@ class UpdateSanPhamRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Lấy ID sản phẩm từ route
-        $sanPhamId = $this->route('sanpham'); // 'sanpham' là tên tham số trong route resource
+        $sanPhamId = $this->route('sanpham');
 
-        return [
+        $rules = [
             'ten' => 'required|string|max:255',
             'ma_san_pham' => [
                 'nullable',
                 'string',
                 'max:255',
-                // Quy tắc unique: bỏ qua chính id hiện tại đang update
                 Rule::unique('san_phams', 'ma_san_pham')->ignore($sanPhamId),
             ],
             'mo_ta' => 'nullable|string',
             'id_category' => 'required|exists:danh_mucs,id',
             'id_brand' => 'required|exists:thuong_hieus,id',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
             'id_case' => 'nullable|exists:cases,id',
             'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
             'id_nguon' => 'nullable|exists:nguons,id',
@@ -49,20 +44,34 @@ class UpdateSanPhamRequest extends FormRequest
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'anh_phu.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'xoa_anh_phu' => 'nullable|array',
-            'xoa_anh_phu.*' => 'exists:anh_san_phams,id', // Sửa lại tên bảng nếu cần, theo schema của bạn là 'anh_san_phams'
-
-            // Validation cho các biến thể
-            'variants' => 'array', // variants có thể không có nếu xóa hết
-            'variants.*.id' => 'nullable|exists:bien_the_san_phams,id',
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'xoa_bien_the' => 'nullable|array',
-            'xoa_bien_the.*' => 'exists:bien_the_san_phams,id',
+            'xoa_anh_phu.*' => 'exists:anh_san_phams,id',
+            'co_bien_the' => 'required|boolean',
         ];
+
+        if ($this->input('co_bien_the')) {
+            $rules['id_chip'] = 'required|exists:chips,id';
+            $rules['id_mainboard'] = 'required|exists:mainboards,id';
+            $rules['id_gpu'] = 'required|exists:gpus,id';
+            $rules['variants'] = 'array';
+            $rules['variants.*.id'] = 'nullable|exists:bien_the_san_phams,id';
+            $rules['variants.*.ram_id'] = 'required|exists:rams,id';
+            $rules['variants.*.o_cung_id'] = 'required|exists:o_cungs,id';
+            $rules['variants.*.gia'] = 'required|numeric|min:0';
+            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0';
+            $rules['variants.*.ton_kho'] = 'required|integer|min:0';
+            $rules['variants.*.anh_dai_dien'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
+            $rules['xoa_bien_the'] = 'nullable|array';
+            $rules['xoa_bien_the.*'] = 'exists:bien_the_san_phams,id';
+        } else {
+            $rules['id_chip'] = 'nullable|exists:chips,id';
+            $rules['id_mainboard'] = 'nullable|exists:mainboards,id';
+            $rules['id_gpu'] = 'nullable|exists:gpus,id';
+            $rules['gia'] = 'required|numeric|min:0';
+            $rules['gia_so_sanh'] = 'nullable|numeric|min:0';
+            $rules['so_luong'] = 'required|integer|min:0';
+        }
+
+        return $rules;
     }
 
     /**

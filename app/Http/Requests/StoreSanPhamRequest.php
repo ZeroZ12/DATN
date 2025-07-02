@@ -25,25 +25,38 @@ class StoreSanPhamRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'ten' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
             'id_category' => 'required|exists:danh_mucs,id',
             'id_brand' => 'required|exists:thuong_hieus,id',
             'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048', // Quy tắc cho ảnh chính
-            'anh_phu.*' => 'nullable|image|max:2048',    // Quy tắc cho từng ảnh phụ trong mảng
-            'variants' => 'required|array', // variants là bắt buộc và phải là mảng
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0', // validate số, kiểm tra lớn hơn giá bán ở withValidator
-            'variants.*.ton_kho' => 'required|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|max:2048', // Ảnh cho từng biến thể
+            'anh_dai_dien' => 'nullable|image|max:2048',
+            'anh_phu.*' => 'nullable|image|max:2048',
+            'co_bien_the' => 'required|boolean',
         ];
+
+        if ($this->input('co_bien_the')) {
+            $rules['id_chip'] = 'required|exists:chips,id';
+            $rules['id_mainboard'] = 'required|exists:mainboards,id';
+            $rules['id_gpu'] = 'required|exists:gpus,id';
+            $rules['variants'] = 'required|array';
+            $rules['variants.*.ram_id'] = 'required|exists:rams,id';
+            $rules['variants.*.o_cung_id'] = 'required|exists:o_cungs,id';
+            $rules['variants.*.gia'] = 'required|numeric|min:0';
+            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0';
+            $rules['variants.*.ton_kho'] = 'required|integer|min:0';
+            $rules['variants.*.anh_dai_dien'] = 'nullable|image|max:2048';
+        } else {
+            $rules['id_chip'] = 'nullable|exists:chips,id';
+            $rules['id_mainboard'] = 'nullable|exists:mainboards,id';
+            $rules['id_gpu'] = 'nullable|exists:gpus,id';
+            $rules['gia'] = 'required|numeric|min:0';
+            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|gt:gia';
+            $rules['so_luong'] = 'required|integer|min:0';
+        }
+
+        return $rules;
     }
 
     /**

@@ -27,7 +27,12 @@ class SanPham extends Model
         'id_brand',
         'bao_hanh_thang',
         'hoat_dong',
-        'anh_dai_dien'
+        'anh_dai_dien',
+        'gia',
+        'gia_so_sanh',
+        'so_luong',
+        'sku',
+        'co_bien_the',
     ];
 
     // Quan hệ với bảng Chip
@@ -87,7 +92,7 @@ class SanPham extends Model
     {
         return $this->hasMany(AnhSanPham::class, 'id_product');
     }
-    
+
         public function danhGiaSanPhams()
     {
         return $this->hasMany(DanhGiaSanPham::class, 'id_product');

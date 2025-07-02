@@ -580,6 +580,7 @@
 
                 <div class="d-md-flex gap-3">
                     <div class="flex-fill" style="min-width:0;">
+                        @if ($sanpham->co_bien_the)
                         <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
                             @csrf
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
@@ -638,7 +639,31 @@
                                 <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn">MUA NGAY</button>
                             </div>
                         </form>
-
+                        @else
+                        <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
+                            @csrf
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Giá:</strong></label>
+                                <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">{{ number_format($sanpham->gia) }}₫</div>
+                            </div>
+                            <div class="mb-3">
+                                <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Số lượng:</strong></label>
+                                <div class="input-group" style="max-width: 160px;">
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
+                                    <input type="number" name="so_luong" id="so_luong" class="form-control text-center" value="1" min="1" max="{{ $sanpham->so_luong }}" style="max-width: 60px;">
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 mb-2">
+                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill">THÊM VÀO GIỎ</button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn">MUA NGAY</button>
+                            </div>
+                        </form>
+                        @endif
                         <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
                             @csrf
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
@@ -824,11 +849,18 @@
             <div class="products-grid">
                 @foreach ($sanphamTuongTu as $sp)
                     @php
-                        $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
-                            return
-                                (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-                        }) ?? $sp->BienTheSanPhams->first();
+                        if ($sp->co_bien_the) {
+                            $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                                return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                                       (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+                            }) ?? $sp->BienTheSanPhams->first();
+                            $gia = $bienThe ? $bienThe->gia : 0;
+                            $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                        } else {
+                            $bienThe = null;
+                            $gia = $sp->gia;
+                            $gia_so_sanh = $sp->gia_so_sanh;
+                        }
                     @endphp
 
                     <div class="product-card">
@@ -854,14 +886,14 @@
                         <div class="product-info">
                             <h3 class="product-title">{{ $sp->ten }}</h3>
                             <div class="product-price">
-                                @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                                    <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
+                                @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                    <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
                                 @endif
                                 <div class="current-price-wrapper">
-                                    <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
-                                    @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                                    <div class="current-price">{{ number_format($gia) }}₫</div>
+                                    @if ($gia_so_sanh && $gia_so_sanh > $gia)
                                         <div class="discount-badge">
-                                            -{{ round((100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh) }}%
+                                            -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
                                         </div>
                                     @endif
                                 </div>

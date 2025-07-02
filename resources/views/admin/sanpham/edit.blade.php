@@ -22,6 +22,38 @@
             @csrf
             @method('PUT')
 
+            <div class="form-group mb-3">
+                <label class="fw-bold">Loại sản phẩm:</label>
+                <div>
+                    <label>
+                        <input type="radio" name="co_bien_the" value="1" {{ old('co_bien_the', $sanpham->co_bien_the) == 1 ? 'checked' : '' }}>
+                        Có biến thể
+                    </label>
+                    <label class="ms-3">
+                        <input type="radio" name="co_bien_the" value="0" {{ old('co_bien_the', $sanpham->co_bien_the) == 0 ? 'checked' : '' }}>
+                        Không có biến thể
+                    </label>
+                </div>
+            </div>
+
+            <div id="simple-product-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="gia">Giá</label>
+                    <input type="number" name="gia" class="form-control" step="0.01" min="0" value="{{ old('gia', $sanpham->gia) }}">
+                    @error('gia') <div class="text-danger">{{ $message }}</div> @enderror
+                </div>
+                <div class="form-group">
+                    <label for="gia_so_sanh">Giá so sánh</label>
+                    <input type="number" name="gia_so_sanh" class="form-control" step="0.01" min="0" value="{{ old('gia_so_sanh', $sanpham->gia_so_sanh) }}">
+                    @error('gia_so_sanh') <div class="text-danger">{{ $message }}</div> @enderror
+                </div>
+                <div class="form-group">
+                    <label for="so_luong">Số lượng</label>
+                    <input type="number" name="so_luong" class="form-control" min="0" value="{{ old('so_luong', $sanpham->so_luong) }}">
+                    @error('so_luong') <div class="text-danger">{{ $message }}</div> @enderror
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label>Tên sản phẩm</label>
                 <input type="text" name="ten" class="form-control" value="{{ old('ten', $sanpham->ten) }}">
@@ -57,10 +89,9 @@
                 <div class="col">
                     <label>Chip</label>
                     <select name="id_chip" class="form-select">
+                        <option value="">-- Không chọn --</option>
                         @foreach ($chips as $chip)
-                            <option value="{{ $chip->id }}" data-price="{{ $chip->gia }}" data-sale="{{ $chip->gia_sale }}" {{ $sanpham->id_chip == $chip->id ? 'selected' : '' }}>
-                                {{ $chip->ten }} ({{ number_format($chip->gia) }}đ{{ $chip->gia_sale ? ' - Sale: ' . number_format($chip->gia_sale) . 'đ' : '' }})
-                            </option>
+                            <option value="{{ $chip->id }}" {{ $sanpham->id_chip == $chip->id ? 'selected' : '' }}>{{ $chip->ten }} ({{ number_format($chip->gia) }}đ{{ $chip->gia_sale ? ' - Sale: ' . number_format($chip->gia_sale) . 'đ' : '' }})</option>
                         @endforeach
                     </select>
                 </div>
@@ -68,11 +99,9 @@
                 <div class="col">
                     <label>Mainboard</label>
                     <select name="id_mainboard" class="form-select">
+                        <option value="">-- Không chọn --</option>
                         @foreach ($mainboards as $mb)
-                            <option value="{{ $mb->id }}"  data-price="{{ $mb->gia }}" data-sale="{{ $mb->gia_sale }}"  {{ $sanpham->id_mainboard == $mb->id ? 'selected' : '' }}>
-                                {{ $mb->ten }}
-                                ({{ number_format($mb->gia) }}đ{{ $mb->gia_sale ? ' - Sale: ' . number_format($mb->gia_sale) . 'đ' : '' }})
-                            </option>
+                            <option value="{{ $mb->id }}" {{ $sanpham->id_mainboard == $mb->id ? 'selected' : '' }}>{{ $mb->ten }} ({{ number_format($mb->gia) }}đ{{ $mb->gia_sale ? ' - Sale: ' . number_format($mb->gia_sale) . 'đ' : '' }})</option>
                         @endforeach
                     </select>
                 </div>
@@ -80,11 +109,9 @@
                 <div class="col">
                     <label>GPU</label>
                     <select name="id_gpu" class="form-select">
+                        <option value="">-- Không chọn --</option>
                         @foreach ($gpus as $gpu)
-                            <option value="{{ $gpu->id }}" data-price="{{ $gpu->gia }}" data-sale="{{ $gpu->gia_sale }}" {{ $sanpham->id_gpu == $gpu->id ? 'selected' : '' }}>
-                                {{ $gpu->ten }}
-                                ({{ number_format($gpu->gia) }}đ{{ $gpu->gia_sale ? ' - Sale: ' . number_format($gpu->gia_sale) . 'đ' : '' }})
-                            </option>
+                            <option value="{{ $gpu->id }}" {{ $sanpham->id_gpu == $gpu->id ? 'selected' : '' }}>{{ $gpu->ten }} ({{ number_format($gpu->gia) }}đ{{ $gpu->gia_sale ? ' - Sale: ' . number_format($gpu->gia_sale) . 'đ' : '' }})</option>
                         @endforeach
                     </select>
                 </div>
@@ -182,11 +209,10 @@
                 @enderror
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex justify-content-between align-items-center mb-2 bien-the-section">
                 <h4 class="mb-0">Biến thể</h4>
                 <div>
-                    <button type="button" id="add-multiple-variants" class="btn btn-secondary btn-sm me-2">+ Thêm nhiều
-                        biến thể</button>
+                    <button type="button" id="add-multiple-variants" class="btn btn-secondary btn-sm me-2">+ Thêm nhiều biến thể</button>
                     <button type="button" id="add-variant" class="btn btn-primary btn-sm">+ Thêm biến thể</button>
                 </div>
             </div>
@@ -233,7 +259,7 @@
                     thể</button>
             </div>
 
-            <div id="variant-container">
+            <div id="variant-container" class="bien-the-section">
                 @foreach ($sanpham->bienTheSanPhams as $i => $variant)
                     <div class="border p-3 mb-2 variant-item">
                         <input type="hidden" name="variants[{{ $i }}][id]" value="{{ $variant->id }}">
@@ -452,6 +478,18 @@
                 }
             }
         });
+
+        function toggleSimpleProductFields() {
+            var coBienThe = document.querySelector('input[name="co_bien_the"]:checked').value;
+            document.getElementById('simple-product-fields').style.display = (coBienThe == '0') ? 'block' : 'none';
+            document.querySelectorAll('.bien-the-section').forEach(function(el) {
+                el.style.display = (coBienThe == '1') ? '' : 'none';
+            });
+        }
+        document.querySelectorAll('input[name="co_bien_the"]').forEach(function(radio) {
+            radio.addEventListener('change', toggleSimpleProductFields);
+        });
+        window.onload = toggleSimpleProductFields;
     </script>
 @endpush
 @section('js-custom')

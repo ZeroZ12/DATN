@@ -82,10 +82,18 @@
                     <div class="products-slider">
                         @foreach ($sanphams->where('id_category', $danhMuc->id) as $sp)
                             @php
-                                $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                                if ($sp->co_bien_the) {
+                                    $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
                                         return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
                                                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
                                     }) ?? $sp->BienTheSanPhams->first();
+                                    $gia = $bienThe ? $bienThe->gia : 0;
+                                    $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                                } else {
+                                    $bienThe = null;
+                                    $gia = $sp->gia;
+                                    $gia_so_sanh = $sp->gia_so_sanh;
+                                }
                             @endphp
 
                             <div class="product-card">
@@ -114,14 +122,14 @@
                                 <div class="product-info">
                                     <h3 class="product-title">{{ $sp->ten }}</h3>
                                     <div class="product-price">
-                                        @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
-                                            <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
+                                        @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                            <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
                                         @endif
                                         <div class="current-price-wrapper">
-                                            <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
-                                            @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
+                                            <div class="current-price">{{ number_format($gia) }}₫</div>
+                                            @if ($gia_so_sanh && $gia_so_sanh > $gia)
                                                 <div class="discount-badge">
-                                                    -{{ round((100 * ($bienThe->gia_so_sanh - $bienThe->gia)) / $bienThe->gia_so_sanh) }}%
+                                                    -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
                                                 </div>
                                             @endif
                                         </div>
@@ -367,7 +375,7 @@
                 max-width: 180px;
                 flex: 0 0 180px;
             }
-          
+
         }
 
         .product-badges {

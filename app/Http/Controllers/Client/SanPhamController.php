@@ -169,6 +169,12 @@ class SanPhamController extends Controller
         $sanphamTuongTu = SanPham::where('id_category', $sanpham->id_category)
             ->where('id', '!=', $sanpham->id)
             ->where('hoat_dong', 1)
+            ->withAvg(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }], 'so_sao')
+            ->withCount(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }])
             ->latest()
             ->take(10)
             ->get();

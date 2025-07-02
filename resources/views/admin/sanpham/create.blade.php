@@ -25,6 +25,20 @@
         <form action="{{ route('admin.sanpham.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+            <div class="form-group mb-3">
+                <label class="fw-bold">Loại sản phẩm:</label>
+                <div>
+                    <label>
+                        <input type="radio" name="co_bien_the" value="1" {{ old('co_bien_the', '1') === '1' ? 'checked' : '' }}>
+                        Có biến thể
+                    </label>
+                    <label class="ms-3">
+                        <input type="radio" name="co_bien_the" value="0" {{ old('co_bien_the') === '0' ? 'checked' : '' }}>
+                        Không có biến thể
+                    </label>
+                </div>
+            </div>
+
             {{-- Thông tin cơ bản --}}
             <div class="form-group">
                 <label for="ten">Tên sản phẩm</label>
@@ -261,6 +275,24 @@
                     <tbody></tbody>
                 </table>
 
+                <div id="simple-product-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="gia">Giá</label>
+                        <input type="number" name="gia" class="form-control" step="0.01" min="0" value="{{ old('gia') }}">
+                        @error('gia') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="gia_so_sanh">Giá so sánh</label>
+                        <input type="number" name="gia_so_sanh" class="form-control" step="0.01" min="0" value="{{ old('gia_so_sanh') }}">
+                        @error('gia_so_sanh') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="so_luong">Số lượng</label>
+                        <input type="number" name="so_luong" class="form-control" min="0" value="{{ old('so_luong') }}">
+                        @error('so_luong') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
                 <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại</a>
         </form>
@@ -396,6 +428,15 @@
         document.getElementById('global-price-compare').addEventListener('input', renderVariants);
 
         renderVariants();
+
+        function toggleSimpleProductFields() {
+            var coBienThe = document.querySelector('input[name="co_bien_the"]:checked').value;
+            document.getElementById('simple-product-fields').style.display = (coBienThe == '0') ? 'block' : 'none';
+        }
+        document.querySelectorAll('input[name="co_bien_the"]').forEach(function(radio) {
+            radio.addEventListener('change', toggleSimpleProductFields);
+        });
+        window.onload = toggleSimpleProductFields;
     </script>
 @endpush
 @section('js-custom')

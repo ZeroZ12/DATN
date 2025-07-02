@@ -30,9 +30,15 @@ class SanPhamController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $sanphams = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu'])->orderBy('id', 'desc')->paginate(10);
+        $query = SanPham::with(['danhMuc', 'thuongHieu', 'chip', 'mainboard', 'gpu']);
+
+        if ($request->filled('filter_bienthe')) {
+            $query->where('co_bien_the', $request->filter_bienthe);
+        }
+
+        $sanphams = $query->orderBy('id', 'desc')->paginate(10);
         return view('admin.sanpham.index', compact('sanphams'));
     }
 
@@ -136,6 +142,14 @@ class SanPhamController extends Controller
             // Cập nhật sản phẩm
             $sanPham->update(Arr::except($validatedData, ['variants', 'anh_phu', 'xoa_anh_phu']));
 
+            // Nếu là sản phẩm không có biến thể thì cập nhật giá, giá so sánh, số lượng
+            if (empty($validatedData['co_bien_the'])) {
+                $sanPham->gia = $validatedData['gia'] ?? $sanPham->gia;
+                $sanPham->gia_so_sanh = $validatedData['gia_so_sanh'] ?? null;
+                $sanPham->so_luong = $validatedData['so_luong'] ?? $sanPham->so_luong;
+                $sanPham->save();
+            }
+
             // Xử lý ảnh phụ: xóa
             if ($request->has('xoa_anh_phu')) {
                 $anhXoaIds = $request->input('xoa_anh_phu');
@@ -174,49 +188,50 @@ class SanPhamController extends Controller
             }
 
             // Xử lý biến thể
-            $variantIdsFromForm = [];
+            if (!empty($validatedData['co_bien_the']) && !empty($validatedData['variants'])) {
+                $variantIdsFromForm = [];
+                foreach ($validatedData['variants'] as $variantData) {
+                    try {
+                        // Chỉ cho update các trường cho phép
+                        $dataToSave = [
+                            'id_ram' => $variantData['ram_id'],
+                            'id_o_cung' => $variantData['o_cung_id'],
+                            'gia' => $variantData['gia'],
+                            'gia_so_sanh' => $variantData['gia_so_sanh'] ?? null,
+                            'ton_kho' => $variantData['ton_kho'],
+                        ];
 
-            foreach ($validatedData['variants'] as $variantData) {
-                try {
-                    // Chỉ cho update các trường cho phép
-                    $dataToSave = [
-                        'id_ram' => $variantData['ram_id'],
-                        'id_o_cung' => $variantData['o_cung_id'],
-                        'gia' => $variantData['gia'],
-                        'gia_so_sanh' => $variantData['gia_so_sanh'] ?? null,
-                        'ton_kho' => $variantData['ton_kho'],
-                    ];
-
-                    if (!empty($variantData['id'])) {
-                        $variant = $sanPham->bienTheSanPhams->firstWhere('id', $variantData['id']);
-                        if ($variant) {
-                            $variant->update($dataToSave);
-                            $variantIdsFromForm[] = $variant->id;
+                        if (!empty($variantData['id'])) {
+                            $variant = $sanPham->bienTheSanPhams->firstWhere('id', $variantData['id']);
+                            if ($variant) {
+                                $variant->update($dataToSave);
+                                $variantIdsFromForm[] = $variant->id;
+                            }
+                        } else {
+                            // Tạo mã biến thể ngẫu nhiên kiểu BTxxxxxx
+                            $dataToSave['ma_bien_the'] = 'BT' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+                            $newVariant = $sanPham->bienTheSanPhams()->create($dataToSave);
+                            $variantIdsFromForm[] = $newVariant->id;
                         }
-                    } else {
-                        // Tạo mã biến thể ngẫu nhiên kiểu BTxxxxxx
-                        $dataToSave['ma_bien_the'] = 'BT' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-                        $newVariant = $sanPham->bienTheSanPhams()->create($dataToSave);
-                        $variantIdsFromForm[] = $newVariant->id;
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['variants' => 'Không thể cập nhật biến thể: ' . $e->getMessage()]);
                     }
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    return redirect()->back()
-                        ->withInput()
-                        ->withErrors(['variants' => 'Không thể cập nhật biến thể: ' . $e->getMessage()]);
                 }
-            }
 
-            // Xóa biến thể không còn trong form
-            $variantsToDelete = $sanPham->bienTheSanPhams->whereNotIn('id', $variantIdsFromForm);
-            foreach ($variantsToDelete as $variant) {
-                try {
-                    $variant->delete();
-                } catch (\Exception $e) {
-                    DB::rollBack();
-                    return redirect()->back()
-                        ->withInput()
-                        ->withErrors(['variants' => 'Không thể xóa biến thể: ' . $e->getMessage()]);
+                // Xóa biến thể không còn trong form
+                $variantsToDelete = $sanPham->bienTheSanPhams->whereNotIn('id', $variantIdsFromForm);
+                foreach ($variantsToDelete as $variant) {
+                    try {
+                        $variant->delete();
+                    } catch (\Exception $e) {
+                        DB::rollBack();
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['variants' => 'Không thể xóa biến thể: ' . $e->getMessage()]);
+                    }
                 }
             }
 
@@ -240,37 +255,13 @@ class SanPhamController extends Controller
 
     public function store(StoreSanPhamRequest $request)
     {
-        // dd($request->all());
-        // Tạo mã sản phẩm: WD + 4 số, không trùng DB
+        $validatedData = $request->validated();
+
+        // Sinh mã sản phẩm random
         do {
             $randomCode = 'WD' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
         } while (SanPham::where('ma_san_pham', $randomCode)->exists());
-        $request->merge(['ma_san_pham' => $randomCode]);
-
-        // Validate dữ liệu (bỏ ma_bien_the vì sinh tự động)
-        $validatedData = $request->validate([
-            'ten' => 'required|string|max:255',
-            'ma_san_pham' => 'required|string|max:50|unique:san_phams,ma_san_pham',
-            'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
-            'id_case' => 'nullable|exists:cases,id',
-            'id_tannhiet' => 'nullable|exists:tan_nhiets,id',
-            'id_nguon' => 'nullable|exists:nguons,id',
-            'id_category' => 'required|exists:danh_mucs,id',
-            'id_brand' => 'required|exists:thuong_hieus,id',
-            'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048',
-            'anh_phu.*' => 'nullable|image|max:2048',
-            'variants' => 'required|array',
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0',
-            'variants.*.ton_kho' => 'required|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|max:2048'
-        ]);
+        $validatedData['ma_san_pham'] = $randomCode;
 
         // Lưu ảnh đại diện chính nếu có
         if ($request->hasFile('anh_dai_dien')) {
@@ -280,57 +271,68 @@ class SanPhamController extends Controller
 
         $validatedData['hoat_dong'] = $request->has('hoat_dong') ? true : false;
 
+        if ($validatedData['co_bien_the']) {
+            // Tạo sản phẩm có biến thể như cũ
+            $sanPham = SanPham::create($validatedData);
 
-        // Tạo sản phẩm
-        $sanPham = SanPham::create($validatedData);
+            // Lưu ảnh phụ nếu có
+            if ($request->hasFile('anh_phu')) {
+                foreach ($request->file('anh_phu') as $file) {
+                    $path = $file->store('images/anh_phu', 'public');
+                    \App\Models\AnhSanPham::create([
+                        'id_product' => $sanPham->id,
+                        'duong_dan' => $path
+                    ]);
+                }
+            }
 
-        // Lưu ảnh phụ nếu có
-        if ($request->hasFile('anh_phu')) {
-            foreach ($request->file('anh_phu') as $file) {
-                $path = $file->store('images/anh_phu', 'public');
-                AnhSanPham::create([
+            // Tạo biến thể
+            $generatedCodes = [];
+            foreach ($request->variants as $index => $variant) {
+                do {
+                    $maBienThe = 'BT' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+                } while (
+                    in_array($maBienThe, $generatedCodes) ||
+                    \App\Models\BienTheSanPham::where('ma_bien_the', $maBienThe)->exists()
+                );
+                $generatedCodes[] = $maBienThe;
+
+                $variantData = [
                     'id_product' => $sanPham->id,
-                    'duong_dan' => $path
-                ]);
+                    'id_ram' => $variant['ram_id'],
+                    'id_o_cung' => $variant['o_cung_id'],
+                    'gia' => $variant['gia'],
+                    'gia_so_sanh' => $variant['gia_so_sanh'] ?? null,
+                    'ton_kho' => $variant['ton_kho'],
+                    'ma_bien_the' => $maBienThe,
+                ];
+
+                if ($request->hasFile("variants.$index.anh_dai_dien")) {
+                    $variantImage = $request->file("variants.$index.anh_dai_dien")
+                        ->store("images/bien_the", 'public');
+                    $variantData['anh_dai_dien'] = $variantImage;
+                }
+
+                \App\Models\BienTheSanPham::create($variantData);
             }
-        }
-
-        // Tạo biến thể: BT + 4 số, không trùng trong request và DB
-        $generatedCodes = [];
-
-        foreach ($request->variants as $index => $variant) {
-            // Sinh mã biến thể không trùng
-            do {
-                $maBienThe = 'BT' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-            } while (
-                in_array($maBienThe, $generatedCodes) ||
-                BienTheSanPham::where('ma_bien_the', $maBienThe)->exists()
-            );
-            $generatedCodes[] = $maBienThe;
-
-            $variantData = [
-                'id_product' => $sanPham->id,
-                'id_ram' => $variant['ram_id'],
-                'id_o_cung' => $variant['o_cung_id'],
-                'gia' => $variant['gia'],
-                'gia_so_sanh' => $variant['gia_so_sanh'] ?? null,
-                'ton_kho' => $variant['ton_kho'],
-                'ma_bien_the' => $maBienThe,
-            ];
-
-
-            // Ảnh riêng của biến thể nếu có
-            if ($request->hasFile("variants.$index.anh_dai_dien")) {
-                $variantImage = $request->file("variants.$index.anh_dai_dien")
-                    ->store("images/bien_the", 'public');
-                $variantData['anh_dai_dien'] = $variantImage;
+        } else {
+            // Tạo sản phẩm không có biến thể
+            unset($validatedData['sku']); // Bỏ trường sku nếu có
+            $sanPham = SanPham::create($validatedData);
+            // Lưu ảnh phụ nếu có
+            if ($request->hasFile('anh_phu')) {
+                foreach ($request->file('anh_phu') as $file) {
+                    $path = $file->store('images/anh_phu', 'public');
+                    \App\Models\AnhSanPham::create([
+                        'id_product' => $sanPham->id,
+                        'duong_dan' => $path
+                    ]);
+                }
             }
-
-            BienTheSanPham::create($variantData);
         }
 
         return redirect()->route('admin.sanpham.index')
-            ->with('success', 'Sản phẩm và các biến thể đã được tạo thành công.');
+            ->with('success', 'Sản phẩm đã được tạo thành công.');
     }
     //end
 
