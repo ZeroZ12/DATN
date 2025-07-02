@@ -7,40 +7,45 @@
         <h1>Thêm sản phẩm</h1>
 
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         <form action="{{ route('admin.sanpham.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="form-group mb-3">
-                <label class="fw-bold">Loại sản phẩm:</label>
-                <div>
-                    <label>
-                        <input type="radio" name="co_bien_the" value="1" {{ old('co_bien_the', '1') === '1' ? 'checked' : '' }}>
-                        Có biến thể
-                    </label>
-                    <label class="ms-3">
-                        <input type="radio" name="co_bien_the" value="0" {{ old('co_bien_the') === '0' ? 'checked' : '' }}>
-                        Không có biến thể
-                    </label>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Loại sản phẩm</h5>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-primary btn-toggle">
+                            <input type="radio" name="co_bien_the" value="1"
+                                {{ old('co_bien_the', '1') === '1' ? 'checked' : '' }}>
+                            <i class="fas fa-boxes"></i> Có biến thể
+                        </label>
+                        <label class="btn btn-outline-primary btn-toggle">
+                            <input type="radio" name="co_bien_the" value="0"
+                                {{ old('co_bien_the') === '0' ? 'checked' : '' }}>
+                            <i class="fas fa-box"></i> Không có biến thể
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            {{-- Thông tin cơ bản --}}
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="ten">Tên sản phẩm</label>
                 <input type="text" name="ten" class="form-control" value="{{ old('ten') }}">
                 @error('ten')
@@ -50,180 +55,192 @@
 
             <div class="mb-3">
                 <label for="mo_ta" class="form-label fw-semibold">Mô tả</label>
-                <textarea name="mo_ta" id="mo_ta" class="form-control"
-                    rows="6">{!! old('mo_ta', $item->mo_ta ?? '') !!}</textarea>
+                <textarea name="mo_ta" id="mo_ta" class="form-control" rows="6">{{ old('mo_ta') }}</textarea>
                 @error('mo_ta')
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror
             </div>
 
-            {{-- <div class="form-group">
-                <label for="mo_ta">Mô tả</label>
-                <textarea name="mo_ta" class="form-control">{{ old('mo_ta') }}</textarea>
-                @error('mo_ta') <div class="text-danger">{{ $message }}</div> @enderror
-            </div> --}}
-
-            {{-- Danh mục, thương hiệu, linh kiện --}}
-            <div class="form-group">
-                <label>Danh mục</label>
-                <select name="id_category" class="form-control">
-                    <option value="">-- Chọn danh mục --</option>
-                    @foreach ($danhmucs as $item)
-                        <option value="{{ $item->id }}" {{ old('id_category') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_category')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Thương hiệu</label>
-                <select name="id_brand" class="form-control">
-                    <option value="">-- Chọn thương hiệu --</option>
-                    @foreach ($thuonghieus as $item)
-                        <option value="{{ $item->id }}" {{ old('id_brand') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_brand')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Chip</label>
-                <select name="id_chip" class="form-control">
-                    <option value="">-- Chọn chip --</option>
-                    @foreach ($chips as $item)
-                        <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_chip') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                            ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_chip')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Mainboard</label>
-                <select name="id_mainboard" class="form-control">
-                    <option value="">-- Chọn mainboard --</option>
-                    @foreach ($mainboards as $item)
-                        <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_mainboard') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                            ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_mainboard')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>GPU</label>
-                <select name="id_gpu" class="form-control">
-                    <option value="">-- Chọn GPU --</option>
-                    @foreach ($gpus as $item)
-                        <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_gpu') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                            ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_gpu')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Case</label>
-                <select name="id_case" class="form-control">
-                    <option value="">-- Chọn Case --</option>
-                    @foreach ($cases as $item)
-                        <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_case') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                            ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_case')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="form-group">
-                <label>Tản nhiệt</label>
-                <select name="id_tannhiet" class="form-control">
-                    <option value="">-- Chọn Tản nhiệt --</option>
-                    @foreach ($tannhiets as $item)
-                        <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_tannhiet') == $item->id ? 'selected' : '' }}>
-                            {{ $item->ten }}
-                            ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
-                        </option>
-                    @endforeach
-                </select>
-                @error('id_tannhiet')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-
-                <div class="form-group">
-                    <label>Nguồn</label>
-                    <select name="id_nguon" class="form-control">
-                        <option value="">-- Chọn Nguồn --</option>
-                        @foreach ($nguons as $item)
-                            <option value="{{ $item->id }}" data-price="{{ $item->gia }}" data-sale="{{ $item->gia_sale }}" {{ old('id_nguon') == $item->id ? 'selected' : '' }}>
-                                {{ $item->ten }}
-                                ({{ number_format($item->gia) }}đ{{ $item->gia_sale ? ' - Sale: ' . number_format($item->gia_sale) . 'đ' : '' }})
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Chip</label>
+                    <select name="id_chip" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($chips as $chip)
+                            <option value="{{ $chip->id }}" data-price="{{ $chip->gia }}"
+                                {{ old('id_chip') == $chip->id ? 'selected' : '' }}>
+                                {{ $chip->ten }}
+                                ({{ number_format($chip->gia) }}đ{{ $chip->gia_sale ? ' - Sale: ' . number_format($chip->gia_sale) . 'đ' : '' }})
                             </option>
                         @endforeach
                     </select>
-                    @error('id_nguon')
+                </div>
+
+                <div class="col">
+                    <label>Mainboard</label>
+                    <select name="id_mainboard" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($mainboards as $mb)
+                            <option value="{{ $mb->id }}" data-price="{{ $mb->gia }}"
+                                {{ old('id_mainboard') == $mb->id ? 'selected' : '' }}>
+                                {{ $mb->ten }}
+                                ({{ number_format($mb->gia) }}đ{{ $mb->gia_sale ? ' - Sale: ' . number_format($mb->gia_sale) . 'đ' : '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>GPU</label>
+                    <select name="id_gpu" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($gpus as $gpu)
+                            <option value="{{ $gpu->id }}" data-price="{{ $gpu->gia }}"
+                                {{ old('id_gpu') == $gpu->id ? 'selected' : '' }}>
+                                {{ $gpu->ten }}
+                                ({{ number_format($gpu->gia) }}đ{{ $gpu->gia_sale ? ' - Sale: ' . number_format($gpu->gia_sale) . 'đ' : '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>Tản Nhiệt</label>
+                    <select name="id_tannhiet" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($tannhiets as $tannhiet)
+                            <option value="{{ $tannhiet->id }}" data-price="{{ $tannhiet->gia }}"
+                                {{ old('id_tannhiet') == $tannhiet->id ? 'selected' : '' }}>
+                                {{ $tannhiet->ten }}
+                                ({{ number_format($tannhiet->gia) }}đ{{ $tannhiet->gia_sale ? ' - Sale: ' . number_format($tannhiet->gia_sale) . 'đ' : '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>Nguồn</label>
+                    <select name="id_nguon" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($nguons as $nguon)
+                            <option value="{{ $nguon->id }}" data-price="{{ $nguon->gia }}"
+                                {{ old('id_nguon') == $nguon->id ? 'selected' : '' }}>
+                                {{ $nguon->ten }}
+                                ({{ number_format($nguon->gia) }}đ{{ $nguon->gia_sale ? ' - Sale: ' . number_format($nguon->gia_sale) . 'đ' : '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>Case</label>
+                    <select name="id_case" class="form-select">
+                        <option value="">-- Không chọn --</option>
+                        @foreach ($cases as $case)
+                            <option value="{{ $case->id }}" data-price="{{ $case->gia }}"
+                                {{ old('id_case') == $case->id ? 'selected' : '' }}>
+                                {{ $case->ten }}
+                                ({{ number_format($case->gia) }}đ{{ $case->gia_sale ? ' - Sale: ' . number_format($case->gia_sale) . 'đ' : '' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Danh mục</label>
+                    <select name="id_category" class="form-select">
+                        <option value="">-- Chọn danh mục --</option>
+                        @foreach ($danhmucs as $dm)
+                            <option value="{{ $dm->id }}" {{ old('id_category') == $dm->id ? 'selected' : '' }}>
+                                {{ $dm->ten }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_category')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label for="bao_hanh_thang">Bảo hành (tháng)</label>
+                <div class="col">
+                    <label>Thương hiệu</label>
+                    <select name="id_brand" class="form-select">
+                        <option value="">-- Chọn thương hiệu --</option>
+                        @foreach ($thuonghieus as $th)
+                            <option value="{{ $th->id }}" {{ old('id_brand') == $th->id ? 'selected' : '' }}>
+                                {{ $th->ten }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('id_brand')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col">
+                    <label>Bảo hành (tháng)</label>
                     <input type="number" name="bao_hanh_thang" class="form-control" value="{{ old('bao_hanh_thang') }}">
                     @error('bao_hanh_thang')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="anh_dai_dien">Ảnh đại diện</label>
-                    <input type="file" name="anh_dai_dien" class="form-control">
-                    @error('anh_dai_dien')
+            <div class="form-group mb-3">
+                <label for="anh_dai_dien">Ảnh đại diện</label>
+                <input type="file" name="anh_dai_dien" class="form-control">
+                @error('anh_dai_dien')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="anh_phu">Ảnh phụ</label>
+                <input type="file" name="anh_phu[]" multiple class="form-control">
+                @error('anh_phu.*')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="hoat_dong">Hoạt động</label>
+                <input type="checkbox" name="hoat_dong" id="hoat_dong" {{ old('hoat_dong', true) ? 'checked' : '' }}>
+                @error('hoat_dong')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div id="simple-product-fields" style="display: none;">
+                <div class="form-group mb-3">
+                    <label for="gia">Giá</label>
+                    <input type="number" name="gia" class="form-control" step="0.01" min="0"
+                        value="{{ old('gia') }}">
+                    @error('gia')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="form-group">
-                    <label for="anh_phu">Ảnh phụ</label>
-                    <input type="file" name="anh_phu[]" multiple class="form-control">
-                    @error('anh_phu.*')
+                <div class="form-group mb-3">
+                    <label for="gia_so_sanh">Giá so sánh</label>
+                    <input type="number" name="gia_so_sanh" class="form-control" step="0.01" min="0"
+                        value="{{ old('gia_so_sanh') }}">
+                    @error('gia_so_sanh')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-
-                <div class="form-group">
-                    <label for="hoat_dong">Hoạt động</label>
-                    <input type="checkbox" name="hoat_dong" id="hoat_dong" {{ old('hoat_dong', true) ? 'checked' : '' }}>
-                    @error('hoat_dong')
+                <div class="form-group mb-3">
+                    <label for="so_luong">Số lượng</label>
+                    <input type="number" name="so_luong" class="form-control" min="0"
+                        value="{{ old('so_luong') }}">
+                    @error('so_luong')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
+            </div>
 
-                {{-- Chọn biến thể --}}
+            <div class="variant-section">
                 <hr>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label>Chọn RAM</label><br>
                     @foreach ($rams as $ram)
                         <label class="me-3">
@@ -234,7 +251,7 @@
                     @endforeach
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label>Chọn Ổ Cứng</label><br>
                     @foreach ($o_cungs as $oc)
                         <label class="me-3">
@@ -245,13 +262,11 @@
                     @endforeach
                 </div>
 
-                {{-- Giá chung --}}
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label>Giá áp dụng cho tất cả</label>
                         <input type="number" step="0.01" id="global-price" class="form-control" value="0">
                         <label>Tổng giá PC: <span id="tong-gia-linh-kien" class="fw-bold text-danger">0</span> đ</label>
-                        {{-- <label>Tổng giá sale: <span id="tong-gia-sale" class="fw-bold text-success">0</span> đ</label> --}}
                     </div>
                     <div class="col-md-4">
                         <label>Giá so sánh áp dụng</label>
@@ -259,9 +274,8 @@
                     </div>
                 </div>
 
-                {{-- Bảng biến thể --}}
                 <h5 class="mt-4">Danh sách biến thể</h5>
-                <table class="table table-bordered" id="variant-table">
+                <table class="table table-bordered table-hover table-light" id="variant-table">
                     <thead>
                         <tr>
                             <th>RAM</th>
@@ -274,27 +288,13 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+            </div>
 
-                <div id="simple-product-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="gia">Giá</label>
-                        <input type="number" name="gia" class="form-control" step="0.01" min="0" value="{{ old('gia') }}">
-                        @error('gia') <div class="text-danger">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="gia_so_sanh">Giá so sánh</label>
-                        <input type="number" name="gia_so_sanh" class="form-control" step="0.01" min="0" value="{{ old('gia_so_sanh') }}">
-                        @error('gia_so_sanh') <div class="text-danger">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="so_luong">Số lượng</label>
-                        <input type="number" name="so_luong" class="form-control" min="0" value="{{ old('so_luong') }}">
-                        @error('so_luong') <div class="text-danger">{{ $message }}</div> @enderror
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Tạo sản phẩm</button>
-                <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại</a>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Tạo sản phẩm</button>
+                <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>
+                    Quay lại</a>
+            </div>
         </form>
     </div>
 @endsection
@@ -320,19 +320,15 @@
             tong += getSelectedOptionPrice('select[name="id_case"]');
             tong += getSelectedOptionPrice('select[name="id_tannhiet"]');
             tong += getSelectedOptionPrice('select[name="id_nguon"]');
-            // Nếu có thêm các select khác, bổ sung vào đây
-            // Cộng thêm giá RAM đã chọn
             document.querySelectorAll('.ram-checkbox:checked').forEach(cb => {
                 tong += parseFloat(cb.dataset.price || 0);
             });
-            // Cộng thêm giá ổ cứng đã chọn
             document.querySelectorAll('.ocung-checkbox:checked').forEach(cb => {
                 tong += parseFloat(cb.dataset.price || 0);
             });
             document.getElementById('tong-gia-linh-kien').innerText = tong.toLocaleString();
         }
 
-        // Gắn sự kiện cho tất cả select
         document.querySelectorAll('select').forEach(el => {
             el.addEventListener('change', () => {
                 tinhTongGiaLinhKien();
@@ -340,55 +336,11 @@
             });
         });
 
-        function updateVariantPrices() {
-            let globalPrice = document.getElementById('global-price').value;
-            if (!globalPrice || isNaN(globalPrice) || Number(globalPrice) === 0) {
-                let tongGia = document.getElementById('tong-gia-linh-kien').innerText.replace(/[^\d]/g, '');
-                globalPrice = tongGia ? parseInt(tongGia) : 0;
-            }
-            document.querySelectorAll('input[name^="variants"][name$="[gia]"]').forEach(input => {
-                input.value = globalPrice;
-            });
-        }
-
-        function getSelectedOptionSale(selector) {
-            const select = document.querySelector(selector);
-            if (!select) return 0;
-            const selected = select.options[select.selectedIndex];
-            return selected && selected.dataset.sale ? parseFloat(selected.dataset.sale) : 0;
-        }
-
-        // function tinhTongGiaSale() {
-        //     let tongSale = 0;
-        //     tongSale += getSelectedOptionSale('select[name="id_chip"]');
-        //     tongSale += getSelectedOptionSale('select[name="id_mainboard"]');
-        //     tongSale += getSelectedOptionSale('select[name="id_gpu"]');
-        //     tongSale += getSelectedOptionSale('select[name="id_case"]');
-        //     tongSale += getSelectedOptionSale('select[name="id_tannhiet"]');
-        //     tongSale += getSelectedOptionSale('select[name="id_nguon"]');
-        //     // Cộng thêm giá RAM đã chọn
-        //     document.querySelectorAll('.ram-checkbox:checked').forEach(cb => {
-        //         tong += parseFloat(cb.dataset.price || 0);
-        //     });
-        //     // Cộng thêm giá ổ cứng đã chọn
-        //     document.querySelectorAll('.ocung-checkbox:checked').forEach(cb => {
-        //         tong += parseFloat(cb.dataset.price || 0);
-        //     });
-        //     document.getElementById('tong-gia-sale').innerText = tongSale.toLocaleString();
-        // }
-        // document.querySelectorAll('select').forEach(el => {
-        //     el.addEventListener('change', tinhTongGiaSale);
-        // });
-
-        // Gọi lần đầu
-        tinhTongGiaLinhKien();
-        // tinhTongGiaSale();
-
         function renderVariants() {
             variantTableBody.innerHTML = '';
             const rams = Array.from(ramCheckboxes).filter(cb => cb.checked);
             const ocs = Array.from(ocungCheckboxes).filter(cb => cb.checked);
-            // Nếu input rỗng thì lấy tổng giá linh kiện, nếu không thì lấy giá nhập
+
             let globalPrice = document.getElementById('global-price').value;
             if (!globalPrice || isNaN(globalPrice) || Number(globalPrice) === 0) {
                 let tongGia = document.getElementById('tong-gia-linh-kien').innerText.replace(/[^\d]/g, '');
@@ -406,39 +358,98 @@
                         <td><input type="number" step="0.01" name="variants[${index}][gia]" class="form-control" value="${globalPrice}" required></td>
                         <td><input type="number" step="0.01" name="variants[${index}][gia_so_sanh]" class="form-control" value="${globalPriceCompare}"></td>
                         <td><input type="number" name="variants[${index}][ton_kho]" class="form-control" required></td>
-                        <td><button type="button" class="btn btn-danger btn-sm remove-variant">X</button></td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
                     `;
                     variantTableBody.appendChild(row);
                     index++;
                 });
             });
 
-            // Gắn nút xóa dòng
             document.querySelectorAll('.remove-variant').forEach(btn => {
-                btn.addEventListener('click', function () {
+                btn.addEventListener('click', function() {
                     this.closest('tr').remove();
                 });
             });
         }
-        ramCheckboxes.forEach(cb => cb.addEventListener('change', renderVariants));
-        ocungCheckboxes.forEach(cb => cb.addEventListener('change', renderVariants));
 
-        // Tự động render nếu người dùng đã nhập giá chung rồi chọn
+        ramCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+            tinhTongGiaLinhKien();
+            renderVariants();
+        }));
+        ocungCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+            tinhTongGiaLinhKien();
+            renderVariants();
+        }));
         document.getElementById('global-price').addEventListener('input', renderVariants);
         document.getElementById('global-price-compare').addEventListener('input', renderVariants);
-
-        renderVariants();
 
         function toggleSimpleProductFields() {
             var coBienThe = document.querySelector('input[name="co_bien_the"]:checked').value;
             document.getElementById('simple-product-fields').style.display = (coBienThe == '0') ? 'block' : 'none';
+            document.querySelector('.variant-section').style.display = (coBienThe == '1') ? 'block' : 'none';
         }
+
         document.querySelectorAll('input[name="co_bien_the"]').forEach(function(radio) {
             radio.addEventListener('change', toggleSimpleProductFields);
         });
-        window.onload = toggleSimpleProductFields;
+
+        window.onload = function() {
+            tinhTongGiaLinhKien();
+            renderVariants();
+            toggleSimpleProductFields();
+        };
     </script>
 @endpush
+
+@push('styles')
+    <style>
+        .btn-primary {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-secondary {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+        }
+
+        .btn-toggle {
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-toggle input:checked+.btn {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+            box-shadow: 0 3px 6px rgba(220, 53, 69, 0.2);
+        }
+
+        .btn-toggle input:checked+.btn:hover {
+            background-color: #c82333;
+            border-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-toggle .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+@endpush
+
 @section('js-custom')
     <script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
     <script>
