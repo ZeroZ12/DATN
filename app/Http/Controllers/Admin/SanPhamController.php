@@ -279,7 +279,7 @@ class SanPhamController extends Controller
             if ($request->hasFile('anh_phu')) {
                 foreach ($request->file('anh_phu') as $file) {
                     $path = $file->store('images/anh_phu', 'public');
-                    \App\Models\AnhSanPham::create([
+                        AnhSanPham::create([
                         'id_product' => $sanPham->id,
                         'duong_dan' => $path
                     ]);
@@ -293,7 +293,7 @@ class SanPhamController extends Controller
                     $maBienThe = 'BT' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
                 } while (
                     in_array($maBienThe, $generatedCodes) ||
-                    \App\Models\BienTheSanPham::where('ma_bien_the', $maBienThe)->exists()
+                        BienTheSanPham::where('ma_bien_the', $maBienThe)->exists()
                 );
                 $generatedCodes[] = $maBienThe;
 
@@ -313,7 +313,7 @@ class SanPhamController extends Controller
                     $variantData['anh_dai_dien'] = $variantImage;
                 }
 
-                \App\Models\BienTheSanPham::create($variantData);
+                    BienTheSanPham::create($variantData);
             }
         } else {
             // Tạo sản phẩm không có biến thể
@@ -323,7 +323,7 @@ class SanPhamController extends Controller
             if ($request->hasFile('anh_phu')) {
                 foreach ($request->file('anh_phu') as $file) {
                     $path = $file->store('images/anh_phu', 'public');
-                    \App\Models\AnhSanPham::create([
+                        AnhSanPham::create([
                         'id_product' => $sanPham->id,
                         'duong_dan' => $path
                     ]);
