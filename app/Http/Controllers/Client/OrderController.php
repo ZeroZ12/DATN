@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\DonHang;
+use App\Models\DonHang;;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -24,5 +24,26 @@ class OrderController extends Controller
             ->firstOrFail();
 
         return view('client.order-success', compact('donHang'));
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+        $donHangs = $user->donHangs()
+        ->with([
+            'maGiamGia',
+            'phuongThucThanhToan',
+            'chiTietDonHangs.sanPham',
+            'chiTietDonHangs.bienTheSanPham',
+            'chiTietDonHangs.bienTheSanPham.ram',
+            'chiTietDonHangs.bienTheSanPham.oCung'
+        ])
+        ->orderByDesc('created_at')
+        ->paginate(10);
+
+    return view('client.profile.show', [
+        'donHangs' => $donHangs,
+        'user' => $user
+    ]);
     }
 }

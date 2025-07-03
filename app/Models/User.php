@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\DonHang;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -32,6 +33,11 @@ class User extends Authenticatable
     public function diaChiNguoiDungs()
     {
         return $this->hasMany(DiaChiNguoiDung::class, 'id_user');
+    }
+
+    public function donHangs()
+    {
+        return $this->hasMany(DonHang::class, 'id_user');
     }
 
     public function danhGiaSanPhams()

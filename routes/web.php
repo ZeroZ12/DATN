@@ -262,6 +262,9 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
+    Route::get('/Table-orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');

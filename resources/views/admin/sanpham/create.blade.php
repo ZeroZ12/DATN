@@ -61,7 +61,7 @@
                 @enderror
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-3 variant-section">
                 <div class="col">
                     <label>Chip</label>
                     <select name="id_chip" class="form-select">
@@ -383,6 +383,7 @@
         document.getElementById('global-price').addEventListener('input', renderVariants);
         document.getElementById('global-price-compare').addEventListener('input', renderVariants);
 
+        //phần biến thể
         function toggleSimpleProductFields() {
             var coBienThe = document.querySelector('input[name="co_bien_the"]:checked').value;
             document.getElementById('simple-product-fields').style.display = (coBienThe == '0') ? 'block' : 'none';

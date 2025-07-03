@@ -22,6 +22,10 @@
                             type="button" role="tab" aria-controls="addresses" aria-selected="false">Địa chỉ của
                             tôi</button>
                     </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
+                            type="button" role="tab" aria-controls="orders" aria-selected="false">Đơn hàng</button>
+                    </li>
                     {{-- Thêm các tab khác nếu cần --}}
                 </ul>
 
@@ -65,6 +69,69 @@
                             <div class="card-body">
                                 {{-- Form cập nhật mật khẩu --}}
                                 @include('client.profile.partials.update-password-form')
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Tab Đơn hàng --}}
+                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-warning text-white">
+                                <h4 class="mb-0">Đơn Hàng</h4>
+                            </div>
+                            <div class="card-body">
+                                @if($donHangs->count() == 0)
+                                    <p>Bạn chưa có đơn hàng nào.</p>
+                                @else
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Mã đơn hàng</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($donHangs as $order)
+                                                <tr>
+                                                    <td>{{ $order->ma_don_hang }}</td>
+                                                    <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
+                                                    <td>{{ number_format($order->tong_tien, 0, ',', '.') }} VNĐ</td>
+                                                    <td>
+                                                        @switch($order->trang_thai)
+                                                            @case('pending')
+                                                                <span class="badge bg-secondary">Đang chờ</span>
+                                                                @break
+                                                            @case('processing')
+                                                                <span class="badge bg-primary">Đang xử lý</span>
+                                                                @break
+                                                            @case('shipped')
+                                                                <span class="badge bg-info">Đã giao hàng</span>
+                                                                @break
+                                                            @case('completed')
+                                                                <span class="badge bg-success">Hoàn thành</span>
+                                                                @break
+                                                            @case('cancelled')
+                                                                <span class="badge bg-danger">Đã hủy</span>
+                                                                @break
+                                                            @default
+                                                                <span class="badge bg-secondary">Không xác định</span>
+                                                        @endswitch
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ route('client.orders.show', $order->id) }}" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-eye"></i> Xem chi tiết
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    {{-- Hiển thị phân trang --}}
+                                    {{ $donHangs->links() }}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -130,18 +197,6 @@
                         </div>
                     </div>
                     {{-- Các tab khác --}}
-                    {{-- Tab Theo dõi đơn hàng --}}
-                    <div class="tab-pane fade" id="password-update" role="tabpanel" aria-labelledby="password-tab">
-                        <div class="card shadow-sm">
-                            <div class="card-header bg-warning text-white">
-                                <h4 class="mb-0">Đơn Hàng</h4>
-                            </div>
-                            <div class="card-body">
-                                {{-- Form cập nhật mật khẩu --}}
-                                @include('client.profile.order.order-table')
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
