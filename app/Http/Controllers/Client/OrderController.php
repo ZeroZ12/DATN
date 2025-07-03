@@ -28,6 +28,7 @@ class OrderController extends Controller
 
     public function index()
     {
+         /** @var \App\Models\User $user */ // Thêm document này để giúp nhận dạng dữ liệu
         $user = Auth::user();
         $donHangs = $user->donHangs()
         ->with([
