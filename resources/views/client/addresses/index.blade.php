@@ -91,6 +91,10 @@
             <a href="{{ route('client.profile.show') }}" class="btn btn-secondary mt-3">
                 <i class="fas fa-arrow-left"></i> Về trang cá nhân
             </a>
+
+            <a href="{{ route('client.cart.checkout') }}" class="btn btn-secondary mt-3">
+                <i class="fas fa-arrow-left"></i> Về trang đơn hàng
+            </a>
         @endif
     </div>
 @endsection

@@ -130,6 +130,18 @@
                         </div>
                     </div>
                     {{-- Các tab khác --}}
+                    {{-- Tab Theo dõi đơn hàng --}}
+                    <div class="tab-pane fade" id="password-update" role="tabpanel" aria-labelledby="password-tab">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-warning text-white">
+                                <h4 class="mb-0">Đơn Hàng</h4>
+                            </div>
+                            <div class="card-body">
+                                {{-- Form cập nhật mật khẩu --}}
+                                @include('client.profile.order.order-table')
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

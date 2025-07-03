@@ -63,7 +63,7 @@
         <div>
             <label for="ten_dang_nhap" class="form-label">Tên đăng nhập:</label>
             <input id="ten_dang_nhap" name="ten_dang_nhap" type="text" class="form-control mt-1 block w-full"
-                value="{{ old('ten_dang_nhap', $user->ten_dang_nhap) }}"  autocomplete="username">
+                value="{{ old('ten_dang_nhap', optional($user)->ten_dang_nhap) }}"  autocomplete="username">
             @error('ten_dang_nhap')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
