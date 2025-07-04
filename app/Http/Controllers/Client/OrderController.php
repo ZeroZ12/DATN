@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\DonHang;;
+use App\Models\DonHang;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,22 +29,59 @@ class OrderController extends Controller
 
     public function index()
     {
+
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $donHangs = $user->donHangs()
-        ->with([
-            'maGiamGia',
-            'phuongThucThanhToan',
-            'chiTietDonHangs.sanPham',
-            'chiTietDonHangs.bienTheSanPham',
-            'chiTietDonHangs.bienTheSanPham.ram',
-            'chiTietDonHangs.bienTheSanPham.oCung'
-        ])
-        ->orderByDesc('created_at')
-        ->paginate(10);
+            ->with([
+                'maGiamGia',
+                'phuongThucThanhToan',
+                'chiTietDonHangs.sanPham',
+                'chiTietDonHangs.bienTheSanPham',
+                'chiTietDonHangs.bienTheSanPham.ram',
+                'chiTietDonHangs.bienTheSanPham.oCung'
+            ])
+            ->orderByDesc('created_at')
+            ->paginate(10);
 
-    return view('client.profile.show', [
-        'donHangs' => $donHangs,
-        'user' => $user
-    ]);
+        return view('client.profile.show', [
+            'donHangs' => $donHangs,
+            'user' => $user
+        ]);
+    }
+
+    public function show($id)
+    {
+        $selectedDonHang = DonHang::where('id_user', Auth::id())
+            ->where('id', $id)
+            ->with([
+                'maGiamGia',
+                'phuongThucThanhToan',
+                'chiTietDonHangs.sanPham',
+                'chiTietDonHangs.bienTheSanPham',
+                'chiTietDonHangs.bienTheSanPham.ram',
+                'chiTietDonHangs.bienTheSanPham.oCung'
+            ])
+            ->firstOrFail();
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $donHangs = $user->donHangs()
+            ->with([
+                'maGiamGia',
+                'phuongThucThanhToan',
+                'chiTietDonHangs.sanPham',
+                'chiTietDonHangs.bienTheSanPham',
+                'chiTietDonHangs.bienTheSanPham.ram',
+                'chiTietDonHangs.bienTheSanPham.oCung'
+            ])
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return view('client.profile.show', [
+            'donHangs' => $donHangs,
+            'user' => $user,
+            'selectedDonHang' => $selectedDonHang
+        ]);
     }
 }

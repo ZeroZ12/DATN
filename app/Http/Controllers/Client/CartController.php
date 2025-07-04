@@ -644,6 +644,7 @@ class CartController extends Controller
                     'id_product' => $item->id_product,
                     'id_bien_the' => $item->id_bien_the,
                     'ten_hien_thi' => $item->sanPham->ten,
+                    'ten_san_pham_tai_thoi_diem' => $item->sanPham->ten,
                     'so_luong' => $item->so_luong,
                     'don_gia' => $item->gia,
                     'bao_hanh_thang' => $item->sanPham->bao_hanh_thang

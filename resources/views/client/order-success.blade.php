@@ -63,7 +63,7 @@
                             <i class="fas fa-home me-2"></i>
                             Về trang chủ
                         </a>
-                        <a href="#" class="btn btn-outline-primary">
+                        <a href="{{ route('client.profile.show', ['order_id' => $donHang->id]) }}" class="btn btn-outline-primary">
                             <i class="fas fa-list me-2"></i>
                             Xem đơn hàng
                         </a>
