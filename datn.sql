@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th6 21, 2025 lúc 04:35 PM
--- Phiên bản máy phục vụ: 8.0.30
--- Phiên bản PHP: 8.3.6
+-- Host: localhost:3306
+-- Generation Time: Jul 05, 2025 at 08:57 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.2.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,26 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `datn`
+-- Database: `datn`
 --
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `anh_san_phams`
+-- Table structure for table `anh_san_phams`
 --
 
 CREATE TABLE `anh_san_phams` (
   `id` bigint UNSIGNED NOT NULL,
   `id_product` bigint UNSIGNED NOT NULL,
-  `duong_dan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duong_dan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `anh_san_phams`
+-- Dumping data for table `anh_san_phams`
 --
 
 INSERT INTO `anh_san_phams` (`id`, `id_product`, `duong_dan`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -50,12 +50,65 @@ INSERT INTO `anh_san_phams` (`id`, `id_product`, `duong_dan`, `created_at`, `upd
 (7, 2, 'images/anh_phu/0k1nLMKXv88rcXd9p47qO68NDNvp9cpzlZDKxjKs.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
 (8, 2, 'images/anh_phu/f4dVUMsU50ZhjjJbMi3uk5V7ww45Q9bCYjLhkrJJ.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
 (9, 2, 'images/anh_phu/9yYFOcNENPzFCn9Pc0YSt2kWHgJ64OwqHQmbs3bg.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
-(10, 2, 'images/anh_phu/vinTbeKr0gz7XmgWNYkBQeYpQlzikH6IGSEuDW4N.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL);
+(10, 2, 'images/anh_phu/vinTbeKr0gz7XmgWNYkBQeYpQlzikH6IGSEuDW4N.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
+(11, 3, 'images/uCs6qUdxuHUDkErOms0E8NWjnqeosy6kzDLtrNd6.png', '2025-06-26 11:04:04', '2025-06-26 11:04:04', NULL),
+(12, 3, 'images/5J3mrP3pBzx74gZ240UT4CSRmlCAglmfTkx23VIM.png', '2025-06-26 11:04:04', '2025-06-26 11:04:04', NULL),
+(13, 5, 'images/Lqqj6Ed7PyNFVCpcMzRHVIKZqpCY9y5rUiRMBdw8.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(14, 5, 'images/jwWwzT9pe0VotrQifRTJsuxb7uK2qbP5PoC49lct.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(15, 5, 'images/6wM4dVaAiZu0nLtoV6lw2DFimUIz4NplZG8flHBg.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(16, 5, 'images/k47JnAHi6L4vuRmhqZKeXfeC4yzuZ5vTgJ7Oray7.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(17, 5, 'images/KJFauZtWOd3hQBsJHSSPO1Ve3hntXZJaCFzQtf3r.png', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(18, 5, 'images/ad7FtuUvenY8KCZ0ARBnuzutfdERcN4bdUs1zu2O.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(19, 5, 'images/eWDbvpwoKlyWT1v52dAGqC0VXdrmldd9dO8NoEcd.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(20, 5, 'images/ORxJ2appnIRwKqFgLe5HjH24lay2CpesI0eAdvWW.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(21, 5, 'images/q7ssYFuOdMF2pN4aw9DuL4zSuCW1kH3MVPuKdw10.jpg', '2025-07-02 10:15:54', '2025-07-02 10:15:54', NULL),
+(22, 3, 'images/GUHM3Lqh3y4bhERSnbZHNQZPBmO8NoB6nqoUs3sU.jpg', '2025-07-02 10:19:07', '2025-07-02 10:19:07', NULL),
+(23, 3, 'images/R0CBMs7fZGIDrQXrmjnyN2Ls1OxAIexMqRWnzCK5.jpg', '2025-07-02 10:19:07', '2025-07-02 10:19:07', NULL),
+(24, 3, 'images/Am9FcsThsYebWEhaonYTRnkaETqlf61EteptSDWy.jpg', '2025-07-02 10:19:07', '2025-07-02 10:19:07', NULL),
+(25, 3, 'images/Cha6ahKoQZxMLDv0AazsErUT9V7y0lTDP21bIuez.jpg', '2025-07-02 10:19:07', '2025-07-02 10:19:07', NULL),
+(26, 3, 'images/BtNVXUGjnE6bsbhDo6il9ECjlL1X2eRmmC9dtoo9.jpg', '2025-07-02 10:19:07', '2025-07-02 10:19:07', NULL),
+(27, 6, 'images/anh_phu/DeryuB2ewXaCMYd27mrnNqkwFVSFIMoBr36sqa8J.jpg', '2025-07-02 10:21:56', '2025-07-02 10:21:56', NULL),
+(28, 6, 'images/anh_phu/45cmMCYl0YeHQXOqKkxIqnl0tSKhrwMPg289oMof.jpg', '2025-07-02 10:21:56', '2025-07-02 10:21:56', NULL),
+(29, 6, 'images/anh_phu/eM3jrCKZqXDDTUtO3XDk5gLWGwJ5Io6l6xVhC5HB.jpg', '2025-07-02 10:21:56', '2025-07-02 10:21:56', NULL),
+(30, 7, 'images/anh_phu/jMQYiLFjvtFWGiKttf7eYeroL61moxZRhCkqDzXD.jpg', '2025-07-02 14:29:50', '2025-07-02 14:29:50', NULL),
+(31, 7, 'images/anh_phu/p8qItAtEMasmFlGcxaKvCQva7evrTq4BrMQCr7dw.jpg', '2025-07-02 14:29:50', '2025-07-02 14:29:50', NULL),
+(32, 7, 'images/anh_phu/PeNE1fboqNPlxAOLZkzRRSK8P8GYzx9oIWXj0yfm.jpg', '2025-07-02 14:29:50', '2025-07-02 14:29:50', NULL),
+(33, 8, 'images/anh_phu/VssnAkFDnYiWNFU3ATRVOLPK9v39PSbMxxLJYI5w.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL),
+(34, 8, 'images/anh_phu/uQx0YEU0UZqLNHCHg01rtw2j8tV2jb1KSHIxswkk.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL),
+(35, 8, 'images/anh_phu/jAlKu7yIrB1LhBv68LvbX06RUJIpUnzCBZr43nXN.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL),
+(36, 8, 'images/anh_phu/HvPf1sjGwTCaNFTMU5plLj4O8qX8HA5ABG6j1pd2.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL),
+(37, 8, 'images/anh_phu/yDDCzyGuYEaMGnfYRmgPkrcVJbr76BwDHGKuKcsc.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `bien_the_san_phams`
+-- Table structure for table `banners`
+--
+
+CREATE TABLE `banners` (
+  `id` bigint UNSIGNED NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sale` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `banners`
+--
+
+INSERT INTO `banners` (`id`, `title`, `image_url`, `sale`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Qui et officia ut.', 'banners/56qKEWket84OhKHG8nB5a1UfYBkUikK38a19mLbs.png', '25.16', 'Et pariatur temporibus at nobis culpa fuga. Nisi dolore iste quis dolores animi. Aliquid repudiandae consequatur corporis reprehenderit. Magni error nisi est et illum saepe. Ipsam cumque hic quod architecto assumenda.', '2025-06-27 10:35:05', '2025-07-04 03:06:58', NULL),
+(2, 'Aut voluptas et quaerat accusamus amet quas.', 'banners/6EuiUXmWtj9ZnwNbAJbSVMcaJDtz1BIbDXFLmekx.png', '58.60', 'Labore aut iste minus et tenetur consequatur aut. Repudiandae ab impedit ea et. Sit iure aut ea libero et. Voluptatem enim voluptas sed ut. Pariatur blanditiis assumenda atque ex ut cum aut.', '2025-06-27 10:35:05', '2025-07-04 03:06:46', NULL),
+(14, '1', 'banners/8oKavikfjVzsXVkhSmr1I8bzBEteDKSBPPcHCFVF.png', '15.00', '1', '2025-06-28 17:50:37', '2025-07-04 03:06:32', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bien_the_san_phams`
 --
 
 CREATE TABLE `bien_the_san_phams` (
@@ -66,8 +119,8 @@ CREATE TABLE `bien_the_san_phams` (
   `gia` decimal(10,2) NOT NULL,
   `gia_so_sanh` decimal(10,2) NOT NULL,
   `ton_kho` int NOT NULL,
-  `ma_bien_the` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `anh_dai_dien` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ma_bien_the` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `anh_dai_dien` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -75,51 +128,61 @@ CREATE TABLE `bien_the_san_phams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `bien_the_san_phams`
+-- Dumping data for table `bien_the_san_phams`
 --
 
 INSERT INTO `bien_the_san_phams` (`id`, `id_product`, `id_ram`, `id_o_cung`, `gia`, `gia_so_sanh`, `ton_kho`, `ma_bien_the`, `anh_dai_dien`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, 1, 9990000.00, 10990000.00, 6, 'BT7594', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
-(2, 1, 1, 3, 15990000.00, 20990000.00, 5, 'BT8080', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
-(3, 1, 2, 1, 12990000.00, 20990000.00, 7, 'BT8396', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
-(4, 2, 1, 1, 9990000.00, 10990000.00, 6, 'BT6018', NULL, 1, '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
-(5, 2, 1, 3, 9990000.00, 10990000.00, 8, 'BT3266', NULL, 1, '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
-(6, 2, 2, 1, 9990000.00, 10990000.00, 9, 'BT0017', NULL, 1, '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL),
-(7, 2, 2, 3, 9990000.00, 10990000.00, 8, 'BT5952', NULL, 1, '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL);
+(1, 1, 1, 1, '9990000.00', '10990000.00', 6, 'BT7594', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
+(2, 1, 1, 3, '15990000.00', '20990000.00', 5, 'BT8080', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
+(3, 1, 2, 1, '12990000.00', '20990000.00', 7, 'BT8396', NULL, 1, '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
+(4, 2, 1, 1, '7890000.00', '10990000.00', 6, 'BT6018', NULL, 1, '2025-06-20 21:23:29', '2025-07-05 08:55:06', NULL),
+(5, 2, 1, 3, '7990000.00', '10990000.00', 8, 'BT3266', NULL, 1, '2025-06-20 21:23:29', '2025-07-05 08:55:06', NULL),
+(6, 2, 2, 1, '7790000.00', '10990000.00', 9, 'BT0017', NULL, 1, '2025-06-20 21:23:29', '2025-07-05 08:55:06', NULL),
+(7, 2, 2, 3, '8290000.00', '10990000.00', 8, 'BT5952', NULL, 1, '2025-06-20 21:23:29', '2025-07-05 08:55:06', NULL),
+(8, 3, 1, 1, '12000000.00', '15000000.00', 5, 'BT3990', NULL, 1, '2025-06-23 07:03:32', '2025-06-23 07:03:32', NULL),
+(9, 3, 8, 1, '14000000.00', '16000000.00', 5, 'BT6309', NULL, 1, '2025-06-23 07:03:32', '2025-06-23 07:03:32', NULL),
+(10, 4, 2, 2, '13000000.00', '16000000.00', 5, 'BT9822', NULL, 1, '2025-06-23 07:05:48', '2025-06-23 07:05:48', NULL),
+(11, 4, 2, 3, '14000000.00', '17000000.00', 5, 'BT3712', NULL, 1, '2025-06-23 07:05:48', '2025-06-23 07:05:48', NULL),
+(12, 4, 9, 3, '15000000.00', '18000000.00', 5, 'BT0724', NULL, 1, '2025-06-23 07:05:48', '2025-06-23 07:05:48', NULL),
+(13, 5, 2, 5, '18000000.00', '19000000.00', 5, 'BT4957', NULL, 1, '2025-06-23 07:06:49', '2025-07-02 10:17:03', NULL),
+(14, 5, 10, 5, '18000000.00', '19000000.00', 5, 'BT6292', NULL, 1, '2025-06-23 07:06:49', '2025-07-02 10:17:03', NULL),
+(15, 5, 3, 5, '18270000.00', '19000000.00', 6, 'BT508754', NULL, 1, '2025-07-02 10:17:03', '2025-07-02 10:17:03', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cache`
+-- Table structure for table `cache`
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cache_locks`
+-- Table structure for table `cache_locks`
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chips`
+-- Table structure for table `cases`
 --
 
-CREATE TABLE `chips` (
+CREATE TABLE `cases` (
   `id` bigint UNSIGNED NOT NULL,
   `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gia` decimal(10,2) NOT NULL,
+  `gia_sale` decimal(10,2) DEFAULT NULL,
   `mo_ta` longtext COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -127,25 +190,58 @@ CREATE TABLE `chips` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chips`
+-- Dumping data for table `cases`
 --
 
-INSERT INTO `chips` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Intel Core i7-6774', 'Sint fuga accusamus iure aliquam deserunt ea rerum autem.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(2, 'Intel Core i5-6558', 'Nihil culpa nemo perspiciatis molestiae.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(3, 'Intel Core i3-7007', 'Dignissimos delectus rem veniam amet.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(4, 'Intel Core i9-9669', 'Ratione eaque laborum ad.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(5, 'Intel Core i9-5580', 'Delectus sed quos aperiam qui ipsam.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(6, 'Intel Core i3-8139', 'Quos ea at voluptatem et perspiciatis assumenda voluptatibus.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(7, 'Intel Core i7-9824', 'Ipsa voluptatem delectus odit minima.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(8, 'Intel Core i3-6064', 'Nihil quasi quia doloremque voluptate omnis harum eligendi.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(9, 'Intel Core i9-2618', 'Molestiae et commodi vel nisi neque cum fugiat quos.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(10, 'Intel Core i9-5035', 'Nulla voluptas autem dolorem at et.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL);
+INSERT INTO `cases` (`id`, `ten`, `gia`, `gia_sale`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Vỏ máy tính Cooler Master MasterBox 520 Mesh ARGB Black', '2290000.00', '1390000.00', '<div class=\"scroll-table\">\r\n<table id=\"tblGeneralAttribute\" class=\"table table-bordered\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\">\r\n<tbody>\r\n<tr>\r\n<td>Series</td>\r\n<td>MasterBox Series</td>\r\n</tr>\r\n<tr>\r\n<td>Size</td>\r\n<td>Mid Tower</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Số model</td>\r\n<td>MB520-KGNN-S00</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>M&agrave;u sắc</td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Chất liệu</td>\r\n<td>Th&eacute;p, nhựa, k&iacute;nh cường lực</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>K&iacute;ch thước&nbsp;(D X R X C)</td>\r\n<td>502 x 210 x 498 mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Bo mạch chủ hổ trợ</td>\r\n<td>Mini ITX, Micro ATX, ATX, SSI CEB, E-ATX*, (*up to 12\" x 10.7\" motherboards, may impact cable management feature)</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Khe mở rộng</td>\r\n<td>7</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Ổ cứng 5.25\"</td>\r\n<td>N/A</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Ổ cứng 2.5\" / 3.5\" (combo)</td>\r\n<td>2 (Tối đa 2)</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Ổ cứng 2.5\"</td>\r\n<td>3 (Tối đa.5)</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Bảng điều khiển I/O</td>\r\n<td>1x USB 3.2 Gen 1 Type-A<br>1x USB 3.2 Gen 2 Type-C<br>1x 3.5mm Jack tai nghe (Audio+Mic)<br>1x Reset/ARGB button</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Quạt được lắp sẵn - trước</td>\r\n<td>3x CF120 ARGB&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>Quạt được lắp sẵn - sau</td>\r\n<td>N/A</td>\r\n</tr>\r\n<tr>\r\n<td>Quạt hổ trợ - tr&ecirc;n</td>\r\n<td>3x 120mm, 2x 140mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Quạt hổ trợ - trước</td>\r\n<td>3x 120mm, 2x 140mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Quạt hổ trợ - sau</td>\r\n<td>1x 120mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>K&eacute;t nước hổ trợ - tr&ecirc;n</td>\r\n<td>120mm, 140mm, 240mm, 280mm, 360mm, (recommended maximum thickness -55mm)</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>K&eacute;t nước hổ trợ - trước</td>\r\n<td>120mm, 140mm, 240mm, 280mm, 360mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>K&eacute;t nước hổ trợ - sau</td>\r\n<td>120mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Chiều d&agrave;i - Tản nhiệt kh&iacute; CPU</td>\r\n<td>165mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td>Chiều d&agrave;i - Nguồn m&aacute;y t&iacute;nh</td>\r\n<td>200mm, (Recommended up to 170mm)</td>\r\n</tr>\r\n<tr>\r\n<td>Kh&ocirc;ng gian lắp đặt GPU</td>\r\n<td>410mm/16.1\"</td>\r\n</tr>\r\n<tr>\r\n<td>Tấm lọc bụi</td>\r\n<td>Dưới, Trước, Tr&ecirc;n</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn m&aacute;y t&iacute;nh hổ trợ</td>\r\n<td>&nbsp;ATX</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<h2><strong>Đ&aacute;nh gi&aacute; chi tiết&nbsp;case Cooler Master MasterBox 520 Mesh ARGB Black</strong></h2>\r\n<p>Đ&oacute;ng vai tr&ograve; l&agrave; lớp &aacute;o v&agrave; l&agrave; vẻ ngo&agrave;i của to&agrave;n bộ d&agrave;n PC, case m&aacute;y t&iacute;nh kh&ocirc;ng những đ&oacute;ng vai tr&ograve; l&agrave; th&agrave;nh phần được d&ugrave;ng để định h&igrave;nh n&ecirc;n phong c&aacute;ch c&aacute; nh&acirc;n của người d&ugrave;ng m&agrave; hiện nay, những sản phẩm cũng đ&atilde; được trau chuốt hơn với đa dạng c&aacute;ch t&iacute;nh năng. Một trong những c&aacute;i t&ecirc;n được người d&ugrave;ng đ&aacute;nh gi&aacute; rất cao với những chiếc case chất lượng v&agrave; đẹp mắt - Cooler Master, cũng đ&atilde; đem đến một model mang t&ecirc;n&nbsp;<strong>MasterBox 520 Mesh ARGB Black</strong>. N&agrave;o, h&atilde;y c&ugrave;ng GEARVN đi v&agrave;o chi tiết hơn về sản phẩm n&agrave;y ngay sau đ&acirc;y nh&eacute; !</p>\r\n<h3><strong>Th&ocirc;ng tho&aacute;ng với mặt lưới Finemesh</strong></h3>\r\n<p>Trang bị tr&ecirc;n Cooler Master MasterBox 520 Mesh ARGB Black l&agrave; thiết kế lưới Finemesh hỗ trợ cho khả năng h&uacute;t gi&oacute; với luồng kh&ocirc;ng kh&iacute; lớn, tối ưu khả năng tản nhiệt cho mọi linh kiện PC trong&nbsp;<a href=\"https://gearvn.com/collections/case-thung-may-tinh\">case</a>. Từ đ&oacute;, gi&uacute;p cho nhiệt độ lu&ocirc;n đạt được ở mức l&yacute; tưởng v&agrave; duy tr&igrave; hiệu năng ổn định.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-10_2f75feda203f459fa2c68bea732e4ac3_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Thiết kế nổi bật c&ugrave;ng phong c&aacute;ch đậm chất MasterBox&nbsp;</strong></h3>\r\n<p><a href=\"https://gearvn.com/collections/case-coolermaster\">Case Cooler Master</a>&nbsp;MasterBox 520 Mesh ARGB Black giữ vững phong c&aacute;ch về một ngoại h&igrave;nh cực k&igrave; mạnh mẽ với từng đường n&eacute;t đ&atilde; c&oacute; tr&ecirc;n những sản phẩm tiền nhiệm trước đ&acirc;y. Được t&ocirc;n l&ecirc;n nhờ những chi tiết ho&agrave;n thiện một c&aacute;ch tỉ mỉ, Cooler Master MasterBox 520 Mesh ARGB Black lại đem đến sự hầm hố cần thiết ở những bộ&nbsp;<a href=\"https://gearvn.com/pages/pc-gvn\">PC Gaming</a>.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-11_bf8cc7ad5f9440368e73c60cc622120b_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Quạt tản nhiệt đi k&egrave;m chất lượng</strong></h3>\r\n<p>Đi k&egrave;m với Cooler Master MasterBox 520 Mesh ARGB Black l&agrave; 3 chiếc&nbsp;<a href=\"https://gearvn.com/collections/fan-rgb-tan-nhiet-pc\">fan tản nhiệt</a>&nbsp;CF120 ARGB. Kh&ocirc;ng chỉ cung cấp luồng kh&ocirc;ng kh&iacute; v&agrave;o/ra dồi d&agrave;o cho thiết bị m&agrave; c&ograve;n gi&uacute;p t&ocirc; điểm cho buổi tr&igrave;nh diễn sắc m&agrave;u với hiệu ứng đ&egrave;n ARGB đẹp mắt.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-12_efd1c4b3642c433e859f058d10617482_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>N&oacute;c case cải tiến</strong></h3>\r\n<p>Đem đến một thiết kế n&oacute;c case của Cooler Master MasterBox 520 Mesh ARGB Black ho&agrave;n to&agrave;n mới lạ, đ&oacute; l&agrave; khả năng th&aacute;o rời cực k&igrave; dễ d&agrave;ng. Chỉ với v&agrave;i thao t&aacute;c đơn giản, bạn đ&atilde; c&oacute; thể bật n&oacute;c case ra khỏi vị tr&iacute;, nhờ đ&oacute; bạn đ&atilde; c&oacute; thể lắp đặt v&agrave; trang bị th&ecirc;m những hệ thống tản nhiệt như quạt tản nhiệt,&nbsp;<a href=\"https://gearvn.com/collections/tan-nhiet-nuoc-240mm\">tản nhiệt AIO</a>.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-3_ce3fa780f268414786ce7df7989ac756.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Dễ d&agrave;ng th&aacute;o lắp mặt h&ocirc;ng</strong></h3>\r\n<p>B&ecirc;n mặt h&ocirc;ng của Cooler Master MasterBox 520 Mesh ARGB Black l&agrave; tấm k&iacute;nh cường lực chắc chắn, trong suốt gi&uacute;p bạn dễ d&agrave;ng quan s&aacute;t v&agrave; show off mọi vẻ đẹp của những linh kiện như&nbsp;<a href=\"https://gearvn.com/collections/mainboard-bo-mach-chu\">mainboard</a>,&nbsp;<a href=\"https://gearvn.com/collections/vga-card-man-hinh\">VGA</a>, &hellip; Được cố định bằng c&aacute;c chốt, người d&ugrave;ng c&oacute; thể dễ d&agrave;ng th&aacute;o lắp, nhờ vậy bạn c&oacute; thể vệ sinh hay chỉnh sửa bất k&igrave; chi tiết n&agrave;o trong case m&aacute;y t&iacute;nh theo y&ecirc;u cầu c&aacute; nh&acirc;n.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-4_214029f938194f91afc1ba49dd2a351d.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<p>&nbsp;</p>\r\n<h3><strong>Hỗ trợ tối đa cho khả năng tản nhiệt</strong></h3>\r\n<p>Sở hữu một diện t&iacute;ch b&ecirc;n trong rộng r&atilde;i, Cooler Master MasterBox 520 Mesh ARGB Black đem đến cho người d&ugrave;ng sự thoải m&aacute;i trong lựa chọn hệ thống tản nhiệt. Cooler Master MasterBox 520 Mesh ARGB Black c&oacute; khả năng hỗ trợ tối đa l&ecirc;n đến 7 chiếc quạt tản nhiệt 120mm c&ugrave;ng l&uacute;c hoặc bộ tản nhiệt nước với k&iacute;ch thước tối đa l&agrave; 360mm. Biến việc build hoặc n&acirc;ng cấp PC trở n&ecirc;n cực k&igrave; thoải m&aacute;i v&agrave; th&uacute; vị khi c&oacute; hầu bao.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-7_8ad12b2e329245e987a51fac9c416ca9.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Khay HDD di động</strong></h3>\r\n<p>Vị tr&iacute; lắp đặt&nbsp;<a href=\"https://gearvn.com/collections/hdd-o-cung-pc\">ổ cứng</a>&nbsp;trong Cooler Master MasterBox 520 Mesh ARGB Black vẫn l&agrave; khu vực dưới c&ugrave;ng như những chiếc case truyền thống. Cộng th&ecirc;m điểm mạnh khi khay đựng HDD c&oacute; thể di chuyển, hỗ trợ khả năng tương th&iacute;ch với mọi loại setup m&agrave; bạn y&ecirc;u cầu.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-8_065b174983a34b8ca866d89ecbd487aa.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>N&acirc;ng cao khả năng lọc bụi</strong></h3>\r\n<p>Ngay b&ecirc;n dưới case Cooler Master MasterBox 520 Mesh ARGB Black l&agrave; bộ phận lọc bụi gi&uacute;p loại bỏ những bụi bẩn. V&agrave; khi nhắc tới bụi bẩn v&agrave; m&aacute;y t&iacute;nh th&igrave; vấn đề vệ sinh l&agrave; một điểm v&ocirc; c&ugrave;ng nhức nhối với mọi người d&ugrave;ng, tuy nhi&ecirc;n Cooler Master đ&atilde; hỗ trợ một phần v&agrave;o c&ocirc;ng cuộc vệ sinh to&agrave;n bộ d&agrave;n m&aacute;y khi tấm lọc bụi c&oacute; thể dễ d&agrave;ng k&eacute;o ra để vệ sinh v&agrave; lắp v&agrave;o một c&aacute;ch đơn giản.&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-14_afb0e3afbca2450685243438b96870e1_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Khu vực nguồn tho&aacute;ng m&aacute;t</strong></h3>\r\n<p>L&agrave; th&agrave;nh phần cung cấp năng lượng cho to&agrave;n bộ d&agrave;n m&aacute;y, khu vực của&nbsp;<a href=\"https://gearvn.com/collections/psu-nguon-may-tinh\">PSU</a>&nbsp;trong Cooler Master MasterBox 520 Mesh ARGB Black cũng được ưu ti&ecirc;n cải tiến khi c&aacute;c khe gi&oacute; tr&ecirc;n tấm ốp hỗ trợ rất nhiều v&agrave;o khả năng tản nhiệt. Từ đ&oacute;, gi&uacute;p luồng kh&iacute; n&oacute;ng dễ d&agrave;ng lan tỏa đi mọi hướng.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-15_cc77b8a721cd455698645ebbe8372884_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Khả năng tương th&iacute;ch rộng</strong></h3>\r\n<p>Sở hữu k&iacute;ch thước ti&ecirc;u chuẩn với mọi d&agrave;n PC Gaming hiện nay, Cooler Master MasterBox 520 Mesh ARGB Black sở hữu kh&ocirc;ng gian rộng r&atilde;i d&agrave;nh cho mọi linh kiện với k&iacute;ch thước phổ biến. Với mainboard, Cooler Master MasterBox 520 Mesh ARGB Black c&oacute; thể hỗ trợ cho bạn những form d&aacute;ng th&ocirc;ng dụng hiện nay như Mini ITX, M-ATX, ATX đến những form đặc biệt như SSI CEB v&agrave; E-ATX. C&ugrave;ng với đ&oacute; l&agrave; card m&agrave;n h&igrave;nh, c&oacute; thể hỗ trợ chiều d&agrave;i đạt con số 410mm. Chỉ cần bạn th&iacute;ch, Cooler Master MasterBox 520 Mesh ARGB Black sẽ &ldquo;chiều&rdquo;.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-9_bbc12c0dac80494f8f102a89aa42338f.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>\r\n<h3><strong>Cung cấp mọi cổng kết nối hữu &iacute;ch</strong></h3>\r\n<p>Vị tr&iacute; lắp đặt những cổng I/O tr&ecirc;n Cooler Master MasterBox 520 Mesh ARGB Black được dời l&ecirc;n ph&iacute;a trước để cho người d&ugrave;ng tiện thao t&aacute;c. Cung cấp cho người d&ugrave;ng những cổng kết nối như USB 3.2 Gen 2 Type-C, USB 3.2 Gen 1 Type-A v&agrave; combo jack audio 3.5mm, Cooler Master MasterBox 520 Mesh ARGB Black sẽ l&agrave; một th&agrave;nh phần đ&aacute;ng c&acirc;n nhắc cho mọi nhu cầu sử dụng hiện nay.</p>\r\n<p><img src=\"https://file.hstatic.net/1000026716/file/gearvn-case-cooler-master-masterbox-520-mesh-argb-black-3-fan-argb-16_5de7a59d00ee45dcaeb32841e345b41e_1024x1024.png\" alt=\"GEARVN - Case Cooler Master MasterBox 520 Mesh ARGB Black\"></p>', '2025-07-02 10:01:28', '2025-07-02 10:01:28', NULL),
+(2, 'Vỏ case JONSBO D300 WHITE (mATX/Mid Tower/Màu Trắng /Kính Cong)', '1999000.00', '1799000.00', '<p><strong>- Hỗ trợ Mainboard: ITX / M-ATX<br>&nbsp;- Cổng kết nối: USB3.2 Gen2 Type-C x 1 / USB3.0 x 2 / AUDIO &amp; MIC*1<br>&nbsp;- Hỗ trợ tản nhiệt kh&iacute; CPU 180mm<br>&nbsp;- Card m&agrave;n h&igrave;nh: &le; 430mm<br>&nbsp;- Thiết kế mặt k&iacute;nh cong độc đ&aacute;o mang lại điểm nhấn cho vỏ case</strong></p>\r\n<div>Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Jonsbo</td>\r\n</tr>\r\n<tr>\r\n<td>T&ecirc;n sản phẩm</td>\r\n<td>D300</td>\r\n</tr>\r\n<tr>\r\n<td>Loại case</td>\r\n<td>Mid Tower</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u sắc</td>\r\n<td>Trắng/Đen</td>\r\n</tr>\r\n<tr>\r\n<td>Chất liệu</td>\r\n<td>Th&eacute;p, K&iacute;nh Cường Lực</td>\r\n</tr>\r\n<tr>\r\n<td>Đi k&egrave;m nguồn</td>\r\n<td>Kh&ocirc;ng</td>\r\n</tr>\r\n<tr>\r\n<td>Vị tr&iacute; đặt nguồn</td>\r\n<td>Dưới</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ nguồn</td>\r\n<td>&le;200mm</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ Mainboard</td>\r\n<td>M-ATX / ITX</td>\r\n</tr>\r\n<tr>\r\n<td>Cửa sổ h&ocirc;ng</td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 5.5\"</td>\r\n<td>0</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 3.5\"</td>\r\n<td>1</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 2.5\"</td>\r\n<td>3</td>\r\n</tr>\r\n<tr>\r\n<td>Khe mở rộng</td>\r\n<td>N/A</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối mặt trước</td>\r\n<td>2 x USB 3.01 x USB 3.2 Gen2 Type C1x Audio &amp; Mic</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ tản nhiệt</td>\r\n<td>Tr&ecirc;n 240/360Sau: 120/140</td>\r\n</tr>\r\n<tr>\r\n<td>Hệ thống l&agrave;m m&aacute;t ( Quạt )</td>\r\n<td>Tr&ecirc;n: 3 x 120mm/ 2 x 140mm ( Chưa k&egrave;m theo) Dưới: 1 x 120mm/ ( Chưa k&egrave;m theo)Sau: 1 x 120mm/ 1x 140mm ( Chưa k&egrave;m theo )B&ecirc;n cạnh: 3 x 120mm&nbsp; ( Chưa k&egrave;m theo )</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều d&agrave;i tối đa GPU</td>\r\n<td>&le;430mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều cao tối đa tản nhiệt CPU</td>\r\n<td>&le;180mm</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch cỡ</td>\r\n<td>236.4mm&nbsp; * 420.9mm * 460.2mm (w/h/d)</td>\r\n</tr>\r\n<tr>\r\n<td>C&acirc;n nặng</td>\r\n<td>8.0kg</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:43:16', '2025-07-05 08:43:16', NULL),
+(3, 'Vỏ case JONSBO D300 BLACK (mATX/Mid Tower/Màu ĐEN /Kính Cong)', '1999000.00', '1799000.00', '<p>&nbsp;- Hỗ trợ Mainboard: ITX / M-ATX<br>&nbsp;- Cổng kết nối: USB3.2 Gen2 Type-C x 1 / USB3.0 x 2 / AUDIO &amp; MIC*1<br>&nbsp;- Hỗ trợ tản nhiệt kh&iacute; CPU 180mm<br>&nbsp;- Card m&agrave;n h&igrave;nh: &le; 430mm<br>&nbsp;- Thiết kế mặt k&iacute;nh cong độc đ&aacute;o mang lại điểm nhấn cho vỏ case</p>\r\n<div>Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Jonsbo</td>\r\n</tr>\r\n<tr>\r\n<td>T&ecirc;n sản phẩm</td>\r\n<td>D300</td>\r\n</tr>\r\n<tr>\r\n<td>Loại case</td>\r\n<td>Mid Tower</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u sắc</td>\r\n<td>Trắng/Đen</td>\r\n</tr>\r\n<tr>\r\n<td>Chất liệu</td>\r\n<td>Th&eacute;p, K&iacute;nh Cường Lực</td>\r\n</tr>\r\n<tr>\r\n<td>Đi k&egrave;m nguồn</td>\r\n<td>Kh&ocirc;ng</td>\r\n</tr>\r\n<tr>\r\n<td>Vị tr&iacute; đặt nguồn</td>\r\n<td>Dưới</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ nguồn</td>\r\n<td>&le;200mm</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ Mainboard</td>\r\n<td>M-ATX / ITX</td>\r\n</tr>\r\n<tr>\r\n<td>Cửa sổ h&ocirc;ng</td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 5.5\"</td>\r\n<td>0</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 3.5\"</td>\r\n<td>1</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ lắp ổ 2.5\"</td>\r\n<td>3</td>\r\n</tr>\r\n<tr>\r\n<td>Khe mở rộng</td>\r\n<td>N/A</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối mặt trước</td>\r\n<td>2 x USB 3.01 x USB 3.2 Gen2 Type C1x Audio &amp; Mic</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ tản nhiệt</td>\r\n<td>Tr&ecirc;n 240/360Sau: 120/140</td>\r\n</tr>\r\n<tr>\r\n<td>Hệ thống l&agrave;m m&aacute;t ( Quạt )</td>\r\n<td>Tr&ecirc;n: 3 x 120mm/ 2 x 140mm ( Chưa k&egrave;m theo) Dưới: 1 x 120mm/ ( Chưa k&egrave;m theo)Sau: 1 x 120mm/ 1x 140mm ( Chưa k&egrave;m theo )B&ecirc;n cạnh: 3 x 120mm&nbsp; ( Chưa k&egrave;m theo )</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều d&agrave;i tối đa GPU</td>\r\n<td>&le;430mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều cao tối đa tản nhiệt CPU</td>\r\n<td>&le;180mm</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch cỡ</td>\r\n<td>236.4mm&nbsp; * 420.9mm * 460.2mm (w/h/d)</td>\r\n</tr>\r\n<tr>\r\n<td>C&acirc;n nặng</td>\r\n<td>8.0kg</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:44:13', '2025-07-05 08:45:56', NULL),
+(4, 'VỎ CASE JONSBO T7 BLACK', '4999000.00', '3999000.00', '<p>&nbsp;Vỏ case PC Jonsbo T7 &ndash; Vỏ m&aacute;y t&iacute;nh c&oacute; tay cầm cao cấp, nhỏ gọn để b&agrave;n ITX/M-ATX<br>&nbsp;Size: 210mm(W) * 305mm(D) * 403mm(H)<br>&nbsp;Vật liệu: Hợp kim nh&ocirc;m 3mm + th&eacute;p tấm 1mm + gỗ &oacute;c ch&oacute; Bắc Mỹ 10mm<br>&nbsp;Mainboard: ITX, M-ATX<br>&nbsp;GPU: &le; 255mm-280mm</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<div><hr>\r\n<p>Th&ocirc;ng số kỹ thuật&nbsp;</p>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>Model</p>\r\n</td>\r\n<td>\r\n<p>T7&nbsp;BLACK</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Size</p>\r\n</td>\r\n<td>\r\n<p>210mm(W) * 305mm(D) * 403mm(H)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Vật liệu</p>\r\n</td>\r\n<td>\r\n<p>Hợp kim nh&ocirc;m 3mm + th&eacute;p tấm 1mm + gỗ &oacute;c ch&oacute; Bắc Mỹ 10mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Mainboard</p>\r\n</td>\r\n<td>\r\n<p>ITX, M-ATX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Nguồn</p>\r\n</td>\r\n<td>\r\n<p>&le;220mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>GPU</p>\r\n</td>\r\n<td>\r\n<p>&le; 255mm-280mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Tản nhiệt</p>\r\n</td>\r\n<td>\r\n<p>&le; 165mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Fan tản nhiệt</p>\r\n</td>\r\n<td>\r\n<p>Front panel 120mm*2; Rear panel 120mm*1</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ổ cứng</p>\r\n</td>\r\n<td>\r\n<p>3.5 HDD*1 / 2.5 SSD*2 or 2.5 SSD*3</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Giao diện I/O</p>\r\n</td>\r\n<td>\r\n<p>Type-C*1/USB3.0*1/AUDIO*1+MIC*1 (2 in 1)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Trọng lượng</p>\r\n</td>\r\n<td>\r\n<p>Net 5.85kg</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:44:53', '2025-07-05 08:44:53', NULL),
+(5, 'VỎ CASE JONSBO T7 SILVER', '4999000.00', '3999000.00', '<p>Vỏ case PC Jonsbo T7 &ndash; Vỏ m&aacute;y t&iacute;nh c&oacute; tay cầm cao cấp, nhỏ gọn để b&agrave;n ITX/M-ATX<br>&nbsp;Size: 210mm(W) * 305mm(D) * 403mm(H)<br>&nbsp;Vật liệu: Hợp kim nh&ocirc;m 3mm + th&eacute;p tấm 1mm + gỗ &oacute;c ch&oacute; Bắc Mỹ 10mm<br>&nbsp;Mainboard: ITX, M-ATX<br>&nbsp;GPU: &le; 255mm-280mm</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<div><hr>\r\n<p>Th&ocirc;ng số kỹ thuật&nbsp;</p>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>Model</p>\r\n</td>\r\n<td>\r\n<p>T7&nbsp;SILVER</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Size</p>\r\n</td>\r\n<td>\r\n<p>210mm(W) * 305mm(D) * 403mm(H)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Vật liệu</p>\r\n</td>\r\n<td>\r\n<p>Hợp kim nh&ocirc;m 3mm + th&eacute;p tấm 1mm + gỗ &oacute;c ch&oacute; Bắc Mỹ 10mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Mainboard</p>\r\n</td>\r\n<td>\r\n<p>ITX, M-ATX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Nguồn</p>\r\n</td>\r\n<td>\r\n<p>&le;220mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>GPU</p>\r\n</td>\r\n<td>\r\n<p>&le; 255mm-280mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Tản nhiệt</p>\r\n</td>\r\n<td>\r\n<p>&le; 165mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Fan tản nhiệt</p>\r\n</td>\r\n<td>\r\n<p>Front panel 120mm*2; Rear panel 120mm*1</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ổ cứng</p>\r\n</td>\r\n<td>\r\n<p>3.5 HDD*1 / 2.5 SSD*2 or 2.5 SSD*3</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Giao diện I/O</p>\r\n</td>\r\n<td>\r\n<p>Type-C*1/USB3.0*1/AUDIO*1+MIC*1 (2 in 1)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Trọng lượng</p>\r\n</td>\r\n<td>\r\n<p>Net 5.85kg</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:45:19', '2025-07-05 08:45:19', NULL),
+(6, 'Vỏ Case XIGMATEK ALPHA - PANO M BLACK ( MATX, Màu Đen, Case Bể Cá)', '1490000.00', '1090000.00', '<p>&nbsp;Vật liệu: Th&eacute;p<br>&nbsp;K&iacute;ch thước: 453 x 275 x 376 mm<br>&nbsp;Fan: Top: 120mm x3 hoặc 140mm x2; MB: 120mm x2, Bottom: 120mm x3; Rear: 120mm x1<br>&nbsp;Hỗ trợ Mainboard: MICRO ATX, MINI ITX<br>&nbsp;Cổng kết nối: USB3.0 x1, USB 2.0 x1, HD Audio<br>&nbsp;Hỗ trợ tản nhiệt CPU 160mm<br>&nbsp;Hỗ trợ VGA 400mm</p>\r\n<div>Bảo h&agrave;nh :12 TH</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Loại case</td>\r\n<td>Micro ATX</td>\r\n</tr>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Xigmatek</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước case</td>\r\n<td>460 x 285 x 368 mm</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước đ&oacute;ng g&oacute;i</td>\r\n<td>Chưa cung cấp</td>\r\n</tr>\r\n<tr>\r\n<td>Chất liệu:</td>\r\n<td>Steel, k&iacute;nh cường lực</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u sắc</td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ mainboard</td>\r\n<td>Micro-ATX, ITX</td>\r\n</tr>\r\n<tr>\r\n<td>Khe cắm ổ cứng</td>\r\n<td>2.5\" x 3 / 3.5\" x 1</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ Fan LED</td>\r\n<td>C&oacute; (t&ugrave;y chọn)</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều cao tối đa CPU Cooler</td>\r\n<td>160mm</td>\r\n</tr>\r\n<tr>\r\n<td>Độ d&agrave;i tối đa VGA</td>\r\n<td>410mm</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối</td>\r\n<td>USB3.0 x1, USB2.0 x2, Audio in/out (HD Audio)</td>\r\n</tr>\r\n<tr>\r\n<td>T&iacute;nh năng kh&aacute;c</td>\r\n<td>Thiết kế k&iacute;nh cường lực to&agrave;n cảnh, hỗ trợ tản nhiệt nước</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-07-05 08:46:26', '2025-07-05 08:46:26', NULL),
+(7, 'Vỏ Case XIGMATEK ALPHA - PANO M ARTIC WHITE ( MATX, Màu Trắng, Case Bể Cá)', '1490000.00', '1090000.00', '<p>Vật liệu: Th&eacute;p<br>&nbsp;K&iacute;ch thước: 453 x 275 x 376 mm<br>&nbsp;Fan: Top: 120mm x3 hoặc 140mm x2; MB: 120mm x2, Bottom: 120mm x3; Rear: 120mm x1<br>&nbsp;Hỗ trợ Mainboard: MICRO ATX, MINI ITX<br>&nbsp;Cổng kết nối: USB3.0 x1, USB 2.0 x1, HD Audio<br>&nbsp;Hỗ trợ tản nhiệt CPU 160mm<br>&nbsp;Hỗ trợ VGA 400mm</p>\r\n<div>Bảo h&agrave;nh :12 TH</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Loại case</td>\r\n<td>Micro ATX</td>\r\n</tr>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Xigmatek</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước case</td>\r\n<td>460 x 285 x 368 mm</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước đ&oacute;ng g&oacute;i</td>\r\n<td>Chưa cung cấp</td>\r\n</tr>\r\n<tr>\r\n<td>Chất liệu:</td>\r\n<td>Steel, k&iacute;nh cường lực</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u sắc</td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ mainboard</td>\r\n<td>Micro-ATX, ITX</td>\r\n</tr>\r\n<tr>\r\n<td>Khe cắm ổ cứng</td>\r\n<td>2.5\" x 3 / 3.5\" x 1</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ Fan LED</td>\r\n<td>C&oacute; (t&ugrave;y chọn)</td>\r\n</tr>\r\n<tr>\r\n<td>Chiều cao tối đa CPU Cooler</td>\r\n<td>160mm</td>\r\n</tr>\r\n<tr>\r\n<td>Độ d&agrave;i tối đa VGA</td>\r\n<td>410mm</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối</td>\r\n<td>USB3.0 x1, USB2.0 x2, Audio in/out (HD Audio)</td>\r\n</tr>\r\n<tr>\r\n<td>T&iacute;nh năng kh&aacute;c</td>\r\n<td>Thiết kế k&iacute;nh cường lực to&agrave;n cảnh, hỗ trợ tản nhiệt nước</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p>&nbsp;</p>\r\n</div>\r\n</div>', '2025-07-05 08:46:51', '2025-07-05 08:46:51', NULL),
+(8, 'Vỏ Case QC.Art ULTRA HM1 White (ATX)', '2990000.00', '2890000.00', '<div class=\"description-productdetail\">&nbsp;Loại case: ATX Tower<br>&nbsp;K&iacute;ch thước: 430 * 240 * 450 mm<br>&nbsp;Chất liệu: K&iacute;nh trong suốt uốn cong một mảnh d&agrave;y 1.0mm/0.8mm<br>&nbsp;Main hỗ trợ: ATX, M-ATX, ITX<br>&nbsp;Số lượng fan: Kh&ocirc;ng k&egrave;m theo / tối đa 7 quạt<br>&nbsp;Hỗ trợ radiator: Top: 360mm<br>&nbsp;Cổng kết nối I/O: Power *1, Audio *2, USB 3.0 *2, USB Type-C *1<br>&nbsp;Hỗ trợ GPU: Tối đa 380mm<br>&nbsp;Hỗ trợ PSU: ATX lắp dưới<br>&nbsp;Thiết kế: K&iacute;nh trong suốt, lưới lọc bụi (từ cấu tr&uacute;c th&ocirc;ng gi&oacute; đ&aacute;y v&agrave; mặt sau)<br>&nbsp;Tản nhiệt đi k&egrave;m: Kh&ocirc;ng\r\n<div>&nbsp;Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-07-05 08:47:19', '2025-07-05 08:47:19', NULL),
+(9, 'Vỏ Case QC.Art ULTRA HM1 White (MATX)', '2990000.00', '2390000.00', '<p>&nbsp;Loại case: M-ATX Tower<br>&nbsp;K&iacute;ch thước: 430 * 240 * 390 mm<br>&nbsp;Chất liệu: K&iacute;nh trong suốt uốn cong một mảnh d&agrave;y 1.0mm/0.8mm<br>&nbsp;Main hỗ trợ: ATX, M-ATX, ITX<br>&nbsp;Số lượng fan: Kh&ocirc;ng k&egrave;m theo / tối đa 7 quạt<br>&nbsp;Hỗ trợ radiator: Top: 360mm<br>&nbsp;Cổng kết nối I/O: Power *1, Audio *2, USB 3.0 *2, USB Type-C *1<br>&nbsp;Hỗ trợ GPU: Tối đa 380mm<br>&nbsp;Hỗ trợ PSU: ATX lắp dưới<br>&nbsp;Thiết kế: K&iacute;nh trong suốt, lưới lọc bụi (từ cấu tr&uacute;c th&ocirc;ng gi&oacute; đ&aacute;y v&agrave; mặt sau)<br>&nbsp;Tản nhiệt đi k&egrave;m: Kh&ocirc;ng</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 12 Th&aacute;ng</div>', '2025-07-05 08:47:45', '2025-07-05 08:47:45', NULL),
+(10, 'Vỏ Case Jonsbo C6 MAX BLACK (Mini Tower/Màu Đen)/Không Kèm Quạt)', '1490000.00', '1090000.00', '<p>&nbsp;Thương hiệu : Jonsbo<br>&nbsp;M&agrave;u sắc : ĐEN<br>&nbsp;K&iacute;ch cỡ case : ITX (mini-ITX Tower), Mini Tower (m-ATX Tower)<br>&nbsp;Chiều d&agrave;i VGA tối đa : 301mm &ndash; 350mm<br>&nbsp;Chiều cao tản kh&iacute; tối đa : 161mm &ndash; 175mm</p>\r\n<div>Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Model</td>\r\n<td>C6 MAX</td>\r\n</tr>\r\n<tr>\r\n<td>Dimension</td>\r\n<td>202mm (W) x 349mm (D) x 295mm (H)</td>\r\n</tr>\r\n<tr>\r\n<td>Material</td>\r\n<td>0.7mm Steel</td>\r\n</tr>\r\n<tr>\r\n<td>Drive Bay</td>\r\n<td>2.5SSD x1 / 3.5HDD x1</td>\r\n</tr>\r\n<tr>\r\n<td>Motherboard</td>\r\n<td>ITX/M-ATX</td>\r\n</tr>\r\n<tr>\r\n<td>Front I/O Port</td>\r\n<td>Type-C (20PIN), USB 3.0 x1, AUDIO x1 + MIC x1</td>\r\n</tr>\r\n<tr>\r\n<td>PSU Support</td>\r\n<td>ATX 140mm - 220mm</td>\r\n</tr>\r\n<tr>\r\n<td>Max. CPU Cooler Height</td>\r\n<td>170mm</td>\r\n</tr>\r\n<tr>\r\n<td>Max. Display Card Length</td>\r\n<td>300-335mm</td>\r\n</tr>\r\n<tr>\r\n<td>Fan Support</td>\r\n<td>Top: 120mm x2 / 140mm x1; Rear: 120mm x1; Bottom: 120mm x2 or HDD</td>\r\n</tr>\r\n<tr>\r\n<td>Weight</td>\r\n<td>Net 3.45kg</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:48:12', '2025-07-05 08:48:12', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chi_tiet_don_hangs`
+-- Table structure for table `chips`
+--
+
+CREATE TABLE `chips` (
+  `id` bigint UNSIGNED NOT NULL,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `chips`
+--
+
+INSERT INTO `chips` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`, `gia`, `gia_sale`) VALUES
+(1, 'Intel Core i7-6774', 'Sint fuga accusamus iure aliquam deserunt ea rerum autem.', '2025-06-20 21:17:39', '2025-07-05 02:44:15', '2025-07-05 02:44:15', '0.00', NULL),
+(2, 'CPU Intel Core Ultra 5 245K', '<ul>\r\n<li>&nbsp;CPU Intel Core Ultra 5 245K</li>\r\n<li>&nbsp;Socket: LGA 1851</li>\r\n<li>&nbsp;Số nh&acirc;n/luồng: 14 (6P-Core|8E-Core)/14 luồng</li>\r\n<li>&nbsp;Boost Clock (P-Core): 5.2GHz</li>\r\n<li>&nbsp;Boost Clock (E-Core): 4.6GHz</li>\r\n<li>&nbsp;TDP: 125W</li>\r\n</ul>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h2><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></h2>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>Nh&agrave; sản xuất</td>\r\n<td>Intel</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>Ultra 5 245K</td>\r\n</tr>\r\n<tr>\r\n<td>CPU</td>\r\n<td><strong>Intel Core Ultra 5 245K</strong></td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ socket</td>\r\n<td>FCLGA1851</td>\r\n</tr>\r\n<tr>\r\n<td>Số l&otilde;i</td>\r\n<td>14</td>\r\n</tr>\r\n<tr>\r\n<td>Số P-core</td>\r\n<td>6</td>\r\n</tr>\r\n<tr>\r\n<td>Số E-core</td>\r\n<td>8</td>\r\n</tr>\r\n<tr>\r\n<td>Tổng số luồng</td>\r\n<td>14</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số turbo tối đa</td>\r\n<td>5.2 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Turbo tối đa của P-core</td>\r\n<td>5.2 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Turbo tối đa của E-core</td>\r\n<td>4.6 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Cơ sở của P-core</td>\r\n<td>4.2 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Cơ sở E-core</td>\r\n<td>3.6 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>B&ocirc;̣ nhớ đ&ecirc;̣m</td>\r\n<td>24 MB Intel&reg; Smart Cache</td>\r\n</tr>\r\n<tr>\r\n<td>Tổng Bộ nhớ đệm L2</td>\r\n<td>26 MB</td>\r\n</tr>\r\n<tr>\r\n<td>TDP</td>\r\n<td>125 W</td>\r\n</tr>\r\n<tr>\r\n<td>TDP Turbo Tối đa</td>\r\n<td>159 W</td>\r\n</tr>\r\n<tr>\r\n<td>Dung lượng bộ nhớ tối Đa (t&ugrave;y v&agrave;o loại bộ nhớ)</td>\r\n<td>192 GB</td>\r\n</tr>\r\n<tr>\r\n<td>Các loại b&ocirc;̣ nhớ</td>\r\n<td>Up to DDR5 6400 MT/s</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc Độ Bộ Nhớ Tối Đa</td>\r\n<td>6400 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>Số K&ecirc;nh Bộ Nhớ Tối Đa</td>\r\n<td>2</td>\r\n</tr>\r\n<tr>\r\n<td>Hỗ trợ Bộ nhớ ECC&nbsp;&Dagger;</td>\r\n<td>Yes</td>\r\n</tr>\r\n<tr>\r\n<td>GPU T&iacute;ch hợp</td>\r\n<td>Intel&reg; Graphics</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số cơ sở đồ họa</td>\r\n<td>300 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số động tối đa đ&ocirc;̀ họa</td>\r\n<td>1.9 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Nhiệt độ vận h&agrave;nh tối đa</td>\r\n<td>105 &deg;C</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:44:09', NULL, '7290000.00', NULL),
+(3, 'CPU AMD RYZEN 9 7900X', '<p>&nbsp;Số nh&acirc;n: 12<br>&nbsp;Số luồng: 24 luồng<br>&nbsp;Xung nhịp boost tối đa: 5.6 GHz<br>&nbsp;Hỗ trợ PCI-e 5.0<br>&nbsp;Hỗ trợ &eacute;p xung</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Sản phẩm&nbsp;</strong></td>\r\n<td>CPU - Bộ vi xử l&yacute;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>AMD</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại CPU</strong></td>\r\n<td>D&agrave;nh cho m&aacute;y b&agrave;n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thế hệ</strong></td>\r\n<td>Ryzen 9 7000 Series</td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&ecirc;n gọi</strong></td>\r\n<td>AMD&nbsp;Ryzen 9 7900X</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Socket</strong></td>\r\n<td>AM5</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Số nh&acirc;n</strong></td>\r\n<td>12</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Số luồng</strong></td>\r\n<td>24</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ xử l&yacute;</strong></td>\r\n<td>Xung cơ bản 4.7GHz, xung tối đa 5.6GHz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bộ nhớ đệm L2</strong></td>\r\n<td>16 MB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bộ nhớ đệm L3</strong></td>\r\n<td>64 MB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Mở kh&oacute;a để &eacute;p xung</strong></td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Socket</strong></td>\r\n<td>AM5</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Phi&ecirc;n bản PCI Express</strong></td>\r\n<td>PCIe&reg; 5.0</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Giải ph&aacute;p tản nhiệt&nbsp;(PIB)</strong></td>\r\n<td>Kh&ocirc;ng c&oacute; sẵn</td>\r\n</tr>\r\n<tr>\r\n<td><strong>TDP / TDP mặc định</strong></td>\r\n<td>170 W</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"7\"><strong>Bộ nhớ hỗ trợ</strong></td>\r\n<td>Loại:&nbsp;DDR5</td>\r\n</tr>\r\n<tr>\r\n<td>K&ecirc;nh:&nbsp;2</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ bộ nhớ tối đa:&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td>2x1R DDR5-5200</td>\r\n</tr>\r\n<tr>\r\n<td>2x2R DDR5-5200</td>\r\n</tr>\r\n<tr>\r\n<td>4x1R DDR5-3600</td>\r\n</tr>\r\n<tr>\r\n<td>4x2R DDR5-3600</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Nh&oacute;m sản phẩm</strong></td>\r\n<td>AMD Ryzen&trade; Processors</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\"><strong>T&iacute;nh năng đồ họa</strong></td>\r\n<td>Graphics Model:&nbsp;AMD Radeon&trade; Graphics</td>\r\n</tr>\r\n<tr>\r\n<td>Graphics Core Count:&nbsp;2</td>\r\n</tr>\r\n<tr>\r\n<td>Graphics Frequency:&nbsp;2200 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>GPU Base:&nbsp;400 MHz</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\"><strong>C&ocirc;ng nghệ hỗ trợ</strong></td>\r\n<td>AMD EXPO&trade; Technology</td>\r\n</tr>\r\n<tr>\r\n<td>AMD Ryzen&trade; Technologies</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:43:05', NULL, '10999000.00', '8990000.00'),
+(4, 'CPU AMD Ryzen Ryzen 5 7500F', '<p><strong>&nbsp;D&ograve;ng CPU: AMD Ryzen 7000 series<br>&nbsp;Socket: AMD AM5<br>&nbsp;Số nh&acirc;n: 6<br>&nbsp;Số luồng: 12<br>&nbsp;Xung cơ bản 3.7 GHz<br>&nbsp;Xung tối đa 5.0 GHz<br>&nbsp;TDP: 65W</strong></p>\r\n<div><strong>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Sản phẩm</td>\r\n<td>B&ocirc;̣ vi xử lý CPU</td>\r\n</tr>\r\n<tr>\r\n<td>H&atilde;ng sản xuất</td>\r\n<td>AMD</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>CPU AMD Ryzen 5 7500F</td>\r\n</tr>\r\n<tr>\r\n<td>Socket</td>\r\n<td>AM5</td>\r\n</tr>\r\n<tr>\r\n<td>T&ocirc;́c đ&ocirc;̣</td>\r\n<td>3.7 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ Turbo t&ocirc;́i đa</td>\r\n<td>5.0 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Cache</td>\r\n<td>L2 Cache6 MBL3 Cache32 MB</td>\r\n</tr>\r\n<tr>\r\n<td>Nh&acirc;n CPU</td>\r\n<td>6&nbsp;Cores</td>\r\n</tr>\r\n<tr>\r\n<td>Lu&ocirc;̀ng CPU</td>\r\n<td>12 Threads</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"8\">Bus ram hỗ trợ</td>\r\n<td>\r\n<div>\r\n<div>\r\n<div>\r\n<div>\r\n<div>\r\n<div>\r\n<div>\r\n<div>2x1R</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>DDR5-5200</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>\r\n<div>2x2R</div>\r\n</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>DDR5-5200</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>\r\n<div>4x1R</div>\r\n</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>DDR5-3600</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>\r\n<div>4x2R</div>\r\n</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<div>DDR5-3600</div>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>D&acirc;y chuy&ecirc;̀n c&ocirc;ng ngh&ecirc;̣</td>\r\n<td>Processor Technology for CPU CoresTSMC 5nm FinFET<br>Processor Technology for I/O DieTSMC 6nm FinFET</td>\r\n</tr>\r\n<tr>\r\n<td>Default TDP</td>\r\n<td>65W</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:42:28', NULL, '8590000.00', '3999000.00'),
+(5, 'CPU AMD Ryzen 7 7700', '<p><strong>D&ograve;ng CPU: AMD Ryzen 7000 series<br>&nbsp;Socket: AM5<br>&nbsp;Số nh&acirc;n : 8<br>&nbsp;Số luồng : 16<br>&nbsp;Tốc độ xử l&yacute;: Xung cơ bản 3.8GHz, xung tối đa 5.3GHz<br>&nbsp;TDP: 65W<br>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</strong></p>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>H&atilde;ng sản xuất</strong></p>\r\n</td>\r\n<td>\r\n<p>AMD</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Model</strong></p>\r\n</td>\r\n<td>\r\n<p>AMD Ryzen 7 7700</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Số nh&acirc;n (Cores):</strong></p>\r\n</td>\r\n<td>\r\n<p>8</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Số luồng (Threads):</strong></p>\r\n</td>\r\n<td>\r\n<p>16</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Tốc độ xử l&yacute;:</strong></p>\r\n</td>\r\n<td>\r\n<p>Xung cơ bản 3.8GHz, xung tối đa 5.3GHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bộ nhớ đệm L2:</strong></p>\r\n</td>\r\n<td>\r\n<p>8MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bộ nhớ đệm L3:</strong></p>\r\n</td>\r\n<td>\r\n<p>32MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Mở kh&oacute;a để &eacute;p xung:</strong></p>\r\n</td>\r\n<td>\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CMOS:</strong></p>\r\n</td>\r\n<td>\r\n<p>--</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Socket:</strong></p>\r\n</td>\r\n<td>\r\n<p>AM5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Phi&ecirc;n bản PCI Express :</strong></p>\r\n</td>\r\n<td>\r\n<p>PCIe&reg; 5.0</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Giải ph&aacute;p tản nhiệt&nbsp;(PIB):</strong></p>\r\n</td>\r\n<td>\r\n<p>Lăng k&iacute;nh AMD Wraith</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>TDP / TDP mặc định:</strong></p>\r\n</td>\r\n<td>\r\n<p>65 W</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bộ nhớ hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>--</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Nh&oacute;m sản phẩm:</strong></p>\r\n</td>\r\n<td>\r\n<p>AMD Ryzen&trade; Processors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>D&ograve;ng sản phẩm:</strong></p>\r\n</td>\r\n<td>\r\n<p>--</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>C&ocirc;ng nghệ hỗ trợ:</strong></p>\r\n</td>\r\n<td>\r\n<p>AMD \"Zen 4\" Core Architecture</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:41:52', NULL, '10890000.00', '5590000.00'),
+(6, 'CPU Intel Core i5 14500', '<div><strong>H&agrave;ng NEW Ch&iacute;nh H&atilde;ng - Bảo H&agrave;nh 36 Th&aacute;ng</strong></div>\r\n<p><strong>Hỗ trợ socket: Intel LGA1700&nbsp;</strong></p>\r\n<div><strong>Số nh&acirc;n: 14 / Số luồng: 20</strong></div>\r\n<div><strong>&nbsp;Tần số turbo tối đa: 5.0 GHz</strong></div>\r\n<div><strong>&nbsp;Tần số cơ sở: 2.6 GHz&nbsp;</strong></div>\r\n<div><strong>B&ocirc;̣ nhớ đ&ecirc;̣m: 24MB Intel&reg; Smart Cache&nbsp;</strong></div>\r\n<div><strong>C&ocirc;ng suất cơ bản của bộ xử l&yacute;: 65W&nbsp;</strong></div>\r\n<div><strong>Dung lượng RAM : 192 GB&nbsp;</strong></div>\r\n<div><strong>Các loại b&ocirc;̣ nhớ (t&ugrave;y v&agrave;o bo mạch chủ) : DDR4/ DDR5</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương hiệu</strong></td>\r\n<td>Intel</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại CPU</strong></td>\r\n<td>D&agrave;nh cho m&aacute;y b&agrave;n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thế hệ&nbsp;</strong></td>\r\n<td>Core i5 Thế hệ thứ 14</td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&ecirc;n gọi</strong></td>\r\n<td>Core i5-14500</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Socket</strong></td>\r\n<td>FCLGA 1700</td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&ecirc;n thế hệ</strong></td>\r\n<td>Raptor Lake</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Số nh&acirc;n</strong></td>\r\n<td>14</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Số luồng</strong></td>\r\n<td>20</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"5\"><strong>Tốc độ cơ bản</strong></td>\r\n<td>Tần số turbo tối đa 5.0 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Turbo tối đa của P-core 5.0 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Turbo tối đa của E-core 3.7 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Cơ sở của P-core2.6 GHz</td>\r\n</tr>\r\n<tr>\r\n<td>Tần số Cơ sở E-core1.9 GHz</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\"><strong>Cache</strong></td>\r\n<td>24 MB</td>\r\n</tr>\r\n<tr>\r\n<td>Total L2 Cache:&nbsp;11.5 MB</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\"><strong>Hỗ trợ bộ nhớ</strong></td>\r\n<td>Tối đa&nbsp;192 GB</td>\r\n</tr>\r\n<tr>\r\n<td>DDR4 4800 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>DDR5 3200 MHz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Hỗ trợ số k&ecirc;nh bộ nhớ</strong></td>\r\n<td>2</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Nh&acirc;n đồ họa t&iacute;ch hợp</strong></td>\r\n<td>UHD Intel&reg; UHD 770</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ GPU t&iacute;ch hợp tối đa</strong></td>\r\n<td>1.55 GHz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Phi&ecirc;n bản PCI Express</strong></td>\r\n<td>5.0 and 4.0</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Số lane PCI Express</strong></td>\r\n<td>Up to 1x16+4, 2x8+4</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\"><strong>TDP</strong></td>\r\n<td>C&ocirc;ng suất cơ bản: 65W</td>\r\n</tr>\r\n<tr>\r\n<td>C&ocirc;ng suất tối đa: 154W</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tản nhiệt</strong></td>\r\n<td>Mặc định đi k&egrave;m</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>CPU Intel Core i5 14500 (Up To 5.0GHz, 14 Nh&acirc;n 20 Luồng, 24MB Cache, LGA 1700)&nbsp;</h2>\r\n<p>Intel đ&atilde; ch&iacute;nh thức giới thiệu sản phẩm mới - CPU Intel Core i5-14500, khởi đầu ấn tượng cho d&ograve;ng sản phẩm Intel Raptor Lake Refresh. Với c&aacute;c th&ocirc;ng số kỹ thuật đ&aacute;ng ch&uacute; &yacute; v&agrave; hiệu suất mạnh mẽ, d&ograve;ng CPU n&agrave;y hứa hẹn đ&aacute;p ứng mọi nhu cầu từ c&ocirc;ng việc đến giải tr&iacute;.&nbsp;</p>\r\n<p><img src=\"https://pcmarket.vn/media/lib/21-02-2024/cpu-intel-core-i5-14500_mota.jpg\" alt=\"cpu-intel-core-i5-14500-mota\" width=\"1000\" height=\"667\"></p>\r\n<h3>Socket LGA1700 tương th&iacute;ch ho&agrave;n hảo</h3>\r\n<p>CPU Intel Core i5-14500 sử dụng socket LGA1700, gi&uacute;p n&oacute; tương th&iacute;ch với nhiều bo mạch chủ mới nhất. Điều n&agrave;y tạo ra sự linh hoạt cho việc x&acirc;y dựng hệ thống m&aacute;y t&iacute;nh c&aacute; nh&acirc;n hoặc m&aacute;y t&iacute;nh trạm theo sở th&iacute;ch v&agrave; nhu cầu cụ thể của người d&ugrave;ng.</p>\r\n<p><img src=\"https://pcmarket.vn/media/product/10976_pcm_cpu_intel_core_i5_14500.jpg\" alt=\"CPU Intel Core i5 14500\" width=\"850\" height=\"850\"></p>\r\n<h3>Hiệu suất mạnh mẽ</h3>\r\n<p>CPU Intel Core i5 14500 l&agrave; bộ xử l&yacute; d&agrave;nh cho&nbsp;PC&nbsp; được trang bị 14 nh&acirc;n (c&oacute;&nbsp;6 P-Cores v&agrave; 8 E-Cores) v&agrave; 20 luồng được sử dụng kiến ​​tr&uacute;c Products formerly Raptor Lake với Intel LGA1700. CPU n&agrave;y th&agrave;nh một lựa chọn xuất sắc cho cả c&ocirc;ng việc đa nhiệm nặng v&agrave; trải nghiệm Gaming giải tr&iacute; đặc sắc. Với xung nhịp cơ bản ở mức 2.6 GHz v&agrave; xung nhịp Turbo l&ecirc;n đến 5.0 GHz, n&oacute; c&oacute; khả năng xử l&yacute; c&aacute;c t&aacute;c vụ đ&ograve;i hỏi hiệu suất cao một c&aacute;ch mượt m&agrave;.</p>\r\n<p><img src=\"https://pcmarket.vn/media/product/10976_cpu_intel_core_i5_14500.png\" alt=\"cpu_intel_core_i5_14500\" width=\"1000\" height=\"1000\"></p>\r\n<h3>Bộ nhớ đệm cao c&ugrave;ng TDP 65W</h3>\r\n<p>Với bộ nhớ cache L2/L3 l&ecirc;n đến 20/24 MB, CPU Intel Core i5-14500 kh&ocirc;ng chỉ tăng cường hiệu suất xử l&yacute; dữ liệu v&agrave; ứng dụng m&agrave; c&ograve;n gi&uacute;p quản l&yacute; hiệu quả nguồn t&agrave;i nguy&ecirc;n. Đồng thời, với chỉ mức ti&ecirc;u thụ điện năng (TDP) l&agrave; 65W, CPU n&agrave;y thể hiện sự hiệu quả về năng lượng, gi&uacute;p giảm ti&ecirc;u thụ điện v&agrave; kiểm so&aacute;t nhiệt độ hoạt động của hệ thống.</p>\r\n<p>Intel i5-14500 thực sự l&agrave; một sự kết hợp xuất sắc giữa hiệu năng mạnh mẽ v&agrave; t&iacute;nh hiệu quả về năng lượng, đặc biệt được hỗ trợ bởi d&ograve;ng sản phẩm Intel Raptor Lake Refresh. Điều n&agrave;y l&agrave;m cho n&oacute; trở th&agrave;nh lựa chọn l&yacute; tưởng cho cả người d&ugrave;ng l&agrave;m việc v&agrave; người d&ugrave;ng giải tr&iacute;, tiếp tục củng cố vị thế dẫn đầu của Intel trong lĩnh vực c&ocirc;ng nghệ m&aacute;y t&iacute;nh.</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:41:14', NULL, '7099000.00', '5690000.00'),
+(7, 'CPU INTEL CORE I5 12600KF', '<p><strong>- Socket LGA 1700<br>- Xung nhịp tối đa: 4.9Ghz<br>- Số nh&acirc;n: 6 nh&acirc;n P-Cores (3.7-4.9Ghz) v&agrave; 4 nh&acirc;n E-Cores (2.8-3.6Ghz)<br>- Số luồng: 16 luồng (12 luồng P-Cores &amp; 4 luồng E-Cores)<br>- *Phi&ecirc;n bản \"F\": Kh&ocirc;ng c&oacute; nh&acirc;n đồ họa t&iacute;ch hợp</strong></p>\r\n<div><strong>- Bảo h&agrave;nh 36 th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3><strong>Th&ocirc;ng số kỹ thuật&nbsp;</strong></h3>\r\n</div>\r\n<div>\r\n<table style=\"width: 74.5577%;\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>H&atilde;ng sản xuất</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Intel</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Loại CPU</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>D&agrave;nh cho m&aacute;y b&agrave;n</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Thế hệ&nbsp;</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Core i5 Thế hệ thứ 12</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>T&ecirc;n gọi</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Core i5-12600KF</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Socket</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>FCLGA 1700</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>T&ecirc;n thế hệ</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Alder Lake</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Số nh&acirc;n</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>10</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Số luồng</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>16</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Tốc độ cơ bản</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Performance-core Max Turbo Frequency:&nbsp;4.90 GHz</p>\r\n<p>Efficient-core Max Turbo Frequency:&nbsp;3.60 GHz</p>\r\n<p>Performance-core Base Frequency:&nbsp;3.70 GHz</p>\r\n<p>Efficient-core Base Frequency:&nbsp;2.80 GHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Cache</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>20MB</p>\r\n<p>Total L2 Cache:&nbsp;9.5 MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Hỗ trợ 64-bit</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Hỗ trợ Si&ecirc;u ph&acirc;n luồng</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Hỗ trợ bộ nhớ</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>DDR4 3200 MHz</p>\r\n<p>DDR5 4800 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Hỗ trợ số k&ecirc;nh bộ nhớ</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>2</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Hỗ trợ c&ocirc;ng nghệ ảo h&oacute;a</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Phi&ecirc;n bản PCI Express</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>5.0 and 4.0</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Số lane PCI Express</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Up to 1x16+4, 2x8+4</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>TDP</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Processor Base Power: 125 W</p>\r\n<p>Maximum Turbo Power: 150 W</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 46.5353%;\">\r\n<p>Tản nhiệt</p>\r\n</td>\r\n<td style=\"width: 53.4877%;\">\r\n<p>Kh&ocirc;ng đi k&egrave;m</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:40:33', NULL, '6499000.00', '3990000.00'),
+(8, 'Intel Core i5 12400F', '<p><strong>&nbsp;- Socket LGA 1700<br>&nbsp;- Xung nhịp tối đa: 4.4Ghz</strong></p>\r\n<div><strong>&nbsp;- Số nh&acirc;n: 6<br>&nbsp;- Số luồng: 12</strong></div>\r\n<div><strong>&nbsp;- Phi&ecirc;n bản F: Kh&ocirc;ng c&oacute; GPU t&iacute;ch hợp, cần sử dụng card đồ họa rời</strong></div>\r\n<div><strong>- Bảo h&agrave;nh : 36 Th&aacute;ng&nbsp;</strong></div>\r\n<div><hr>\r\n<h3><strong>Th&ocirc;ng số kỹ thuật&nbsp;</strong></h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td class=\"xl69\"><strong>Thương hiệu</strong></td>\r\n<td class=\"xl68\">Intel</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Loại CPU</strong></td>\r\n<td class=\"xl68\">D&agrave;nh cho m&aacute;y b&agrave;n</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Thế hệ&nbsp;</strong></td>\r\n<td class=\"xl68\">Core i5 Thế hệ thứ 12</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>T&ecirc;n gọi</strong></td>\r\n<td class=\"xl68\">Core i5-12400</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Socket</strong></td>\r\n<td class=\"xl68\">FCLGA 1700</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>T&ecirc;n thế hệ</strong></td>\r\n<td class=\"xl68\">Alder Lake</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Số nh&acirc;n</strong></td>\r\n<td class=\"xl68\">6</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Số luồng</strong></td>\r\n<td class=\"xl68\">12</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\" rowspan=\"2\"><strong>Tốc độ cơ bản</strong></td>\r\n<td class=\"xl68\">Performance-core Max Turbo Frequency:&nbsp;4.4 GHz</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl68\">Performance-core Base Frequency:&nbsp;2.50 GHz</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\" rowspan=\"2\"><strong>Cache</strong></td>\r\n<td class=\"xl68\">18MB</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl68\">Total L2 Cache:&nbsp;7.5MB</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Hỗ trợ 64-bit</strong></td>\r\n<td class=\"xl68\">C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Hỗ trợ Si&ecirc;u ph&acirc;n luồng</strong></td>\r\n<td class=\"xl68\">Kh&ocirc;ng</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\" rowspan=\"2\"><strong>Hỗ trợ bộ nhớ</strong></td>\r\n<td class=\"xl68\">DDR4 3200 MHz</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl68\">DDR5 4800 MHz</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Hỗ trợ số k&ecirc;nh bộ nhớ</strong></td>\r\n<td class=\"xl68\">2</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Hỗ trợ c&ocirc;ng nghệ ảo h&oacute;a</strong></td>\r\n<td class=\"xl68\">C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Phi&ecirc;n bản PCI Express</strong></td>\r\n<td class=\"xl68\">5.0 and 4.0</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Số lane PCI Express</strong></td>\r\n<td class=\"xl68\">Up to 1x16+4, 2x8+4</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>TDP</strong></td>\r\n<td class=\"xl68\">65W</td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl69\"><strong>Tản nhiệt</strong></td>\r\n<td class=\"xl68\">Mặc định đi k&egrave;m</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<div>&nbsp;<hr>\r\n<h2><strong>CPU Intel Core i5 12400F (Upto 4.4Ghz, 6 nh&acirc;n 12 luồng, 18MB Cache, 65W) - Socket Intel LGA 1700)</strong></h2>\r\n<p><strong>CPU Intel Core i5-12400F</strong>&nbsp;l&agrave; CPU thế hệ thứ 12 của Intel (Alder Lake) tr&ecirc;n nền Socket LGA 1700 với kiến tr&uacute;c ho&agrave;n to&agrave;n mới cho hiệu năng vượt trội so với người tiền nhiệm.</p>\r\n<p>Đ&acirc;y l&agrave; phi&ecirc;n bản kh&ocirc;ng t&iacute;ch hợp iGPU để giảm gi&aacute; th&agrave;nh, khi sử dụng bắt buộc phải c&oacute; card đồ họa rời.&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/62476_cpu_intel_core_i5_12400f_1_294e0c0de42d4b1daf0e46860e636932_grande.jpeg\"></p>\r\n<h3><strong>Thế hệ Intel Core i5 thứ 12 c&oacute; n&acirc;ng cấp g&igrave;?&nbsp;</strong></h3>\r\n<ul>\r\n<li>Hỗ trợ PCI-E Gen 5 mới nhất c&oacute; băng th&ocirc;ng gấp đ&ocirc;i Gen 4</li>\r\n<li>Nh&acirc;n đồ họa t&iacute;ch hợp (tr&ecirc;n c&aacute;c model kh&ocirc;ng c&oacute; k&yacute; tự F) UHD 770 mạnh hơn, c&oacute; khả năng xuất h&igrave;nh đạt độ ph&acirc;n giải 8K.&nbsp;</li>\r\n<li>Sức mạnh tr&ecirc;n mỗi nh&acirc;n được tăng rất nhiều so với thế hệ 11</li>\r\n</ul>\r\n<h3><strong>Khả năng&nbsp;tương th&iacute;ch</strong></h3>\r\n<p>CPU Intel Core i5-12400F sử dụng Socket LGA 1700 ho&agrave;n to&agrave;n mới v&agrave; c&oacute; thể chạy được tr&ecirc;n c&aacute;c bo mạch chủ H610, B660, H670 &amp; Z690.&nbsp;</p>\r\n<h3><strong>Intel Core i5 12400F d&agrave;nh cho ai?&nbsp;</strong></h3>\r\n<p>L&agrave; CPU tầm trung nhắm đến hiệu năng tr&ecirc;n gi&aacute; của Intel, Core i5 sẽ ph&ugrave; hợp cho c&aacute;c bộ m&aacute;y từ tầm trung đến cao cấp, phục vụ mục đ&iacute;ch Stream, Gaming hoặc l&agrave;m việc với c&aacute;c phần mềm chuy&ecirc;n dụng.&nbsp;</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:39:44', NULL, '5099000.00', '2690000.00'),
+(9, 'CPU Intel Core i3 12100F', '<p>- Socket: Intel LGA 1700</p>\r\n<p>- Số nh&acirc;n: 4</p>\r\n<p>- Số luồng: 8</p>\r\n<p>- Xung nhịp tối đa: 4.3 Ghz</p>\r\n<ul>\r\n<li>Bảo h&agrave;nh : 36 Th&aacute;ng</li>\r\n</ul>\r\n<h3><strong>Th&ocirc;ng số kỹ thuật</strong></h3>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"10\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>Thương hiệu</p>\r\n</td>\r\n<td>\r\n<p>Intel</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Loại CPU</p>\r\n</td>\r\n<td>\r\n<p>D&agrave;nh cho m&aacute;y b&agrave;n</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Thế hệ&nbsp;</p>\r\n</td>\r\n<td>\r\n<p>Core i3 Thế hệ thứ 12</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>T&ecirc;n gọi</p>\r\n</td>\r\n<td>\r\n<p>Core i3-12100</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">\r\n<p>CHI TIẾT</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Socket</p>\r\n</td>\r\n<td>\r\n<p>FCLGA 1700</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>T&ecirc;n thế hệ</p>\r\n</td>\r\n<td>\r\n<p>Alder Lake</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Số nh&acirc;n</p>\r\n</td>\r\n<td>\r\n<p>4</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Số luồng</p>\r\n</td>\r\n<td>\r\n<p>8</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Tốc độ cơ bản</p>\r\n</td>\r\n<td>\r\n<p>Performance-core Max Turbo Frequency:&nbsp;4.3 GHz</p>\r\n<p>Performance-core Base Frequency:&nbsp;3.30 GHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Cache</p>\r\n</td>\r\n<td>\r\n<p>12MB</p>\r\n<p>Total L2 Cache:&nbsp;5MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Hỗ trợ 64-bit</p>\r\n</td>\r\n<td>\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Hỗ trợ Si&ecirc;u ph&acirc;n luồng</p>\r\n</td>\r\n<td>\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Hỗ trợ bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>DDR4 3200 MHz</p>\r\n<p>DDR5 4800 MHz</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>Mua ngay CPU Intel Core i3-12100F (3.3GHz turbo up to 4.3GHz, 4 nh&acirc;n 8 luồng, 12MB Cache, 58W)- Socket Intel LGA 1700)</h2>\r\n<div>\r\n<p><a href=\"https://ttgshop.vn/products/cpu-intel-core-i3-12100f-3-3ghz-turbo-up-to-4-3ghz-4-nhan-8-luong-12mb-cache-58w-socket-intel-lga-1700/\"><strong>CPU Intel Core i3-12100F</strong></a>&nbsp;l&agrave; CPU thế hệ thứ 12 của Intel (Alder Lake) tr&ecirc;n nền Socket LGA 1700 với kiến tr&uacute;c ho&agrave;n to&agrave;n mới cho hiệu năng vượt trội so với người tiền nhiệm.</p>\r\n<p>Đ&acirc;y l&agrave; phi&ecirc;n bản kh&ocirc;ng t&iacute;ch hợp iGPU để giảm gi&aacute; th&agrave;nh, khi sử dụng bắt buộc phải c&oacute; card đồ họa rời.&nbsp;</p>\r\n<h3><strong>Thế hệ Intel Core i3 thứ 12 c&oacute; n&acirc;ng cấp g&igrave;?&nbsp;</strong></h3>\r\n<ul>\r\n<li>Hỗ trợ PCI-E Gen 5 mới nhất c&oacute; băng th&ocirc;ng gấp đ&ocirc;i Gen 4</li>\r\n<li>Nh&acirc;n đồ họa t&iacute;ch hợp (tr&ecirc;n c&aacute;c model kh&ocirc;ng c&oacute; k&yacute; tự F) UHD 770 mạnh hơn, c&oacute; khả năng xuất h&igrave;nh đạt độ ph&acirc;n giải 8K.&nbsp;</li>\r\n<li>Sức mạnh tr&ecirc;n mỗi nh&acirc;n được tăng rất nhiều so với thế hệ 11</li>\r\n</ul>\r\n<h3><strong>Khả năng tương th&iacute;ch</strong></h3>\r\n<p>CPU Intel Core i3-12100F sử dụng Socket LGA 1700 ho&agrave;n to&agrave;n mới v&agrave; c&oacute; thể chạy được tr&ecirc;n c&aacute;c bo mạch chủ H610, B660, H670 &amp; Z690.&nbsp;</p>\r\n<h3><strong>CPU Intel Core i3-12100F&nbsp;d&agrave;nh cho ai?&nbsp;</strong></h3>\r\n<p>L&agrave; CPU tầm trung nhắm đến hiệu năng tr&ecirc;n gi&aacute; của Intel, Core i3 sẽ ph&ugrave; hợp cho c&aacute;c bộ m&aacute;y từ tầm trung đến cao cấp, phục vụ mục đ&iacute;ch l&agrave;m việc, Gaming với mức gi&aacute; v&ocirc; c&ugrave;ng hợp l&yacute;.&nbsp;</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:38:55', NULL, '3099000.00', '1490000.00'),
+(10, 'CPU Intel Core i5-10400F', '<p>&nbsp;6 nh&acirc;n &amp; 12 luồng<br>&nbsp;Xung nhịp: 3.4GHz (Cơ bản) / 4.4GHz (Boost)<br>&nbsp;Socket: LGA1200<br>&nbsp;Đ&atilde; k&egrave;m sẵn tản nhiệt từ h&atilde;ng<br>&nbsp;Kh&ocirc;ng t&iacute;ch hợp sẵn iGPU</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div>\r\n<div>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table style=\"width: 79.9725%;\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Thương hiệu</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>Intel</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Loại CPU</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>D&agrave;nh cho m&aacute;y b&agrave;n</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Thế hệ</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>Core i5 Thế hệ thứ 10</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>T&ecirc;n gọi</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>Core i5-10400F</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Socket</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>LGA1200</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>T&ecirc;n thế hệ</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>Comet Lake</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Số nh&acirc;n</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>6</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Số luồng</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>12</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Tốc độ cơ bản</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>3.4 GHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Tốc độ tối đa</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>4.4 GHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Cache</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>12MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Tiến tr&igrave;nh sản xuất</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>14nm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Hỗ trợ 64-bit</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Hỗ trợ Si&ecirc;u ph&acirc;n luồng</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Hỗ trợ bộ nhớ</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>DDR4 2666 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Hỗ trợ số k&ecirc;nh bộ nhớ</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>2</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Hỗ trợ c&ocirc;ng nghệ ảo h&oacute;a</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>C&oacute;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Nh&acirc;n đồ họa t&iacute;ch hợp</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Phi&ecirc;n bản PCI Express</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>3</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>Số lane PCI Express</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>N/A</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td style=\"width: 54.0684%;\">\r\n<p>TDP</p>\r\n</td>\r\n<td style=\"width: 45.9581%;\">\r\n<p>65W</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 02:38:00', NULL, '2990000.00', '1980000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chi_tiet_don_hangs`
 --
 
 CREATE TABLE `chi_tiet_don_hangs` (
@@ -153,7 +249,7 @@ CREATE TABLE `chi_tiet_don_hangs` (
   `id_don_hang` bigint UNSIGNED NOT NULL,
   `id_product` bigint UNSIGNED NOT NULL,
   `id_bien_the` bigint UNSIGNED DEFAULT NULL,
-  `ten_hien_thi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten_hien_thi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `so_luong` int NOT NULL,
   `don_gia` decimal(10,2) NOT NULL,
   `bao_hanh_thang` int NOT NULL,
@@ -162,20 +258,28 @@ CREATE TABLE `chi_tiet_don_hangs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chi_tiet_don_hangs`
+-- Dumping data for table `chi_tiet_don_hangs`
 --
 
 INSERT INTO `chi_tiet_don_hangs` (`id`, `id_don_hang`, `id_product`, `id_bien_the`, `ten_hien_thi`, `so_luong`, `don_gia`, `bao_hanh_thang`, `created_at`, `updated_at`) VALUES
-(1, 4, 1, 1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 2, 9990000.00, 36, '2025-06-21 08:57:07', '2025-06-21 08:57:07'),
-(2, 5, 1, 1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 1, 9990000.00, 36, '2025-06-21 09:03:31', '2025-06-21 09:03:31'),
-(3, 6, 1, 1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 1, 9990000.00, 36, '2025-06-21 09:05:20', '2025-06-21 09:05:20'),
-(4, 7, 1, 1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 1, 9990000.00, 36, '2025-06-21 09:07:49', '2025-06-21 09:07:49'),
-(5, 8, 1, 1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 1, 9990000.00, 36, '2025-06-21 09:13:05', '2025-06-21 09:13:05');
+(1, 14, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-23 22:17:38', '2025-06-23 22:17:38'),
+(2, 15, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-25 07:07:14', '2025-06-25 07:07:14'),
+(3, 15, 4, 10, 'Sản phẩm 2', 1, '13000000.00', 12, '2025-06-25 07:07:14', '2025-06-25 07:07:14'),
+(4, 16, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-25 07:08:44', '2025-06-25 07:08:44'),
+(5, 17, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-25 08:28:12', '2025-06-25 08:28:12'),
+(6, 18, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-26 11:38:12', '2025-06-26 11:38:12'),
+(7, 19, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-26 19:34:16', '2025-06-26 19:34:16'),
+(8, 20, 3, 8, 'Sản phẩm 1', 1, '12000000.00', 12, '2025-06-28 12:40:03', '2025-06-28 12:40:03'),
+(9, 21, 5, 13, 'Sản phẩm 5', 1, '12000000.00', 12, '2025-06-28 12:44:46', '2025-06-28 12:44:46'),
+(10, 22, 4, 12, 'Sản phẩm 2', 5, '15000000.00', 12, '2025-06-28 13:16:19', '2025-06-28 13:16:19'),
+(11, 23, 4, 10, 'Sản phẩm 2', 1, '13000000.00', 12, '2025-07-02 04:40:18', '2025-07-02 04:40:18'),
+(12, 24, 8, NULL, 'Màn hình Asus TUF Gaming VG249Q3R (24 Inch/ FHD/ IPS/ 180Hz/ 1ms)', 1, '2990000.00', 36, '2025-07-02 14:33:21', '2025-07-02 14:33:21'),
+(13, 24, 5, 14, 'Sản phẩm 53', 1, '18000000.00', 12, '2025-07-02 14:33:21', '2025-07-02 14:33:21');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `chi_tiet_gio_hangs`
+-- Table structure for table `chi_tiet_gio_hangs`
 --
 
 CREATE TABLE `chi_tiet_gio_hangs` (
@@ -190,16 +294,18 @@ CREATE TABLE `chi_tiet_gio_hangs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `chi_tiet_gio_hangs`
+-- Dumping data for table `chi_tiet_gio_hangs`
 --
 
 INSERT INTO `chi_tiet_gio_hangs` (`id`, `id_gio_hang`, `id_product`, `id_bien_the`, `so_luong`, `gia`, `created_at`, `updated_at`) VALUES
-(12, 1, 1, 3, 1, 12990000.00, '2025-06-21 09:33:43', '2025-06-21 09:33:43');
+(12, 1, 1, 3, 1, '12990000.00', '2025-06-21 09:33:43', '2025-06-21 09:33:43'),
+(46, 3, 4, 10, 5, '13000000.00', '2025-06-28 17:57:10', '2025-06-28 17:57:10'),
+(50, 4, 3, NULL, 1, '18000000.00', '2025-07-03 01:34:20', '2025-07-03 01:34:20');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `danh_gia_san_phams`
+-- Table structure for table `danh_gia_san_phams`
 --
 
 CREATE TABLE `danh_gia_san_phams` (
@@ -207,36 +313,37 @@ CREATE TABLE `danh_gia_san_phams` (
   `id_product` bigint UNSIGNED NOT NULL,
   `id_user` bigint UNSIGNED NOT NULL,
   `so_sao` int NOT NULL,
-  `binh_luan` text COLLATE utf8mb4_unicode_ci,
+  `binh_luan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `trang_thai` enum('cho_duyet','da_duyet','tu_choi') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cho_duyet',
+  `trang_thai` enum('cho_duyet','da_duyet','tu_choi') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cho_duyet',
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `danh_gia_san_phams`
+-- Dumping data for table `danh_gia_san_phams`
 --
 
 INSERT INTO `danh_gia_san_phams` (`id`, `id_product`, `id_user`, `so_sao`, `binh_luan`, `created_at`, `updated_at`, `trang_thai`, `deleted_at`) VALUES
-(1, 1, 11, 4, 'Đẹp thật sự', '2025-06-20 21:25:18', '2025-06-21 07:30:06', 'da_duyet', NULL);
+(1, 1, 11, 4, 'Đẹp thật sự', '2025-06-20 21:25:18', '2025-06-21 07:30:06', 'da_duyet', NULL),
+(2, 5, 13, 4, 'hay', '2025-06-25 08:40:43', '2025-06-26 11:06:15', 'da_duyet', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `danh_mucs`
+-- Table structure for table `danh_mucs`
 --
 
 CREATE TABLE `danh_mucs` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `danh_mucs`
+-- Dumping data for table `danh_mucs`
 --
 
 INSERT INTO `danh_mucs` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -250,46 +357,54 @@ INSERT INTO `danh_mucs` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at`) 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `dia_chi_nguoi_dungs`
+-- Table structure for table `dia_chi_nguoi_dungs`
 --
 
 CREATE TABLE `dia_chi_nguoi_dungs` (
   `id` bigint UNSIGNED NOT NULL,
   `id_user` bigint UNSIGNED NOT NULL,
-  `ten_nguoi_nhan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `so_dien_thoai_nguoi_nhan` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dia_chi_day_du` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tinh_thanh_pho` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quan_huyen` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phuong_xa` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten_nguoi_nhan` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `so_dien_thoai_nguoi_nhan` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dia_chi_day_du` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tinh_thanh_pho` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quan_huyen` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phuong_xa` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `mac_dinh` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `tinh_thanh_pho_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quan_huyen_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phuong_xa_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `dia_chi_nguoi_dungs`
+-- Dumping data for table `dia_chi_nguoi_dungs`
 --
 
-INSERT INTO `dia_chi_nguoi_dungs` (`id`, `id_user`, `ten_nguoi_nhan`, `so_dien_thoai_nguoi_nhan`, `dia_chi_day_du`, `tinh_thanh_pho`, `quan_huyen`, `phuong_xa`, `mac_dinh`, `created_at`, `updated_at`) VALUES
-(1, 11, 'Trần Pohng', '0325413923', 'ff', 'Hà Nội', 'Nam Từ Liêm', 'Hội', 1, '2025-06-21 08:54:22', '2025-06-21 08:54:34');
+INSERT INTO `dia_chi_nguoi_dungs` (`id`, `id_user`, `ten_nguoi_nhan`, `so_dien_thoai_nguoi_nhan`, `dia_chi_day_du`, `tinh_thanh_pho`, `quan_huyen`, `phuong_xa`, `mac_dinh`, `created_at`, `updated_at`, `tinh_thanh_pho_name`, `quan_huyen_name`, `phuong_xa_name`) VALUES
+(1, 11, 'Trần Pohng', '0325413923', 'ff', 'Hà Nội', 'Nam Từ Liêm', 'Hội', 1, '2025-06-21 08:54:22', '2025-06-21 08:54:34', NULL, NULL, NULL),
+(2, 12, 'Nguyễn Danh Dũng', '0376536987', '123 ABC', 'Phú Thọ', 'Cẩm Khê', 'Tuy Lộc', 0, '2025-06-23 07:08:36', '2025-06-23 07:44:45', NULL, NULL, NULL),
+(3, 12, 'Nguyễn Danh Dũng', '0123456789', 'ABC', 'Phú Thọ 1', 'Cẩm', 'Tuy Lộc', 1, '2025-06-23 07:44:40', '2025-06-23 07:44:45', NULL, NULL, NULL),
+(4, 13, 'Nguyen Văn A', '0353535355', 'Ha Noi', 'Ha Noi', 'Ha Noi', 'Ha Noi', 1, '2025-06-25 07:06:37', '2025-06-25 07:06:37', NULL, NULL, NULL),
+(5, 14, 'Trinh Hai Long', '0937482378', 'Hà Yên', '01', '268', '10117', 0, '2025-07-02 04:40:05', '2025-07-03 01:36:22', 'Thành phố Hà Nội', 'Quận Hà Đông', 'Phường Đồng Mai'),
+(6, 14, 'Trinh Hai Long', '0937482399', 'Số nhà 001, Phố Vĩnh Hữ, Đường Không , Thôn 1', '01', '250', '08973', 1, '2025-07-03 01:35:49', '2025-07-03 01:36:22', 'Thành phố Hà Nội', 'Huyện Mê Linh', 'Thị trấn Chi Đông');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `don_hangs`
+-- Table structure for table `don_hangs`
 --
 
 CREATE TABLE `don_hangs` (
   `id` bigint UNSIGNED NOT NULL,
-  `ma_don` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ma_don` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_user` bigint UNSIGNED NOT NULL,
   `id_dia_chi_nguoi_dungs` bigint UNSIGNED NOT NULL,
   `id_phuong_thuc_thanh_toan` bigint UNSIGNED NOT NULL,
-  `tong_tien` decimal(10,2) NOT NULL,
-  `tong_tien_goc` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `tong_tien` decimal(12,2) NOT NULL,
+  `tong_tien_goc` decimal(12,2) NOT NULL DEFAULT '0.00',
   `giam_gia` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `trang_thai` enum('cho_xu_ly','dang_giao','hoan_thanh','huy') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `trang_thai` enum('cho_xac_nhan','cho_thanh_toan','chuan_bi_hang','da_xac_nhan','da_huy','dang_giao_hang','giao_thanh_cong','giao_that_bai','hoan_thanh','da_hoan_tien') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cho_xac_nhan',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `id_ma_giam_gia` bigint UNSIGNED DEFAULT NULL,
@@ -297,99 +412,107 @@ CREATE TABLE `don_hangs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `don_hangs`
+-- Dumping data for table `don_hangs`
 --
 
 INSERT INTO `don_hangs` (`id`, `ma_don`, `id_user`, `id_dia_chi_nguoi_dungs`, `id_phuong_thuc_thanh_toan`, `tong_tien`, `tong_tien_goc`, `giam_gia`, `trang_thai`, `created_at`, `updated_at`, `id_ma_giam_gia`, `deleted_at`) VALUES
-(1, 'DH1750521295', 11, 1, 1, 18980000.00, 19980000.00, 1000000.00, 'cho_xu_ly', '2025-06-21 08:54:55', '2025-06-21 08:54:55', 6, NULL),
-(2, 'DH1750521301', 11, 1, 1, 18980000.00, 19980000.00, 1000000.00, 'cho_xu_ly', '2025-06-21 08:55:01', '2025-06-21 08:55:01', 6, NULL),
-(3, 'DH1750521312', 11, 1, 1, 18980000.00, 19980000.00, 1000000.00, 'cho_xu_ly', '2025-06-21 08:55:12', '2025-06-21 08:55:12', 6, NULL),
-(4, 'DH1750521427', 11, 1, 1, 18980000.00, 19980000.00, 1000000.00, 'cho_xu_ly', '2025-06-21 08:57:07', '2025-06-21 08:57:07', 6, NULL),
-(5, 'DH1750521811', 11, 1, 1, 8991000.00, 9990000.00, 999000.00, 'cho_xu_ly', '2025-06-21 09:03:31', '2025-06-21 09:03:31', 5, NULL),
-(6, 'DH1750521920', 11, 1, 2, 9990000.00, 9990000.00, 0.00, 'cho_xu_ly', '2025-06-21 09:05:20', '2025-06-21 09:05:20', NULL, NULL),
-(7, 'DH1750522069', 11, 1, 1, 8991000.00, 9990000.00, 999000.00, 'cho_xu_ly', '2025-06-21 09:07:49', '2025-06-21 09:07:49', 5, NULL),
-(8, 'DH1750522385', 11, 1, 1, 8991000.00, 9990000.00, 999000.00, 'cho_xu_ly', '2025-06-21 09:13:05', '2025-06-21 09:13:05', 5, NULL);
+(14, 'DH1750742258', 12, 3, 1, '10800000.00', '12000000.00', '1200000.00', 'hoan_thanh', '2025-06-23 22:17:38', '2025-06-23 22:32:17', 5, NULL),
+(15, 'DH1750835234', 13, 4, 2, '22500000.00', '25000000.00', '2500000.00', 'da_huy', '2025-06-25 07:07:14', '2025-06-26 11:33:50', 5, NULL),
+(16, 'DH1750835324', 13, 4, 2, '12000000.00', '12000000.00', '0.00', 'da_huy', '2025-06-25 07:08:44', '2025-06-25 07:24:12', NULL, NULL),
+(17, 'DH1750840092', 13, 4, 2, '12000000.00', '12000000.00', '0.00', 'da_huy', '2025-06-25 08:28:12', '2025-06-26 11:33:50', NULL, NULL),
+(18, 'DH1750937892', 13, 4, 2, '12000000.00', '12000000.00', '0.00', 'da_huy', '2025-06-26 11:38:12', '2025-06-26 11:44:16', NULL, NULL),
+(19, 'DH1750966456', 13, 4, 1, '10200000.00', '12000000.00', '1800000.00', 'cho_xac_nhan', '2025-06-26 19:34:16', '2025-06-26 19:34:16', 5, NULL),
+(20, 'DH1751114403', 13, 4, 2, '11940000.00', '12000000.00', '60000.00', 'da_huy', '2025-06-28 12:40:03', '2025-06-28 12:44:28', 5, NULL),
+(21, 'DH1751114686', 13, 4, 1, '11940000.00', '12000000.00', '60000.00', 'cho_xac_nhan', '2025-06-28 12:44:46', '2025-06-28 12:44:46', 5, NULL),
+(22, 'DH1751116579', 13, 4, 1, '74940000.00', '75000000.00', '60000.00', 'cho_xac_nhan', '2025-06-28 13:16:19', '2025-06-28 13:16:19', 5, NULL),
+(23, 'DH1751431218', 14, 5, 1, '12940000.00', '13000000.00', '60000.00', 'cho_xac_nhan', '2025-07-02 04:40:18', '2025-07-02 04:40:18', 5, NULL),
+(24, 'DH1751466801', 14, 5, 1, '20990000.00', '20990000.00', '0.00', 'giao_thanh_cong', '2025-07-02 14:33:21', '2025-07-02 14:34:59', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `failed_jobs`
+-- Table structure for table `failed_jobs`
 --
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `gio_hangs`
+-- Table structure for table `gio_hangs`
 --
 
 CREATE TABLE `gio_hangs` (
   `id` bigint UNSIGNED NOT NULL,
   `id_user` bigint UNSIGNED NOT NULL,
-  `loai` enum('chinh','luu_sau','so_sanh') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'chinh',
+  `loai` enum('chinh','luu_sau','so_sanh') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'chinh',
   `id_giam_gia` bigint UNSIGNED DEFAULT NULL,
-  `ghi_chu` text COLLATE utf8mb4_unicode_ci,
+  `ghi_chu` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `gio_hangs`
+-- Dumping data for table `gio_hangs`
 --
 
 INSERT INTO `gio_hangs` (`id`, `id_user`, `loai`, `id_giam_gia`, `ghi_chu`, `created_at`, `updated_at`) VALUES
-(1, 11, 'chinh', 6, NULL, '2025-06-20 21:24:04', '2025-06-21 09:14:18');
+(1, 11, 'chinh', 6, NULL, '2025-06-20 21:24:04', '2025-06-21 09:14:18'),
+(2, 12, 'chinh', NULL, NULL, '2025-06-23 07:01:21', '2025-06-23 22:17:38'),
+(3, 13, 'chinh', 5, NULL, '2025-06-25 07:05:28', '2025-06-28 17:57:15'),
+(4, 14, 'chinh', NULL, NULL, '2025-07-02 04:36:37', '2025-07-02 04:40:42');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `gpus`
+-- Table structure for table `gpus`
 --
 
 CREATE TABLE `gpus` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mo_ta` longtext COLLATE utf8mb4_unicode_ci,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `gpus`
+-- Dumping data for table `gpus`
 --
 
-INSERT INTO `gpus` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'GPU GTX 3497', 'Deserunt ullam in sed ut facilis ut alias.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(2, 'GPU GTX 919', 'Voluptate fugiat perferendis qui aut inventore.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(3, 'GPU GTX 1239', 'Dicta veniam incidunt eos cumque voluptas quaerat.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(4, 'GPU GTX 4358', 'Distinctio ut ut consequuntur tempore minus.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(5, 'GPU GTX 5449', 'Maiores mollitia reprehenderit id praesentium non.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(6, 'GPU GTX 864', 'Non occaecati alias eveniet quasi sed.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(7, 'GPU GTX 836', 'Accusantium distinctio vero tempore et non.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(8, 'GPU GTX 6779', 'Reiciendis ipsa similique dolorem et.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(9, 'GPU GTX 2124', 'Non quisquam sint veniam aut.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(10, 'GPU GTX 949', 'Accusantium consequatur possimus beatae possimus similique ducimus.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL);
+INSERT INTO `gpus` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`, `gia`, `gia_sale`) VALUES
+(1, 'Card màn hình Gigabyte AORUS GeForce RTX 5060 ELITE 8GB (GV-N5060AORUS E-8GD)', '<p>&nbsp;Dung lượng bộ nhớ: 8GB GDDR7<br>&nbsp;Core Clock: 2722 MHz (Reference card : 2497MHz)<br>&nbsp;Băng th&ocirc;ng: 128 bit<br>&nbsp;Kết nối: DisplayPort 2.1b *3, HDMI 2.1b *1<br>&nbsp;Nguồn y&ecirc;u cầu: 500W</p>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>Sản phẩm</p>\r\n</td>\r\n<td>\r\n<p>Card m&agrave;n h&igrave;nh - Card đồ họa - VGA</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>H&atilde;ng sản xuất</p>\r\n</td>\r\n<td>\r\n<p>Gigabyte</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Engine đồ họa</p>\r\n</td>\r\n<td>\r\n<p>GeForce RTX&trade; 5060</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Chuẩn Bus</p>\r\n</td>\r\n<td>\r\n<p>PCI-E 5.0</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>8 GB&nbsp;GDDR7</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Engine Clock</p>\r\n</td>\r\n<td>\r\n<p>2722 MHz (Reference card : 2497MHz)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>L&otilde;i CUDA</p>\r\n</td>\r\n<td>\r\n<p>3840</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Clock bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>28 Gbps</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Giao diện bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>128 bit</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Độ ph&acirc;n giải</p>\r\n</td>\r\n<td>\r\n<p>7680x4320</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Kết nối</p>\r\n</td>\r\n<td>\r\n<p>DisplayPort 2.1b *3<br>HDMI 2.1b *1</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>K&iacute;ch thước</p>\r\n</td>\r\n<td>\r\n<p>L=329 W=128 H=40</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>PSU đề nghị</p>\r\n</td>\r\n<td>\r\n<p>500W</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Power Connectors</p>\r\n</td>\r\n<td>\r\n<p>8 Pin*1</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:47:10', NULL, '13990000.00', '11990000.00'),
+(2, 'Card màn hình SAPPHIRE NITRO+ AMD Radeon RX 9060 XT GAMING OC 16GB', '<p><strong>&nbsp;GPU: AMD Radeon&trade; RX 9060 XT.<br>&nbsp;Bộ nhớ: 16GB GDDR6, 20 Gbps, 128-bit.<br>&nbsp;Stream Processors: 2048.<br>&nbsp;Boost Clock: Up to 3320 MHz<br>&nbsp;Game Clock: Up to 2780MHz<br>&nbsp;Độ ph&acirc;n giải tối đa: 7680 x 4320.<br>&nbsp;PSU đề nghị:</strong></p>\r\n<div><strong>Bảo h&agrave;nh : 36 TH</strong>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>GPU</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>AMD Radeon&trade; RX 9060 XT Graphics Card</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>AMD RDNA&trade; 4 Architecture</strong></td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>Engine Clock</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Boost Clock: Up to 3320 MHz</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Game Clock: Up to 2780 MHz</strong></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Stream Processors</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>2048</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Compute Units</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>32 CUs (3rd Gen RT + 2nd Gen AI Accelerators)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Infinity Cache</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>32MB</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ray Accelerators</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>32</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>AI Accelerator</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>64</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Memory Size/Bus</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>16GB/128 bit GDDR6</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Memory Clock</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>20 Gbps Effective</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Displays</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Maximum 3 Displays</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\">\r\n<p><strong>Resolution</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>HDMI&reg;: 7680&times;4320</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>DisplayPort&trade; 2.1a: 7680&times;4320</strong></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Interface</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Interface</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>PCI-Express 5.0 x16</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>Output</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>2x HDMI&reg;</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>1x DisplayPort&trade; 2.1a</strong></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>BIOS Support</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>UEFI</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Game Index</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>1440P</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>Form Factor</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>2.7 slot, ATX</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dimension: 300(L)X 131(W)X 55(H)mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Power Consumption</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>182W Typical Board Power</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>OS</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Linux&reg;, Windows&reg; 10, and Windows 11. 64-bit&nbsp;&nbsp;operating system required</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\">\r\n<p><strong>System Requirement</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Minimum 450 Watt Power Supply</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>1 x 8-pin Power Connector.</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>PCI Express&reg; based PC is required with one X16 lane graphics slot available on the motherboard.</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Minimum 8GB of system memory. 16GB recommended.&nbsp;</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:39:35', NULL, '16990000.00', '13980000.00'),
+(3, 'Card màn hình SAPPHIRE PURE AMD RADEON RX 9060 XT GAMING OC 16GB', '<p><strong>&nbsp;GPU: AMD Radeon&trade; RX 9060 XT.<br>&nbsp;Bộ nhớ: 16GB GDDR6, 20 Gbps, 128-bit.<br>&nbsp;Stream Processors: 2048.<br>&nbsp;Boost Clock: Up to 3290 MHz<br>&nbsp;Game Clock: Up to 2700 MHz<br>&nbsp;Độ ph&acirc;n giải tối đa: 7680 x 4320.</strong></p>\r\n<div><strong>Bảo h&agrave;nh : 36 TH</strong>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>GPU</p>\r\n</td>\r\n<td>\r\n<p>AMD Radeon&trade; RX 9060 XT Graphics Card</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>AMD RDNA&trade; 4 Architecture</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Engine Clock</p>\r\n</td>\r\n<td>\r\n<p>Boost Clock: Up to 3290 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Game Clock: Up to 2700 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Stream Processors</p>\r\n</td>\r\n<td>\r\n<p>2048</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Compute Units</p>\r\n</td>\r\n<td>\r\n<p>32 CUs (3rd Gen RT + 2nd Gen AI Accelerators)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Infinity Cache</p>\r\n</td>\r\n<td>\r\n<p>32MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ray Accelerators</p>\r\n</td>\r\n<td>\r\n<p>32</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>AI Accelerator</p>\r\n</td>\r\n<td>\r\n<p>64</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Size/Bus</p>\r\n</td>\r\n<td>\r\n<p>16GB/128 bit GDDR6</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Clock</p>\r\n</td>\r\n<td>\r\n<p>20 Gbps Effective</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Displays</p>\r\n</td>\r\n<td>\r\n<p>Maximum 3 Displays</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\">\r\n<p>Resolution</p>\r\n</td>\r\n<td>\r\n<p>HDMI&reg;: 7680&times;4320</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>DisplayPort&trade; 2.1a: 7680&times;4320</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n<td>\r\n<p>PCI-Express 5.0 x16</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Output</p>\r\n</td>\r\n<td>\r\n<p>2x HDMI&reg;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1x DisplayPort&trade; 2.1a</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>BIOS Support</p>\r\n</td>\r\n<td>\r\n<p>UEFI</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Game Index</p>\r\n</td>\r\n<td>\r\n<p>1440P</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Form Factor</p>\r\n</td>\r\n<td>\r\n<p>2.3 slot, ATX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Dimension: 240(L)X 124(W)X 46.1 (H)mm</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Power Consumption</p>\r\n</td>\r\n<td>\r\n<p>170W Typical Board Power</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>OS</p>\r\n</td>\r\n<td>\r\n<p>Linux&reg;, Windows&reg; 10, and Windows 11. 64-bit&nbsp;&nbsp;operating system required</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\">\r\n<p>System Requirement</p>\r\n</td>\r\n<td>\r\n<p>Minimum 450 Watt Power Supply</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1 x 8-pin Power Connector.</td>\r\n</tr>\r\n<tr>\r\n<td>PCI Express&reg; based PC is required with one X16 lane graphics slot available on the motherboard.</td>\r\n</tr>\r\n<tr>\r\n<td>Minimum 8GB of system memory. 16GB recommended.&nbsp;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:31:25', NULL, '15990000.00', '12290000.00'),
+(4, 'Card màn hình SAPPHIRE PULSE AMD RADEON RX 9060 XT GAMING 16GB', '<p><strong>&nbsp;GPU: AMD Radeon&trade; RX 9060 XT.<br>&nbsp;Bộ nhớ: 16GB GDDR6, 20 Gbps, 128-bit.<br>&nbsp;Stream Processors: 2048.</strong></p>\r\n<div><strong>&nbsp;Boost Clock: Up to 3290 MHz</strong></div>\r\n<div><strong>Game Clock: Up to 2700 MH</strong><br><strong>&nbsp;Độ ph&acirc;n giải tối đa: 7680 x 4320.</strong>\r\n<div><strong>Bảo h&agrave;nh : 36 TH</strong>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>PU</p>\r\n</td>\r\n<td>\r\n<p>AMD Radeon&trade; RX 9060 XT Graphics Card</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>AMD RDNA&trade; 4 Architecture</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Engine Clock</p>\r\n</td>\r\n<td>\r\n<p>Boost Clock: Up to 3290 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Game Clock: Up to 2700 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Stream Processors</p>\r\n</td>\r\n<td>\r\n<p>2048</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Compute Units</p>\r\n</td>\r\n<td>\r\n<p>32 CUs (3rd Gen RT + 2nd Gen AI Accelerators)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Infinity Cache</p>\r\n</td>\r\n<td>\r\n<p>32MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ray Accelerators</p>\r\n</td>\r\n<td>\r\n<p>32</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>AI Accelerator</p>\r\n</td>\r\n<td>\r\n<p>64</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Size/Bus</p>\r\n</td>\r\n<td>\r\n<p>16GB/128 bit GDDR6</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Clock</p>\r\n</td>\r\n<td>\r\n<p>20 Gbps Effective</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Displays</p>\r\n</td>\r\n<td>\r\n<p>Maximum 3 Displays</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\">\r\n<p>Resolution</p>\r\n</td>\r\n<td>\r\n<p>HDMI&reg;: 7680&times;4320</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>DisplayPort&trade; 2.1a: 7680&times;4320</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n<td>\r\n<p>PCI-Express 5.0 x16</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Output</p>\r\n</td>\r\n<td>\r\n<p>2x HDMI&reg;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1x DisplayPort&trade; 2.1a</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>BIOS Support</p>\r\n</td>\r\n<td>\r\n<p>UEFI</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Game Index</p>\r\n</td>\r\n<td>\r\n<p>1440P</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Form Factor</p>\r\n</td>\r\n<td>\r\n<p>2.3 slot, ATX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Dimension: 240(L)X 124(W)X 46.1 (H)mm</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Power Consumption</p>\r\n</td>\r\n<td>\r\n<p>170W Typical Board Power</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>OS</p>\r\n</td>\r\n<td>\r\n<p>Linux&reg;, Windows&reg; 10, and Windows 11. 64-bit&nbsp;&nbsp;operating system required</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\">\r\n<p>System Requirement</p>\r\n</td>\r\n<td>\r\n<p>Minimum 450 Watt Power Supply</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1 x 8-pin Power Connector.</td>\r\n</tr>\r\n<tr>\r\n<td>PCI Express&reg; based PC is required with one X16 lane graphics slot available on the motherboard.</td>\r\n</tr>\r\n<tr>\r\n<td>Minimum 8GB of system memory. 16GB recommended.&nbsp;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:30:00', NULL, '13999000.00', '11990000.00'),
+(5, 'Card màn hình SAPPHIRE PULSE AMD RADEON RX 9060 XT GAMING 8GB', '<p><strong>GPU: AMD Radeon&trade; RX 9060 XT.<br>&nbsp;Bộ nhớ: 8GB GDDR6, 20 Gbps, 128-bit.<br>&nbsp;Stream Processors: 2048.<br>&nbsp;Boost Clock: Up to 3290 MHz<br>&nbsp;Game Clock: Up to 2700 MHz<br>&nbsp;Độ ph&acirc;n giải tối đa: 7680 x 4320.</strong></p>\r\n<div>\r\n<div><strong>Bảo h&agrave;nh : 36 TH</strong>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>GPU</p>\r\n</td>\r\n<td>\r\n<p>AMD Radeon&trade; RX 9060 XT Graphics Card</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>AMD RDNA&trade; 4 Architecture</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Engine Clock</p>\r\n</td>\r\n<td>\r\n<p>Boost Clock: Up to 3290 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Game Clock: Up to 2700 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Stream Processors</p>\r\n</td>\r\n<td>\r\n<p>2048</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Compute Units</p>\r\n</td>\r\n<td>\r\n<p>32 CUs (3rd Gen RT + 2nd Gen AI Accelerators)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Infinity Cache</p>\r\n</td>\r\n<td>\r\n<p>32MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ray Accelerators</p>\r\n</td>\r\n<td>\r\n<p>32</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>AI Accelerator</p>\r\n</td>\r\n<td>\r\n<p>64</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Size/Bus</p>\r\n</td>\r\n<td>\r\n<p>8GB/128 bit GDDR6</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Memory Clock</p>\r\n</td>\r\n<td>\r\n<p>20 Gbps Effective</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Displays</p>\r\n</td>\r\n<td>\r\n<p>Maximum 3 Displays</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\">\r\n<p>Resolution</p>\r\n</td>\r\n<td>\r\n<p>HDMI&reg;: 7680&times;4320</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>DisplayPort&trade; 2.1a: 7680&times;4320</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Interface</p>\r\n</td>\r\n<td>\r\n<p>PCI-Express 5.0 x16</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Output</p>\r\n</td>\r\n<td>\r\n<p>2x HDMI&reg;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1x DisplayPort&trade; 2.1a</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>BIOS Support</p>\r\n</td>\r\n<td>\r\n<p>UEFI</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Game Index</p>\r\n</td>\r\n<td>\r\n<p>1440P</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p>Form Factor</p>\r\n</td>\r\n<td>\r\n<p>2.3 slot, ATX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Dimension: 240(L)X 124(W)X 46.1 (H)mm</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Power Consumption</p>\r\n</td>\r\n<td>\r\n<p>170W Typical Board Power</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>OS</p>\r\n</td>\r\n<td>\r\n<p>Linux&reg;, Windows&reg; 10, and Windows 11. 64-bit&nbsp;&nbsp;operating system required</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\">\r\n<p>System Requirement</p>\r\n</td>\r\n<td>\r\n<p>Minimum 450 Watt Power Supply</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>1 x 8-pin Power Connector.</td>\r\n</tr>\r\n<tr>\r\n<td>PCI Express&reg; based PC is required with one X16 lane graphics slot available on the motherboard.</td>\r\n</tr>\r\n<tr>\r\n<td>Minimum 8GB of system memory. 16GB recommended.&nbsp;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:29:33', NULL, '10999000.00', '9799000.00'),
+(6, 'Card Màn Hình Colorful iGame GeForce RTX 5080 Vulcan OC 16GB-V', '<p>&nbsp;Nh&acirc;n đồ họa: GeForce RTX 5080<br>&nbsp;Nh&acirc;n CUDA: 10752<br>&nbsp;Tốc độ bộ nhớ: 30Gbps<br>&nbsp;Bộ nhớ: 16GB GDDR7<br>&nbsp;Bus bộ nhớ: 256-bit</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td class=\"xl66\"><strong>Thương Hiệu</strong></td>\r\n<td class=\"xl66\"><strong>Colorful</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>D&ograve;ng</strong></td>\r\n<td class=\"xl66\"><strong>iGame</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Model</strong></td>\r\n<td class=\"xl66\"><strong>RTX 5080 Vulcan OC 16GB</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Chuẩn PCIe</strong></td>\r\n<td class=\"xl66\"><strong>5</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Nh&agrave; Sản Xuất</strong></td>\r\n<td class=\"xl66\"><strong>Colorful</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>GPU</strong></td>\r\n<td class=\"xl66\"><strong>RTX 5080</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Xung Nhịp Boost</strong></td>\r\n<td class=\"xl66\"><strong>&nbsp;</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Nh&acirc;n CUDA</strong></td>\r\n<td class=\"xl66\"><strong>10752</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Dung Lượng Bộ Nhớ</strong></td>\r\n<td class=\"xl66\"><strong>16GB</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Loại Bộ Nhớ</strong></td>\r\n<td class=\"xl66\"><strong>GDDR7</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>HDMI</strong></td>\r\n<td class=\"xl66\"><strong>HDMI 2.1 *1</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Số M&agrave;n H&igrave;nh Hỗ Trợ</strong></td>\r\n<td class=\"xl66\"><strong>4</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>DisplayPort</strong></td>\r\n<td class=\"xl66\"><strong>DisplayPort&nbsp;2.1 *3</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Hệ Thống L&agrave;m M&aacute;t</strong></td>\r\n<td class=\"xl66\"><strong>3 Fan</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Nguồn Điện Khuyến Nghị</strong></td>\r\n<td class=\"xl66\"><strong>850W</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>Đầu Nối Nguồn</strong></td>\r\n<td class=\"xl66\"><strong>16 pin x1</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl66\"><strong>K&iacute;ch Thước</strong></td>\r\n<td class=\"xl66\"><strong>360*148.9*71mm</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:25:52', NULL, '40990000.00', '38980000.00'),
+(7, 'Card màn hình Zotac Gaming GeForce RTX 5070 Twin Edge OC 12GB', '<p>&nbsp;GPU: NVIDIA GeForce RTX 5070<br>&nbsp;6144 nh&acirc;n CUDA cho hiệu năng cao<br>&nbsp;Bộ nhớ: 12GB GDDR7, bus 192-bit<br>&nbsp;Xung nh&acirc;n: 2542 MHz, xung bộ nhớ 28 Gbps<br>&nbsp;PCIe 5.0 x16 cho băng th&ocirc;ng tối đa<br>&nbsp;Nguồn đề nghị: 650W, c&ocirc;ng suất 250W<br>&nbsp;3x DisplayPort 2.1b, 1x HDMI 2.1b, 4 m&agrave;n h&igrave;nh</p>\r\n<div>Bảo h&agrave;nh: 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>TH&Ocirc;NG SỐ KỸ THUẬT</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>GPU</td>\r\n<td>NVIDIA GeForce RTX 5070 GPU</td>\r\n</tr>\r\n<tr>\r\n<td>CUDA cores</td>\r\n<td>6144</td>\r\n</tr>\r\n<tr>\r\n<td>Video Memory</td>\r\n<td>12GB GDDR7</td>\r\n</tr>\r\n<tr>\r\n<td>Memory Bus</td>\r\n<td>192-bit</td>\r\n</tr>\r\n<tr>\r\n<td>Engine Clock</td>\r\n<td>2542 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>Memory Clock</td>\r\n<td>28 Gbps</td>\r\n</tr>\r\n<tr>\r\n<td>PCI Express</td>\r\n<td>PCI Express 5.0 x16</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\">Display Outputs</td>\r\n<td>3 x DisplayPort 2.1b with UHBR20</td>\r\n</tr>\r\n<tr>\r\n<td>(up to 4K 480Hz or 8K 165Hz with DSC)</td>\r\n</tr>\r\n<tr>\r\n<td>1 x HDMI&reg; Connector</td>\r\n</tr>\r\n<tr>\r\n<td>(Supports 4K 120Hz HDR, 8K 60Hz HDR, and Variable Refresh Rate as specified in the HDMI 2.1b Specification)</td>\r\n</tr>\r\n<tr>\r\n<td>HDCP Support</td>\r\n<td>2.3</td>\r\n</tr>\r\n<tr>\r\n<td>Multi Display Capability</td>\r\n<td>Quad Display</td>\r\n</tr>\r\n<tr>\r\n<td>Recommended Power Supply</td>\r\n<td>650W</td>\r\n</tr>\r\n<tr>\r\n<td>Power Consumption</td>\r\n<td>250W</td>\r\n</tr>\r\n<tr>\r\n<td>Power Input</td>\r\n<td>1 x 12v-2x6 power input</td>\r\n</tr>\r\n<tr>\r\n<td>DirectX</td>\r\n<td>Microsoft DirectX&reg; 12 Ultimate</td>\r\n</tr>\r\n<tr>\r\n<td>OpenGL</td>\r\n<td>4.6</td>\r\n</tr>\r\n<tr>\r\n<td>Cooling</td>\r\n<td>IceStorm 2.0</td>\r\n</tr>\r\n<tr>\r\n<td>Slot Size</td>\r\n<td>2</td>\r\n</tr>\r\n<tr>\r\n<td>SLI</td>\r\n<td>No</td>\r\n</tr>\r\n<tr>\r\n<td>Supported OS</td>\r\n<td>Windows 11 / Windows 10 64-bit (v1809 November 2018 or later)</td>\r\n</tr>\r\n<tr>\r\n<td>Card Length</td>\r\n<td>241.5mm x 120.1mm x 40.6mm / 9.5\" x 4.7\" x 1.6\"</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\">Accessories</td>\r\n<td>User Manual</td>\r\n</tr>\r\n<tr>\r\n<td>2 x 8-pin-to-16-pin cable</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:25:23', NULL, '19990000.00', '17680000.00'),
+(8, 'Card màn hình ASUS Prime Radeon RX 9060 XT 8GB GDDR6 OC Edition', '<p>GPU: AMD Radeon&trade; RX 9060 XT.<br>&nbsp;Stream Processors : 2048<br>&nbsp;Bộ nhớ: 8GB GDDR6<br>&nbsp;Chuẩn Bus: PCI Express 5.0.<br>&nbsp;PSU đề nghị: 550W<br>&nbsp;Kết nối: HDMI 2.1b x 1; DisplayPort 2.1a</p>\r\n<div><strong>Bảo H&agrave;nh: 36 th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>Th&ocirc;ng số kỹ thuật</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td><strong>PRIME-RX9060XT-O8G</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Graphic Engine</strong></td>\r\n<td>AMD Radeon&trade; RX 9060 XT</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bus Standard</strong></td>\r\n<td>PCI Express 5.0</td>\r\n</tr>\r\n<tr>\r\n<td><strong>OpenGL</strong></td>\r\n<td>OpenGL&reg;4.6</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Video Memory</strong></td>\r\n<td>8GB GDDR6</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Engine Clock</strong></td>\r\n<td>TBD</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Stream Processors</strong></td>\r\n<td>2048</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Memory Speed</strong></td>\r\n<td>20 Gbps​</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Memory Interface</strong></td>\r\n<td>128-bit</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Resolution</strong></td>\r\n<td>Digital Max Resolution 7680 x 4320</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"3\"><strong>Interface</strong></td>\r\n<td>Yes x 1 (Native HDMI 2.1b)</td>\r\n</tr>\r\n<tr>\r\n<td>Yes x 2 (Native DisplayPort 2.1a)</td>\r\n</tr>\r\n<tr>\r\n<td>HDCP Support Yes (2.3)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Maximum Display Support</strong></td>\r\n<td>3</td>\r\n</tr>\r\n<tr>\r\n<td><strong>NVlink/ Crossfire Support</strong></td>\r\n<td>No</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\"><strong>Accessories</strong></td>\r\n<td>1 x Thank you card</td>\r\n</tr>\r\n<tr>\r\n<td>1 x Speedsetup Manual</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Software</strong></td>\r\n<td>ASUS GPU Tweak III &amp; Drivers: please download all software from the support site.</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dimensions</strong></td>\r\n<td>304 x 126 x 50mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Recommended PSU</strong></td>\r\n<td>550W</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Power Connectors</strong></td>\r\n<td>1 x 8-pin</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Slot</strong></td>\r\n<td>2.5 Slot</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:20:42', NULL, '12990000.00', '10999000.00'),
+(9, 'Card màn hình Colorful iGame GeForce RTX 5050 Ultra W DUO OC 8GB-V', '<p>Thương hiệu: Colorful<br>&nbsp;Sản phẩm: VGA Colorful iGame RTX 5050 Ultra W DUO OC 8GB-V<br>&nbsp;Model: RTX 5050 Ultra W DUO OC 8GB-V<br>&nbsp;Dung lượng: 8GB GDDR6<br>&nbsp;Băng th&ocirc;ng: 128-bit<br>&nbsp;Tốc độ bộ nhớ: 20Gb / gi&acirc;y<br>&nbsp;Chuẩn giao tiếp: PCIe 5.0<br>&nbsp;Kết nối: 3x DisplayPort, 1x HDMI<br>&nbsp;Nguồn y&ecirc;u cầu: 550W</p>\r\n<div>\r\n<p>Bảo h&agrave;nh: 36 Th&aacute;ng</p>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Colorful</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>iGame RTX 5050 Ultra W DUO OC 8GB-</td>\r\n</tr>\r\n<tr>\r\n<td>D&ograve;ng chip</td>\r\n<td>NVIDIA GeForce RTX 5050</td>\r\n</tr>\r\n<tr>\r\n<td>D&ograve;ng sản phẩm</td>\r\n<td>iGame Series</td>\r\n</tr>\r\n<tr>\r\n<td>Dung lượng bộ nhớ</td>\r\n<td>8GB GDDR6</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ bộ nhớ</td>\r\n<td>20 Gbps</td>\r\n</tr>\r\n<tr>\r\n<td>Băng th&ocirc;ng</td>\r\n<td>128-bit</td>\r\n</tr>\r\n<tr>\r\n<td>Chuẩn giao tiếp</td>\r\n<td>PCI Express 5.0</td>\r\n</tr>\r\n<tr>\r\n<td>Kết nối h&igrave;nh ảnh</td>\r\n<td>3 x DisplayPort\r\n<p>&nbsp;</p>\r\n<p>1 x HDMI</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn khuyến nghị</td>\r\n<td>550W</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:19:52', NULL, '8999000.00', '7790000.00'),
+(10, 'Card màn hình ASUS ROG Astral GeForce RTX 5080 16GB GDDR7 WHITE Edition', '<p>Accusantium consequatur possimus beatae possimus similique ducimus.</p>', '2025-06-20 21:17:39', '2025-07-05 03:18:27', NULL, '55990000.00', '54980000.00');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `jobs`
+-- Table structure for table `jobs`
 --
 
 CREATE TABLE `jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint UNSIGNED NOT NULL,
   `reserved_at` int UNSIGNED DEFAULT NULL,
   `available_at` int UNSIGNED NOT NULL,
@@ -399,17 +522,17 @@ CREATE TABLE `jobs` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `job_batches`
+-- Table structure for table `job_batches`
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int NOT NULL,
   `pending_jobs` int NOT NULL,
   `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `failed_job_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `cancelled_at` int DEFAULT NULL,
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL
@@ -418,13 +541,13 @@ CREATE TABLE `job_batches` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `lich_su_xems`
+-- Table structure for table `lich_su_xems`
 --
 
 CREATE TABLE `lich_su_xems` (
   `id` bigint UNSIGNED NOT NULL,
   `id_user` bigint UNSIGNED DEFAULT NULL,
-  `ma_phien` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ma_phien` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_product` bigint UNSIGNED NOT NULL,
   `thoi_gian_xem` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -432,45 +555,48 @@ CREATE TABLE `lich_su_xems` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `mainboards`
+-- Table structure for table `mainboards`
 --
 
 CREATE TABLE `mainboards` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mo_ta` longtext COLLATE utf8mb4_unicode_ci,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `mainboards`
+-- Dumping data for table `mainboards`
 --
 
-INSERT INTO `mainboards` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Mainboard UB-179', 'Ab qui voluptatum aut dolores consequuntur velit.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(2, 'Mainboard XV-928', 'Asperiores blanditiis sit ut quis.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(3, 'Mainboard EA-960', 'Molestias non explicabo ea sunt aut.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(4, 'Mainboard VV-438', 'Consequuntur reiciendis similique sed vel quidem.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(5, 'Mainboard VU-948', 'Totam ea deserunt sint amet.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(6, 'Mainboard HZ-032', 'Mollitia distinctio sit voluptas laborum dicta.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(7, 'Mainboard GI-970', 'Ipsam est nostrum eligendi occaecati sed velit quas.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(8, 'Mainboard JM-391', 'Debitis magni vitae tenetur assumenda fugit deserunt.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(9, 'Mainboard BQ-099', 'Quia corrupti est dolorem similique sit nesciunt.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(10, 'Mainboard ZY-441', 'Aut ut vero fugiat eligendi fuga.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL);
+INSERT INTO `mainboards` (`id`, `ten`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`, `gia`, `gia_sale`) VALUES
+(1, 'Mainboard ASUS B860M AYW GAMING WIFI', '<p>Chipset: Intel B860<br>K&iacute;ch thước: micro-ATX<br>Khe cắm RAM: 2 x DIMM slots, max. 128GB, DDR5<br>Khe cắm mở rộng: 1 x PCIe 4.0 x16 slot; 2 x PCIe 4.0 x1 slots<br>Khe cắm ổ cứng: 2 x M.2 slots and 4 x SATA 6Gb/s ports</p>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>Th&ocirc;ng số kỹ thuật</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Bo mạch chủ</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>\r\n<p>ASUS&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Model</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>B860M AYW GAMING WIFI</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Supports Intel Core Ultra Processors (Series 2), LGA1851<br>Supports Intel Turbo Boost Technology 2.0 and Intel Turbo Boost Max Technology 3.0</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel B860 Chipset</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>2 x DIMM slots, max. 128GB, DDR5</strong></p>\r\n<p>Supports up to 8800+MT/s (OC), Non-ECC, Un-buffered ,Clocked Unbuffered DIMM (CUDIMM)<br>Dual channel memory architecture</p>\r\n<p>DIMM Fit<br>Supports Intel&reg; Extreme Memory Profile (XMP) memory module<br>ASUS Enhanced Memory Profile III (AEMPIII)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Đồ họa</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x HDMITM port</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel Core Ultra Processors(Series 2)<br>1 x PCIe 4.0 x16 slot</p>\r\n<p>Intel B860 Chipset<br>2 x PCIe 4.0 x1 slots</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Supports 2 x M.2 slots and 4 x SATA 6Gb/s ports</strong></p>\r\n<p>Intel&reg; Core Ultra Processors (Series 2)<br>M.2_1 slot (Key M), type 2280 (supports PCIe 5.0 x4 mode)</p>\r\n<p>Intel B860 Chipset<br>M.2_2 slot (Key M), type 2280 (supports PCIe 4.0 x4 mode)</p>\r\n<p>4 x SATA 6Gb/s ports</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x Realtek 2.5Gb Ethernet<br>ASUS LANGuard</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>LAN / Wireless</strong></p>\r\n</td>\r\n<td>\r\n<p>Wi-Fi 6<br>1x1 Wi-Fi 6 (802.11ax)<br>Supports 2.4/5GHz frequency band<br>Bluetooth v5.3</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Rear USB (Total 6 ports)</strong><br>1 x USB 10Gbps port (1 x Type-A)<br>2 x USB 5Gbps ports (2 x Type-A)<br>3 x USB 2.0 ports (3 x Type-A)</p>\r\n<p><strong>Front USB (Total 7 ports)</strong><br>1 x USB 5Gbps connector (supports USB Type-C&reg;)*<br>1 x USB 5Gbps header supports 2 additional USB 5Gbps ports<br>2 x USB 2.0 headers support 4 additional USB 2.0 ports</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Fan and Cooling Related</strong><br>1 x 4-pin CPU Fan header<br>2 x 4-pin Chassis Fan headers</p>\r\n<p><strong>Power Related</strong><br>1 x 24-pin Main Power connector<br>1 x 8-pin +12V CPU Power</p>\r\n<p><strong>Storage Related</strong><br>2 x M.2 slots (Key M)<br>4 x SATA 6Gb/s ports</p>\r\n<p><strong>USB</strong><br>1 x USB 5Gbps connector (supports USB Type-C&reg;)<br>1 x USB 5Gbps header supports 2 additional USB 5Gbps ports<br>2 x USB 2.0 headers support 4 additional USB 2.0 ports</p>\r\n<p><strong>Miscellaneous</strong><br>1 x Clear CMOS header<br>1 x COM Port header<br>1 x Front Panel Audio header (F_AUDIO)<br>1 x 10-1 pin Front Panel System header</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x USB 10Gbps port (1 x Type-A)<br>2 x USB 5Gbps ports (2 x Type-A)<br>3 x USB 2.0 ports (3 x Type-A)<br>1 x HDMITM port<br>1 x Wi-Fi module<br>1 x Realtek 2.5Gb Ethernet port<br>3 x Audio jacks</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&Acirc;m thanh</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek 7.1 Surround Sound High Definition Audio CODEC*<br>- Supports: Jack-detection, Multi-streaming, Front Panel Jack-retasking<br>- Supports up to 24-Bit/192 kHz playback</p>\r\n<p>Audio Features<br>- Audio Shielding<br>- Premium audio capacitors<br>- Dedicated audio PCB layers</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>micro-ATX Form Factor<br>9.6 inch x 8.75 inch ( 24.4 cm x 22.2 cm )</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:17:12', NULL, '5199000.00', NULL),
+(2, 'Mainboard ASUS PRIME B860M-A-CSM', '<div class=\"description-productdetail\">&nbsp;Chipset: Intel B860<br>&nbsp;K&iacute;ch thước: micro-ATX<br>&nbsp;Khe cắm RAM: 4 x DIMM slots, max. 256GB, DDR5<br>&nbsp;Khe cắm mở rộng: 1 x PCIe 5.0 x16 slot; 1 x PCIe 4.0 x16 slot (supports x4 mode); 1 x PCIe 4.0 x1 slot<br>&nbsp;Khe cắm ổ cứng: 2 x M.2 slots and 4 x SATA 6Gb/s ports\r\n<div><strong>Bảo h&agrave;nh: 36 th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Bo mạch chủ</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>\r\n<p>ASUS&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Support Intel Core Ultra Processors (Series 2) , LGA1851<br>Supports Intel Turbo Boost Technology 2.0 and Intel Turbo Boost Max Technology 3.0</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel B860 Chipset</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>4 x DIMM slots, max. 256GB, DDR5</strong></p>\r\n<p>Supports up to 8666+MT/s (OC), Non-ECC,Un-buffered ,Clocked Unbuffered DIMM (CUDIMM)*<br>Dual channel memory architecture<br>DIMM Fit<br>Supports Intel&reg; Extreme Memory Profile (XMP) memory module<br>ASUS Enhanced Memory Profile III (AEMPIII)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Đồ họa</strong></p>\r\n</td>\r\n<td>\r\n<p>2 x DisplayPort<br>1 x HDMI port</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel Core Ultra Processors(Series 2)<br>1 x PCIe 5.0 x16 slot</p>\r\n<p>Intel B860 Chipset<br>1 x PCIe 4.0 x16 slot (supports x4 mode)<br>1 x PCIe 4.0 x1 slot</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Supports 2 x M.2 slots and 4 x SATA 6Gb/s ports</strong></p>\r\n<p>Intel Core Ultra Processors(Series 2)<br>M.2_1 slot (Key M), type 2242/2260/2280 (supports PCIe 5.0 x4 mode)</p>\r\n<p>Intel B860 Chipset<br>M.2_2 slot (Key M), type 2242/2260/2280 (supports PCIe 4.0 x4 modes)</p>\r\n<p>4 x SATA 6Gb/s ports</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x Realtek 2.5Gb Ethernet<br>TUF LANGuard</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Rear USB (Total 8 ports)</strong><br>1 x USB 20Gbps port (1 x USB Type-C)<br>1 x USB 10Gbps port (1 x Type-A )<br>2 x USB 5Gbps ports (2 x Type-A)<br>4 x USB 2.0 ports (4 x Type-A)</p>\r\n<p><strong>Front USB (Total 5 ports)</strong><br>1 x USB 10Gbps connector (supports USB Type-C)<br>1 x USB 5Gbps header supports 2 additional USB 5Gbps ports<br>1 x USB 2.0 header supports 2 additional USB 2.0 ports</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Fan and Cooling Related</strong><br>1 x 4-pin CPU Fan header<br>1 x 4-pin CPU OPT Fan header<br>1 x 4-pin AIO Pump header<br>3 x 4-pin Chassis Fan headers</p>\r\n<p><strong>Power Related</strong><br>1 x 24-pin Main Power connector<br>1 x 8-pin +12V CPU Power</p>\r\n<p><strong>Storage Related</strong><br>2 x M.2 slots (Key M)<br>4 x SATA 6Gb/s ports</p>\r\n<p><strong>USB</strong><br>1 x USB 10Gbps connector (supports USB Type-C)<br>1 x USB 5Gbps header supports 2 additional USB 5Gbps ports<br>1 x USB 2.0 header supports 2 additionalUSB 2.0 ports</p>\r\n<p><strong>Miscellaneous</strong><br>3 x Addressable Gen 2 headers<br>1 x Aura RGB header<br>1 x Clear CMOS header<br>1 x Chassis Intrusion header<br>1 x COM Port header<br>1 x Front Panel Audio header (F_AUDIO)<br>1 x S/PDIF Out header<br>1 x SPI TPM header (14-1 pin)<br>1 x 10-1 pin Front System Panel header<br>1 x Thunderbolt (USB4) header</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x USB 20Gbps port (1 x USB Type-C&reg;)<br>1 x USB 10Gbps port (1 x Type-A)<br>2 x USB 5Gbps ports (2 x Type-A)<br>4 x USB 2.0 ports (4 x Type-A )<br>2 x DisplayPort<br>1 x HDMI&trade; port<br>1 x Realtek 2.5Gb Ethernet port<br>3 x Audio jacks</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>LAN / Wireless</strong></p>\r\n</td>\r\n<td>\r\n<p>Wi-Fi 7<br>2x2 Wi-Fi 7 (802.11be)<br>Supports 2.4/5/6GHz frequency band<br>Supports Wi-Fi 7 160MHz bandwidth, up to 2.9Gbps transfer rate.</p>\r\n<p>Bluetooth v5.4</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&Acirc;m thanh</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek 7.1 Surround Sound High Definition Audio CODEC*<br>- Supports: Jack-detection, Multi-streaming, Front Panel Jack-retasking<br>- Supports up to 24-Bit/192 kHz playback</p>\r\n<p>Audio Features<br>- Audio Shielding<br>- Premium audio capacitors<br>- Dedicated audio PCB layers</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>micro-ATX Form Factor<br>9.6 inch x 9.6 inch (24.4 cm x 24.4 cm)</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 03:16:41', NULL, '5299000.00', NULL),
+(3, 'Mainboard Gigabyte B860M EAGLE WIFI6 DDR5', '<ul>\r\n<li>Chipset: Intel B860</li>\r\n<li>Socket: LGA1851</li>\r\n<li>Hỗ trợ CPU: Intel Core Ultra</li>\r\n<li>Hỗ trợ Ram: 2 x DDR5, Dung lượng bộ nhớ tối đa 128GB</li>\r\n<li>Wireless / Bluetooth: Wi-Fi 6E (802.11be) /Bluetooth 5.3</li>\r\n<li>K&iacute;ch thước: m-ATX 24.4cm x 24.4cm</li>\r\n</ul>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></div>\r\n<div>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>Bộ vi xử l&yacute;</td>\r\n<td>Socket LGA1851: Hỗ trợ cho Bộ xử l&yacute; Intel &reg; Core&trade; Ultra</td>\r\n</tr>\r\n<tr>\r\n<td>Chipset</td>\r\n<td>&nbsp;Intel &reg; B860 Express</td>\r\n</tr>\r\n<tr>\r\n<td>Bộ nhớ</td>\r\n<td>&nbsp;Support for DDR5 9066(O.C)/8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) /6400/5600 MT/s memory modules<br>4 x DDR5 DIMM sockets supporting up to 256 GB (64 GB single DIMM capacity) of system memory</td>\r\n</tr>\r\n<tr>\r\n<td>Card đồ họa t&iacute;ch hợp</td>\r\n<td>Bộ xử l&yacute; đồ họa t&iacute;ch hợp &ndash; Hỗ trợ đồ họa Intel&reg; HD:<br>&ndash; 1 cổng HDMI, hỗ trợ độ ph&acirc;n giải tối đa 4096&times;2160@60 Hz<br>-2 x DisplayPort, hỗ trợ độ ph&acirc;n giải tối đa 3840&times;2160@144 Hz</td>\r\n</tr>\r\n<tr>\r\n<td>&Acirc;m thanh</td>\r\n<td>&nbsp;Realtek&reg; Audio CODEC<br>&Acirc;m thanh độ n&eacute;t cao<br>2/4/5.1/7.1 k&ecirc;nh</td>\r\n</tr>\r\n<tr>\r\n<td>LAN</td>\r\n<td>&nbsp;Chip LAN Realtek&reg; 2.5GbE (2,5 Gbps/1 Gbps/100 Mbps)</td>\r\n</tr>\r\n<tr>\r\n<td>Wireless Communication module</td>\r\n<td>&nbsp;Intel&reg; Wi-Fi 6E AX211 (PCB rev. 1.0)<br>&ndash; WIFI a, b, g, n, ac, ax, supporting 2.4/5/6 GHz carrier frequency bands<br>&ndash; BLUETOOTH 5.3</td>\r\n</tr>\r\n<tr>\r\n<td>Khe cắm mở rộng</td>\r\n<td>&nbsp;CPU:<br>&ndash; 1 khe cắm PCI Express x16, hỗ trợ PCIe 5.0 v&agrave; chạy ở x16 (PCIEX16)<br>Chipset:<br>&ndash; 2 khe cắm PCI Express x16, hỗ trợ PCIe 4.0 v&agrave; chạy ở tốc độ x4 (PCIEX4)</td>\r\n</tr>\r\n<tr>\r\n<td>Giao diện lưu trữ</td>\r\n<td>CPU:<br>&ndash; 1 x M.2 connector (Socket 3, M key, type 25110/22110/2580/2280 PCIe 5.0&times;4/x2 SSD support) (M2A_CPU)<br>Chipset:<br>&ndash; 1 x M.2 connector (Socket 3, M key, type 25110/22110/2580/2280 PCIe 4.0&times;4/x2 SSD support) (M2Q_SB)<br>&ndash; 4 x SATA 6Gb/s connectors</td>\r\n</tr>\r\n<tr>\r\n<td>USB</td>\r\n<td>&nbsp;Chipset:<br>&ndash; 1 x USB Type-C&reg; port on the back panel, with USB 3.2 Gen 2&times;2 support<br>&ndash; 1 x USB Type-C&reg; port with USB 3.2 Gen 1 support, available through the internal USB header<br>&ndash; 1 x USB 3.2 Gen 2 Type-A port (red) on the back panel<br>&ndash; 2 x USB 3.2 Gen 1 ports available through the internal USB headers<br>&ndash; 4 x USB 2.0/1.1 ports on the back panel</td>\r\n</tr>\r\n<tr>\r\n<td>Kết nối bảng ph&iacute;a sau</td>\r\n<td>1 x PS/2 keyboard/mouse port<br>1 x HDMI port*<br>2 x DisplayPorts*<br>1 x USB 3.2 Gen 2 Type-A port (red)<br>2 x USB 3.2 Gen 1 ports<br>3 x USB 2.0/1.1 ports<br>2 x antenna connectors (2T2R)<br>1 x RJ-45 port<br>3 x audio jacks</td>\r\n</tr>\r\n<tr>\r\n<td>Hệ điều h&agrave;nh</td>\r\n<td>&nbsp;Hỗ trợ cho Windows 11 64-bit<br>Hỗ trợ cho Windows 10 64-bit</td>\r\n</tr>\r\n<tr>\r\n<td>Hệ số khu&ocirc;n</td>\r\n<td>&nbsp;Micro ATX Form Factor; 24.4cm x 24.4cm</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:16:16', NULL, '5999000.00', '4199000.00'),
+(4, 'Mainboard Gigabyte B860M DS3H DDR5', '<ul>\r\n<li>Chipset: Intel B860</li>\r\n<li>CPU hỗ trợ: Intel Core Ultra</li>\r\n<li>Socket: LGA 1851</li>\r\n<li>Ram: 4 khe DDR5 ( tối đa 256GB)</li>\r\n<li>K&iacute;ch thước: ATX (24.4cm x 24.4cm</li>\r\n</ul>\r\n<div><strong>Bảo h&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p>Bo mạch chủ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>Mainboard Gigabyte</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>LGA1851 socket: Support for Intel&reg; Core&trade; Ultra Processors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel &reg; B860&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Support for DDR5 9066(O.C)/8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) /6400/5600 MT/s memory modules<br>4 x DDR5 DIMM sockets supporting up to 256 GB (64 GB single DIMM capacity) of system memory<br>Dual channel memory architecture</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x PCI Express x16 slot, supporting PCIe 5.0 and running at x16 (PCIEX16)</p>\r\n<p>* The PCIEX16 slot can only support a graphics card or an NVMe SSD. If only one graphics card is to be installed, be sure to install it in the PCIEX16 slot.</p>\r\n<p><br>Chipset:<br>- 2 x PCI Express x16 slots, supporting PCIe 4.0 and running at x1 (PCIEX1_2/3)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x M.2 connector (Socket 3, M key, type 2280 PCIe 5.0 x4/x2 SSD support) (M2A_CPU)<br>Chipset:<br>- 1 x M.2 connector (Socket 3, M key, type 2280 PCIe 4.0 x4/x2 SSD support) (M2N_SB)<br>- 4 x SATA 6Gb/s connectors<br>RAID 0, RAID 1, RAID 5, and RAID 10 support for SATA storage devices</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek&reg; 2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p>Chipset:<br>- 1 x USB Type-C&reg; port with USB 3.2 Gen 1 support, available through the internal USB header<br>- 1 x USB 3.2 Gen 2 Type-A port (red) on the back panel<br>- 4 x USB 3.2 Gen 1 ports (2 ports on the back panel, 2 ports available through the internal USB header)<br>- 3 x USB 2.0/1.1 ports on the back panel<br>Chipset+USB 2.0 Hub:<br>- 4 x USB 2.0/1.1 ports available through the internal USB headers</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x 24-pin ATX main power connector<br>1 x 8-pin ATX 12V power connector<br>1 x CPU fan header<br>1 x CPU fan/water cooling pump header<br>1 x system fan header<br>1 x system fan/water cooling pump header<br>3 x addressable RGB Gen2 LED strip headers<br>1 x RGB LED strip header<br>2 x M.2 Socket 3 connectors<br>4 x SATA 6Gb/s connectors<br>1 x front panel header<br>1 x front panel audio header<br>1 x USB Type-C&reg; header, with USB 3.2 Gen 1 support<br>1 x USB 3.2 Gen 1 header<br>2 x USB 2.0/1.1 headers<br>1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0/GC-TPM2.0 SPI V2 module only)<br>1 x Q-Flash Plus button<br>1 x reset jumper<br>1 x Clear CMOS jumper</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x PS/2 keyboard/mouse port<br>1 x HDMI port (Note)<br>2 x DisplayPorts (Note)<br>1 x USB 3.2 Gen 2 Type-A port (red)<br>2 x USB 3.2 Gen 1 ports<br>3 x USB 2.0/1.1 ports<br>1 x RJ-45 port<br>3 x audio jacks</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>Micro ATX Form Factor; 24.4cm x 24.4cm</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:15:43', NULL, '5399000.00', '4299000.00'),
+(5, 'Mainboard Gigabyte B860M AORUS PRO WIFI7 DDR5', '<ul>\r\n<li>Chipset: Intel B860</li>\r\n<li>Socket: LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</li>\r\n<li>K&iacute;ch thước: Micro ATX</li>\r\n<li>Khe cắm RAM: 4 x DIMM slots, max. 256GB, DDR5</li>\r\n</ul>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p>Bo mạch chủ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>Mainboard Gigabyte</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel &reg; B860&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Support for DDR5 9200(O.C)/8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) /6400/5600 MT/s memory modules<br>4 x DDR5 DIMM sockets supporting up to 256 GB (64 GB single DIMM capacity) of system memory</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x PCI Express x16 slot, supporting PCIe 5.0 and running at x16 (PCIEX16)</p>\r\n<p>* The PCIEX16 slot can only support a graphics card or an NVMe SSD. If only one graphics card is to be installed, be sure to install it in the PCIEX16 slot.</p>\r\n<p><br>Chipset:<br>- 1 x PCI Express x16 slot, supporting PCIe 4.0 and running at x4 (PCIEX4)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x M.2 connector (Socket 3, M key, type 2580/2280 PCIe 5.0 x4/x2 SSD support) (M2A_CPU)<br>Chipset:<br>- 1 x M.2 connector (Socket 3, M key, type 2280 PCIe 4.0 x4/x2 SSD support) (M2Q_SB)<br>- 1 x M.2 connector (Socket 3, M key, type 22110/2280 PCIe 4.0 x4/x2 SSD support) (M2N_SB)<br>- 4 x SATA 6Gb/s connectors<br>RAID 0, RAID 1, RAID 5, and RAID 10 support for SATA storage devices</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek&reg; 2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</p>\r\n<p>Realtek&reg; Wi-Fi 7 RTL8922AE (PCB rev. 1.0)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>MediaTek Wi-Fi 7 MT7925 (PCB rev. 1.1)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>(Actual data rate may vary depending on environment and equipment.)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x USB4&reg; USB Type-C&reg; port on the back panel<br>Chipset:<br>- 1 x USB Type-C&reg; port with USB 3.2 Gen 2 support, available through the internal USB header<br>- 2 x USB 3.2 Gen 2 Type-A ports (red) on the back panel<br>- 2 x USB 3.2 Gen 1 ports available through the internal USB header<br>Chipset+USB 3.2 Gen 1 Hub:<br>- 4 x USB 3.2 Gen 1 ports on the back panel<br>Chipset+2 USB 2.0 Hubs:<br>- 8 x USB 2.0/1.1 ports (4 ports on the back panel, 4 ports available through the internal USB headers)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x 24-pin ATX main power connector<br>2 x 8-pin ATX 12V power connectors<br>1 x CPU fan header<br>1 x CPU fan/water cooling pump header<br>3 x system fan headers<br>1 x system fan/water cooling pump header<br>3 x addressable RGB Gen2 LED strip headers<br>1 x RGB LED strip header<br>3 x M.2 Socket 3 connectors<br>4 x SATA 6Gb/s connectors<br>1 x front panel header<br>1 x front panel audio header<br>1 x USB Type-C&reg; header, with USB 3.2 Gen 2 support<br>1 x USB 3.2 Gen 1 header<br>2 x USB 2.0/1.1 headers<br>2 x Thunderbolt&trade; add-in card connectors<br>1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0/GC-TPM2.0 SPI V2 module only)<br>1 x HDMI port (Note)<br>1 x Q-Flash Plus button<br>1 x power button<br>1 x reset button<br>1 x reset jumper<br>1 x Clear CMOS jumper</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x DisplayPort (Note)<br>1 x HDMI port (Note)<br>1 x USB4&reg; USB Type-C&reg; port (DisplayPort (Note))<br>2 x USB 3.2 Gen 2 Type-A ports (red)<br>4 x USB 3.2 Gen 1 ports<br>4 x USB 2.0/1.1 ports<br>1 x RJ-45 port<br>2 x antenna connectors (2T2R)<br>2 x audio jacks<br>1 x optical S/PDIF Out connector</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>Micro ATX Form Factor; 24.4cm x 24.4cm</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:13:27', NULL, '7699000.00', '6899000.00'),
+(6, 'Mainboard Gigabyte B860M AORUS ELITE WIFI 6E ICE DDR5', '<div class=\"description-productdetail\">\r\n<ul>\r\n<li>Chipset: Intel B860</li>\r\n<li>Socket: LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</li>\r\n<li>K&iacute;ch thước: Micro ATX</li>\r\n<li>Khe cắm RAM: 4 x DIMM slots, max. 256GB, DDR5</li>\r\n</ul>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p>Bo mạch chủ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>Mainboard Gigabyte</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel &reg; B860&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Support for DDR5 9200(O.C)/8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) /6400/5600 MT/s memory modules<br>4 x DDR5 DIMM sockets supporting up to 256 GB (64 GB single DIMM capacity) of system memory</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x PCI Express x16 slot, supporting PCIe 5.0 and running at x16 (PCIEX16)</p>\r\n<p>* The PCIEX16 slot can only support a graphics card or an NVMe SSD. If only one graphics card is to be installed, be sure to install it in the PCIEX16 slot.</p>\r\n<p><br>Chipset:<br>- 1 x PCI Express x16 slot, supporting PCIe 4.0 and running at x4 (PCIEX4)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x M.2 connector (Socket 3, M key, type 2580/2280 PCIe 5.0 x4/x2 SSD support) (M2A_CPU)<br>Chipset:<br>- 1 x M.2 connector (Socket 3, M key, type 2280 PCIe 4.0 x4/x2 SSD support) (M2Q_SB)<br>- 1 x M.2 connector (Socket 3, M key, type 22110/2280 PCIe 4.0 x4/x2 SSD support) (M2N_SB)<br>- 4 x SATA 6Gb/s connectors<br>RAID 0, RAID 1, RAID 5, and RAID 10 support for SATA storage devices</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek&reg; 2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</p>\r\n<p>Realtek&reg; Wi-Fi 7 RTL8922AE (PCB rev. 1.0)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>MediaTek Wi-Fi 7 MT7925 (PCB rev. 1.1)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>(Actual data rate may vary depending on environment and equipment.)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x USB4&reg; USB Type-C&reg; port on the back panel<br>Chipset:<br>- 1 x USB Type-C&reg; port with USB 3.2 Gen 2 support, available through the internal USB header<br>- 2 x USB 3.2 Gen 2 Type-A ports (red) on the back panel<br>- 2 x USB 3.2 Gen 1 ports available through the internal USB header<br>Chipset+USB 3.2 Gen 1 Hub:<br>- 4 x USB 3.2 Gen 1 ports on the back panel<br>Chipset+2 USB 2.0 Hubs:<br>- 8 x USB 2.0/1.1 ports (4 ports on the back panel, 4 ports available through the internal USB headers)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x 24-pin ATX main power connector<br>2 x 8-pin ATX 12V power connectors<br>1 x CPU fan header<br>1 x CPU fan/water cooling pump header<br>3 x system fan headers<br>1 x system fan/water cooling pump header<br>3 x addressable RGB Gen2 LED strip headers<br>1 x RGB LED strip header<br>3 x M.2 Socket 3 connectors<br>4 x SATA 6Gb/s connectors<br>1 x front panel header<br>1 x front panel audio header<br>1 x USB Type-C&reg; header, with USB 3.2 Gen 2 support<br>1 x USB 3.2 Gen 1 header<br>2 x USB 2.0/1.1 headers<br>2 x Thunderbolt&trade; add-in card connectors<br>1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0/GC-TPM2.0 SPI V2 module only)<br>1 x HDMI port (Note)<br>1 x Q-Flash Plus button<br>1 x power button<br>1 x reset button<br>1 x reset jumper<br>1 x Clear CMOS jumper</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x DisplayPort (Note)<br>1 x HDMI port (Note)<br>1 x USB4&reg; USB Type-C&reg; port (DisplayPort (Note))<br>2 x USB 3.2 Gen 2 Type-A ports (red)<br>4 x USB 3.2 Gen 1 ports<br>4 x USB 2.0/1.1 ports<br>1 x RJ-45 port<br>2 x antenna connectors (2T2R)<br>2 x audio jacks<br>1 x optical S/PDIF Out connector</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>Micro ATX Form Factor; 24.4cm x 24.4cm</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 03:12:57', NULL, '7699000.00', '6199000.00'),
+(7, 'Mainboard Gigabyte B860M AORUS ELITE WIFI 6E DDR5', '<div class=\"description-productdetail\">\r\n<ul>\r\n<li>Chipset: Intel B860</li>\r\n<li>Socket: LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</li>\r\n<li>K&iacute;ch thước: Micro ATX</li>\r\n<li>Khe cắm RAM: 4 x DIMM slots, max. 256GB, DDR5</li>\r\n</ul>\r\n<div><strong>Bảo H&agrave;nh: 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<p><strong>TH&Ocirc;NG SỐ KỸ THUẬT</strong></p>\r\n<table border=\"1\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p>Bo mạch chủ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>Mainboard Gigabyte</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>LGA1851 socket: Support for Intel &reg; Core&trade; Ultra Processors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel &reg; B860&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>Support for DDR5 9200(O.C)/8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) /6400/5600 MT/s memory modules<br>4 x DDR5 DIMM sockets supporting up to 256 GB (64 GB single DIMM capacity) of system memory</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x PCI Express x16 slot, supporting PCIe 5.0 and running at x16 (PCIEX16)</p>\r\n<p>* The PCIEX16 slot can only support a graphics card or an NVMe SSD. If only one graphics card is to be installed, be sure to install it in the PCIEX16 slot.</p>\r\n<p><br>Chipset:<br>- 1 x PCI Express x16 slot, supporting PCIe 4.0 and running at x4 (PCIEX4)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x M.2 connector (Socket 3, M key, type 2580/2280 PCIe 5.0 x4/x2 SSD support) (M2A_CPU)<br>Chipset:<br>- 1 x M.2 connector (Socket 3, M key, type 2280 PCIe 4.0 x4/x2 SSD support) (M2Q_SB)<br>- 1 x M.2 connector (Socket 3, M key, type 22110/2280 PCIe 4.0 x4/x2 SSD support) (M2N_SB)<br>- 4 x SATA 6Gb/s connectors<br>RAID 0, RAID 1, RAID 5, and RAID 10 support for SATA storage devices</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ETHERNET</strong></p>\r\n</td>\r\n<td>\r\n<p>Realtek&reg; 2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</p>\r\n<p>Realtek&reg; Wi-Fi 7 RTL8922AE (PCB rev. 1.0)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>MediaTek Wi-Fi 7 MT7925 (PCB rev. 1.1)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>(Actual data rate may vary depending on environment and equipment.)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>USB</strong></p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x USB4&reg; USB Type-C&reg; port on the back panel<br>Chipset:<br>- 1 x USB Type-C&reg; port with USB 3.2 Gen 2 support, available through the internal USB header<br>- 2 x USB 3.2 Gen 2 Type-A ports (red) on the back panel<br>- 2 x USB 3.2 Gen 1 ports available through the internal USB header<br>Chipset+USB 3.2 Gen 1 Hub:<br>- 4 x USB 3.2 Gen 1 ports on the back panel<br>Chipset+2 USB 2.0 Hubs:<br>- 8 x USB 2.0/1.1 ports (4 ports on the back panel, 4 ports available through the internal USB headers)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x 24-pin ATX main power connector<br>2 x 8-pin ATX 12V power connectors<br>1 x CPU fan header<br>1 x CPU fan/water cooling pump header<br>3 x system fan headers<br>1 x system fan/water cooling pump header<br>3 x addressable RGB Gen2 LED strip headers<br>1 x RGB LED strip header<br>3 x M.2 Socket 3 connectors<br>4 x SATA 6Gb/s connectors<br>1 x front panel header<br>1 x front panel audio header<br>1 x USB Type-C&reg; header, with USB 3.2 Gen 2 support<br>1 x USB 3.2 Gen 1 header<br>2 x USB 2.0/1.1 headers<br>2 x Thunderbolt&trade; add-in card connectors<br>1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0/GC-TPM2.0 SPI V2 module only)<br>1 x HDMI port (Note)<br>1 x Q-Flash Plus button<br>1 x power button<br>1 x reset button<br>1 x reset jumper<br>1 x Clear CMOS jumper</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p>1 x DisplayPort (Note)<br>1 x HDMI port (Note)<br>1 x USB4&reg; USB Type-C&reg; port (DisplayPort (Note))<br>2 x USB 3.2 Gen 2 Type-A ports (red)<br>4 x USB 3.2 Gen 1 ports<br>4 x USB 2.0/1.1 ports<br>1 x RJ-45 port<br>2 x antenna connectors (2T2R)<br>2 x audio jacks<br>1 x optical S/PDIF Out connector</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p>Micro ATX Form Factor; 24.4cm x 24.4cm</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 03:12:30', NULL, '7699000.00', '5799000.00'),
+(8, 'Mainboard Asus PRIME Z890-P WIFI-CSM', '<p>&nbsp;Socket: LGA1851<br>&nbsp;K&iacute;ch thước: ATX<br>&nbsp;Khe cắm RAM: 4 khe (Tối đa 192GB)<br>&nbsp;Khe cắm mở rộng: 1 x khe cắm PCIe 5.0 x16, 2 x khe cắm PCIe 4.0 x16 (hỗ trợ chế độ x4), 1 x khe cắm PCIe 4.0 x16 (hỗ trợ chế độ x1)<br>&nbsp;Khe cắm ổ cứng: 4 khe cắm M.2 v&agrave; 4 cổng SATA 6Gb/s</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<p>Th&ocirc;ng số kỹ thuật</p>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Sản ph&acirc;̉m</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Bo mạch chủ</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>T&ecirc;n Hãng</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>ASUS&nbsp;</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>CPU hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Hỗ trợ Bộ vi xử l&yacute; Intel&reg; Core&trade; Ultra (Series 2), LGA1851*<br>Hỗ trợ C&ocirc;ng nghệ Intel<sup>&reg;</sup>&nbsp;Turbo Boost 2.0 v&agrave; C&ocirc;ng nghệ Intel<sup>&reg;</sup>&nbsp;Turbo Boost Max 3.0**</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chipset</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Intel<sup>&reg;</sup>&nbsp;Z890 Chipset</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>RAM hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>4 x Khe DIMM, tối đa 192GB, DDR5<br>Hỗ trợ l&ecirc;n đến 8666+MT/gi&acirc;y (&eacute;p xung), Non-ECC, Un-buffered ,Clocked Unbuffered DIMM (CUDIMM)*<br>Kiến tr&uacute;c bộ nhớ k&ecirc;nh k&eacute;p<br>DIMM Fit<br>Hỗ trợ m&ocirc;-đun bộ nhớ Intel<sup>&reg;</sup>&nbsp;Extreme Memory Profile (XMP)<br>ASUS Enhanced Memory Profile III(AEMPIII)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Khe cắm mở rộng</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Bộ vixử l&yacute; Intel&reg; Core&trade; Ultra (Series 2)*<br>1 x khe cắm PCIe 5.0 x16<br>Intel<sup>&reg;</sup>&nbsp;Z890 Chipset<br>2 x khe cắm PCIe 4.0 x16 (hỗ trợ chế độ x4)<br>1 x khe cắm PCIe 4.0 x16 (hỗ trợ chế độ x1)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Ổ cứng hỗ trợ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>Tổng cộng hỗ trợ 4 khe cắm M.2 v&agrave; 4 cổng SATA 6Gb/s*<br>Bộ vi xử l&yacute; Intel&reg; Core&trade; Ultra (Series 2)*<br>Khe cắm M.2_1 (Key M), loại 2280/22110 (hỗ trợ chế độ PCIe 5.0 x4)<br>Khe cắm M.2_2 (Key M), loại 2280 (hỗ trợ chế độ PCIe 4.0 x4)</strong></p>\r\n<p><strong>Intel<sup>&reg;&nbsp;</sup>Z890 Chipset</strong></p>\r\n<p><strong>Khe cắm M.2_3 (Key M), loại 2280/22110 (hỗ trợ chế độ PCIe 4.0 x4)</strong></p>\r\n<p><strong>Khe M.2_4 (Key M), loại 2242/2260/2280 (hỗ trợ chế độ PCIe 4.0 x4 &amp; chế độ SATA)<br>4 x Cổng SATA 6Gb/s</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Internal)</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>C&aacute;c cổng quạt v&agrave; l&agrave;m m&aacute;t<br>1 x Đầu cắm quạt CPU 4 ch&acirc;n<br>1 x Cổng quạt OPT CPU 4 ch&acirc;n<br>1 x Đầu bơm AIO 4 ch&acirc;n<br>4 x Đầu cắm quạt khung 4 ch&acirc;n<br>Li&ecirc;n quan đến điện<br>1 x Đầu cắm nguồn ch&iacute;nh 24 ch&acirc;n<br>2 x Cổng nối nguồn CPU 8 pin +12V<br>Lưu Trữ Li&ecirc;n Quan<br>4 x Khe M.2 (Key M)<br>4 x Cổng SATA 6Gb/s<br>USB<br>1 x Đầu cắm USB 10Gbps (hỗ trợ USB Type-C&reg;)<br>2 x đầu cắm USB 5Gbps hỗ trợ th&ecirc;m 4 đầu cắm USB 5Gbps<br>2 x đầu cắm USB 2.0 hỗ trợ 4 cổng USB 2.0 bổ sung</strong></p>\r\n<p><strong>Linh Tinh</strong></p>\r\n<p><strong>3 x Đầu cắm Addressable Gen2</strong></p>\r\n<p><strong>1 x Đầu cắm Aura RGB<br>1 x cổng Clear CMOS<br>1 x đầu cắm cổng COM<br>1 x Đầu cắm &acirc;m thanh bảng mặt trước (F_AUDIO)<br>1 x đầi cắm S / PDIF đầu ra<br>1 x Đầu nối TPM SPI (14-1 ch&acirc;n)<br>1 x Đầu cắm 10-1 pin tr&ecirc;n bảng điều khiển hệ thống<br>1 x đầu cắm Thunderbolt&trade; (USB4&reg;)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Cổng kết nối (Back Panel)</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>1 x Cổng Thunderbolt&trade; 4 USB Type-C<sup>&reg;</sup><br>1 x cổng USB 10Gbps (1 x Type-A)<br>2 x Cổng USB 5Gbps (2 x Type-A)<br>4 x Cổng USB 2.0 (4 x Type-A)<br>1 x DisplayPort<br>1 x cổng HDMI&trade;<br>1 x M&ocirc;-đun Wi-Fi<br>1 x cổng Ethernet Realtek 2.5Gb<br>3 x Jack cắm &acirc;m thanh<br>1 x N&uacute;t BIOS FlashBack&trade;</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>LAN / Wireless</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>1 x Realtek 2.5Gb Ethernet<br>ASUS LANGuard</strong></p>\r\n<p><strong>Wi-Fi 7*</strong></p>\r\n<p><strong>2x2 Wi-Fi 7 (802.11be)</strong></p>\r\n<p><strong>Hỗ trợ băng tần 2,4/5/6GHz**<br>Hỗ trợ băng th&ocirc;ng Wi-Fi 7 160MHz, tốc độ truyền l&ecirc;n đến 2.9Gbps.<br>Bluetooth&reg; v5.4***<br>*C&aacute;c t&iacute;nh năng Wi-Fi c&oacute; thể kh&aacute;c nhau t&ugrave;y thuộc v&agrave;o hệ điều h&agrave;nh<br>&nbsp;Đối với Windows 11, Wi-Fi 7 sẽ y&ecirc;u cầu phi&ecirc;n bản 24H2 trở l&ecirc;n để c&oacute; đầy đủ c&aacute;c chức năng, Windows 11 21H2/22H2/23H2 chỉ hỗ trợ Wi-Fi 6E.<br>Đối với Windows 10, xin lưu &yacute; rằng kh&ocirc;ng c&oacute; driver n&agrave;o c&oacute; sẵn, vui l&ograve;ng tham khảo trang web của nh&agrave; cung cấp chipset Wi-Fi để biết chi tiết.</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch cỡ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>ATX Form Factor<br>12 inch x 9.6inch ( 30.5 cm x 24.4 cm )</strong></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p>&nbsp;</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:12:01', NULL, '7999000.00', '7199000.00'),
+(9, 'Mainboard Gigabyte Z890 AORUS ELITE WIFI7 ICE DDR5', '<p>&nbsp;Socket: LGA1851 socket - Support for Intel&reg; Core&trade; Ultra Processor<br>&nbsp;K&iacute;ch thước: ATX<br>&nbsp;Khe cắm RAM: 4 khe (Tối đa 256GB)<br>&nbsp;Khe cắm mở rộng: 1 x PCI Express x16 slot (supporting PCIe 5.0 and running at x16 (PCIEX16)), 2 x PCI Express x16 slots (supporting PCIe 4.0 and running at x4 (PCIEX4_1, PCIEX4_2))<br>&nbsp;Khe cắm ổ cứng: 4 x M.2 slots and 4 x SATA 6Gb/s ports</p>\r\n<div>Bảo h&agrave;nh: 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>TH&Ocirc;NG SỐ KỸ THUẬT</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>Sản ph&acirc;̉m</p>\r\n</td>\r\n<td>\r\n<p>Bo mạch chủ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>T&ecirc;n Hãng</p>\r\n</td>\r\n<td>\r\n<p>GIGABYTE</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>CPU hỗ trợ</p>\r\n</td>\r\n<td>\r\n<p>LGA1851</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Chipset</p>\r\n</td>\r\n<td>\r\n<p>Intel&reg; Z890 Express Chipset</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>RAM hỗ trợ</p>\r\n</td>\r\n<td>\r\n<p>Support for DDR5 8800(O.C) /8600(O.C) / 8400(O.C) /8266(O.C) / 8200(O.C) / 8000(O.C) / 7950(O.C) / 7900(O.C) / 7800(O.C) / 7600(O.C.) / 7400(O.C.) / 7200(O.C.) / 7000(O.C.) / 6800(O.C.) / 6600(O.C.) / 6400 / 6200 / 6000 / 5800 / 5600MT/s memory modules.<br><strong>4 x DDR5 DIMM sockets supporting up to 256 GB</strong>&nbsp;(64 GB single DIMM capacity) of system memory<br>Dual channel memory architecture<br>Support for ECC Un-buffered DIMM 1Rx8/2Rx8 memory modules (operate in non-ECC mode)<br>Support for non-ECC Un-buffered DIMM 1Rx8/2Rx8/1Rx16 memory modules<br>Support for Extreme Memory Profile (XMP) memory modules</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Khe cắm mở rộng</p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x PCI Express x16 slot, supporting PCIe 5.0 and running at x16 (PCIEX16)</p>\r\n<p>Chipset:<br>- 2 x PCI Express x16 slots, supporting PCIe 4.0 and running at x4 (PCIEX4_1, PCIEX4_2)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ổ cứng hỗ trợ</p>\r\n</td>\r\n<td>\r\n<p>CPU:<br>- 1 x M.2 connector (Socket 3, M key, type 25110/22110/2580/2280 PCIe 5.0 x4/x2 SSD support) (M2A_CPU)<br>- 1 x M.2 connector (Socket 3, M key, type 22110/2280 PCIe 4.0 x4/x2 SSD support) (M2B_CPU)</p>\r\n<p>Chipset:<br>- 1 x M.2 connector (Socket 3, M key, type 25110/22110/2580/2280 PCIe 4.0 x4/x2 SSD support) (M2Q_SB)<br>- 1 x M.2 connector (Socket 3, M key, type 22110/2280 SATA and PCIe 4.0 x4 SSD support) (M2M_SB)<br>- 4 x SATA 6Gb/s connectors</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Cổng kết nối (Internal)</p>\r\n</td>\r\n<td>\r\n<p>1 x 24-pin ATX main power connector<br>2 x 8-pin ATX 12V power connectors<br>1 x CPU fan header<br>1 x CPU fan/water cooling pump header<br>3 x system fan headers<br>1 x system fan/water cooling pump header<br>3 x addressable RGB Gen2 LED strip headers<br>1 x RGB LED strip header<br>4 x M.2 Socket 3 connectors<br>4 x SATA 6Gb/s connectors<br>1 x front panel header<br>1 x front panel audio header<br>1 x USB Type-C&reg; header, with USB 3.2 Gen 2 support<br>1 x USB 3.2 Gen 1 header<br>2 x USB 2.0/1.1 headers<br>1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0/GC-TPM2.0 SPI V2 module only)<br>1 x HDMI port (Note)<br>1 x power button<br>1 x reset button<br>1 x Q-Flash Plus button<br>1 x reset jumper<br>1 x Clear CMOS jumper</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Cổng kết nối (Back Panel)</p>\r\n</td>\r\n<td>\r\n<p>1 x Intel&reg; Thunderbolt&trade; 4 connector (USB4&reg; USB Type-C&reg; port)<br>2 x USB 3.2 Gen 2 Type-A ports (red)<br>3 x USB 3.2 Gen 1 ports<br>4 x USB 2.0/1.1 ports<br>2 x antenna connectors (2T2R)<br>1 x DisplayPort (Note)<br>1 x RJ-45 port<br>1 x optical S/PDIF Out connector<br>2 x audio jacks</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>LAN / Wireless</p>\r\n</td>\r\n<td>\r\n<p>LAN</p>\r\n<p>Realtek&reg; 2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</p>\r\n<p>Wireless</p>\r\n<p>MediaTek Wi-Fi 7 MT7925 (PCB rev. 1.0)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard<br>Realtek&reg; Wi-Fi 7 RTL8922AE (PCB rev. 1.1)<br>- 802.11a, b, g, n, ac, ax, be, supporting 2.4/5/6 GHz carrier frequency bands<br>- BLUETOOTH 5.4<br>- Support for 11be 160MHz wireless standard</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>K&iacute;ch cỡ</p>\r\n</td>\r\n<td>\r\n<p>ATX Form Factor<br>12 inch x 9.6 inch ( 30.5 cm x 24.4 cm )</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:10:53', NULL, '12999000.00', '9899000.00'),
+(10, 'Mainboard Gigabyte B650M AORUS ELITE AX DDR5', '<p>&nbsp;- Socket: AMD Socket AM5 hỗ trợ CPU AMD Ryzen &trade; 7000 Series<br>&nbsp;- K&iacute;ch thước: ATX<br>&nbsp;- Khe cắm RAM: 4 khe (Tối đa 128GB)<br>&nbsp;- Khe cắm mở rộng: 1 x PCI Express x16 slot<br>&nbsp;- Khe cắm ổ cứng: M.2 connector, 4 x SATA 6Gb/s connectors</p>\r\n<div>\r\n<p>Bảo h&agrave;nh: 36 Th&aacute;ng</p>\r\n<hr>\r\n<h3>TH&Ocirc;NG SỐ KỸ THUẬT</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Sản ph&acirc;̉m</td>\r\n<td>Bo mạch chủ</td>\r\n</tr>\r\n<tr>\r\n<td>T&ecirc;n Hãng</td>\r\n<td>GIGABYTE</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>AORUS ELITE AX DDR5</td>\r\n</tr>\r\n<tr>\r\n<td>CPU hỗ trợ</td>\r\n<td>AMD Socket AM5 for AMD Ryzen&trade; 7000 Series</td>\r\n</tr>\r\n<tr>\r\n<td>Chipset</td>\r\n<td>B650</td>\r\n</tr>\r\n<tr>\r\n<td>RAM hỗ trợ</td>\r\n<td>Support for DDR5 8000(OC)/ 7800(OC)/ 7600(OC)/ 7200(OC)/ 7000(OC)/ 6800(OC)/ 6666(OC)/ 6600(OC)/ 6400(OC)/ 6200(OC)/ 6000(OC)/ 5600(OC)/ 5200/ 4800/ 4400 MT/s memory modules4 x DDR5 DIMM sockets supporting up to 192 GB (48 GB single DIMM capacity) of system memoryDual channel memory architectureSupport for non-ECC Un-buffered DIMM 1Rx8/2Rx8/1Rx16 memory modulesSupport for AMD EXtended Profiles for Overclocking (AMD EXPO&trade;) and Extreme Memory Profile (XMP) memory modules(The CPU and memory configuration may affect the supported memory types, data rate (speed), and number of DRAM modules, please refer to \"Memory Support List\" for more information.)</td>\r\n</tr>\r\n<tr>\r\n<td>Khe cắm mở rộng</td>\r\n<td>CPU:1 x PCI Express x16 slot, supporting PCIe 4.0 and running at x16 (PCIEX16)* For optimum performance, if only one PCI Express graphics card is to be installed, be sure to install it in the PCIEX16 slot.Chipset:1 x PCI Express x16 slot, supporting PCIe 4.0 and running at x4 (PCIEX4)</td>\r\n</tr>\r\n<tr>\r\n<td>Ổ cứng hỗ trợ</td>\r\n<td>CPU:1 x M.2 connector (Socket 3, M key, type 25110/2280 PCIe 5.0* x4/x2 SSD support) (M2A_CPU)* Actual support may vary by CPU.1 x M.2 connector (Socket 3, M key, type 22110/2280 PCIe 4.0 x4/x2 SSD support) (M2B_CPU)Chipset:4 x SATA 6Gb/s connectorsRAID 0, RAID 1, and RAID 10 support for NVMe SSD storage devicesRAID 0, RAID 1, and RAID 10 support for SATA storage devices</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối (Internal)</td>\r\n<td>1 x 24-pin ATX main power connector1 x 8-pin ATX 12V power connector1 x CPU fan header1 x water cooling CPU fan header3 x system fan headers1 x system fan/water cooling pump header2 x addressable LED strip headers2 x RGB LED strip headers1 x CPU cooler LED strip/RGB LED strip header2 x M.2 Socket 3 connectors4 x SATA 6Gb/s connectors1 x front panel header1 x front panel audio header1 x USB Type-C&reg; header, with USB 3.2 Gen 2x2 support1 x USB 3.2 Gen 1 header2 x USB 2.0/1.1 headers1 x serial port header1 x THB_U4 add-in card connector1 x Trusted Platform Module header (For the GC-TPM2.0 SPI/GC-TPM2.0 SPI 2.0 module only)1 x reset button1 x reset jumper1 x Clear CMOS jumper</td>\r\n</tr>\r\n<tr>\r\n<td>Cổng kết nối (Back Panel)</td>\r\n<td>1 x Q-Flash Plus button2 x SMA antenna connectors (2T2R)1 x DisplayPort1 x HDMI port1 x USB Type-C&reg; port, with USB 3.2 Gen 2 support2 x USB 3.2 Gen 2 Type-A ports (red)5 x USB 3.2 Gen 1 ports4 x USB 2.0/1.1 ports1 x RJ-45 port1 x optical S/PDIF Out connector2 x audio jacks</td>\r\n</tr>\r\n<tr>\r\n<td>LAN</td>\r\n<td>Intel&reg;&nbsp;2.5GbE LAN chip (2.5 Gbps/1 Gbps/100 Mbps)</td>\r\n</tr>\r\n<tr>\r\n<td>WIRELESS/ BLUETOOTH</td>\r\n<td>AMD Wi-Fi 6E RZ616 (MT7922A22M) (For PCB rev. 1.0)WIFI a, b, g, n, ac, ax, supporting 2.4/5/6 GHz carrier frequency bandsBLUETOOTH 5.2Support for 11ax 160MHz wireless standard and up to 2.4 Gbps data rateIntel&reg; Wi-Fi 6E AX210 (For PCB rev. 1.1)WIFI a, b, g, n, ac, ax, supporting 2.4/5/6 GHz carrier frequency bandsBLUETOOTH 5.3Support for 11ax 160MHz wireless standard and up to 2.4 Gbps data rate</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch cỡ</td>\r\n<td>1.Micro ATX Form Factor; 24.4cm x 24.4cm Micro ATX Form Factor; 24.4cm x 24.4cm</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:10:17', NULL, '4990000.00', '4590000.00');
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `ma_giam_gias`
+-- Table structure for table `ma_giam_gias`
 --
 
 CREATE TABLE `ma_giam_gias` (
   `id` bigint UNSIGNED NOT NULL,
-  `ma` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `loai` enum('phan_tram','tien_mat') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ma` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `loai` enum('phan_tram','tien_mat') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `gia_tri` decimal(10,2) NOT NULL,
+  `gia_tri_toi_da` decimal(10,2) NOT NULL DEFAULT '0.00',
   `dieu_kien` decimal(10,2) NOT NULL DEFAULT '0.00',
   `ngay_bat_dau` timestamp NULL DEFAULT NULL,
   `ngay_ket_thuc` timestamp NULL DEFAULT NULL,
@@ -481,27 +607,27 @@ CREATE TABLE `ma_giam_gias` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `ma_giam_gias`
+-- Dumping data for table `ma_giam_gias`
 --
 
-INSERT INTO `ma_giam_gias` (`id`, `ma`, `loai`, `gia_tri`, `dieu_kien`, `ngay_bat_dau`, `ngay_ket_thuc`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(5, 'Giam10%', 'phan_tram', 10.00, 0.00, '2025-06-20 17:00:00', '2025-07-20 17:00:00', 1, '2025-06-20 21:17:39', '2025-06-21 08:33:45', NULL),
-(6, 'Hocsinh', 'tien_mat', 1000000.00, 0.00, '2025-06-20 17:00:00', '2025-06-21 17:00:00', 1, '2025-06-21 08:41:56', '2025-06-21 08:41:56', NULL);
+INSERT INTO `ma_giam_gias` (`id`, `ma`, `loai`, `gia_tri`, `gia_tri_toi_da`, `dieu_kien`, `ngay_bat_dau`, `ngay_ket_thuc`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5, 'Giam10%', 'phan_tram', '15.00', '60000.00', '0.00', '2025-06-20 17:00:00', '2025-07-20 17:00:00', 1, '2025-06-20 21:17:39', '2025-06-26 21:13:18', NULL),
+(6, 'Hocsinh', 'phan_tram', '22.00', '222.00', '0.00', '2025-06-20 17:00:00', '2025-06-21 17:00:00', 1, '2025-06-21 08:41:56', '2025-06-27 01:47:52', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -533,33 +659,29 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2025_06_21_153649_add_dieu_kien_to_ma_giam_gias_table', 4),
 (27, '2025_06_21_154719_add_tong_tien_goc_and_giam_gia_to_don_hangs_table', 5),
 (28, '2025_06_21_155559_add_id_product_to_chi_tiet_don_hangs_table', 6),
-(29, '2025_06_21_155741_add_deleted_at_to_don_hangs_table', 7);
+(29, '2025_06_21_155741_add_deleted_at_to_don_hangs_table', 7),
+(30, '2025_06_27_002817_add_gia_tri_toi_da_to_ma_giam_gias_table', 8),
+(31, '2025_06_27_172518_create_banners_table', 9),
+(32, '2025_06_27_204605_add_deleted_at_to_banners_table', 10),
+(33, '2025_06_06_073250_create_nguons_table', 11),
+(34, '2025_06_06_073251_create_cases_table', 11),
+(35, '2025_06_06_073252_create_tan_nhiets_table', 11),
+(36, '2025_06_28_132943_add_ten_dia_phuong_to_dia_chi_nguoi_dungs', 11),
+(37, '2025_06_30_173843_add_case_tannhiet_nguon_to_san_phams_table', 11),
+(38, '2025_07_02_095107_add_simple_product_fields_to_san_pham', 12),
+(39, '2025_07_02_110813_add_gia_so_sanh_to_san_phams_table', 12);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `nhat_ky_ton_khos`
+-- Table structure for table `nguons`
 --
 
-CREATE TABLE `nhat_ky_ton_khos` (
+CREATE TABLE `nguons` (
   `id` bigint UNSIGNED NOT NULL,
-  `id_bien_the` bigint UNSIGNED DEFAULT NULL,
-  `so_luong` int NOT NULL,
-  `loai` enum('nhap','xuat','dieu_chinh') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ly_do` text COLLATE utf8mb4_unicode_ci,
-  `ngay_tao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `o_cungs`
---
-
-CREATE TABLE `o_cungs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `loai` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dung_luong` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL,
   `mo_ta` longtext COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -567,43 +689,91 @@ CREATE TABLE `o_cungs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `o_cungs`
+-- Dumping data for table `nguons`
 --
 
-INSERT INTO `o_cungs` (`id`, `loai`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'HDD', '512GB', 'Reiciendis aut maxime qui incidunt.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(2, 'SSD', '512GB', 'Amet veniam sint voluptatem harum animi rem expedita.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(3, 'HDD', '2TB', 'Ducimus dicta modi qui excepturi repudiandae reiciendis iusto.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(4, 'SSD', '2TB', 'Dolores et est quaerat et dolorem.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(5, 'SSD', '1TB', 'Cumque aut fugit ad numquam animi soluta debitis.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(6, 'SSD', '2TB', 'Voluptatum animi ipsa unde quos saepe quos qui.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(7, 'SSD', '256GB', 'Odit eum sed qui temporibus voluptatibus odit consequuntur alias.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(8, 'SSD', '1TB', 'Sit fugit iste quas aut.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(9, 'SSD', '1TB', 'Laborum consectetur ea voluptas molestias distinctio occaecati doloremque.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(10, 'HDD', '256GB', 'Accusamus nemo soluta saepe commodi distinctio voluptas consectetur vero.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL);
+INSERT INTO `nguons` (`id`, `ten`, `gia`, `gia_sale`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Nguồn máy tính Cooler Master MWE GOLD 1250W V2 ATX3.1 - 80 Plus Gold - Full Modular', '5990000.00', '5490000.00', '<div class=\"scroll-table\">\r\n<table class=\"table table-bordered\" border=\"1\" cellspacing=\"0\">\r\n<tbody>\r\n<tr class=\"row-info\">\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>Cooler Master</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>MPE-C501-AFCAG-3</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Phi&ecirc;n bản</strong></td>\r\n<td>ATX 12V V3.0</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Series</strong></td>\r\n<td>MWE Gold Series</td>\r\n</tr>\r\n<tr>\r\n<td><strong>PFC</strong></td>\r\n<td>Active PFC</td>\r\n</tr>\r\n<tr>\r\n<td><strong>C&ocirc;ng suất</strong></td>\r\n<td>1250W</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Điện &aacute;p đầu v&agrave;o</strong></td>\r\n<td>100-2040V</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>D&ograve;ng điện đầu v&agrave;o</strong></td>\r\n<td>15-7A</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Tần số đầu v&agrave;o</strong></td>\r\n<td>50-60Hz</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>K&iacute;ch thước (D&nbsp;x R&nbsp;x C)</strong></td>\r\n<td>180 x 150 x 86 mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td>140mm</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>V&ograve;ng bi quạt</strong></td>\r\n<td>FDB</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Tốc độ quạt</strong></td>\r\n<td>2200 RPM</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Độ ồn @ 20%</strong></td>\r\n<td>0 dBA</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Độ ồn @ 50%</strong></td>\r\n<td>15,8 dBA</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Độ ồn @ 100%</strong></td>\r\n<td>30,1 dBA</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Chuẩn</strong></td>\r\n<td>90% @ Typical Load</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>Chuẩn 80 plus</strong></td>\r\n<td>80 PLUS Gold</td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>ERP 2014 LOT 3</strong></td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Nhiệt độ hoạt động</strong></td>\r\n<td>0-50&deg;C</td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&iacute;n hiệu tốt</strong></td>\r\n<td>100 - 150 ms</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thời gian chờ</strong></td>\r\n<td>&ge;16ms at 100% Load</td>\r\n</tr>\r\n<tr>\r\n<td><strong>MTBF</strong></td>\r\n<td>&gt;100,000 giờ</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo vệ</strong></td>\r\n<td>OVP, OPP, SCP, OCP, UVP, OTP, Inrush Protection</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối</strong></td>\r\n<td>Fan 14cm, 1 đường 12v 104A, (4+4pin) x 1, 8pin x 1 CPU, 12 sata, 4 x ATA, 3x PCI Express&nbsp; 6+2 pin, 1x&nbsp; 12VHPWR Connector&nbsp;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<p>Nguồn m&aacute;y t&iacute;nh Cooler Master MWE GOLD 1250W V2 l&agrave; một trong những sản phẩm đ&aacute;ng ch&uacute; &yacute; trong ph&acirc;n kh&uacute;c nguồn c&ocirc;ng suất cao, được thiết kế đặc biệt cho c&aacute;c game thủ v&agrave; những người d&ugrave;ng y&ecirc;u cầu hiệu suất cao. Với chứng nhận 80 Plus Gold, sản phẩm n&agrave;y đảm bảo hiệu quả năng lượng tối ưu, giảm thiểu lượng điện ti&ecirc;u thụ v&agrave; tăng t&iacute;nh ổn định cho hệ thống.</p>\r\n<ul>\r\n<li>\r\n<h3><strong>Thiết kế v&agrave; chất lượng build</strong></h3>\r\n</li>\r\n</ul>\r\n<p><img src=\"https://product.hstatic.net/200000722513/product/38463_mwe_gold_1250_v2_atx3_gallery_04_image_b04b28bb8fcd4891a622c093a5566d25_1024x1024.png\"></p>\r\n<p>Nguồn Cooler Master MWE GOLD 1250W V2 được sản xuất với ti&ecirc;u chuẩn cao, chất liệu vỏ bọc bằng th&eacute;p chắc chắn v&agrave; bền bỉ. K&iacute;ch thước ti&ecirc;u chuẩn ATX cho ph&eacute;p dễ d&agrave;ng lắp đặt trong c&aacute;c&nbsp;<a href=\"https://gearvn.com/collections/case-thung-may-tinh\">th&ugrave;ng m&aacute;y</a>, mang đến sự linh hoạt cho người d&ugrave;ng. Đặc biệt, thiết kế full modular gi&uacute;p người d&ugrave;ng c&oacute; thể dễ d&agrave;ng quản l&yacute; c&aacute;p, đảm bảo kh&ocirc;ng gian b&ecirc;n trong th&ugrave;ng m&aacute;y lu&ocirc;n gọn g&agrave;ng v&agrave; th&ocirc;ng tho&aacute;ng.</p>\r\n<ul>\r\n<li>\r\n<h3><strong>Hiệu suất năng lượng</strong></h3>\r\n</li>\r\n</ul>\r\n<p>Một trong những đặc điểm nổi bật nhất của Cooler Master MWE GOLD 1250W V2 l&agrave; chứng nhận 80 Plus Gold. Điều n&agrave;y c&oacute; nghĩa l&agrave; nguồn điện n&agrave;y c&oacute; hiệu suất năng lượng l&ecirc;n tới 90% ở tải 50%, gi&uacute;p tiết kiệm điện năng một c&aacute;ch tối ưu. Sản phẩm cũng được trang bị&nbsp;<a href=\"https://gearvn.com/blogs/cong-nghe\">c&ocirc;ng nghệ</a>&nbsp;mới nhất để giảm thiểu tiếng ồn v&agrave; giữ cho nguồn hoạt động ổn định ngay cả trong điều kiện tải nặng.</p>\r\n<ul>\r\n<li>\r\n<h3><strong>T&iacute;nh năng quản l&yacute; nhiệt</strong></h3>\r\n</li>\r\n</ul>\r\n<p><img src=\"https://product.hstatic.net/200000722513/product/38463_mwe_gold_1250_v2_atx3_gallery_03_image_846c98e6f4344325b005b6140d2cc8b7_1024x1024.png\"></p>\r\n<p>Cooler Master MWE GOLD 1250W V2 được trang bị&nbsp;<a href=\"https://gearvn.com/collections/tan-nhiet-may-tinh\">quạt tản nhiệt</a>&nbsp;135mm với thiết kế tản nhiệt hiệu quả. Quạt hoạt động &ecirc;m &aacute;i v&agrave; tự động điều chỉnh tốc độ t&ugrave;y thuộc v&agrave;o nhiệt độ của nguồn, gi&uacute;p duy tr&igrave; nhiệt độ l&yacute; tưởng trong suốt qu&aacute; tr&igrave;nh hoạt động. Điều n&agrave;y kh&ocirc;ng chỉ đảm bảo hiệu suất l&agrave;m việc cao m&agrave; c&ograve;n k&eacute;o d&agrave;i tuổi thọ của nguồn điện.</p>\r\n<ul>\r\n<li><strong>Độ tin cậy v&agrave; bảo vệ</strong></li>\r\n</ul>\r\n<p>Nguồn Cooler Master MWE GOLD 1250W V2 được t&iacute;ch hợp nhiều t&iacute;nh năng bảo vệ, bao gồm&nbsp;<strong>OVP&nbsp;</strong>(Over Voltage Protection),&nbsp;<strong>OCP&nbsp;</strong>(Over Current Protection),&nbsp;<strong>SCP&nbsp;</strong>(Short Circuit Protection) v&agrave;&nbsp;<strong>UVP&nbsp;</strong>(Under Voltage Protection). Những t&iacute;nh năng n&agrave;y gi&uacute;p bảo vệ hệ thống của bạn khỏi c&aacute;c sự cố điện xảy ra, đảm bảo bảo vệ tối đa cho c&aacute;c linh kiện quan trọng trong&nbsp;<a href=\"https://gearvn.com/pages/pc-gvn\">m&aacute;y t&iacute;nh</a>.</p>\r\n<ul>\r\n<li>\r\n<h3><strong>Khả năng tương th&iacute;ch</strong></h3>\r\n</li>\r\n</ul>\r\n<p>Nguồn điện n&agrave;y hỗ trợ c&ocirc;ng nghệ PCIe 5.0, gi&uacute;p tương th&iacute;ch tốt với c&aacute;c&nbsp;<a href=\"https://gearvn.com/collections/vga-card-man-hinh\">card đồ họa</a>&nbsp;thế hệ mới nhất. Ngo&agrave;i ra, với nhiều đầu ra c&aacute;p kh&aacute;c nhau, Cooler Master MWE GOLD 1250W V2 c&oacute; thể cung cấp năng lượng cho nhiều linh kiện kh&aacute;c nhau, bao gồm&nbsp;<a href=\"https://gearvn.com/collections/cpu-bo-vi-xu-ly\">CPU</a>, GPU, v&agrave; c&aacute;c thiết bị ngoại vi, gi&uacute;p bạn dễ d&agrave;ng n&acirc;ng cấp trong tương lai.</p>\r\n<p><img src=\"https://product.hstatic.net/200000722513/product/38463_mwe_gold_1250_v2_atx3_gallery_07_image_724f2323429b41ce9558ab46731814b2_1024x1024.png\"></p>\r\n<p>Với những đặc điểm v&agrave; t&iacute;nh năng vượt trội,&nbsp;<a href=\"https://gearvn.com/collections/psu-nguon-may-tinh\">nguồn m&aacute;y t&iacute;nh</a> Cooler Master MWE GOLD 1250W V2 xứng đ&aacute;ng l&agrave; một sự lựa chọn h&agrave;ng đầu cho c&aacute;c game thủ v&agrave; những người đam m&ecirc; c&ocirc;ng nghệ. Chứng nhận 80 Plus Gold, thiết kế full modular c&ugrave;ng khả năng tương th&iacute;ch cao với c&aacute;c linh kiện hiện đại, sản phẩm n&agrave;y kh&ocirc;ng chỉ mang lại hiệu suất tuyệt vời m&agrave; c&ograve;n tạo ra một giải ph&aacute;p đ&aacute;ng tin cậy cho hệ thống m&aacute;y t&iacute;nh của bạn. Nếu bạn đang t&igrave;m kiếm một nguồn điện mạnh mẽ, ổn định v&agrave; hiệu quả năng lượng, đừng ngần ngại xem x&eacute;t Cooler Master MWE GOLD 1250W V2.</p>', '2025-07-02 10:02:22', '2025-07-02 10:02:22', NULL),
+(2, 'Nguồn máy tính Darkflash PMT850 850W ( ATX3.1 & PCIe 5.1, 80 Plus Gold, Full Modular )', '2599000.00', '2390000.00', '<p>&nbsp;Loại: Nguồn m&aacute;y t&iacute;nh<br>&nbsp;C&ocirc;ng suất: 850W<br>&nbsp;Loại d&acirc;y nguồn : Full Modular<br>&nbsp;Form Factor: ATX</p>\r\n<div>Bảo h&agrave;nh : 60 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>K&iacute;ch thước sản phẩm</td>\r\n<td>140*150*86mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chuẩn</td>\r\n<td>80 PLUS GOLD</td>\r\n</tr>\r\n<tr>\r\n<td>C&ocirc;ng Suất</td>\r\n<td>850W</td>\r\n</tr>\r\n<tr>\r\n<td>AC Input</td>\r\n<td>100V~240V</td>\r\n</tr>\r\n<tr>\r\n<td>Tụ điện</td>\r\n<td>100% Japanese</td>\r\n</tr>\r\n<tr>\r\n<td>Version&amp;PFC</td>\r\n<td>ATX3.1&amp;Active PFC</td>\r\n</tr>\r\n<tr>\r\n<td>Module Type</td>\r\n<td>Fully modular</td>\r\n</tr>\r\n<tr>\r\n<td>Motherboard</td>\r\n<td>1(20+4 Pin)（550mm）</td>\r\n</tr>\r\n<tr>\r\n<td>CPU (4+4)Pin</td>\r\n<td>2（700mm）</td>\r\n</tr>\r\n<tr>\r\n<td>PCI-E(6+2)Pin</td>\r\n<td>2 (600mm)</td>\r\n</tr>\r\n<tr>\r\n<td>PCIE5.1</td>\r\n<td>1(12V2x6, 12+4)Pin (600W)</td>\r\n</tr>\r\n<tr>\r\n<td>SATA</td>\r\n<td>5</td>\r\n</tr>\r\n<tr>\r\n<td>PATA</td>\r\n<td>2</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:27:24', '2025-07-05 08:27:24', NULL),
+(3, 'Nguồn máy tính Gigabyte P750BS 750W (80 Plus Bronze, GP-P750BS)', '1990000.00', '1590000.00', '<p>C&ocirc;ng suất tối đa: 750W<br>&nbsp;Chuẩn nguồn: ATX 12V<br>&nbsp;Hiệu suất: 80 PLUS Bronze<br>&nbsp;Điện &aacute;p đầu v&agrave;o: 200-240V AC<br>&nbsp;Bảo vệ: OVP, OPP, SCP, UVP, OCP, OTP</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td><strong>GP-P750BS</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Type</strong></td>\r\n<td><strong>Intel Form Factor ATX 12V</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>PFC</strong></td>\r\n<td><strong>Active PFC (&gt;0.9 typical)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Điện &aacute;p đầu v&agrave;o</strong></td>\r\n<td><strong>200-240 Vac</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Điện &aacute;p đầu v&agrave;o</strong></td>\r\n<td><strong>6 A</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tần số đầu v&agrave;o</strong></td>\r\n<td><strong>60-50 Hz</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>C&ocirc;ng suất đầu ra</strong></td>\r\n<td><strong>750W</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước</strong></td>\r\n<td><strong>150 x 140 x 86 mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại quạt</strong></td>\r\n<td><strong>120mm Fluid Dynamic Bearing (FDB) Fan</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>80 PLUS</strong></td>\r\n<td><strong>Bronze (230V EU)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Hiệu suất</strong></td>\r\n<td><strong>88% tại tải trung b&igrave;nh</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>MTBF</strong></td>\r\n<td><strong>&gt;100.000 giờ</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo vệ</strong></td>\r\n<td><strong>OVP/OPP/SCP/UVP/OCP/OTP</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&iacute;n hiệu Power Good</strong></td>\r\n<td><strong>100-150ms</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Thời gian giữ lại</strong></td>\r\n<td><strong>&gt;16ms</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại c&aacute;p</strong></td>\r\n<td><strong>Embossed, All black</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối</strong></td>\r\n<td><strong>ATX/MB 20+4 Pin x 1 : 600mm*1<br>CPU/EPS 4+4 Pin x 2 : 600mm+150mm*1<br>PCI-E 6+2 Pin x 4 : 500mm+150mm*2<br>SATA x 4 : 500mm+150mm+150mm+150mm*1<br>SATA x 3 + Peripheral x1 : 500mm+150mm+150mm+150mm*1</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:27:51', '2025-07-05 08:27:51', NULL),
+(4, 'Nguồn máy tính Asus ROG THOR 1200W Platinum III', '149990000.00', '12990000.00', '<p>Thương hiệu: Asus<br>&nbsp;Loại sản phẩm: Nguồn m&aacute;y t&iacute;nh<br>&nbsp;Model: ROG THOR 1200W Titanium III<br>&nbsp;C&ocirc;ng suất: 1200W<br>&nbsp;K&iacute;ch thước: 190 x 150 x 86 mm</p>\r\n<div>Bảo h&agrave;nh : 120 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Đặc điểm kỹ thuật</td>\r\n<td>ATX12V</td>\r\n</tr>\r\n<tr>\r\n<td>PFC Type</td>\r\n<td>PFC hoạt động</td>\r\n</tr>\r\n<tr>\r\n<td>ATX Standard</td>\r\n<td>ATX 3.1</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước</td>\r\n<td>190 x 150 x 86 mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chuẩn tiết kiệm điện</td>\r\n<td>80Plus Platinum</td>\r\n</tr>\r\n<tr>\r\n<td>MTBF</td>\r\n<td>&gt;120,000 hrs @ 25&deg;C</td>\r\n</tr>\r\n<tr>\r\n<td>T&iacute;nh năng bảo vệ</td>\r\n<td>OPP/OVP/UVP/SCP/OCP/OTP</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận vật liệu</td>\r\n<td>ROHS</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn cấp v&agrave;o</td>\r\n<td>100-240Vac</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn DC ra</td>\r\n<td>+3.3V +5V +12V -12V +5Vsb</td>\r\n</tr>\r\n<tr>\r\n<td>Tải tối đa</td>\r\n<td>30A 25A 133.3A 0.3A 3A</td>\r\n</tr>\r\n<tr>\r\n<td>Tải kết hợp</td>\r\n<td>125W 125W 1200W 3.6W 15W</td>\r\n</tr>\r\n<tr>\r\n<td>Tổng c&ocirc;ng suất ra</td>\r\n<td>1200W</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"6\">Cổng kết nối</td>\r\n<td>MB 24/20-pin x 1</td>\r\n</tr>\r\n<tr>\r\n<td>CPU 4+4-pin x 2</td>\r\n</tr>\r\n<tr>\r\n<td>PCI-E 16-pin x 1</td>\r\n</tr>\r\n<tr>\r\n<td>PCI-E 6+2-pin x 4</td>\r\n</tr>\r\n<tr>\r\n<td>SATA x 7</td>\r\n</tr>\r\n<tr>\r\n<td>PERIPHERAL x 6</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"14\">Bộ sản phẩm</td>\r\n<td>D&acirc;y nguồn x 1</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p nguồn bo mạch chủ x 1 (610mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p CPU x 2 (1000mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p PCI-E Gen 5 16 ch&acirc;n x 1 (750mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p PCI-E 1-đến-1 x 4 (750mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p SATA 1-đến-4 x 1 (400+120+120+120mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p SATA 1-đến-3 x 1 (400+120+120mm)</td>\r\n</tr>\r\n<tr>\r\n<td>Thiết bị ngoại vi 1-đến-3 x 2 (400+150+150mm)</td>\r\n</tr>\r\n<tr>\r\n<td>C&aacute;p RGB c&oacute; thể định địa chỉ x 1 (800mm)</td>\r\n</tr>\r\n<tr>\r\n<td>Nh&atilde;n d&aacute;n ROG x 1</td>\r\n</tr>\r\n<tr>\r\n<td>D&acirc;y buộc c&aacute;p ROG x 6</td>\r\n</tr>\r\n<tr>\r\n<td>G&oacute;i v&iacute;t khung m&aacute;y x 1</td>\r\n</tr>\r\n<tr>\r\n<td>D&acirc;y buộc c&aacute;p x 12</td>\r\n</tr>\r\n<tr>\r\n<td>Hướng dẫn sử dụng x 1</td>\r\n</tr>\r\n<tr>\r\n<td>Trọng lượng</td>\r\n<td>2,37 KG (PSU đơn)</td>\r\n</tr>\r\n<tr>\r\n<td>AURA SYNC</td>\r\n<td>ARGB</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận tiếng ồn của Cybenetic</td>\r\n<td>A+</td>\r\n</tr>\r\n<tr>\r\n<td>0dB Technology</td>\r\n<td>Được hỗ trợ. Quạt tắt ho&agrave;n to&agrave;n khi PSU ở mức tải nhất định</td>\r\n</tr>\r\n<tr>\r\n<td>N&uacute;t bấm chế độ 0dB</td>\r\n<td>C&oacute;. Khi n&uacute;t BẬT, quạt sẽ chỉ quay khi hệ thống đạt đến một mức tải nhất định. Khi n&uacute;t TẮT, quạt sẽ li&ecirc;n tục quay ở mọi mức tải.</td>\r\n</tr>\r\n<tr>\r\n<td>Bảo h&agrave;nh</td>\r\n<td>10 Năm đổi mới 100%</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:28:28', '2025-07-05 08:28:28', NULL),
+(5, 'Dây nguồn nối dài Lian Li Strimer Plus 24 Pin ARGB V2', '1990000.00', '1690000.00', '<p>D&acirc;y nối d&agrave;i phi&ecirc;n bản thứ 2 với nhiều thay đổi cải tiến<br>C&aacute;c sợi d&acirc;y đ&egrave;n led được bọc xen lẫn trong c&aacute;c lớp silicon dẻo, cho khả năng uống dẻo dễ d&agrave;ng.<br>Đồng bộ m&agrave;u sắc với mainboard hoặc th&ocirc;ng qua controller.<br>Sử dụng phần mềm L-Connect 3 để c&aacute; nh&acirc;n h&oacute;a hiệu ứng &aacute;nh s&aacute;ng</p>\r\n<div>K&iacute;ch thước: 247mm (L) X 56,6mm (D) X 8mm (H)<br>Chất liệu: SILICONE / TPE<br>Chiều d&agrave;i: 200mm<br>M&aacute;y đo: 18AWG<br>Số LED: 120<br>Phụ kiện: Bộ điều khiển cho L-Connect 3\r\n<div>&nbsp;Bảo H&agrave;nh : 12 Th&aacute;ng</div>\r\n</div>', '2025-07-05 08:28:53', '2025-07-05 08:28:53', NULL),
+(6, 'Nguồn Super Flower Leadex Titanium 1600W Full Modular', '12990000.00', '9990000.00', '<p>PSU d&ograve;ng LEADEX Titanium được chứng nhận 80+ Titanium với thiết kế c&aacute;p ho&agrave;n to&agrave;n theo m&ocirc;-đun 100%, cải tiến mới nhất của nh&oacute;m R&amp;D, một &yacute; tưởng tuyệt vời nhằm tối đa h&oacute;a việc quản l&yacute; c&aacute;p v&agrave; đầu nối PSU để c&oacute; giải ph&aacute;p định tuyến c&aacute;p tốt nhất, đồng thời tăng lưu lượng kh&ocirc;ng kh&iacute; b&ecirc;n trong vỏ để c&oacute; hiệu suất tốt nhất l&agrave;m m&aacute;t cho hệ thống của bạn.<br>C&aacute;p kết nối phẳng si&ecirc;u linh hoạt gi&uacute;p tối đa h&oacute;a giải ph&aacute;p định tuyến c&aacute;p tốt nhất của PSU.<br>Quạt FDB 140mm l&agrave;m m&aacute;t hiệu quả v&agrave; nhanh ch&oacute;ng<br>C&ocirc;ng suất 1600W</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>', '2025-07-05 08:29:16', '2025-07-05 08:29:16', NULL),
+(7, 'Nguồn máy tính ACER AC750 FR Bronze Full modular ( 80 Plus Bronze)', '1999000.00', '1590000.00', '<p>&nbsp;M&atilde; sản phẩm: AC750 FR<br>&nbsp;H&atilde;ng sản xuất: Acer<br>&nbsp;Quy chuẩn c&aacute;p: Full modular<br>&nbsp;Chứng nhận 80 Plus: 80 plus Bronze<br>&nbsp;C&ocirc;ng suất định danh: 750W<br>&nbsp;Nguồn đầu v&agrave;o: AC 200-220V, 7A, 60/50Hz<br>&nbsp;T&iacute;nh năng bảo vệ: OCP/ OPP/ SCP<br>&nbsp;Active PFC: Yes / DC TO DC Converter<br>&nbsp;Chứng nhận quy chuẩn SX: CE, RoHS</p>\r\n<div><strong>Bảo h&agrave;nh : 36 th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Loại sản phẩm</td>\r\n<td><strong>PSU - Nguồn m&aacute;y t&iacute;nh</strong></td>\r\n</tr>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>ACER</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>AC750</td>\r\n</tr>\r\n<tr>\r\n<td>T&ecirc;n sản phẩm</td>\r\n<td>Nguồn m&aacute;y t&iacute;nh ACER AC750 FR Bronze Full modular</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận 80 Plus</td>\r\n<td>80Blus Bronze</td>\r\n</tr>\r\n<tr>\r\n<td>C&ocirc;ng suất danh định</td>\r\n<td>750W - Full modular</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn cấp</td>\r\n<td>AC 200- 220V, 6A, 60/50Hz</td>\r\n</tr>\r\n<tr>\r\n<td>Size quy chuẩn (Dimensions)</td>\r\n<td>ATX - 165 x 150 x 86 (mm)</td>\r\n</tr>\r\n<tr>\r\n<td>Fan Type</td>\r\n<td>Fan HBF k&iacute;ch thước 120mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chế độ bảo vệ</td>\r\n<td>&nbsp;- OCP (Bảo vệ qu&aacute; d&ograve;ng)\r\n<p>- OPP (Bảo vệ qu&aacute; tải)</p>\r\n<p>- SCP (Bảo vệ ngắn mạch)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>PFC</td>\r\n<td>Yes</td>\r\n</tr>\r\n<tr>\r\n<td>T&iacute;ch hợp DC TO DC Converter</td>\r\n<td>Yes</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận quy chuẩn SX</td>\r\n<td>CE, RoHS</td>\r\n</tr>\r\n<tr>\r\n<td>Đầu cấp điện cho main</td>\r\n<td>Mainboard: 1x 24pin : 55cm<br>CPU: 2x 4+4pin ATX12V: 60cm + 15cm</td>\r\n</tr>\r\n<tr>\r\n<td>Đầu cấp điện cho hệ thống</td>\r\n<td>2x 6+2pin PCIe: 55cm<br>5x SATA: 50cm + 15cm + 15cm<br>3x ATA: 50cm + 15cm + 15cm</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:29:46', '2025-07-05 08:29:46', NULL),
+(8, 'Nguồn máy tính ACER AC1000 PCIe 5.0 1000W Full Modular (80 Plus Gold)', '4599000.00', '3890000.00', '<p>&nbsp;Loại sản phẩm: PSU - Nguồn m&aacute;y t&iacute;nh<br>&nbsp;M&atilde; sản phẩm: AC1000<br>&nbsp;H&atilde;ng sản xuất: Acer<br>&nbsp;Quy chuẩn c&aacute;p: Full modular<br>&nbsp;Sử dụng PCIe 5.0 đ&aacute;p ứng chuẩn đầu PIN kết nối<br>&nbsp;Chứng nhận 80 Plus: 80 plus Gold<br>&nbsp;C&ocirc;ng suất định danh: 1000W<br>&nbsp;Chứng nhận quy chuẩn SX: CE, RoHS<br><strong>&nbsp;Bảo h&agrave;nh 36 th&aacute;ng</strong></p>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>hẩm</td>\r\n<td>Nguồn - PSU</td>\r\n</tr>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>ACER</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>AC1000</td>\r\n</tr>\r\n<tr>\r\n<td>T&ecirc;n sản phẩm</td>\r\n<td>Nguồn ACER AC1000 PCIe 5.0 1000W Full Modular (80 Plus Gold)</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u</td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận 80 Plus</td>\r\n<td>80Blus Bronze</td>\r\n</tr>\r\n<tr>\r\n<td>C&ocirc;ng suất danh định</td>\r\n<td>750W - Full modular</td>\r\n</tr>\r\n<tr>\r\n<td>Nguồn cấp</td>\r\n<td>AC 200- 220V, 6A, 60/50Hz</td>\r\n</tr>\r\n<tr>\r\n<td>Size quy chuẩn (Dimensions)</td>\r\n<td>ATX - 165 x 150 x 86 (mm)</td>\r\n</tr>\r\n<tr>\r\n<td>Fan Type</td>\r\n<td>Fan HBF k&iacute;ch thước 120mm</td>\r\n</tr>\r\n<tr>\r\n<td>Chế độ bảo vệ</td>\r\n<td>\r\n<p>OCP (Bảo vệ qu&aacute; d&ograve;ng)</p>\r\n<p>OPP (Bảo vệ qu&aacute; tải)</p>\r\n<p>SCP (Bảo vệ ngắn mạch)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>PFC</td>\r\n<td>Yes</td>\r\n</tr>\r\n<tr>\r\n<td>T&iacute;ch hợp DC TO DC Converter</td>\r\n<td>Yes</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận quy chuẩn SX</td>\r\n<td>CE, RoHS</td>\r\n</tr>\r\n<tr>\r\n<td>Đầu cấp điện cho main</td>\r\n<td>Mainboard: 1x 24pin : 55cm<br>CPU: 2x 4+4pin ATX12V: 60cm + 15cm</td>\r\n</tr>\r\n<tr>\r\n<td>Đầu cấp điện cho hệ thống</td>\r\n<td>2x 6+2pin PCIe: 55cm<br>5x SATA: 50cm + 15cm + 15cm<br>3x ATA: 50cm + 15cm + 15cm</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:30:12', '2025-07-05 08:30:12', NULL),
+(9, 'BỘ NGUỒN MÁY TÍNH AIGO MODEL DK750 750W, APFC, 85+ EFICIENCY', '1490000.00', '1190000.00', '<p><strong>Thương hiệu: AIGO<br>&nbsp;T&ecirc;n sản phẩm: DK750<br>&nbsp;Chủng loại: Nguồn m&aacute;y t&iacute;nh<br>&nbsp;Chi tiết: Điện &aacute;p đầu v&agrave;o220V-240Vac<br>&nbsp;C&ocirc;ng suất tối đa: 750W<br>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</strong></p>\r\n<div><hr>Th&ocirc;ng số kỹ thuật</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương hiệu</strong></td>\r\n<td><strong>AIGO</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&ecirc;n sản phẩm</strong></td>\r\n<td><strong>DK750</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tổng c&ocirc;ng suất</strong></td>\r\n<td><strong>750W</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo h&agrave;nh</strong></td>\r\n<td><strong>36 th&aacute;ng</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Điện &aacute;p đầu v&agrave;o</strong></td>\r\n<td><strong>110~240V</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>D&ograve;ng điện đầu v&agrave;o</strong></td>\r\n<td><strong>10~16A</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kiểu nguồn</strong></td>\r\n<td><strong>ATX</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&ocirc; đun th&aacute;o lắp</strong></td>\r\n<td><strong>Non modul</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước nguồn</strong></td>\r\n<td><strong>150*140*85 mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Trọng lượng</strong></td>\r\n<td><strong>~3 kg</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Quạt l&agrave;m m&aacute;t</strong></td>\r\n<td><strong>120mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Hỗ trợ dual CPU</strong></td>\r\n<td><strong>C&oacute;</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Hỗ trợ đa GPU</strong></td>\r\n<td><strong>C&oacute;</strong></td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"5\"><strong>Kết nối</strong></td>\r\n<td><strong>ATX 24 Pin (20+4) * 1&nbsp;&ndash; 650mm (&plusmn; 10mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>CPU 8 Pin (4+4) * 2&nbsp;&ndash; 650mm (&plusmn; 10mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>PCIe 8 Pin (6+2) * 2 &ndash;&nbsp;600 + 150 mm (&plusmn; 10mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>C&aacute;p SATA * 4&nbsp;&ndash; 550 + 150 mm (&plusmn; 10mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Peraphiral 4 Pin * 2&nbsp;&ndash; 850 mm (&plusmn; 10mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"4\"><strong>Phụ kiện</strong></td>\r\n<td><strong>1. Vỏ hộp sản phẩm;</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>2. Bộ nguồn Aigo DK750;</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>3. D&acirc;y nguồn AC 110~240V/10~16A &ndash; 1.5m</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>4. Hướng dẫn sử dụng.</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:30:37', '2025-07-05 08:30:37', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `password_reset_tokens`
+-- Table structure for table `nhat_ky_ton_khos`
+--
+
+CREATE TABLE `nhat_ky_ton_khos` (
+  `id` bigint UNSIGNED NOT NULL,
+  `id_bien_the` bigint UNSIGNED DEFAULT NULL,
+  `so_luong` int NOT NULL,
+  `loai` enum('nhap','xuat','dieu_chinh') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ly_do` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ngay_tao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `o_cungs`
+--
+
+CREATE TABLE `o_cungs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `loai` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dung_luong` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `o_cungs`
+--
+
+INSERT INTO `o_cungs` (`id`, `loai`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`, `gia`, `gia_sale`) VALUES
+(1, 'SSD', 'Kioxia Exceria G2 1TB NVMe Gen 3x4', '<p>&nbsp;K&iacute;ch thước: M.2 2280 Form Factor<br>&nbsp;Chuẩn cắm : NVMe PCIe<br>&nbsp;Dung lượng: 1 TB<br>&nbsp;Tốc độ đọc/ghi tối đa: 2100 MB/s - 1700 MB/s<br>&nbsp;Flash Type: BiCS FLASH 3D-NAND Technology</p>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Loại sản phẩm</td>\r\n<td><strong>Ổ cứng SSD</strong></td>\r\n</tr>\r\n<tr>\r\n<td>H&atilde;ng sản xuất</td>\r\n<td>KIOXIA</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>LRC20Z001TG8</td>\r\n</tr>\r\n<tr>\r\n<td>Chuẩn SSD</td>\r\n<td>Bản sửa đổi đặc tả cơ sở PCI Express &reg; 3.1a (PCIe &reg;)</td>\r\n</tr>\r\n<tr>\r\n<td>Dung lượng</td>\r\n<td>1TB</td>\r\n</tr>\r\n<tr>\r\n<td>Yếu tố h&igrave;nh thức</td>\r\n<td>M.2 Loại 2280-S2-M</td>\r\n</tr>\r\n<tr>\r\n<td>K&iacute;ch thước (Tối đa: LxWxH)</td>\r\n<td>80,15 x 22,15 x 2,23 mm</td>\r\n</tr>\r\n<tr>\r\n<td>Loại bộ nhớ flash</td>\r\n<td>BiCS FLASH&trade; TLC</td>\r\n</tr>\r\n<tr>\r\n<td>C&acirc;n nặng</td>\r\n<td>6,9 g (chuẩn)</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ đọc tuần tự tối đa *1</td>\r\n<td>1.700 MB/gi&acirc;y</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ ghi tuần tự tối đa *1</td>\r\n<td>1.600 MB/s</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ đọc ngẫu nhi&ecirc;n tối đa *2</td>\r\n<td>1TB: 350.000 IOPS</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ ghi ngẫu nhi&ecirc;n tối đa *2</td>\r\n<td>1TB: 400.000 IOPS</td>\r\n</tr>\r\n<tr>\r\n<td>Độ bền: TBW (Tổng số byte được ghi) *3</td>\r\n<td>1TB: 400TB</td>\r\n</tr>\r\n<tr>\r\n<td>MTTF</td>\r\n<td>1,5 triệu giờ</td>\r\n</tr>\r\n<tr>\r\n<td>Nhiệt độ hoạt động (Tc)</td>\r\n<td>0oC (Ta) đến 85oC (Tc)</td>\r\n</tr>\r\n<tr>\r\n<td>Nhiệt độ bảo quản</td>\r\n<td>-40oC đến 85oC</td>\r\n</tr>\r\n<tr>\r\n<td>Chứng nhận</td>\r\n<td>Tu&acirc;n thủ RoHS *5</td>\r\n</tr>\r\n<tr>\r\n<td>Chống sốc</td>\r\n<td>9,806 km/s 2 {1.000 G} 0,5 ms Nửa s&oacute;ng h&igrave;nh sin</td>\r\n</tr>\r\n<tr>\r\n<td>Rung</td>\r\n<td>196 m/s 2 {20 G} Đỉnh, 10~2.000 Hz, (20 ph&uacute;t / Trục) x 3 Trục</td>\r\n</tr>\r\n<tr>\r\n<td>Cung cấp hi&ecirc;̣u đi&ecirc;̣n thế</td>\r\n<td>3,3V &plusmn;5 %</td>\r\n</tr>\r\n<tr>\r\n<td>Ti&ecirc;u thụ điện năng (Hoạt động)</td>\r\n<td>1TB: 5,3 W (chuẩn)</td>\r\n</tr>\r\n<tr>\r\n<td>Loại tr&igrave;nh kết nối</td>\r\n<td>Ổ cắm ph&iacute;m M.2 M</td>\r\n</tr>\r\n<tr>\r\n<td>Bảo h&agrave;nh</td>\r\n<td>60 Th&aacute;ng</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:16:18', NULL, '1990000.00', '1690000.00'),
+(2, 'SSD', 'WD GREEN SN3000 500GB M.2 2280 NVMe PCIe Gen 4x4', '<p>SSD WD GREEN SN3000 500GB (WDS500G4G0E)<br>&nbsp;K&iacute;ch thước: M.2 2280<br>&nbsp;Giao diện: PCIe Gen4x4<br>&nbsp;Dung lượng: 500GB<br>&nbsp;Tốc độ đọc/ghi tối đa: 5000/4100 MB/s</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương hiệu</strong></td>\r\n<td>WD</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>WD Green&reg; SN3000 NVMe</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&atilde; part</strong></td>\r\n<td>WDS500G4G0E&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại</strong></td>\r\n<td>Internal Solid State Drive (SSD)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph&acirc;n kh&uacute;c</strong></td>\r\n<td>Consumer</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chuẩn k&iacute;ch cỡ</strong></td>\r\n<td>M.2 2280</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>500GB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Giao tiếp</strong></td>\r\n<td>PCIe&reg; Gen4 x4 NVMe&trade;&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ đọc tối đa</strong></td>\r\n<td>Up to 5000 MBps</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ ghi tối đa</strong></td>\r\n<td>Up to 4100 MBps</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước</strong></td>\r\n<td>80x22x2.38 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>C&acirc;n nặng</strong></td>\r\n<td>5.4g</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:16:59', NULL, '1490000.00', '1090000.00'),
+(3, 'SSD', 'Kingston NV3 2TB PCIe 4.0 x4 M.2 NVMe', '<p>&nbsp;K&iacute;ch thước: M.2 2280<br>&nbsp;Giao diện: PCIe 4.0 x4 NVMe<br>&nbsp;Dung lượng: 2TB<br>&nbsp;Đọc tối đa: 6000 MB/gi&acirc;y<br>&nbsp;Ghi tối đa: 5000 MB/gi&acirc;y</p>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<div><hr>Th&ocirc;ng số kỹ thuật</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương hiệu</strong></td>\r\n<td>Kingston</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo h&agrave;nh</strong></td>\r\n<td>36&nbsp;th&aacute;ng</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước</strong></td>\r\n<td>M.2 2280</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Giao diện</strong></td>\r\n<td>PCIe 4.0 x4 NVMe</td>\r\n</tr>\r\n<tr>\r\n<td><strong>NAND</strong></td>\r\n<td>3D</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Mức dung lượng</strong></td>\r\n<td>500GB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đọc/ghi tuần tự</strong></td>\r\n<td>6.000/5.000 MB/gi&acirc;y</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đ&ocirc;̣ b&ecirc;̀n</strong></td>\r\n<td>640TB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Nhiệt độ bảo quản</strong></td>\r\n<td>-40&deg;C~85&deg;C</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Nhiệt độ vận h&agrave;nh</strong></td>\r\n<td>0&deg;C~70&deg;C</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước chuẩn&nbsp;</strong></td>\r\n<td>22 mm x 80 mm x 2,1 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Trọng lượng</strong></td>\r\n<td>7 g (Tất cả c&aacute;c mức dung lượng)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ rung khi hoạt động</strong></td>\r\n<td>10 G (10-1000 Hz)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tuổi thọ trung b&igrave;nh</strong></td>\r\n<td>2.000.000 giờ)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo h&agrave;nh/hỗ trợ</strong></td>\r\n<td>Bảo h&agrave;nh 3 năm c&oacute; giới hạn với hỗ trợ kỹ thuật miễn ph&iacute;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:17:37', NULL, '4999000.00', '3799000.00'),
+(4, 'SSD', 'Hikvision Desire 256GB M2.2280 PCle NVMe', '<p>- K&iacute;ch thước sản phẩm: 80.15 &times; 22.15 &times; 2.38 mm</p>\r\n<p>- H&igrave;nh thức: M.2 2280</p>\r\n<p>- Dung lượng: 256GB</p>\r\n<p>- Tốc độ đọc: 3230MB/s</p>\r\n<p>- Tốc độ ghi: 1240MB/s</p>\r\n<p>- Giao diện: PCIe Gen3 * 4, NVMe</p>\r\n<p>- NAND Flash: 3D TLC</p>\r\n<p>- MTBF: 1.500.000 giờ</p>\r\n<p>- Nhiệt độ bảo quản: -40&deg;C đến 85&deg;C (-40&deg;F đến +185&deg;F)</p>\r\n<p>- Trọng lượng: &le;7g</p>\r\n<p>- Bảo h&agrave;nh : 36 Th&aacute;ng</p>', '2025-06-20 21:17:39', '2025-07-05 08:18:06', NULL, '590000.00', NULL),
+(5, 'HDD', 'SEAGATE BARRACUDA 1TB', '<p><strong>H&agrave;ng new - Bảo h&agrave;nh 24 Th&aacute;ng</strong></p>\r\n<p><strong>Dung lượng: 1TB</strong></p>\r\n<p><strong>T&ocirc;́c đ&ocirc;̣ quay: 7200rpm</strong></p>\r\n<p><strong>B&ocirc;̣ nhớ Cache: 256MB</strong></p>\r\n<p><strong>Chu&acirc;̉n giao ti&ecirc;́p: SATA3</strong></p>\r\n<p><strong>Kích thước: 3.5Inch</strong></p>\r\n<hr>\r\n<h3><strong>Th&ocirc;ng số kỹ thuật&nbsp;</strong></h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>H&atilde;ng sản xuất</p>\r\n</td>\r\n<td>\r\n<p>Seagate</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>T&ecirc;n sản phẩm / Chủng loại</p>\r\n</td>\r\n<td>\r\n<p>BarraCuda</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Part number / SKU</p>\r\n</td>\r\n<td>\r\n<p>ST1000DM014</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ph&acirc;n loại ổ cứng</p>\r\n</td>\r\n<td>\r\n<p>ổ cứng HDD gắn trong</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Dung lượng</p>\r\n</td>\r\n<td>\r\n<p>1000GB (1TB)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Tốc độ v&ograve;ng quay</p>\r\n</td>\r\n<td>\r\n<p>7200RPM</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Bộ nhớ đệm Cache</p>\r\n</td>\r\n<td>\r\n<p>256MB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Chuẩn kết nối</p>\r\n</td>\r\n<td>\r\n<p>SATA</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ph&acirc;n loại chuẩn kết nối</p>\r\n</td>\r\n<td>\r\n<p>SATA 6Gb/s (SATA 3)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Ph&acirc;n loại k&iacute;ch thước</p>\r\n</td>\r\n<td>\r\n<p>3.5 inch</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2><strong>Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)</strong></h2>\r\n</div>\r\n<div>\r\n<p>Seagate Technology l&agrave; nh&agrave; cung cấp c&aacute;c giải ph&aacute;p lưu trữ h&agrave;ng đầu thế giới, đươc th&agrave;nh lập năm 1979 v&agrave; c&oacute; trụ sở tại California, Mỹ.</p>\r\n<p>Seagate sở hữu c&aacute;c thương hiệu ổ cứng quen thuộc: Seagate, LaCie, Maxtor</p>\r\n<p>Seagate cung cấp dải sản phẩm từ ổ cứng gắn trong đến ổ cứng gắn ngo&agrave;i v&agrave; cả ổ cứng cho hệ thống lưu trữ m&aacute;y chủ.</p>\r\n<p><strong>C&aacute;c d&ograve;ng sản phẩm ổ cứng gắn trong của Seagate bao gồm:</strong></p>\r\n<ul>\r\n<li>Ổ cứng gắn trong&nbsp;HDD: Seagate BarraCuda, Seagate FireCuda, Seagate IronWolf, Seagate SkyHawk. Với c&aacute;c dung lượng từ 1TB đến 16TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n<li>Ổ cứng gắn trong SSD: Seagate BarraCuda SSD, Seagate FireCuda SSD, Seagate IronWolf SSD. Với c&aacute;c dung lượng từ 250GB đến 2TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n<li>Ổ cứng d&agrave;nh cho doanh nghiệp: Seagate Exos Enterprise, Seagate Nytro Enterprise, Seagate Nytro Enterprise SSD. Với c&aacute;c dung lượng từ 240GB đến 16TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n</ul>\r\n<h3>T&iacute;nh năng nổi bật của sản phẩm</h3>\r\n<div>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_03_bc6976451ea241fc98717b693e840047_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_04_b318192083b446b184da59bc68dc6506_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_05_35fce9d16bc24e6bb87c28d9bf1c6443_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n<p>&nbsp;</p>\r\n</div>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:19:16', NULL, '1459000.00', NULL),
+(6, 'HDD', 'SEAGATE BARRACUDA 2TB', '<p><strong>H&agrave;ng New - Bảo h&agrave;nh 24 Th&aacute;ng</strong></p>\r\n<p><strong>Dung lượng: 2TB</strong></p>\r\n<p><strong>T&ocirc;́c đ&ocirc;̣ quay: 7200rpm</strong></p>\r\n<p><strong>B&ocirc;̣ nhớ Cache: 256Mb</strong></p>\r\n<p><strong>Chu&acirc;̉n giao ti&ecirc;́p: SATA3</strong></p>\r\n<p><strong>Kích thước: 3.5Inch</strong></p>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>Seagate</td>\r\n</tr>\r\n<tr>\r\n<td><strong>T&ecirc;n sản phẩm / Chủng loại</strong></td>\r\n<td>BarraCuda</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph&acirc;n loại ổ cứng</strong></td>\r\n<td>ổ cứng HDD gắn trong</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Part number / SKU</strong></td>\r\n<td>ST2000DM008</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>2TB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ v&ograve;ng quay</strong></td>\r\n<td>7200RPM</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bộ nhớ đệm Cache</strong></td>\r\n<td>256MB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chuẩn kết nối</strong></td>\r\n<td>SATA</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph&acirc;n loại chuẩn kết nối</strong></td>\r\n<td>SATA 6Gb/s (SATA 3)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ph&acirc;n loại k&iacute;ch thước</strong></td>\r\n<td>3.5 inch</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>Ổ CỨNG HDD SEAGATE BARRACUDA 2TB (3.5 INCH 7200RPM, SATA, 256MB CACHE )(ST2000DM008)</h2>\r\n<p>Seagate Technology l&agrave; nh&agrave; cung cấp c&aacute;c giải ph&aacute;p lưu trữ h&agrave;ng đầu thế giới, đươc th&agrave;nh lập năm 1979 v&agrave; c&oacute; trụ sở tại California, Mỹ.</p>\r\n<p>Seagate sở hữu c&aacute;c thương hiệu ổ cứng quen thuộc: Seagate, LaCie, Maxtor</p>\r\n<p>Seagate cung cấp dải sản phẩm từ ổ cứng gắn trong đến ổ cứng gắn ngo&agrave;i v&agrave; cả ổ cứng cho hệ thống lưu trữ m&aacute;y chủ.</p>\r\n<p><strong>C&aacute;c d&ograve;ng sản phẩm ổ cứng gắn trong của Seagate bao gồm:</strong></p>\r\n<ul>\r\n<li>Ổ cứng gắn trong&nbsp;HDD: Seagate BarraCuda, Seagate FireCuda, Seagate IronWolf, Seagate SkyHawk. Với c&aacute;c dung lượng từ 1TB đến 16TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n<li>Ổ cứng gắn trong SSD: Seagate BarraCuda SSD, Seagate FireCuda SSD, Seagate IronWolf SSD. Với c&aacute;c dung lượng từ 250GB đến 2TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n<li>Ổ cứng d&agrave;nh cho doanh nghiệp: Seagate Exos Enterprise, Seagate Nytro Enterprise, Seagate Nytro Enterprise SSD. Với c&aacute;c dung lượng từ 240GB đến 16TB (tuỳ theo d&ograve;ng sản phẩm).</li>\r\n</ul>\r\n<h3>T&iacute;nh năng nổi bật của sản phẩm</h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_03_bc6976451ea241fc98717b693e840047_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_04_b318192083b446b184da59bc68dc6506_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/26433_30_05_35fce9d16bc24e6bb87c28d9bf1c6443_1024x1024.jpg\" alt=\"Ổ CỨNG HDD SEAGATE BARRACUDA 1TB (3.5 INCH, 7200RPM, SATA, 256MB CACHE )(ST1000DM014)\"></p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:22:04', NULL, '1699000.00', NULL),
+(7, 'HDD', 'WD 1TB BLACK', '<p>- Ổ cứng SATA 3,5 inch hiệu năng cao WD Caviar Black c&oacute; tốc độ v&ograve;ng quay 7200 RPM, bộ nhớ cache 64 MB v&agrave; giao diện SATA 6 Gb/s cho khả năng điện to&aacute;n tối ưu.</p>\r\n<p>- Kiến tr&uacute;c điện tử hiệu suất cao c&oacute; bộ xử l&yacute; k&eacute;p v&agrave; bộ nhớ cache lớn hơn, nhanh hơn cho tốc độ đọc v&agrave; ghi tối đa.</p>\r\n<p>- StableTrac Trục động cơ được bảo đảm ở cả hai đầu để giảm rung do hệ thống v&agrave; ổn định c&aacute;c đĩa để theo d&otilde;i ch&iacute;nh x&aacute;c, trong c&aacute;c hoạt động đọc v&agrave; ghi.</p>\r\n<p><strong><em>H&agrave;ng New - Bảo h&agrave;nh 60 Th&aacute;ng</em></strong></p>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>H&atilde;ng sản xuất</strong></p>\r\n</td>\r\n<td>\r\n<p>Western Digital&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chủng loại</strong></p>\r\n</td>\r\n<td>\r\n<p>Caviar Black 1TB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Dung lượng</strong></p>\r\n</td>\r\n<td>\r\n<p>1TB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Chuẩn cắm</strong></p>\r\n</td>\r\n<td>\r\n<p>SATA III</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bộ nhớ đệm</strong></p>\r\n</td>\r\n<td>\r\n<p>64M&nbsp;cache</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Tốc độ v&ograve;ng quay</strong></p>\r\n</td>\r\n<td>\r\n<p>7200 rpm&nbsp;</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Tốc độ truyền dữ liệu</strong></p>\r\n</td>\r\n<td>\r\n<p>3 Gbps</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Điện &aacute;p</strong></p>\r\n</td>\r\n<td>\r\n<p>5 Volt</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Loại ổ cứng</strong></p>\r\n</td>\r\n<td>\r\n<p>Cơ</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>D&ugrave;ng cho</strong></p>\r\n</td>\r\n<td>\r\n<p>PC</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>K&iacute;ch thước</strong></p>\r\n</td>\r\n<td>\r\n<p>3.5\'\'</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>Ổ CỨNG HDD WD 1TB BLACK (3.5 INCH 7200RPM, SATA, 64MB CACHE) (WD1003FZEX)</h2>\r\n<h3><strong>Giới thiệu sản phẩm Ổ cứng HDD Western Caviar Black</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/81cdigybkpl_sl1500__0f8d19afd4d1458484124a5757c7087a_1024x1024.jpg\"></p>\r\n<h3><strong>D&agrave;nh cho m&aacute;y chơi Game v&agrave; xử l&yacute; file dữ liệu lớn</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/wd-black-5_32c08dc1cc3d4fee8bc2aed441475d57_1024x1024.jpg\"></p>\r\n<p>Ổ đĩa WD Black c&oacute; t&iacute;nh năng xử l&yacute; l&otilde;i k&eacute;p cung cấp khả năng xử l&yacute; gấp đ&ocirc;i so với một bộ xử l&yacute; l&otilde;i đơn ti&ecirc;u chuẩn để tối đa h&oacute;a hiệu năng của ổ đĩa.&nbsp;<br>Đ&aacute;p ứng được nhu cầu xử l&yacute; của c&aacute;c m&aacute;y chơi Game hoặc nhu cầu c&ocirc;ng &nbsp;việc cần xử l&yacute; dữ liệu lớn với mức lưu trữa l&ecirc;n tới 6 TB.</p>\r\n<h3><strong>Truyền dữ liệu tốc độ cao</strong></h3>\r\n<p>Với 128MB bộ nhớ cache tr&ecirc;n c&aacute;c phi&ecirc;n bản 5TB v&agrave; 6TB, c&ocirc;ng nghệ c&ocirc;ng nghệ Dynamic Cache của WD cải thiện hiệu năng trong thời gian thực để ph&acirc;n bổ v&agrave; tối ưu h&oacute;a bộ nhớ cache giữ những lần đọc ghi dữ liệu.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/h-black-pc-drive-2lw833475_herosquare-75277d61e3a14a9e9e65894c6cec3a7e_ded5b1044476494491d24a5882c0d40a_1024x1024.jpg\"></p>\r\n<h3><strong>Tăng t&iacute;nh tin cậy</strong></h3>\r\n<p>C&ocirc;ng nghệ NoTouch Rampgi&uacute;p giảm rung động do hệ thống g&acirc;y ra từ c&aacute;c th&agrave;nh phần kh&aacute;c gi&uacute;p tối ưu h&oacute;a hiệu suất v&agrave; độ tin cậy.</p>\r\n<h3>Chất lượng được đảm bảo</h3>\r\n<p>Tất cả ổ cứng đ&atilde; vượt qua tất cả c&aacute;c b&agrave;i test về khả năng tương th&iacute;ch v&agrave; độ tin cậy trước khi xuất xưởng v&agrave; c&oacute; thời gian bảo h&agrave;nh 5 năm</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:22:46', NULL, '2299000.00', NULL),
+(8, 'HDD', 'SEAGATE IRONWOLF 4TB', '<div class=\"description-productdetail\">\r\n<p><strong>H&agrave;ng New - Bảo h&agrave;nh 36 Th&aacute;ng</strong></p>\r\n<p><strong>Bộ nhớ đệm 256 MB</strong></p>\r\n<p><strong>Dung lượng 4TB</strong></p>\r\n<p><strong>K&iacute;ch thước 3.5 inch</strong></p>\r\n<p><strong>Tốc độ v&ograve;ng quay 5400rpm</strong></p>\r\n<p><strong>Dịch vụ cứu dữ liệu miễn ph&iacute; 1 lần trong 3 năm đầu ti&ecirc;n tại h&atilde;ng Seagate</strong></p>\r\n<hr>\r\n<h3><strong>Th&ocirc;ng số kỹ thuật</strong></h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>Seagate</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>ST4000VN006</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chủng loại</strong></td>\r\n<td>Ổ cứng HDD</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>4TB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chuẩn cắm</strong></td>\r\n<td>SATA III 6Gb/s</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bộ nhớ đệm</strong></td>\r\n<td>256MB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ v&ograve;ng quay</strong></td>\r\n<td>5400rpm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ truyền dữ liệu</strong></td>\r\n<td>6Gb/s</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước</strong></td>\r\n<td>3.5\"</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<hr>\r\n<h2><strong>Ổ CỨNG HDD SEAGATE IRONWOLF 4TB (3.5 INCH, 5400RPM, SATA, 256MB CACHE) (ST4000VN006)</strong></h2>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/35237_22_01_8ce3892ff7824c11bf28e38363a22f4e_1024x1024.jpg\"></p>\r\n<h3><strong>T&iacute;nh năng nổi bật của sản phẩm</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/35237_22_03_7e4573a8025647ac80fe86f2ae312506_1024x1024.jpg\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/35237_22_02_08c080b2a0f448fc8fdd86bc6ca6ebda_1024x1024.jpg\"></p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/35237_22_04_0d9aaabeb98e43cb9e7f12cef589b8fc_1024x1024.jpg\"></p>\r\n<p>D&ograve;ng sản phẩm&nbsp;<strong>HDD Seagate IronWolf&nbsp;&nbsp;</strong>l&agrave; một lựa chọn tuyệt vời cho việc n&acirc;ng cấp c&aacute;c ổ cứng lưu trữ mạng(<strong>NAS</strong>).&nbsp;<strong>Seagate IronWolf&nbsp;&nbsp;</strong>kết hợp c&ocirc;ng nghệ flash NAND mới nhất&nbsp;với ổ cứng truyền thống&nbsp;cho hiệu năng v&agrave; độ bền bỉ&nbsp;khi thực hiện tải c&ocirc;ng việc nặng nề.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-seagate-ironwolf-pro-mota6_8b2066ac47014d2fbedef0e5eb6c9997_1024x1024.jpg\"></p>\r\n<p><strong>Seagate IronWolf trang bị c&ocirc;ng nghệ AgileArray</strong></p>\r\n<ul>\r\n<li>Ổ cứng HDD Seagate IronWolf&nbsp; được trang bị c&ocirc;ng nghệ AgileArray gi&uacute;p tối ưu h&oacute;a hệ thống NAS, trong đ&oacute; c&oacute; 3 t&iacute;nh năng ch&iacute;nh l&agrave; c&acirc;n bằng ổ đĩa, phục hồi lỗi RAID v&agrave; quản l&yacute; nguồn điện.</li>\r\n<li>&nbsp;C&ocirc;ng nghệ ti&ecirc;n tiến AgileArray t&iacute;ch hợp cảm biến c&acirc;n bằng gi&uacute;p ổ cứng nhận biết sự rung động của hệ thống NAS v&agrave; điều chỉnh để hạn chế việc ph&aacute;t sinh lỗi đọc/ghi dữ liệu.</li>\r\n</ul>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-seagate-ironwolf-pro-mota1_23f5db0e3b514e2a98a813d096841729_1024x1024.jpg\"></p>\r\n<p>Ngo&agrave;i ra, việc tối ưu hệ thống RAID c&ograve;n nhờ v&agrave;o khả năng phục hồi lỗi, tăng hiệu suất v&agrave; gi&uacute;p đảm bảo t&iacute;nh nguy&ecirc;n vẹn của dữ liệu.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-seagate-ironwolf-pro-mota4_45d034e237ac497bbba539934e6733a8_1024x1024.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<p>Phần mềm t&iacute;ch hợp Health Management IronWolf gi&uacute;p bảo vệ hệ thống lưu trữ NAS của bạn bằng việc ph&ograve;ng ngừa,can thiệp v&agrave; phục hồi dữ liệu.</p>\r\n<p>D&ograve;ng ổ cứng IronWolf Pro của Seagate được thiết kế nhằm phục vụ cho c&aacute;c hệ thống lưu trữ mạng NAS d&agrave;nh cho doanh nghiệp vừa v&agrave; nhỏ cũng như đ&aacute;m m&acirc;y c&aacute; nh&acirc;n, hướng đến sự bền bỉ, khả năng mở rộng lưu trữ nhanh ch&oacute;ng cũng như m&ocirc;i trường l&agrave;m việc li&ecirc;n tục.</p>\r\n<p>Cảm biến quay v&ograve;ng (RV). Đầu ti&ecirc;n trong lớp của ổ cứng để bao gồm cảm biến RV để duy tr&igrave; hiệu suất cao trong hệ thống NAS</p>\r\n<h3><strong>Seagate Rescue Data Recovery</strong></h3>\r\n<p>Ổ cứng HDD Seagate IronWolf hỗ trợ với phầm mềm Phục hồi cứu hộ dữ liệu n&agrave;y tạo n&ecirc;n sự an t&acirc;m cho bất kỳ trường hợp n&agrave;o g&acirc;y hư hại đến hệ thống lưu trữ dữ liệu NAS với tỷ lệ th&agrave;nh c&ocirc;ng l&ecirc;n đến 90% trong phục hồi .</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-seagate-ironwolf-pro-mota5_6ec1caafddcb437f95f0133b4fb52588_1024x1024.jpg\"></p>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 08:23:33', NULL, '3199000.00', NULL),
+(9, 'HDD', 'WD 6TB RED PLUS', '<div class=\"description-productdetail\">\r\n<p><strong>Western Digital Red Plus tối ưu cho hệ thống NAS.</strong></p>\r\n<p><strong>Dụng lượng : 6TB</strong></p>\r\n<p><strong>K&iacute;ch thước 3.5 inch</strong></p>\r\n<p><strong>V&ograve;ng quay : 5400rpm</strong></p>\r\n<p><strong>Bộ nhớ đệm: 256MB cache</strong></p>\r\n<p><strong>SATA 3 : 6.0Gb/s</strong></p>\r\n<p><strong>H&agrave;ng New- Bảo h&agrave;nh 36 Th&aacute;ng</strong></p>\r\n<hr>\r\n<p>Ổ cứng Western Digital Red 8TB l&agrave; loại ổ cứng được chế tạo d&agrave;nh ri&ecirc;ng cho hệ thống NAS trong gia đ&igrave;nh doanh nghiệp với quy m&ocirc; lớn v&agrave; vừa. Ổ cứng được thiết kế để c&oacute; thể xử l&yacute; được khối lượng l&agrave;m việc cao v&agrave; c&oacute; thể hoạt động đươc 24/7. Đặc biệt với c&ocirc;ng c&ocirc;ng nghệ NASware 3.0 t&iacute;ch hợp tr&ecirc;n&nbsp;HDD&nbsp;WD Red 8TB cho ph&eacute;p dễ d&agrave;ng t&iacute;ch hợp v&agrave;o NAS l&agrave;m tăng hiệu năng, giảm thời gian chết của ổ cứng, cộng th&ecirc;m c&ocirc;ng nghệ 3D Active Balance Plus gi&uacute;p c&acirc;n bằng v&agrave; kiểm so&aacute;t l&agrave;m nầng cao hiệu xuất hoạt động cho ổ cứng&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus1_39cf3625ea8a464b90bac40720eee1b9_1024x1024.jpg\"></p>\r\n<p>Western Caviar Red Plus l&agrave; d&ograve;ng ổ cứng cao cấp, chuy&ecirc;n dụng cho c&aacute;c c&aacute; nh&acirc;n c&oacute; y&ecirc;u cầu cao về lưu trữ hoặc m&ocirc; h&igrave;nh doanh nghiệp vừa &amp; nhỏ.&nbsp;</p>\r\n<h3><strong>Hỗ trợ NAS</strong></h3>\r\n<div>&nbsp;</div>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus6_5ad8b1e0e7c548d990015734487ed869_1024x1024.jpg\"></p>\r\n<p>Hướng đến đối tượng người d&ugrave;ng c&aacute; nh&acirc;n chuy&ecirc;n s&acirc;u v&agrave; doanh nghiệp, Western Caviar Red Plus hỗ trợ NAS để bạn c&oacute; thể sử dụng với c&aacute;c hệ thống NAS 4 khay, 8 khay phổ biến tr&ecirc;n thị trường.&nbsp;</p>\r\n<h3><strong>NASware 3.0</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus2_dfb0ccbc28b3404e986bdae5d3a8530c_1024x1024.jpg\"></p>\r\n<p>C&ocirc;ng nghệ NASware 3.0 của Western Digital cải thiện hiệu suất lưu trữ bằng c&aacute;ch tăng khả năng tương th&iacute;ch, t&iacute;ch hợp, khả năng n&acirc;ng cấp v&agrave; độ tin cậy.</p>\r\n<h3><strong>Dung lượng đa dạng</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus4_1ba7bb0c9aa9462484834d58a57c0dd1_1024x1024.jpg\"></p>\r\n<p>Western Caviar Red Plus c&oacute; c&aacute;c t&ugrave;y chọn dung lượng v&ocirc; c&ugrave;ng đa dạng, từ 1 đến 14TB đ&aacute;p ứng mọi nhu cầu lưu trữ.&nbsp;</p>\r\n<h3><strong>Ph&ugrave; hợp với m&ocirc; h&igrave;nh doanh nghiệp vừa v&agrave; nhỏ</strong></h3>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus5_6d7908b1937f40d093a350cd28475e7f_1024x1024.jpg\"></p>\r\n<h3><strong>Bền bỉ</strong></h3>\r\n<p>Western Caviar Red Plus được thiết kế để c&oacute; thể hoạt động 24/7 trong thời gian d&agrave;i một c&aacute;ch ổn định.&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o-cung-hdd-western-caviar-red-plus3_daa69ab5064b40fa83157ab2581470fc_1024x1024.jpg\"></p>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 08:26:12', NULL, '4999000.00', NULL),
+(10, 'HDD', '256GB', 'Accusamus nemo soluta saepe commodi distinctio voluptas consectetur vero.', '2025-06-20 21:17:39', '2025-07-05 08:26:20', '2025-07-05 08:26:20', '0.00', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_reset_tokens`
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `phuong_thuc_thanh_toans`
+-- Table structure for table `phuong_thuc_thanh_toans`
 --
 
 CREATE TABLE `phuong_thuc_thanh_toans` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mo_ta` text COLLATE utf8mb4_unicode_ci,
+  `ten` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -611,7 +781,7 @@ CREATE TABLE `phuong_thuc_thanh_toans` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `phuong_thuc_thanh_toans`
+-- Dumping data for table `phuong_thuc_thanh_toans`
 --
 
 INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten`, `mo_ta`, `hoat_dong`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -623,12 +793,115 @@ INSERT INTO `phuong_thuc_thanh_toans` (`id`, `ten`, `mo_ta`, `hoat_dong`, `creat
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `rams`
+-- Table structure for table `rams`
 --
 
 CREATE TABLE `rams` (
   `id` bigint UNSIGNED NOT NULL,
-  `dung_luong` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dung_luong` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `gia` decimal(12,2) NOT NULL,
+  `gia_sale` decimal(12,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `rams`
+--
+
+INSERT INTO `rams` (`id`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`, `gia`, `gia_sale`) VALUES
+(1, 'Ram Corsair Dominator Platinum RGB White 32GB (2x16GB) Bus 5600Mhz DDR5', '<div class=\"description-productdetail\">&nbsp;H&agrave;ng New - Bảo H&agrave;nh 36 Th&aacute;ng\r\n<div>&nbsp;Loại sản phẩm: Ram PC<br>&nbsp;Dung lượng: 32 GB (2x16GB)<br>&nbsp;Chuẩn: DDR5<br>&nbsp;Bus: 5600 Mhz<br>&nbsp;Điện &aacute;p: 1.25v</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương hiệu</strong></td>\r\n<td>CORSAIR</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại Ram</strong></td>\r\n<td>Desktop</td>\r\n</tr>\r\n<tr>\r\n<td><strong>D&ograve;ng</strong></td>\r\n<td>DOMINATOR PLATINUM RGB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&atilde; Part</strong></td>\r\n<td>CMT32GX5M2B5600C36W</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>32GB (2 x 16GB)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại</strong></td>\r\n<td>DDR5</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ</strong></td>\r\n<td>5600 MHz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ trễ</strong></td>\r\n<td>36-36-36-76</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Hiệu điện thế</strong></td>\r\n<td>1.25V</td>\r\n</tr>\r\n<tr>\r\n<td><strong>ECC</strong></td>\r\n<td>Kh&ocirc;ng hỗ trợ</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đ&oacute;ng g&oacute;i</strong></td>\r\n<td>2 thanh</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u sắc</strong></td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tản nhiệt</strong></td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u LED</strong></td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>Ram Corsair Dominator Platinum RGB White 32GB (2x16GB) Bus 5600Mhz DDR5&nbsp;</h2>\r\n<p>Ram Desktop Corsair DOMINATOR PLATINUM RGB WHITE l&agrave; thế hệ Ram DDR5 của d&ograve;ng Dominator lừng lẫy với cải tiến lớn về hiệu năng</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-pc-corsair-dominator-platinu-rgb-ddr5-white-mota-pcm_1_decda3221fc04a6d9a4f4c3b93fbf04a_1024x1024.png\" alt=\"Ram Corsair Dominator Platinum RGB White 64GB(2x32GB) Bus 5600MHz DDR5 (CMT64GX5M2B5600C40W)\"></p>\r\n<h3><strong>Thiết kế tinh tế v&agrave; khả năng tương th&iacute;ch rộng</strong></h3>\r\n<p><strong>Ram PC Corsair Dominator Platinum&nbsp;RGB&nbsp;Black DDR5</strong>&nbsp;với thiết kế cực kỳ hiện đại k&egrave;m theo&nbsp;hệ thống chiếu s&aacute;ng RGB cực kỳ hầm hố, đồng thời mang lại hiệu suất cao nhất của DDR5&nbsp;khi được trang bị chip nhớ tần số cao chất lượng cực tốt, đảm bảo hiệu suất cực kỳ ổn định&nbsp;v&agrave; khả năng&nbsp;&eacute;p xung XMP 3.0 ,&nbsp;tương th&iacute;ch với tất cả c&aacute;c bo mạch chủ c&oacute; hỗ trợ ch&acirc;n cắm DDR5&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-corsair-dominator-platinum-rgb-black6_e2bed4c25dad44ec8ad96d02c474e368_1024x1024.jpg\" alt=\"RAM CORSAIR DOMINATOR PLATINUM RGB BLACK 64GB (2X32GB) DDR5 5600MHZ\"></p>\r\n<p>&nbsp;</p>\r\n<h3><strong>Tối ưu h&oacute;a để &eacute;p xung tốt hơn</strong></h3>\r\n<p>Được lựa chọn từ những linh kiện cao cấp nhất c&ugrave;ng với thiết kế tối t&acirc;n của c&aacute;c kỹ sư tr&ecirc;n giới DOMINATOR PLATINUM RGB mang lại khả năng sử dụng ổn định 24/7 kể cả khi &eacute;p xung ở tốc độ cao nhất.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-pc-corsair-dominator-platinu-rgb-ddr5-white-mota-pcm_2_1d1e7c047ff24cd197913686142d8904_1024x1024.png\" alt=\"Ram Corsair Dominator Platinum RGB White 64GB(2x32GB) Bus 5600MHz DDR5 (CMT64GX5M2B5600C40W)\"></p>\r\n<p><strong>Ram PC Corsair Dominator Platinum&nbsp;RGB&nbsp;Black DDR5</strong>&nbsp;được tối ưu h&oacute;a hiệu suất cao nhất tr&ecirc;n bo mạch chủ Intel v&agrave; AMD DDR5&nbsp;mới nhất với băng th&ocirc;ng l&ecirc;n đến 5600MHz.</p>\r\n<h3><strong>Hỗ Trợ Intel XMP 3.0</strong></h3>\r\n<p><strong>Ram PC Corsair Dominator Platinum&nbsp;RGB&nbsp;Black DDR5</strong>&nbsp;hỗ trợ XMP 3.0 của Intel gi&uacute;p bạn dễ d&agrave;ng thiết lập BIOS, bạn chỉ cần thực hiện v&agrave;i bước để &eacute;p xung.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-pc-corsair-dominator-platinu-rgb-ddr5-white-mota-pcm_4_583a33d0feec4b32b9c4cfa37eec6a65_1024x1024.png\" alt=\"Ram Corsair Dominator Platinum RGB White 64GB(2x32GB) Bus 5600MHz DDR5 (CMT64GX5M2B5600C40W)\"></p>\r\n<h3><strong>Led Controll</strong></h3>\r\n<p><strong>Ram PC Corsair Dominator Platinum&nbsp;RGB&nbsp;Black DDR5</strong>&nbsp;được trang bị dải LED v&agrave; đồng bộ thiết lập tại iCUE để tạo th&agrave;nh một hệ sinh th&aacute;i gắn kết to&agrave;n bộ thiết bị của bạn.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ramcorsair_1_670ad4dc683043a89c7913b9c97c644a_1024x1024.jpg\" alt=\"Ram Corsair Dominator Platinum RGB White 64GB(2x32GB) Bus 5600MHz DDR5 (CMT64GX5M2B5600C40W)\"></p>\r\n<h3><strong>Bộ tản nhiệt nh&ocirc;m&nbsp;</strong></h3>\r\n<p><strong>Ram PC Corsair Dominator Platinum&nbsp;RGB&nbsp;Black DDR5</strong>&nbsp;được trang bị bộ tản nhiệt nh&ocirc;m gi&uacute;p l&agrave;m m&aacute;t bộ nhớ th&ocirc;ng qua cả PCB v&agrave; vỏ b&ecirc;n ngo&agrave;i - cho ph&eacute;p c&aacute;c modul&nbsp;giữ m&aacute;t ngay cả khi được &eacute;p xung&nbsp;cực độ,&nbsp;gi&uacute;p cải thiện độ dẫn nhiệt để l&agrave;m m&aacute;t tốt nhất</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-pc-corsair-dominator-platinu-rgb-ddr5-white-mota-pcm_3_cebe080f54da4509803f509c416e1257_1024x1024.png\" alt=\"Ram Corsair Dominator Platinum RGB White 64GB(2x32GB) Bus 5600MHz DDR5 (CMT64GX5M2B5600C40W)\"></p>\r\n<h3><strong>Đồng bộ h&oacute;a v&agrave; quản l&yacute; RGB với ICUE</strong></h3>\r\n<p>&nbsp;Phần mềm Corsair iCUE mang lại khả năng t&ugrave;y chỉnh kh&ocirc;ng giới hạn&nbsp;với hiệu ứng&nbsp;&aacute;nh s&aacute;ng RGB cực kỳ lộng lẫy, c&oacute; thể đồng bộ h&oacute;a cực tốt&nbsp;tr&ecirc;n tất cả c&aacute;c sản phẩm tương th&iacute;ch iCUE&nbsp;v&agrave; gi&uacute;p bạn cập nhật th&ocirc;ng tin về nhiệt độ v&agrave; tần số hoạt động&nbsp;theo thời gian thực.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-corsair-dominator-platinum-rgb-black_4_f4118024f8224b59acab97ed9ba4739d_1024x1024.jpg\" alt=\"RAM CORSAIR DOMINATOR PLATINUM RGB BLACK 64GB (2X32GB) DDR5 5600MHZ\"></p>\r\n</div>\r\n</div>\r\n<div class=\"description-btn\">&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 08:14:16', NULL, '4599000.00', NULL),
+(2, 'RAM V-COLOR MANTA XPRISM 32GB (2x16GB) BUS 6000HZ RGB BLACK', '<p>&nbsp;Dung lượng: 32GB (2x16GB)<br>&nbsp;Độ trễ: 36<br>&nbsp;Điện &aacute;p: 1.25V<br>&nbsp;Đ&oacute;ng g&oacute;i: 2 thanh<br>&nbsp;M&agrave;u LED: Led RGB<br>&nbsp;Tản nhiệt: C&oacute; (tản nhiệt nh&ocirc;m)</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>V-COLOR</td>\r\n</tr>\r\n<tr>\r\n<td>Loại Ram</td>\r\n<td>Desktop</td>\r\n</tr>\r\n<tr>\r\n<td>D&ograve;ng</td>\r\n<td>Manta XPrism RGB</td>\r\n</tr>\r\n<tr>\r\n<td>M&atilde; Part</td>\r\n<td>TMXPL1660836KWK</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\" rowspan=\"1\">CHI TIẾT</td>\r\n</tr>\r\n<tr>\r\n<td>Dung lượng</td>\r\n<td>32GB (2 x 16GB)</td>\r\n</tr>\r\n<tr>\r\n<td>Loại</td>\r\n<td>DDR5</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ</td>\r\n<td>6000 MHz</td>\r\n</tr>\r\n<tr>\r\n<td>Độ trễ</td>\r\n<td>36</td>\r\n</tr>\r\n<tr>\r\n<td>Hiệu điện thế</td>\r\n<td>1.25V</td>\r\n</tr>\r\n<tr>\r\n<td>ECC</td>\r\n<td>Kh&ocirc;ng hỗ trợ</td>\r\n</tr>\r\n<tr>\r\n<td>Đ&oacute;ng g&oacute;i</td>\r\n<td>2 thanh</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u sắc</td>\r\n<td>M&agrave;u đen</td>\r\n</tr>\r\n<tr>\r\n<td>Tản nhiệt</td>\r\n<td>C&oacute; (tản nhiệt nh&ocirc;m)</td>\r\n</tr>\r\n<tr>\r\n<td>M&agrave;u LED</td>\r\n<td>Led RGB</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>RAM V-COLOR MANTA XPRISM 32GB (2x16GB) BUS 6000HZ RGB BLACK&nbsp;</h2>\r\n<p>Mỗi bộ nhớ DDR5 đều được trang bị IC DRAM SK hynix v&agrave; chip PMIC (Mạch t&iacute;ch hợp quản l&yacute; năng lượng) t&iacute;ch hợp, đảm bảo hiệu suất &eacute;p xung cực cao, tốc độ, tần suất nhanh hơn v&agrave; độ ổn định l&acirc;u d&agrave;i.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/4025-ram-1_f114f0f957374b23a62bbce8787cc9d2_grande.jpg\"></p>\r\n<p>Được thiết kế để mang lại hiệu năng h&agrave;ng đầu v&agrave; khả năng &eacute;p xung ho&agrave;n chỉnh với khả năng chịu nhiệt ấn tượng d&agrave;nh cho những người &eacute;p xung cao cấp v&agrave; những người đam m&ecirc; PC.</p>\r\n<h3><strong>HIỆU ỨNG RGB N&Acirc;NG CAO</strong></h3>\r\n<p>Nổi bật với c&aacute;c đ&egrave;n LED mới được chế tạo để mang lại &aacute;nh s&aacute;ng RGB cực kỳ mượt m&agrave;, s&aacute;ng rực rỡ.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/4025-ram-2_589e1d9d6b6c4c9fb149b87e5ee29023_grande.png\"></p>\r\n<h3><strong>TẢN NHIỆT T&Ugrave;Y CHỈNH CAO CẤP</strong></h3>\r\n<p><br>Được thiết kế với tản nhiệt chất lượng cao để đảm bảo tản nhiệt hiệu quả v&agrave; đầu ra tối ưu trong m&ocirc;i trường &eacute;p xung v&agrave; chơi game đỉnh cao.</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:13:49', NULL, '3899000.00', '3190000.00'),
+(3, 'RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White', '<p>Thương hiệu TeamGroup&nbsp;</p>\r\n<div>Dung lượng: 16GB (1x16GB)&nbsp;</div>\r\n<div>Loại: DDR4&nbsp;</div>\r\n<div>Tốc độ bus: 3600 Mhz</div>\r\n<div><strong>Bảo h&agrave;nh : 36 Th&aacute;ng</strong></div>\r\n<div><hr>Th&ocirc;ng số kỹ thuật</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Sản Phẩm</strong></td>\r\n<td>B&ocirc;̣ nhớ trong RAM</td>\r\n</tr>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>TEAMGROUP&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>DELTA</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại RAM</strong></td>\r\n<td>DDR4</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>16GB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bus</strong></td>\r\n<td>3600Mhz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đi&ecirc;̣n áp</strong></td>\r\n<td>1.35V</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White</h2>\r\n<h3><strong>Chinh phục sự ho&agrave;n hảo trong c&aacute;ch mạng</strong></h3>\r\n<p>Chữ &ldquo;R&rdquo; tr&ecirc;n bảng ph&acirc;n tản nhiệt đại diện cho C&aacute;ch mạng. Bảng ph&acirc;n tản nhiệt được x&acirc;y dựng từ chất liệu kim loại nhẹ v&agrave; mảnh hơn. Thiết kế h&igrave;nh chữ &ldquo;R&rdquo; trống rỗ rất s&acirc;u sắc v&agrave; phối hợp với khu vực ph&aacute;t s&aacute;ng si&ecirc;u rộng g&oacute;c 120 độ.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_5_eae1cfa7bb0b4d48b4e4b9fd70452a30_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White\"></p>\r\n<h3>Hiệu ứng &aacute;nh s&aacute;ng đa dạng, rực rỡ v&agrave; si&ecirc;u rộng g&oacute;c 120&deg;</h3>\r\n<p>Khu vực ph&aacute;t s&aacute;ng si&ecirc;u rộng g&oacute;c 120 độ ở đỉnh ph&aacute;t ra &aacute;nh s&aacute;ng s&aacute;ng rực. M&agrave;u sắc của &aacute;nh s&aacute;ng chuyển đổi mượt m&agrave; để mang lại một trải nghiệm thị gi&aacute;c kh&ocirc;ng giới hạn cho game thủ, d&ugrave; l&agrave; ban ng&agrave;y hay ban đ&ecirc;m.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_6_7ed157aff0444cc3ae4135a7ffac6b39_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White 2\"></p>\r\n<h3>Thiết kế tối giản kh&ocirc;ng đối xứng</h3>\r\n<p>Thiết kế đường n&eacute;t h&igrave;nh học đơn giản nhưng đầy năng lượng tạo n&ecirc;n bảng ph&acirc;n tản nhiệt tr&ocirc;ng đơn giản nhưng tr&agrave;n đầy sinh kh&iacute;, mang theo phong c&aacute;ch Cubist trong phong tr&agrave;o nghệ thuật mới, l&agrave; sự kết hợp ho&agrave;n hảo giữa c&ocirc;ng nghệ v&agrave; thẩm mỹ.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_7_abeabcbcc2c242468ce60a313dde2395_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White 23\"></p>\r\n<h3><strong>Module Bộ Nhớ Chơi Game T-FORCE DELTA RGB Hỗ Trợ Nhiều Loại Phần Mềm Điều Khiển</strong></h3>\r\n<p>Module bộ nhớ DELTA RGB của T-FORCE hỗ trợ phần mềm điều khiển ASUS Aura Sync / GIGABYTE RGB Fusion 2.0 / MSI Mystic Light Sync / ASROCK-Polychrome Sync / BIOSTAR Advanced VIVID LED DJ. C&aacute;c phần mềm n&agrave;y cho ph&eacute;p game thủ kiểm so&aacute;t hiệu ứng &aacute;nh s&aacute;ng v&agrave; đồng bộ &aacute;nh s&aacute;ng với module bộ nhớ DELTA RGB của T-FORCE, tạo n&ecirc;n một hệ thống RGB độc đ&aacute;o, đầy m&agrave;u sắc!</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_8_f1870036ec64477c9773711ba3ecdd7d_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White 234\"></p>\r\n<h3><strong>Hiệu suất truyền c&oacute; thể được tăng cường đ&aacute;ng kể với JEDEC RC 2.0</strong></h3>\r\n<p>Sử dụng bo mạch điều khiển JEDEC RC 2.0 t&ugrave;y chỉnh mới nhất để tăng khoảng c&aacute;ch giữa lớp nguồn v&agrave; lớp t&iacute;n hiệu. So với bộ nhớ th&ocirc;ng thường, t&iacute;n hiệu truyền được n&acirc;ng l&ecirc;n đến 35%. Kh&ocirc;ng c&oacute; sự giao thoa giữa nguồn v&agrave; t&iacute;n hiệu, mang lại hiệu suất tốt hơn. N&oacute; ho&agrave;n to&agrave;n giải ph&oacute;ng qu&aacute; tr&igrave;nh truyền tải của module bộ nhớ v&agrave; mang lại cho người chơi cảm gi&aacute;c tận hưởng của qu&aacute; tr&igrave;nh &eacute;p xung v&agrave; module bộ nhớ &eacute;p xung cực kỳ ổn định.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_9_6fc13015ff7941c2837fde5d90d66bdf_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White 2345\"></p>\r\n<h3><strong>C&ocirc;ng nghệ &eacute;p xung 1 bước XMP2.0</strong></h3>\r\n<p>Sẵn s&agrave;ng để sử dụng ngay khi cắm v&agrave;o. &Eacute;p xung c&oacute; thể dễ d&agrave;ng m&agrave; kh&ocirc;ng cần phải điều chỉnh BIOS thủ c&ocirc;ng. Tương th&iacute;ch với cả nền tảng Intel v&agrave; AMD, do đ&oacute; game thủ c&oacute; thể dễ d&agrave;ng thưởng thức qu&aacute; tr&igrave;nh &eacute;p xung m&agrave; kh&ocirc;ng lo lắng.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-teamgroup-delta-rgb-16gb-ddr4-3600mhz_10_66da6e5c2e56413b9f7fbe1bf7a0f54d_grande.jpg\" alt=\"RAM TeamGroup T-Force Delta RGB 16GB DDR4 3600Mhz White 23456\"></p>\r\n<h3><strong>&Aacute;p lực l&agrave;m việc cực thấp Tiết kiệm năng lượng đến 40%</strong></h3>\r\n<p>Với &aacute;p lực l&agrave;m việc thấp 1.2~1.4V từ bộ nhớ DDR4 DELTA RGB, n&oacute; kh&ocirc;ng chỉ tiết kiệm năng lượng m&agrave; c&ograve;n gi&uacute;p giảm nhiệt độ v&agrave; nhiệt độ ph&aacute;t sinh để mang lại hoạt động ổn định v&agrave; l&acirc;u d&agrave;i cho bộ nhớ chạy tốc độ cao.</p>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:13:10', NULL, '1899000.00', '1490000.00'),
+(4, 'RAM TEAMGROUP T-Force Vulcan Z 8GB (1x8GB) DDR4 3200MHz', '<p><strong>- H&agrave;ng new - bảo h&agrave;nh 36 Th&aacute;ng</strong></p>\r\n<div><strong>&nbsp;- Dung lượng: 8GB<br>&nbsp;- Bus: 3200Mhz<br>&nbsp;- Độ trễ: CL16-18-18-38<br>&nbsp;- Điện &aacute;p: 1.35V<br>&nbsp;- Tản nhiệt: C&oacute;</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>TEAMGROUP</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>TLZGD48G3200HC8F01</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u sắc</strong></td>\r\n<td>X&aacute;m</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td>8GB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại RAM</strong></td>\r\n<td>DDR4</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bus</strong></td>\r\n<td>3200MHz</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đ&ocirc;̣ tr&ecirc;̃</strong></td>\r\n<td>CL16-20-20-40</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Băng th&ocirc;ng truyền dữ liệu</strong></td>\r\n<td>25.600 MB/s</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đi&ecirc;̣n áp</strong></td>\r\n<td>1.35V</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tản nhi&ecirc;̣t</strong></td>\r\n<td>Nh&ocirc;m</td>\r\n</tr>\r\n<tr>\r\n<td><strong>C&ocirc;ng nghệ RAM</strong></td>\r\n<td>Non-ECC</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<hr>\r\n<h2>RAM TEAMGROUP T-Force Vulcan Z 8GB (1x8GB) DDR4 3200MHz&nbsp;</h2>\r\n<p>RAM TEAMGROUP T-Force Vulcan Z 8GB (1x8GB) DDR4 3200MHz&nbsp;l&agrave; d&ograve;ng RAM phổ th&ocirc;ng của thương hiệu nổi tiếng TEAMGROUP d&agrave;nh cho c&aacute;c m&aacute;y t&iacute;nh phổ th&ocirc;ng v&agrave; tầm trung.&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/pcm-ram-teamgroup-t-force-vulcan-z_15_b10234562e6145529ecc9d0dfd11873e_1024x1024.jpg\"></p>\r\n<h3><strong>Thiết kế</strong></h3>\r\n<p>RAM Desktop TEAMGROUP VULCAN Z sở hữu chuẩn kết nối DDR4 phổ biến, PCB m&agrave;u đen cao cấp, trang bị tản nhiệt bằng nh&ocirc;m cao cấp với 2 m&agrave;u đỏ v&agrave; x&aacute;m.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/9932_46124_ram_tea_tlzgd416g3200hc16f01_c_a09881a23ba14cf58a174dff53cbe60d_grande.jpg\"></p>\r\n<h3><strong>Hiệu năng</strong></h3>\r\n<p>RAM Desktop TEAMGROUP VULCAN Z sử dụng chip nhớ từ c&aacute;c nh&agrave; sản xuất h&agrave;ng đầu tr&ecirc;n thế giới, dễ d&agrave;ng tương th&iacute;ch với cả 2 nền tảng Intel v&agrave; AMD.&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/9932_46124_ram_tea_tlzgd416g3200hc16f01_d__1__bede472843be44ee84b9f3b7199ff84e_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n</div>\r\n<div>&nbsp;</div>', '2025-06-20 21:17:39', '2025-07-05 08:12:28', NULL, '890000.00', '690000.00'),
+(5, 'Ram HIKSEMI ARMOR 16GB Bus 3200MHZ DDR4 U10 U-DIMM', '<p><strong>Dung lượng: 16GB&nbsp;</strong></p>\r\n<div><strong>Kiểu ram: DDR4&nbsp;</strong></div>\r\n<div><strong>Bus ram: 3200 MHz&nbsp;</strong></div>\r\n<div><strong>Độ trễ: CL16</strong></div>\r\n<div><strong>Bảo h&agrave;nh : 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Thương Hiệu</strong></td>\r\n<td>HIKSEMI</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại Ram</strong></td>\r\n<td>Desktop</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>HIKSEMI ARMOR DDR4-16GB 3200MHZ&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung Lượng</strong></td>\r\n<td>16GB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>D&ograve;ng Ram</strong></td>\r\n<td>DDR4</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc Độ</strong></td>\r\n<td>&nbsp;3200MHZ&nbsp;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ Trễ</strong></td>\r\n<td>CL16</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u Sắc</strong></td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tản Nhiệt</strong></td>\r\n<td>C&oacute;</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u LED</strong></td>\r\n<td>Kh&ocirc;ng</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:11:50', NULL, '1199000.00', '1090000.00'),
+(6, 'Ram Desktop Gskill RIPJAWS M5 RGB WHITE 32GB (2x16GB) Bus 6000MHz DDR5', '<p><strong>Loại Ram: DDR5<br>&nbsp;Dung Lượng: 32GB (16GBx2)<br>&nbsp;Bus: 6000 Mhz<br>&nbsp;Độ Trễ: 36-48-48-96</strong></p>\r\n<div><strong>Bảo h&agrave;nh : 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Loại sản phẩm</strong></p>\r\n</td>\r\n<td>\r\n<p>RAM</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Thương hiệu</strong></p>\r\n</td>\r\n<td>\r\n<p>G.Skill</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Model</strong></p>\r\n</td>\r\n<td>\r\n<p>F5-6000J3648D16GX2-RM5RW</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>M&agrave;u sắc</strong></p>\r\n</td>\r\n<td>\r\n<p>Trắng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>LED RGB</strong></p>\r\n</td>\r\n<td>\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Loại RAM</strong></p>\r\n</td>\r\n<td>\r\n<p>DDR5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Dung lượng</strong></p>\r\n</td>\r\n<td>\r\n<p>32GB (2x16GB)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bus RAM</strong></p>\r\n</td>\r\n<td>\r\n<p>6000 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Độ trễ</strong></p>\r\n</td>\r\n<td>\r\n<p>CL&nbsp;36-48-48-96</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Điệp &aacute;p</strong></p>\r\n</td>\r\n<td>\r\n<p>1.25V</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ECC checking</strong></p>\r\n</td>\r\n<td>\r\n<p>Non-ECC</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Tốc độ SPD</strong></p>\r\n</td>\r\n<td>\r\n<p>4800 MT/s</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Đặc trưng</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel XMP 3.0 (Extreme Memory Profile) Ready</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:11:23', NULL, '3999000.00', '3390000.00'),
+(7, 'Ram Desktop Gskill RIPJAWS M5 RGB BLACK 32GB (2x16GB) Bus 6000MHz DDR5', '<p><strong>&nbsp;Loại Ram: DDR5<br>&nbsp;Dung Lượng: 32GB (16GBx2)<br>&nbsp;Bus: 6000 Mhz<br>&nbsp;Độ Trễ: 36-48-48-96</strong></p>\r\n<div><strong>Bảo h&agrave;nh : 36 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p><strong>Loại sản phẩm</strong></p>\r\n</td>\r\n<td>\r\n<p>RAM</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Thương hiệu</strong></p>\r\n</td>\r\n<td>\r\n<p>G.Skill</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Model</strong></p>\r\n</td>\r\n<td>F5-6000J3648D16GX2-RM5RK</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>M&agrave;u sắc</strong></p>\r\n</td>\r\n<td>\r\n<p>Đen</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>LED RGB</strong></p>\r\n</td>\r\n<td>\r\n<p>Kh&ocirc;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Loại RAM</strong></p>\r\n</td>\r\n<td>\r\n<p>DDR5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Dung lượng</strong></p>\r\n</td>\r\n<td>\r\n<p>32GB (2x16GB)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Bus RAM</strong></p>\r\n</td>\r\n<td>\r\n<p>6000 MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Độ trễ</strong></p>\r\n</td>\r\n<td>\r\n<p>CL&nbsp;36-48-48-96</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Điệp &aacute;p</strong></p>\r\n</td>\r\n<td>\r\n<p>1.25V</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>ECC checking</strong></p>\r\n</td>\r\n<td>\r\n<p>Non-ECC</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Tốc độ SPD</strong></p>\r\n</td>\r\n<td>\r\n<p>4800 MT/s</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>Đặc trưng</strong></p>\r\n</td>\r\n<td>\r\n<p>Intel XMP 3.0 (Extreme Memory Profile) Ready</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:10:51', NULL, '3999000.00', '3390000.00'),
+(8, 'Ram Corsair Dominator Platinum RGB 64GB (2x32GB) 6000MHz DDR5', '<p>&nbsp;Dung lượng: 64GB ( 2x32GB)<br>&nbsp;Chuẩn RAM: DDR5<br>&nbsp;Tốc độ bộ nhớ: 6000 MHz</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Nh&agrave; sản xuất</strong></td>\r\n<td><strong>Corsair</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td><strong>CMT64GX5M2B6000C40</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chuẩn Ram</strong></td>\r\n<td><strong>DDR5</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bus hỗ trợ</strong></td>\r\n<td><strong>6000 MHz</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Dung lượng</strong></td>\r\n<td><strong>64GB (2x32GB)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Điện &aacute;p</strong></td>\r\n<td><strong>1.1 v - 1.25v</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u sắc</strong></td>\r\n<td><strong>Đen</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>CAS Latency</strong></td>\r\n<td><strong>CL 40-40-40-77</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Performance Profile</strong></td>\r\n<td><strong>XMP 3.0</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Over Clock</strong></td>\r\n<td><strong>Yes</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Bảo h&agrave;nh</strong></td>\r\n<td><strong>36 th&aacute;ng</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:04:14', NULL, '7990000.00', NULL),
+(9, 'RAM APACER NOX 16GB DDR5 bus 5200Mhz – Black', '<p>&nbsp;Dung lượng: 16GB (1 x 16GB)<br>&nbsp;Ph&acirc;n loại: DDR5<br>&nbsp;Tốc độ Bus: 5200MHz<br>&nbsp;Điện &aacute;p: 1.25V<br>&nbsp;Bảo h&agrave;nh: 36 th&aacute;ng</p>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<p>T&ecirc;n sản phẩm</p>\r\n</td>\r\n<td>\r\n<p>RAM Apacer NOX 16GB DDR5 5200Mhz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>C&ocirc;ng nghệ bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>DDR5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Bộ nhớ m&aacute;y t&iacute;nh để b&agrave;n/m&aacute;y t&iacute;nh x&aacute;ch tay</p>\r\n</td>\r\n<td>\r\n<p>Bộ nhớ m&aacute;y t&iacute;nh để b&agrave;n</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Dung lượng</p>\r\n</td>\r\n<td>\r\n<p>16GB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>BUS</p>\r\n</td>\r\n<td>\r\n<p>5200MHz</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Điện &aacute;p</p>\r\n</td>\r\n<td>\r\n<p>1,25V/1,35V</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Độ trễ Cas</p>\r\n</td>\r\n<td>\r\n<p>40-40-40-80</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Kiến tr&uacute;c bộ nhớ</p>\r\n</td>\r\n<td>\r\n<p>chip DRAM FBGA x8</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Intel XMP 3.0</p>\r\n</td>\r\n<td>\r\n<p>Đ&uacute;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>PIN</p>\r\n</td>\r\n<td>\r\n<p>288 ch&acirc;n</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Giấy chứng nhận</p>\r\n</td>\r\n<td>\r\n<p>RoHS, CE, FCC, RCM, VCCI, JEDEC</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p>Bảo h&agrave;nh</p>\r\n</td>\r\n<td>\r\n<p>3 năm</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 08:03:47', NULL, '1590000.00', '1390000.00'),
+(10, 'RAM Patriot Signature Premium 16GB (1x16GB) DDR5 5200MHz (PSP516G520081H1)', '<p>&nbsp;Loại Ram: DDR5<br>&nbsp;Dung lượng: 16GB<br>&nbsp;Đ&oacute;ng g&oacute;i: 1 thanh (16GBx1)<br>&nbsp;Tốc độ: 5200Mhz</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>TH&Ocirc;NG SỐ KỸ THUẬT</h3>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Loại sản phẩm</td>\r\n<td>RAM&nbsp;PC</td>\r\n</tr>\r\n<tr>\r\n<td>Thương hiệu</td>\r\n<td>Patriot</td>\r\n</tr>\r\n<tr>\r\n<td>Model</td>\r\n<td>Signature Premium (1 x 16GB | 3200MHz)</td>\r\n</tr>\r\n<tr>\r\n<td>Chuẩn RAM</td>\r\n<td>DDR4</td>\r\n</tr>\r\n<tr>\r\n<td>Dung lượng</td>\r\n<td>16GB (1 x 16GB)</td>\r\n</tr>\r\n<tr>\r\n<td>Điện &aacute;p</td>\r\n<td>1.2V</td>\r\n</tr>\r\n<tr>\r\n<td>Tốc độ</td>\r\n<td>3200MHz</td>\r\n</tr>\r\n<tr>\r\n<td>Độ trễ</td>\r\n<td>CL22</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-06-20 21:17:39', '2025-07-05 03:51:00', NULL, '1990000.00', '1390000.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `san_phams`
+--
+
+CREATE TABLE `san_phams` (
+  `id` bigint UNSIGNED NOT NULL,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ma_san_pham` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mo_ta` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `gia` decimal(15,2) DEFAULT NULL,
+  `gia_so_sanh` decimal(15,2) DEFAULT NULL,
+  `so_luong` int DEFAULT NULL,
+  `sku` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `co_bien_the` tinyint(1) NOT NULL DEFAULT '1',
+  `id_chip` bigint UNSIGNED DEFAULT NULL,
+  `id_mainboard` bigint UNSIGNED DEFAULT NULL,
+  `id_gpu` bigint UNSIGNED DEFAULT NULL,
+  `id_category` bigint UNSIGNED NOT NULL,
+  `id_brand` bigint UNSIGNED NOT NULL,
+  `bao_hanh_thang` int NOT NULL,
+  `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
+  `anh_dai_dien` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `id_case` bigint UNSIGNED DEFAULT NULL,
+  `id_tannhiet` bigint UNSIGNED DEFAULT NULL,
+  `id_nguon` bigint UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `san_phams`
+--
+
+INSERT INTO `san_phams` (`id`, `ten`, `ma_san_pham`, `mo_ta`, `gia`, `gia_so_sanh`, `so_luong`, `sku`, `co_bien_the`, `id_chip`, `id_mainboard`, `id_gpu`, `id_category`, `id_brand`, `bao_hanh_thang`, `hoat_dong`, `anh_dai_dien`, `created_at`, `updated_at`, `deleted_at`, `id_case`, `id_tannhiet`, `id_nguon`) VALUES
+(1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 'WD0754', '<div><strong>PC FASTER GAMING 10400F - RTX 3050 6GB</strong>&nbsp;l&agrave; bộ PC Gaming - PC Đồ Họa Hiệu năng cao, được x&acirc;y dựng để đ&aacute;p ứng nhu cầu chơi game, học tập, l&agrave;m việc với mức gi&aacute; v&ocirc; c&ugrave;ng hợp l&yacute; . C&oacute; thể c&acirc;n tốt c&aacute;c tựa game Moba, FPS : LOL, FIFA, DOTA, CSGO, GTA 5 , PUBG.... cũng như c&aacute;c t&aacute;c vụ văn ph&ograve;ng , chỉnh sửa ảnh , edit video cơ bản.</div>\r\n<h3><strong>1.&nbsp;CPU Intel Core i5-10400F (2.9GHz turbo up to 4.3Ghz, 6 nh&acirc;n 12 luồng, 12MB Cache, 65W) - Socket Intel LGA 1200</strong></h3>\r\n<p><strong>CPU Intel Core i5-10400F</strong>&nbsp;ch&iacute;nh l&agrave; sự lựa chọn ho&agrave;n mỹ cho những ai muốn trải nghiệm hiệu suất đa nhiệm tốt nhưng c&oacute; gi&aacute; th&agrave;nh rẻ. CPU Intel Core i5-10400F đ&atilde; cắt giảm đi iGPU t&iacute;ch hợp sẵn nhưng vẫn đem lại trải nghiệm l&agrave;m việc tốt tương tự như bộ xử l&yacute; Intel Core i5 10400 th&ocirc;ng thường. mẫu CPU n&agrave;y sở hữu 6 nh&acirc;n 12 luồng cho đ&aacute;p ứng tốt nhu cầu l&agrave;m việc v&agrave; giải tr&iacute; c&ugrave;ng l&uacute;c. C&oacute; thể n&oacute;i, với mức gi&aacute; ph&ugrave; hợp, đ&acirc;y chắc chắn l&agrave; lựa chọn số 1 cho người d&ugrave;ng phổ th&ocirc;ng.</p>\r\n<p>&nbsp;</p>\r\n<div>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/i5_10400f_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3>&nbsp;</h3>\r\n<h3><strong>3. RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp;</strong></h3>\r\n<p>RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp; l&agrave; d&ograve;ng sản phẩm RAM chất lượng , ổn định , &nbsp;c&oacute; hiệu suất cực cao , tốc độ truyền tải nhanh ch&oacute;ng, khả năng tương th&iacute;ch tốt cho ph&eacute;p tất cả c&aacute;c game thủ vượt giới hạn tốc độ v&agrave; tận hưởng thế giới game ấn tượng nhất . Được thiết kế cho c&aacute;c game thủ v&agrave; những người &nbsp;đam m&ecirc;. những người muốn n&acirc;ng cấp tiết kiệm chi ph&iacute; để chơi game nhanh hơn.Đ&acirc;y l&agrave; sự lựa chọn tuyệt vời cho bộ PC Gaming gi&aacute; rẻ m&agrave; c&aacute;c game thủ kh&ocirc;ng n&ecirc;n bỏ qua.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-geil-evo-spear-16gb-ddr4-bus-3200_pcm_2114afa10c95413db9ef7c74bf1f9d4d_grande.png\"></p>\r\n<p>&nbsp;</p>\r\n<h3>4.&nbsp;&nbsp;Ổ cứng SSD TeamGroup CX2 256GB 2.5 inch SATA III</h3>\r\n<p>SSD TeamGroup CX2 được trang bị c&ocirc;ng nghệ FLASH hiện đại, tiết kiệm năng lượng ti&ecirc;u thụ cũng như tốc độ truyền cao. Hiệu suất mang lại kh&aacute;c hẳn so với những chiếc ổ cứng truyền thống trước đ&acirc;y. SSD TeamGroup CX2 sử dụng c&ocirc;ng nghệ SLC Caching t&acirc;n tiến được nh&agrave; sản xuất đưa v&agrave;o nhằm tối ưu hiệu suất l&agrave;m việc tr&ecirc;n m&aacute;y t&iacute;nh cho người d&ugrave;ng. Sở hữu tốc độ đọc/ghi nhanh gấp 4 lần so với c&aacute;c ổ cứng truyền thống. Được trang bị khả năng chống sốc v&agrave; rơi 1500G/0.5mili gi&acirc;y mang đến ổ cứng TeamGroup bền bỉ hơn. Đồng thời SSD CX2 cũng được thiết kế với trải nghiệm kh&ocirc;ng g&acirc;y ra tiếng ồn cơ học kh&oacute; chịu tối ưu trải nghiệm người d&ugrave;ng hơn. Để k&eacute;o d&agrave;i tuổi thọ hơn cho ổ cứng SSD TeamGroup CX2 c&ograve;n được trang bị th&ecirc;m c&ocirc;ng nghệ Wear-Leveling v&agrave; chức năng ECC. Tất cả nhằm mang đến trải nghiệm sử dụng tốt hơn cho người d&ugrave;ng với tốc độ tin cậy trong qu&aacute; tr&igrave;nh truyền dữ liệu. C&ugrave;ng đ&oacute; l&agrave; mức độ bền bỉ khi tuổi thọ của SSD được đảm bảo tốt hơn.&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o_cung_ssd_teamgroup_cx2_256gb_2.5_inch_sata_iii_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3><strong>5. &nbsp;CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;</strong></h3>\r\n<p>CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;&nbsp; l&agrave; một sản phẩm đ&aacute;ng ch&uacute; &yacute; trong ph&acirc;n kh&uacute;c card đồ họa tầm trung.Với kiến tr&uacute;c NVIDI Ampere mới nhất sử dụng chip đồ họa NVIDIA GeForce RTX 3050, c&oacute; khả năng xử l&yacute; đồ họa 3D mượt m&agrave;, hỗ trợ c&ocirc;ng nghệ ray tracing v&agrave; DLSS., RTX 3050 DUAL OC 6GB kết hợp hiệu suất nhiệt tối ưu với khả năng tương th&iacute;ch cao. Đ&acirc;y l&agrave; sự lựa chọn ho&agrave;n hảo cho những game thủ muốn c&oacute; hiệu suất đồ họa mạnh trong một cấu h&igrave;nh nhỏ gọn.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/zt-a30500h-10m-image01_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n</div>', NULL, NULL, NULL, NULL, 1, 1, 2, 2, 2, 1, 36, 1, 'images/zNLVsTDHQdO9jgYmwxSBoKia784MVCHcGEh5SB2W.jpg', '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL, NULL, NULL, NULL),
+(2, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7700X3D - RTX 5070 12GB OC', 'WD0622', '<div>\r\n<h2><strong>Mua ngay&nbsp;PC AMD GAMING PRO RYZEN 7 7800X3D - RTX 5090 32GB OC</strong></h2>\r\n<p>PC AMD GAMING PRO RYZEN 7 7800X3D - RTX 5090 32GB OC&nbsp;l&agrave; bộ PC AMD cao cấp đ&atilde; được&nbsp;<strong><a href=\"https://pcmarket.vn/\">PCM</a></strong>&nbsp;tối ưu phần cứng nhằm đem lại sự ổn định c&ugrave;ng hiệu năng chơi game cực tốt tr&ecirc;n gi&aacute; th&agrave;nh . Đ&aacute;p ứng đầy đủ c&aacute;c nhu cầu chiến game esport , AAA , livestream cũng&nbsp;<a>Th&ocirc;ng số</a>như c&aacute;c c&ocirc;ng việc li&ecirc;n quan tới Media v&agrave; kiến tr&uacute;c chuy&ecirc;n nghiệp .</p>\r\n<h3><strong>1. CPU AMD RYZEN 7 7800X3D (4.2GHZ UP TO 5.0GHZ/105MB/8 CORES 16 THREADS) (TRAY)</strong></h3>\r\n<p>Sở hữu 8 nh&acirc;n 16 luồng với xung nhịp tối đa đạt mức con số 5.0GHz, AMD Ryzen 7 7800X3D đủ sức đảm nhiệm khả năng xử l&yacute; l&yacute; tưởng cho mọi c&ocirc;ng việc được giao. Từ những t&aacute;c vụ chuy&ecirc;n nghiệp li&ecirc;n quan đến đồ họa như render đến khả năng giải tr&iacute; c&ugrave;ng những tựa game AAA đều được CPU AMD xử tr&iacute; gọn g&agrave;ng v&agrave; tốc độ, tạo n&ecirc;n một combo ho&agrave;n hảo tạo n&ecirc;n những bộ PC AMD hay m&aacute;y t&iacute;nh đồ họa l&yacute; tưởng nhất đến với người d&ugrave;ng. Với nền tảng l&agrave; kiến tr&uacute;c TSMC 5nm FinFET, AMD Ryzen 7 7800X3D sở hữu cho m&igrave;nh những c&ocirc;ng nghệ xử l&yacute; đỉnh cao. AMD EXPO c&ugrave;ng khả năng tăng cường hiệu quả khi &eacute;p xung, đẩy mức hiệu năng xử l&yacute; l&ecirc;n tối đa c&ugrave;ng những kit RAM cao cấp. Hay đ&oacute; ch&iacute;nh l&agrave; khả năng xử l&yacute; v&agrave; đồng bộ h&oacute;a tuyệt vời c&ugrave;ng những linh kiện m&aacute;y t&iacute;nh AMD như CPU, card m&agrave;n h&igrave;nh. V&agrave; kh&ocirc;ng k&eacute;m phần đỉnh cao c&ugrave;ng AMD 3D V-Cache gi&uacute;p cho AMD Ryzen 7 7800X3D tự tin th&ecirc;m phần xử l&yacute; những t&aacute;c vụ đỉnh cao c&ugrave;ng nền đồ họa ph&aacute;t triển hiện nay.</p>\r\n<p><img src=\"https://pcmarket.vn/media/product/12257_5478_7800x3d_tray_5a74882bb94b47.jpg\" alt=\"cpu-amd-ryzen-7-7800x3d-tray\" width=\"800\"></p>\r\n<h3><strong>2.&nbsp;Mainboard ASROCK X870 PRO RS WIFI DDR5</strong></h3>\r\n<p>Mainboard ASROCK X870 PRO RS WIFI DDR5&nbsp;l&agrave; bo mạch chủ được thiết kế đặc biệt để phục vụ cho c&aacute;c game thủ v&agrave; những người d&ugrave;ng chuy&ecirc;n nghiệp, mang đến sự kết hợp ho&agrave;n hảo giữa hiệu suất mạnh mẽ v&agrave; t&iacute;nh năng đa dạng. Với khả năng hỗ trợ c&aacute;c linh kiện hiện đại v&agrave; c&ocirc;ng nghệ ti&ecirc;n tiến, sản phẩm n&agrave;y chắc chắn sẽ l&agrave;m h&agrave;i l&ograve;ng cả những người kh&oacute; t&iacute;nh nhất.</p>\r\n<h3><strong>3.&nbsp;RAM Patriot Signature Premium 32GB (2x16GB) DDR5 Bus 5200Mhz</strong></h3>\r\n<p>RAM Patriot Signature Premium 32GB (2x16GB) DDR5 Bus 5200Mhz&nbsp;l&agrave; mẫu RAM cao cấp hội tụ mọi yếu tố từ thiết kế ấn tượng tới hiệu năng mạnh để trở th&agrave;nh sự lựa chọn ho&agrave;n hảo cho những bộ PC Gaming hiệu năng cao. C&oacute; dung lượng l&ecirc;n tới 32GB chuẩn DDR5 Bus 5200Mhz, mang tới cho bộ m&aacute;y t&iacute;nh của bạn khả năng đa nhiệm mượt m&agrave;, nhanh ch&oacute;ng cũng như tăng lượng fps trong game của bạn l&ecirc;n đ&aacute;ng kể. Kh&ocirc;ng chỉ l&agrave; ngoại h&igrave;nh hầm hố chuẩn Gaming ,RAM Patriot Signature Premium 32GB (2x16GB) DDR5 Bus 5200Mhz&nbsp; với lớp vỏ nh&ocirc;m tản nhiệt c&ograve;n gi&uacute;p duy tr&igrave; sự m&aacute;t mẻ, ổn định hiệu năng hoạt động ngay cả khi sử dụng những t&aacute;c vụ nặng, chơi Game li&ecirc;n tục trong thời gian d&agrave;i.</p>\r\n<p><img src=\"https://pcmarket.vn/media/lib/02-07-2025/ram_pc_patriot_signature_premium_16gb_ddr5_bus_520.jpg\" alt=\"\"></p>\r\n<h3><strong>4.&nbsp;Ổ cứng SSD KINGSTON NV3 1TB NVME M2 PCIE GEN4</strong></h3>\r\n<p>Ổ cứng SSD KINGSTON NV3 1TB NVME M2 PCIE GEN4&nbsp;l&agrave; giải ph&aacute;p ho&agrave;n hảo để bạn n&acirc;ng cấp hệ thống của m&igrave;nh l&ecirc;n một tầm cao mới về tốc độ v&agrave; hiệu suất. SSD Kingston NV3 1TB tận dụng sức mạnh của giao tiếp PCIe Gen4 x4 NVMe để đạt tốc độ đọc l&ecirc;n đến 6000MB/s v&agrave; tốc độ ghi l&ecirc;n đến 4000MB/s, gi&uacute;p bạn xử l&yacute; mọi t&aacute;c vụ nhanh ch&oacute;ng v&agrave; mượt m&agrave; hơn bao giờ hết.&nbsp;Với k&iacute;ch thước M.2 2280 si&ecirc;u nhỏ gọn, SSD&nbsp;n&agrave;y c&oacute; thể&nbsp;dễ d&agrave;ng lắp đặt v&agrave;o hầu hết c&aacute;c m&aacute;y t&iacute;nh x&aacute;ch tay v&agrave; m&aacute;y t&iacute;nh để b&agrave;n hiện đại. Bạn sẽ kh&ocirc;ng phải lo lắng về việc ổ cứng chiếm qu&aacute; nhiều kh&ocirc;ng gian trong hệ thống của m&igrave;nh. Dung lượng 1TB gi&uacute;p bạn thoải m&aacute;i&nbsp;lưu trữ mọi thứ m&igrave;nh cần m&agrave; kh&ocirc;ng phải lo lắng về việc hết dung lượng.</p>\r\n<h3><strong>5. Card m&agrave;n h&igrave;nh MSI RTX 5090 32G VENTUS 3X OC</strong></h3>\r\n<p>Card m&agrave;n h&igrave;nh MSI RTX 5090 32G VENTUS 3X OC tập trung v&agrave;o những yếu tố thiết yếu để giải quyết mọi th&aacute;ch thức. Giải ph&aacute;p tản nhiệt hiệu quả của n&oacute; được bao bọc trong một vỏ bọc đ&agrave;n hồi với t&iacute;nh thẩm mỹ trung t&iacute;nh, cho ph&eacute;p card đồ họa b&oacute;ng bẩy n&agrave;y t&iacute;ch hợp liền mạch v&agrave;o bất kỳ bản dựng n&agrave;o. Sở hữu 21760 CUDA Cores c&ugrave;ng bộ nhớ 32GB GDDR7, card m&agrave;n h&igrave;nh n&agrave;y l&agrave; sự lựa chọn tuyệt vời cho c&aacute;c cấu h&igrave;nh PC đồ họa, PC gaming cao cấp, đ&aacute;p ứng tốt mọi nhu cầu từ chơi game ở độ ph&acirc;n giải 2K-4K cho tới thiết kế đồ họa, dựng phim,....</p>\r\n<p><img src=\"https://pcmarket.vn/media/product/11930_msi_geforce_rtx_5090_32g_ventus.jpg\" alt=\"rtx-5090-32g-ventus-3x-oc\" width=\"800\"></p>\r\n<h3><strong>6.&nbsp;Nguồn M&aacute;y T&iacute;nh Asus TUF Gaming 1200G - 1200W 80 plus Gold (ATX 3.0 - Pcie 5.0 - Full Modular)</strong></h3>\r\n<p>Nguồn M&aacute;y T&iacute;nh Asus TUF Gaming 1200G - 1200W 80 plus Gold (ATX 3.0 - Pcie 5.0 - Full Modular) sở hữu sức mạnh chuẩn qu&acirc;n sự, thiết kế quạt tản h&agrave;ng đầu v&agrave; lớp bảo vệ PCB để cung cấp nguồn điện hoạt động hiệu quả v&agrave; l&acirc;u bền. Nguồn m&aacute;y t&iacute;nh n&agrave;y l&agrave; một sự lựa chọn đ&aacute;ng tin cậy cho c&aacute;c cấu h&igrave;nh PC gaming, PC đồ họa cao cấp.</p>\r\n</div>', NULL, NULL, NULL, NULL, 1, 5, 9, 7, 2, 1, 36, 1, 'images/j5JJvaNXnBRTIfgbrRmbWho0NxKqoKzIwe2adQHH.jpg', '2025-06-20 21:23:29', '2025-07-05 08:55:06', NULL, 3, 6, 1),
+(3, 'Sản phẩm 1x', 'WD4125', '<p>Khong coaddacdada</p>', '18000000.00', '19000000.00', 6, NULL, 0, 6, 7, 1, 1, 1, 12, 1, 'images/Y5ucU5NAFXgClN6lrOGJzvPMeriLD6TMqn16C6eC.jpg', '2025-06-23 07:03:32', '2025-07-02 10:19:07', NULL, NULL, 1, NULL),
+(4, 'Sản phẩm 2', 'WD2989', '<p>Khong co</p>', NULL, NULL, NULL, NULL, 1, 6, 7, 6, 1, 1, 12, 1, 'images/1HqEorwAq1O3GpoD6BMG4GgkKV8bTdjbCkDPnygV.jpg', '2025-06-23 07:05:48', '2025-07-02 10:19:37', '2025-07-02 10:19:37', NULL, NULL, NULL),
+(5, 'Sản phẩm 53', 'WD2441', '<p>Khong coooosfsfsdfsfs</p>', '23000000.00', '24000000.00', 5, NULL, 1, 9, 8, 6, 2, 1, 12, 1, 'images/wHScBvbeoxtFj6UUfw0YzMTfxuPLyT0QXs5oSTYf.jpg', '2025-06-23 07:06:49', '2025-07-02 10:17:03', NULL, 1, 1, 1),
+(6, 'PC GVN Intel i7-14700F/ VGA RTX 5080', 'WD9237', '<h2><strong>Th&ocirc;ng số kỹ thuật</strong><strong>:</strong></h2>\r\n<div class=\"scroll-table\">\r\n<table class=\"table table-bordered\" border=\"1\" cellspacing=\"0\">\r\n<tbody>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/mainboard-bo-mach-chu\">Mainboard</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/bo-mach-chu-msi-z790-gaming-plus-wifi-ddr5\">Bo mạch chủ MSI Z790 GAMING PLUS WIFI DDR5</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/cpu-bo-vi-xu-ly\">CPU</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/bo-vi-xu-ly-intel-core-i7-14700f\">Bộ vi xử l&yacute; Intel Core i7 14700F/Turbo up to 5.4GHz/20 Nh&acirc;n 28 Luồng</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/ram-pc\">RAM</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/ram-corsair-vengeance-rgb-32gb-2x16gb-5600-ddr5-cmh32gx5m2b5600c40k\">Ram Corsair Vengeance RGB 32GB 5600 DDR5</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/vga-card-man-hinh\">VGA</a>&nbsp;</strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/card-man-hinh-msi-geforce-rtx-5080-16g-ventus-3x-oc\">Card m&agrave;n h&igrave;nh MSI GeForce RTX 5080 16G VENTUS 3X OC</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong>HDD</strong></td>\r\n<td><strong>C&oacute; thể t&ugrave;y chọn&nbsp;<a title=\"https://gearvn.com/collections/hdd-o-cung-pc\" href=\"https://gearvn.com/collections/hdd-o-cung-pc\">N&acirc;ng cấp</a></strong></td>\r\n<td><strong>24 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/ssd-o-cung-the-ran\">SSD</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/o-cung-ssd-kingston-nv3-500gb-m-2-pcie-nvme-gen4\">Ổ cứng SSD Kingston NV3 500GB M.2 PCIe NVMe Gen4 (Đọc/Ghi - 5000/3000)</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/psu-nguon-may-tinh\">PSU</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/850w-nguon-corsair-rm850e-atx-3-0-80-plus-gold-full-modular\">Nguồn Corsair RM850e ATX 3.0 - 80 Plus Gold - Full Modular</a></strong></td>\r\n<td><strong>36 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr class=\"row-info\">\r\n<td><strong><a href=\"https://gearvn.com/collections/case-thung-may-tinh\">Case</a></strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/vo-may-tinh-corsair-6500x-tg-mid-tower-black\">Vỏ m&aacute;y t&iacute;nh Corsair 6500X TG Mid-Tower Black (CC-9011257-WW)</a></strong></td>\r\n<td><strong>12 Th&aacute;ng</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tản nhiệt</strong></td>\r\n<td><strong><a href=\"https://gearvn.com/products/tan-nhiet-aio-corsair-icue-link-titan-360-rx-rgb-black-cw-9061018-ww\">Tản nhiệt AIO Corsair iCUE LINK TITAN 360 RX RGB BLACK</a></strong></td>\r\n<td><strong>24 Th&aacute;ng</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<p>*H&igrave;nh ảnh minh hoạ c&oacute; thể kh&aacute;c với cấu h&igrave;nh thực tế&nbsp;</p>', '72720000.00', '74720000.00', 10, NULL, 0, 7, 5, 5, 2, 1, 36, 1, 'images/B2zx62dCQ5AomLwpHFDWPOQiM09xxenw2WweW9xA.jpg', '2025-07-02 10:21:56', '2025-07-02 10:21:56', NULL, NULL, NULL, NULL),
+(7, 'Màn Hình Gaming Asus TUF GAMING VG249QE5A-R (24 inch ,IPS ,146Hz, 1ms)', 'WD1866', '<p>&nbsp;Kiểu d&aacute;ng m&agrave;n h&igrave;nh: Phẳng&nbsp;<br>&nbsp;Tỉ lệ khung h&igrave;nh: 16:9<br>&nbsp;K&iacute;ch thước mặc định: 23.8 inch<br>&nbsp;C&ocirc;ng nghệ tấm nền: IPS<br>&nbsp;Ph&acirc;n giải điểm ảnh: FHD - 1920 x 1080<br>&nbsp;Độ s&aacute;ng hiển thị: 300 Nits cd/m2<br>&nbsp;Tần số qu&eacute;t m&agrave;n: 146 Hz</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>', '2590000.00', '2600000.00', 4, NULL, 0, NULL, NULL, NULL, 4, 1, 12, 1, 'images/5WGWONrB6sjjOvU3mrZYgUZXTs2XV1J3YTRnH91X.jpg', '2025-07-02 14:29:50', '2025-07-02 14:29:50', NULL, NULL, NULL, NULL),
+(8, 'Màn hình Asus TUF Gaming VG249Q3R (24 Inch/ FHD/ IPS/ 180Hz/ 1ms)', 'WD4839', '<p>&nbsp;Thương hiệu: ASUS<br>&nbsp;Loại sản phẩm: M&agrave;n h&igrave;nh<br>&nbsp;D&ograve;ng sản phẩm: Tuf Gaming<br>&nbsp;Model: VG249Q3R<br>&nbsp;K&iacute;ch thước m&agrave;n h&igrave;nh: 24 inch<br>&nbsp;Độ ph&acirc;n giải: 1920x1080<br>&nbsp;Cổng kết nối: DisplayPort 1.2 x 1; HDMI(v2.0) x 2; Earphone Jack : Yes<br>&nbsp;Tần số qu&eacute;t: 180Hz<br>&nbsp;Tốc độ: 1ms(GTG)</p>\r\n<div>&nbsp;Bảo h&agrave;nh : 36 Th&aacute;ng</div>', '2990000.00', '3000000.00', 5, NULL, 0, NULL, NULL, NULL, 4, 1, 36, 1, 'images/Y9cgqbxwpw9IYQ2xRk5RPbQdqyJ2iMMXwGoeA2Nq.jpg', '2025-07-02 14:31:32', '2025-07-02 14:31:32', NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('yGQjn77OuPhUTut6b2DrGApCZR68zjkSIRiPsH3t', 14, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36 Edg/138.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWGZOckFpdGNvNTJBeDJpcEFtQnNDOWY2VFl1V3Axd1NhYzU4clF1NSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9zYW5waGFtIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2NhcnQvY291bnQiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxNDt9', 1751705848);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tan_nhiets`
+--
+
+CREATE TABLE `tan_nhiets` (
+  `id` bigint UNSIGNED NOT NULL,
+  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gia` decimal(10,2) NOT NULL,
+  `gia_sale` decimal(10,2) DEFAULT NULL,
   `mo_ta` longtext COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -636,91 +909,38 @@ CREATE TABLE `rams` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `rams`
+-- Dumping data for table `tan_nhiets`
 --
 
-INSERT INTO `rams` (`id`, `dung_luong`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'RAM HK7799', 'Consequatur voluptas ratione eum qui expedita.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(2, 'RAM IP2821', 'Nihil necessitatibus deserunt consequatur repellendus et nam.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(3, 'RAM BX2457', 'Qui voluptate temporibus voluptates est dignissimos fuga.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(4, 'RAM JY1193', 'Ullam hic possimus culpa omnis adipisci neque aut.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(5, 'RAM JL1022', 'Qui voluptatem est aut optio.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(6, 'RAM RE5566', 'Fuga aliquid quidem quia porro.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(7, 'RAM EZ8373', 'Fugiat aut optio nemo harum.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(8, 'RAM WW8349', 'Nisi totam dolore officiis commodi exercitationem repellendus exercitationem.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(9, 'RAM VK9420', 'Atque amet rerum sequi qui.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(10, 'RAM XO6727', 'Occaecati veritatis non dignissimos sed aut.', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL);
+INSERT INTO `tan_nhiets` (`id`, `ten`, `gia`, `gia_sale`, `mo_ta`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 'Tản nhiệt nước TRYX PANORAMA ARGB 360 (Màn AMOLED 6.5/Bơm ASETEK 8)', '10999000.00', '9990000.00', '<p>Sản phẩm của h&atilde;ng Asetek<br>M&agrave;n h&igrave;nh OLED 6.5 inch curved, 2K Resolution, 60Hz Refresh Rate với khả năng tạo ra hiệu ứng 3D th&uacute; vị.<br>Bơm Asetek thế hệ thứ 8 mới nhất c&oacute; động cơ 3 pha mang lại hiệu suất l&agrave;m m&aacute;t tối ưu, lưu lượng cao hơn v&agrave; trở kh&aacute;ng thấp hơn cũng như giảm tiếng ồn.<br>ROTA ARCB Fans: Default lighting preJets, OTA updates supported, Dynamic speed control.<br>Quạt t&iacute;ch hợp ARGB GEN2 LEDs với c&ocirc;ng nghệ Fluid Dynamic 8earing (FDB) technology tăng độ bền v&agrave; cho ph&eacute;p người d&ugrave;ng t&ugrave;y chỉnh hiệu ứng &aacute;nh s&aacute;ng.<br>KANALY cung cấp khả năng kiểm so&aacute;t ho&agrave;n to&agrave;n hiệu ứng &aacute;nh s&aacute;ng ROTA v&agrave; tốc độ quạt.</p>\r\n<div>Bảo h&agrave;nh : 6 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">H&atilde;ng sản xuất</th>\r\n<td>\r\n<p>TRYX</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Model sản phẩm</th>\r\n<td>\r\n<p>TRYX PANORAMA 360</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Supported CPU</th>\r\n<td>\r\n<p>LGA 1150,LGA 1155,LGA 1151,LGA1200,LGA 1156,AM4,LGA 1700,Socket AM5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">With Screen</th>\r\n<td>\r\n<p>YES</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Fan Interface</th>\r\n<td>\r\n<p>4PIN,5v-3pin ARGB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Pump Interface</th>\r\n<td>\r\n<p>5v-3pin ARGB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">With Liquid</th>\r\n<td>\r\n<p>YES</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Radiator Type</th>\r\n<td>\r\n<p>360mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">RGB Support</th>\r\n<td>\r\n<p>A-RGB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Type</th>\r\n<td>\r\n<p>CPU All In One</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Package</th>\r\n<td>\r\n<p>YES</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:31:54', '2025-07-05 08:31:54', NULL),
+(3, 'TẢN NHIỆT NƯỚC JONSBO TF2-360SC WHITE ARGB', '3999000.00', '3390000.00', '<p>&nbsp;Lưu lượng kh&ocirc;ng kh&iacute; quạt: 12,95-61,79CFM (mỗi)<br>&nbsp;V&ograve;ng bi quạt: V&ograve;ng bi FDB<br>&nbsp;Tốc độ quạt: 800-2200rpm (&plusmn;10%)<br>&nbsp;Đầu nối quạt: 4PIN PWM<br>&nbsp;Độ ồn của quạt: 20,3-35,8 dB (A) (tối đa)<br>&nbsp;C&ocirc;ng suất ti&ecirc;u thụ bơm: &le; 3,36W<br>&nbsp;Độ ồn bơm: &le; 28dB (A)<br>&nbsp;Bơm điện &aacute;p l&agrave;m việc: 12V DC<br>&nbsp;Tốc độ bơm: 800-2200rpm (&plusmn;10%)<br>&nbsp;Đầu nối bơm: 4PIN PWM</p>\r\n<div><strong>Bảo h&agrave;nh : 24 Th&aacute;ng</strong></div>\r\n<div><hr>\r\n<h3>TH&Ocirc;NG SỐ KỸ THUẬT</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">Thương hiệu</th>\r\n<td>\r\n<p>Jonsbo</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Bảo h&agrave;nh</th>\r\n<td>\r\n<p>12 th&aacute;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Dạng tản nhiệt</th>\r\n<td>\r\n<p>Tản nước AIO</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">V&ograve;ng bi quạt</th>\r\n<td>\r\n<p>V&ograve;ng bi FDB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">M&agrave;u sắc đ&egrave;n LED</th>\r\n<td>\r\n<p>ARGB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">M&agrave;u sắc</th>\r\n<td>\r\n<p>Đen, Trắng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Fan Speed</th>\r\n<td>\r\n<p>800-2200rpm (&plusmn;10%)</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Luồng kh&ocirc;ng kh&iacute; quạt</th>\r\n<td>\r\n<p>12,95-61,79CFM</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Đầu nối quạt</th>\r\n<td>\r\n<p>PWM 4PIN</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Ti&ecirc;u thụ điện năng bơm</th>\r\n<td>\r\n<p>&le; 3,36W</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Hỗ trợ nền tảng</th>\r\n<td>\r\n<p>Intel LGA1700/1200/115X/2011; AMD AM4 / AM5</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">K&iacute;ch cỡ</th>\r\n<td>\r\n<p>397x120x27mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Trọng lượng</th>\r\n<td>\r\n<p>1.77 kg</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:32:33', '2025-07-05 08:32:33', NULL),
+(4, 'Tản Nhiệt Nước CPU Thermalright Aqua Elite 240 White ARGB V3', '1590000.00', NULL, '<p>&nbsp;Loại sản phẩm: Tản nhiệt nước AIO<br>&nbsp;Tương th&iacute;ch: Intel LGA 115X/ 1200/ 1700/ 2011/ 2066<br>&nbsp;AMD: AM4/AM5<br>&nbsp;Tốc độ bơm: 3300 RPM&plusmn;10% (MAX)<br>&nbsp;Quạt ARGB 120mm hiệu ứng led đẹp mắt<br>&nbsp;K&iacute;ch thước Radiator 240mm</p>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số sản phẩm&nbsp;</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Loại sản phẩm</strong></td>\r\n<td>Tản nhiệt&nbsp;nước</td>\r\n</tr>\r\n<tr>\r\n<td><strong>H&atilde;ng sản xuất</strong></td>\r\n<td>Thermalright</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Model</strong></td>\r\n<td>Aqua Elite 240 V3 ARGB</td>\r\n</tr>\r\n<tr>\r\n<td rowspan=\"2\"><strong>Socket tương th&iacute;ch</strong></td>\r\n<td>Intel&nbsp;LGA115x / 1200 / 1700 / 2011/ 2066</td>\r\n</tr>\r\n<tr>\r\n<td>AM4/AM5</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Vật liệu tản nhiệt</strong></td>\r\n<td>Nh&ocirc;m</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước bơm</strong></td>\r\n<td>W62 mm x D62 mm x H53 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ bơm</strong></td>\r\n<td>3300 RPM&plusmn;10% (MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ ồn</strong></td>\r\n<td>23 dBA(MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đầu nối m&aacute;y bơm</strong></td>\r\n<td>4 ch&acirc;n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Điện &aacute;p định mức của m&aacute;y bơm</strong></td>\r\n<td>12 V DC</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tuổi thọ m&aacute;y bơm</strong></td>\r\n<td>40000 Hours</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td>L120 mm x W120 mm x H25 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ quạt</strong></td>\r\n<td>1500 RPM&plusmn;10% (MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Lưu lượng kh&ocirc;ng kh&iacute;</strong></td>\r\n<td>66.17 CFM (MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>&Aacute;p suất kh&ocirc;ng kh&iacute; quạt</strong></td>\r\n<td>1.53 mm H2O (MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ ồn quạt</strong></td>\r\n<td>25.6 dBA (MAX)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đầu nối quạt</strong></td>\r\n<td>PWM 4 ch&acirc;n</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đ&egrave;n nền</strong></td>\r\n<td>LED ARGB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Đầu nối LED</strong></td>\r\n<td>3 ch&acirc;n (+ 5V-DG)</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p>&nbsp;</p>\r\n</div>\r\n<p>&nbsp;</p>\r\n</div>', '2025-07-05 08:32:53', '2025-07-05 08:32:53', NULL),
+(5, 'Tản nhiệt AIO Thermalright Wonder Vision 360 UB ARGB WHITE', '6999000.00', '5890000.00', '<div>ương th&iacute;ch :INTEL LGA 1851/1700/115X/1200/2011/2066 - AMD AM5/AM4<br>&nbsp;K&iacute;ch thước bộ l&agrave;m m&aacute;t radiator : 403*120*27mm<br>&nbsp;K&iacute;ch thước quạt: 360*120*25cm<br>&nbsp;M&agrave;n h&igrave;nh LCD : amoled 6.67 inch - độ ph&acirc;n giải 2k - 60hz - panorama</div>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Tương th&iacute;ch socket</strong></td>\r\n<td><strong>Intel: LGA115X / 1200 / 1700 / 1851 / 2011 / 2066 AMD: AM4 / AM5</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước bơm</strong></td>\r\n<td><strong>120.1mm (D&agrave;i) x 80mm (Rộng) x 107mm (Cao)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ bơm</strong></td>\r\n<td><strong>6400 RPM &plusmn;10% (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Cổng kết nối bơm</strong></td>\r\n<td><strong>4 PIN PWM</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chất liệu bộ tản nhiệt</strong></td>\r\n<td><strong>Nh&ocirc;m</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước radiator</strong></td>\r\n<td><strong>403mm x 120mm x 27mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;n h&igrave;nh t&iacute;ch hợp</strong></td>\r\n<td><strong>M&agrave;n h&igrave;nh IPS 6.67 inch (2400x1080) Hiển thị th&ocirc;ng số CPU, hỗ trợ MP4/GIF</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td><strong>120mm x 120mm x 25mm (x3 &ndash; tổng chiều d&agrave;i 360mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ quay</strong></td>\r\n<td><strong>2150 RPM &plusmn;10% (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ ồn</strong></td>\r\n<td><strong>27 dBA (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Lưu lượng gi&oacute;</strong></td>\r\n<td><strong>69 CFM x3 (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>&Aacute;p suất tĩnh</strong></td>\r\n<td><strong>2.87 mm H₂O (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối quạt</strong></td>\r\n<td><strong>4 PIN PWM</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối ARGB</strong></td>\r\n<td><strong>3 PIN 5V ARGB</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại v&ograve;ng bi</strong></td>\r\n<td><strong>V&ograve;ng bi S-FDB V2 Bearing (Si&ecirc;u bền, chống ồn)</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:33:20', '2025-07-05 08:33:20', NULL),
+(6, 'Tản nhiệt AIO Thermalright Wonder Vision 360 UB ARGB BLACK', '6999000.00', '5890000.00', '<div>&nbsp;Tương th&iacute;ch :INTEL LGA 1851/1700/115X/1200/2011/2066 - AMD AM5/AM4<br>&nbsp;K&iacute;ch thước bộ l&agrave;m m&aacute;t radiator : 403*120*27mm<br>&nbsp;K&iacute;ch thước quạt: 360*120*25cm<br>&nbsp;M&agrave;n h&igrave;nh LCD : amoled 6.67 inch - độ ph&acirc;n giải 2k - 60hz - panorama</div>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>Tương th&iacute;ch socket</strong></td>\r\n<td><strong>Intel: LGA115X / 1200 / 1700 / 1851 / 2011 / 2066 AMD: AM4 / AM5</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước bơm</strong></td>\r\n<td><strong>120.1mm (D&agrave;i) x 80mm (Rộng) x 107mm (Cao)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ bơm</strong></td>\r\n<td><strong>6400 RPM &plusmn;10% (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Cổng kết nối bơm</strong></td>\r\n<td><strong>4 PIN PWM</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chất liệu bộ tản nhiệt</strong></td>\r\n<td><strong>Nh&ocirc;m</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước radiator</strong></td>\r\n<td><strong>403mm x 120mm x 27mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;n h&igrave;nh t&iacute;ch hợp</strong></td>\r\n<td><strong>M&agrave;n h&igrave;nh IPS 6.67 inch (2400x1080) Hiển thị th&ocirc;ng số CPU, hỗ trợ MP4/GIF</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td><strong>120mm x 120mm x 25mm (x3 &ndash; tổng chiều d&agrave;i 360mm)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ quay</strong></td>\r\n<td><strong>2150 RPM &plusmn;10% (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ ồn</strong></td>\r\n<td><strong>27 dBA (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Lưu lượng gi&oacute;</strong></td>\r\n<td><strong>69 CFM x3 (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>&Aacute;p suất tĩnh</strong></td>\r\n<td><strong>2.87 mm H₂O (Tối đa)</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối quạt</strong></td>\r\n<td><strong>4 PIN PWM</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kết nối ARGB</strong></td>\r\n<td><strong>3 PIN 5V ARGB</strong></td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại v&ograve;ng bi</strong></td>\r\n<td><strong>V&ograve;ng bi S-FDB V2 Bearing (Si&ecirc;u bền, chống ồn)</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:33:45', '2025-07-05 08:33:45', NULL),
+(7, 'Tản nhiệt khí Thermalright Peerless Assassin 120 SE ARGB', '1499000.00', '890000.00', '<p>Tương th&iacute;ch: Intel - 115X/1200/1700; AMD - AM4/AM5</p>\r\n<p>Trọng lượng: 730g</p>\r\n<p>Ống dẫn nhiệt: Ống dẫn nhiệt 6mm x 6 chiếc</p>\r\n<p>Đế đồng: C1100 Mạ đồng nguy&ecirc;n chất</p>\r\n<div>Bảo h&agrave;nh : 12 Th&aacute;ng</div>\r\n<hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td class=\"xl65\"><strong>Sản phẩm</strong></td>\r\n<td class=\"xl65\"><strong>Tản nhiệt - Tản nhiệt kh&iacute;</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>H&atilde;ng sản xuất</strong></td>\r\n<td class=\"xl65\"><strong>Thermalright</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Model</strong></td>\r\n<td class=\"xl65\"><strong>Peerless Assassin 120 SE ARGB</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\" rowspan=\"2\"><strong>Tương th&iacute;ch</strong></td>\r\n<td class=\"xl65\"><strong>Intel:115X/1200/1700</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>AMD:AM4/AM5</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>K&iacute;ch thước</strong></td>\r\n<td class=\"xl65\"><strong>L125 mm x W110 mm x H155 mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Trọng lượng</strong></td>\r\n<td class=\"xl65\"><strong>730g</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Ống dẫn nhiệt</strong></td>\r\n<td class=\"xl65\"><strong>Ống dẫn nhiệt 6mm x 6 chiếc</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Đế đồng</strong></td>\r\n<td class=\"xl65\"><strong>C1100 Mạ đồng nguy&ecirc;n chất</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\" rowspan=\"10\"><strong>&nbsp;Th&ocirc;ng số QUẠT TL-C12CW-S</strong></td>\r\n<td class=\"xl65\"><strong>&nbsp;K&iacute;ch thước: D&agrave;i 120 mm x Rộng 120 mm x Cao 25 ​​mm</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Trọng lượng: 120g</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Tốc độ định mức: 1550 v&ograve;ng/ph&uacute;t&plusmn;10% (MAX)</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Độ ồn: 25,6 dBA</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Lưu lượng gi&oacute;: 66,17 CFM (MAX)</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>&Aacute;p suất kh&ocirc;ng kh&iacute;: 1,53mm H2O (MAX)</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Ampe: 0,20 A</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>ARGB Cổng: 5V/3Pin</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Đầu nối: 4 Pin (Đầu nối quạtPWM)</strong></td>\r\n</tr>\r\n<tr>\r\n<td class=\"xl65\"><strong>Loại v&ograve;ng bi: V&ograve;ng bi S-FDB</strong></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:34:15', '2025-07-05 08:34:15', NULL),
+(8, 'TẢN NHIỆT NƯỚC ID-COOLING FX360 INF ARGB', '1990000.00', '1790000.00', '<p>Hỗ trợ : Intel LGA1851/1700/1200/115X - AMD AM5/AM4<br>&nbsp;Tốc độ bơm 2900 v&ograve;ng/ph&uacute;t &plusmn;10%(PWM)<br>&nbsp;Đầu nối PWM 4 ch&acirc;n + led ARGB 5V 3 ch&acirc;n<br>&nbsp;Tốc độ quạt300 ～2000&plusmn;10%V&Ograve;NG/PH&Uacute;T</p>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>Khả năng tương th&iacute;ch</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Bộ xử l&yacute; Intel LGA1851/1700/1200/115X</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;AMD AM5/AM4</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;TDP</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;350W</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước bộ tản nhiệt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;396&times;120&times;27mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu tản nhiệt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Nh&ocirc;m</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu ống</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Ống bọc cao cấp</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Chiều d&agrave;i ống</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;465mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước khối nước</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;72x72x60mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu tấm lạnh</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Đồng</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;D&ograve;ng bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;0,45A</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tốc độ bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;2900 v&ograve;ng/ph&uacute;t&nbsp;&plusmn;10%(PWM)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi gốm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu nối bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;3Pin</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Mức độ tiếng ồn của m&aacute;y bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;25dB(A)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước quạt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;120&times;120&times;25mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Bao gồm người h&acirc;m mộ</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;3 c&aacute;i</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tốc độ quạt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;300&nbsp;～200&nbsp;0&plusmn;10%V&Ograve;NG/PH&Uacute;T</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Lưu lượng kh&ocirc;ng kh&iacute; tối đa</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;58CFM</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;&Aacute;p suất tĩnh tối đa</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;1,94mmH2O</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tiếng ồn</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Tối đa 27,2dB(A)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Điện &aacute;p định mức</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;12VDC</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;D&ograve;ng điện định mức</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;0,15A</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu v&agrave;o nguồn điện</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;1,8W</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Loại v&ograve;ng bi</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi thủy lực</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu nối</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;PWM 4 ch&acirc;n + ARGB 5V 3 ch&acirc;n</strong></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:34:40', '2025-07-05 08:34:40', NULL),
+(9, 'TẢN NHIỆT NƯỚC ID-COOLING FX240 INF ARGB', '1490000.00', '1390000.00', '<p>&nbsp;Hỗ trợ : Intel LGA1851/1700/1200/115X - AMD AM5/AM4<br>&nbsp;Tốc độ bơm 2900 v&ograve;ng/ph&uacute;t &plusmn;10%(PWM)<br>&nbsp;Đầu nối PWM 4 ch&acirc;n + led ARGB 5V 3 ch&acirc;n<br>&nbsp;Tốc độ quạt300 ～2000&plusmn;10%V&Ograve;NG/PH&Uacute;T</p>\r\n<div>Bảo h&agrave;nh : 24 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td rowspan=\"2\">\r\n<p><strong>Khả năng tương th&iacute;ch</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Bộ xử l&yacute; Intel LGA1851/1700/1200/115X</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;AMD AM5/AM4</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;TDP</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;300W</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước bộ tản nhiệt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;276&times;120&times;27mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu l&aacute; tản nhiệt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Nh&ocirc;m</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu ống dẫn</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Ống bọc cao cấp</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Chiều d&agrave;i ống</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;400mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước khối bơm nước</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;72x72x60mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Vật liệu tấm l&agrave;m lạnh</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Đồng</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;D&ograve;ng bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;0,45A</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tốc độ bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;2900 v&ograve;ng/ph&uacute;t&nbsp;&plusmn;10%(PWM)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi gốm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu nối bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;3Pin</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Mức độ tiếng ồn của m&aacute;y bơm</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;25dB(A)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;K&iacute;ch thước quạt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;120&times;120&times;25mm</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Bao gồm&nbsp;quạt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;2 c&aacute;i</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tốc độ quạt</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;300&nbsp;～200&nbsp;0&plusmn;10%V&Ograve;NG/PH&Uacute;T</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Lưu lượng kh&ocirc;ng kh&iacute; tối đa</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;58CFM</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;&Aacute;p suất tĩnh tối đa</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;1,94mmH2O</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Tiếng ồn</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;Tối đa 27,2dB(A)</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Điện &aacute;p định mức</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;12VDC</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;D&ograve;ng điện định mức</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;0,15A</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu v&agrave;o nguồn điện</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;1,8W</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Loại v&ograve;ng bi</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;V&ograve;ng bi thủy lực</strong></p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<p><strong>&nbsp;Đầu nối</strong></p>\r\n</td>\r\n<td>\r\n<p><strong>&nbsp;PWM 4 ch&acirc;n + ARGB 5V 3 ch&acirc;n</strong></p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p>&nbsp;</p>\r\n</div>', '2025-07-05 08:35:06', '2025-07-05 08:35:06', NULL),
+(10, 'Tản Nhiệt Nước Lian Li HydroShift LCD 360TL fan White', '8990000.00', '7890000.00', '<p>&nbsp;LOẠI TẢN: 360mm<br>&nbsp;TỐC ĐỘ BƠM: 3800 RPM (Max.)<br>&nbsp;M&Agrave;N H&Igrave;NH/ ĐỘ PH&Acirc;N GIẢI/ ĐỘ S&Aacute;NG: 2.88&rdquo; IPS / 480 &times; 480 pixels / 500 nits<br>&nbsp;K&Iacute;CH THƯỚC TẢN RAD: 403 x 124.5 x 31mm<br>&nbsp;K&Iacute;CH THƯỚC BLOCK: 73.2 &times; 73.2 &times; 58.6 mm<br>&nbsp;VẬT LIỆU RAD: Nh&ocirc;m<br>&nbsp;ĐỘ D&Agrave;I ỐNG: 475mm<br>&nbsp;K&Iacute;CH THƯỚC FAN: 124 x 120 x 28mm</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>T&ecirc;n mẫu</strong></td>\r\n<td>M&agrave;n h&igrave;nh LCD HydroShift 360TL</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kiểu</strong></td>\r\n<td>360</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u sắc</strong></td>\r\n<td>Trắng</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ bơm</strong></td>\r\n<td>3200 v&ograve;ng/ph&uacute;t (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước khối nước</strong></td>\r\n<td>73,2 x 73,2 x 58,6 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại m&agrave;n h&igrave;nh LCD</strong></td>\r\n<td>IPS 2,88\"</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại khối nước</strong></td>\r\n<td>Độ ph&acirc;n giải m&agrave;n h&igrave;nh LCD: 480 &times; 480</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ s&aacute;ng m&agrave;n h&igrave;nh</strong></td>\r\n<td>500 nit</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước tản nhiệt</strong></td>\r\n<td>403 x 124,5 x 31 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Vật liệu tản nhiệt</strong></td>\r\n<td>Nh&ocirc;m</td>\r\n</tr>\r\n<tr>\r\n<td><strong>V&acirc;y tản nhiệt</strong></td>\r\n<td>S&oacute;ng đơn</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chiều d&agrave;i ống</strong></td>\r\n<td>475mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td>124x120x28mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ quạt</strong></td>\r\n<td>200~2600RPM</td>\r\n</tr>\r\n<tr>\r\n<td><strong>&Aacute;p suất tĩnh</strong></td>\r\n<td>3,97 mm H2O (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Luồng kh&iacute;</strong></td>\r\n<td>90,1 CFM (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tiếng ồn &acirc;m thanh</strong></td>\r\n<td>33 dB(A)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại ổ trục</strong></td>\r\n<td>V&ograve;ng bi FDB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ổ cắm CPU tương th&iacute;ch</strong></td>\r\n<td>Intel: LGA 1700&nbsp;Hỗ Trợ intel LGA 1851<br>AMD: AM5/AM4</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:38:36', '2025-07-05 08:38:36', NULL),
+(11, 'Tản nhiệt nước LIAN LI HydroShift LCD 360TL fan Black', '8990000.00', '7990000.00', '<p>LOẠI TẢN: 360mm<br>&nbsp;TỐC ĐỘ BƠM: 3800 RPM (Max.)<br>&nbsp;M&Agrave;N H&Igrave;NH/ ĐỘ PH&Acirc;N GIẢI/ ĐỘ S&Aacute;NG: 2.88&rdquo; IPS / 480 &times; 480 pixels / 500 nits<br>&nbsp;K&Iacute;CH THƯỚC TẢN RAD: 403 x 124.5 x 31mm<br>&nbsp;K&Iacute;CH THƯỚC BLOCK: 73.2 &times; 73.2 &times; 58.6 mm<br>&nbsp;VẬT LIỆU RAD: Nh&ocirc;m<br>&nbsp;ĐỘ D&Agrave;I ỐNG: 475mm<br>&nbsp;K&Iacute;CH THƯỚC FAN: 124 x 120 x 28mm</p>\r\n<div>Bảo h&agrave;nh : 36 Th&aacute;ng</div>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật</h3>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<td><strong>T&ecirc;n mẫu</strong></td>\r\n<td>M&agrave;n h&igrave;nh LCD HydroShift 360TL</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Kiểu</strong></td>\r\n<td>360</td>\r\n</tr>\r\n<tr>\r\n<td><strong>M&agrave;u sắc</strong></td>\r\n<td>Đen</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ bơm</strong></td>\r\n<td>3200 v&ograve;ng/ph&uacute;t (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước khối nước</strong></td>\r\n<td>73,2 x 73,2 x 58,6 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại m&agrave;n h&igrave;nh LCD</strong></td>\r\n<td>IPS 2,88\"</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại khối nước</strong></td>\r\n<td>Độ ph&acirc;n giải m&agrave;n h&igrave;nh LCD: 480 &times; 480</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Độ s&aacute;ng m&agrave;n h&igrave;nh</strong></td>\r\n<td>500 nit</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước tản nhiệt</strong></td>\r\n<td>403 x 124,5 x 31 mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Vật liệu tản nhiệt</strong></td>\r\n<td>Nh&ocirc;m</td>\r\n</tr>\r\n<tr>\r\n<td><strong>V&acirc;y tản nhiệt</strong></td>\r\n<td>S&oacute;ng đơn</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Chiều d&agrave;i ống</strong></td>\r\n<td>475mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>K&iacute;ch thước quạt</strong></td>\r\n<td>124x120x28mm</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tốc độ quạt</strong></td>\r\n<td>200~2600RPM</td>\r\n</tr>\r\n<tr>\r\n<td><strong>&Aacute;p suất tĩnh</strong></td>\r\n<td>3,97 mm H2O (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Luồng kh&iacute;</strong></td>\r\n<td>90,1 CFM (Tối đa)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Tiếng ồn &acirc;m thanh</strong></td>\r\n<td>33 dB(A)</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Loại ổ trục</strong></td>\r\n<td>V&ograve;ng bi FDB</td>\r\n</tr>\r\n<tr>\r\n<td><strong>Ổ cắm CPU tương th&iacute;ch</strong></td>\r\n<td>Intel: LGA 1700&nbsp;Hỗ Trợ intel LGA 1851<br>AMD: AM5/AM4</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:39:04', '2025-07-05 08:39:04', NULL),
+(12, 'Fan case Jonsbo ZA-360B/BR Black', '899000.00', '790000.00', '<p>K&iacute;ch thước: 362mm*123mm*28mm<br>&nbsp;Tốc độ: 700-2400rpm(&plusmn;10%)<br>&nbsp;Lưu lượng kh&iacute;: 21,46-62,40 CFM<br>&nbsp;Độ ồn: 21,3-37,3 dB(A)(MAX)<br>&nbsp;Điện &aacute;p: QUẠT DC12V / LED 5V<br>&nbsp;Đầu nối: PWM 4PIN ARGB 3PIN</p>\r\n<div><hr>\r\n<h3>Th&ocirc;ng số kỹ thuật&nbsp;</h3>\r\n</div>\r\n<div>\r\n<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr>\r\n<th scope=\"row\">H&atilde;ng sản xuất</th>\r\n<td>\r\n<p>Jonsbo</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Bảo h&agrave;nh</th>\r\n<td>\r\n<p>24 th&aacute;ng</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Dạng tản nhiệt</th>\r\n<td>\r\n<p>Tản khí</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">M&agrave;u sắc</th>\r\n<td>\r\n<p>ĐEN</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">K&iacute;ch thước</th>\r\n<td>\r\n<p>362 x 123 x 28 mm</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">M&agrave;u LED</th>\r\n<td>\r\n<p>ARGB</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Tốc độ quạt</th>\r\n<td>\r\n<p>700-2400rpm(&plusmn;10%）</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Hiệu điện thế</th>\r\n<td>\r\n<p>&ndash; FAN DC12V<br>&ndash; LED 5V</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">V&ograve;ng bi</th>\r\n<td>\r\n<p>Đang cập nhật</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">&Aacute;p suất</th>\r\n<td>\r\n<p>0,49-2,46 mmH2O</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Tuổi thọ</th>\r\n<td>\r\n<p>&ge; 20000h</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">Lưu lượng gi&oacute;</th>\r\n<td>\r\n<p>21,46 &ndash; 62,40 CFM</p>\r\n</td>\r\n</tr>\r\n<tr>\r\n<th scope=\"row\">D&ograve;ng điện</th>\r\n<td>\r\n<p>&ndash; FAN 0.43A(MAX)<br>&ndash; LED 1.16A(MAX)</p>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>', '2025-07-05 08:39:31', '2025-07-05 08:39:31', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `san_phams`
---
-
-CREATE TABLE `san_phams` (
-  `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ma_san_pham` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `mo_ta` text COLLATE utf8mb4_unicode_ci,
-  `id_chip` bigint UNSIGNED NOT NULL,
-  `id_mainboard` bigint UNSIGNED NOT NULL,
-  `id_gpu` bigint UNSIGNED NOT NULL,
-  `id_category` bigint UNSIGNED NOT NULL,
-  `id_brand` bigint UNSIGNED NOT NULL,
-  `bao_hanh_thang` int NOT NULL,
-  `hoat_dong` tinyint(1) NOT NULL DEFAULT '1',
-  `anh_dai_dien` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `san_phams`
---
-
-INSERT INTO `san_phams` (`id`, `ten`, `ma_san_pham`, `mo_ta`, `id_chip`, `id_mainboard`, `id_gpu`, `id_category`, `id_brand`, `bao_hanh_thang`, `hoat_dong`, `anh_dai_dien`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 'WD0754', '<div><strong>PC FASTER GAMING 10400F - RTX 3050 6GB</strong>&nbsp;l&agrave; bộ PC Gaming - PC Đồ Họa Hiệu năng cao, được x&acirc;y dựng để đ&aacute;p ứng nhu cầu chơi game, học tập, l&agrave;m việc với mức gi&aacute; v&ocirc; c&ugrave;ng hợp l&yacute; . C&oacute; thể c&acirc;n tốt c&aacute;c tựa game Moba, FPS : LOL, FIFA, DOTA, CSGO, GTA 5 , PUBG.... cũng như c&aacute;c t&aacute;c vụ văn ph&ograve;ng , chỉnh sửa ảnh , edit video cơ bản.</div>\r\n<h3><strong>1.&nbsp;CPU Intel Core i5-10400F (2.9GHz turbo up to 4.3Ghz, 6 nh&acirc;n 12 luồng, 12MB Cache, 65W) - Socket Intel LGA 1200</strong></h3>\r\n<p><strong>CPU Intel Core i5-10400F</strong>&nbsp;ch&iacute;nh l&agrave; sự lựa chọn ho&agrave;n mỹ cho những ai muốn trải nghiệm hiệu suất đa nhiệm tốt nhưng c&oacute; gi&aacute; th&agrave;nh rẻ. CPU Intel Core i5-10400F đ&atilde; cắt giảm đi iGPU t&iacute;ch hợp sẵn nhưng vẫn đem lại trải nghiệm l&agrave;m việc tốt tương tự như bộ xử l&yacute; Intel Core i5 10400 th&ocirc;ng thường. mẫu CPU n&agrave;y sở hữu 6 nh&acirc;n 12 luồng cho đ&aacute;p ứng tốt nhu cầu l&agrave;m việc v&agrave; giải tr&iacute; c&ugrave;ng l&uacute;c. C&oacute; thể n&oacute;i, với mức gi&aacute; ph&ugrave; hợp, đ&acirc;y chắc chắn l&agrave; lựa chọn số 1 cho người d&ugrave;ng phổ th&ocirc;ng.</p>\r\n<p>&nbsp;</p>\r\n<div>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/i5_10400f_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3>&nbsp;</h3>\r\n<h3><strong>3. RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp;</strong></h3>\r\n<p>RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp; l&agrave; d&ograve;ng sản phẩm RAM chất lượng , ổn định , &nbsp;c&oacute; hiệu suất cực cao , tốc độ truyền tải nhanh ch&oacute;ng, khả năng tương th&iacute;ch tốt cho ph&eacute;p tất cả c&aacute;c game thủ vượt giới hạn tốc độ v&agrave; tận hưởng thế giới game ấn tượng nhất . Được thiết kế cho c&aacute;c game thủ v&agrave; những người &nbsp;đam m&ecirc;. những người muốn n&acirc;ng cấp tiết kiệm chi ph&iacute; để chơi game nhanh hơn.Đ&acirc;y l&agrave; sự lựa chọn tuyệt vời cho bộ PC Gaming gi&aacute; rẻ m&agrave; c&aacute;c game thủ kh&ocirc;ng n&ecirc;n bỏ qua.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-geil-evo-spear-16gb-ddr4-bus-3200_pcm_2114afa10c95413db9ef7c74bf1f9d4d_grande.png\"></p>\r\n<p>&nbsp;</p>\r\n<h3>4.&nbsp;&nbsp;Ổ cứng SSD TeamGroup CX2 256GB 2.5 inch SATA III</h3>\r\n<p>SSD TeamGroup CX2 được trang bị c&ocirc;ng nghệ FLASH hiện đại, tiết kiệm năng lượng ti&ecirc;u thụ cũng như tốc độ truyền cao. Hiệu suất mang lại kh&aacute;c hẳn so với những chiếc ổ cứng truyền thống trước đ&acirc;y. SSD TeamGroup CX2 sử dụng c&ocirc;ng nghệ SLC Caching t&acirc;n tiến được nh&agrave; sản xuất đưa v&agrave;o nhằm tối ưu hiệu suất l&agrave;m việc tr&ecirc;n m&aacute;y t&iacute;nh cho người d&ugrave;ng. Sở hữu tốc độ đọc/ghi nhanh gấp 4 lần so với c&aacute;c ổ cứng truyền thống. Được trang bị khả năng chống sốc v&agrave; rơi 1500G/0.5mili gi&acirc;y mang đến ổ cứng TeamGroup bền bỉ hơn. Đồng thời SSD CX2 cũng được thiết kế với trải nghiệm kh&ocirc;ng g&acirc;y ra tiếng ồn cơ học kh&oacute; chịu tối ưu trải nghiệm người d&ugrave;ng hơn. Để k&eacute;o d&agrave;i tuổi thọ hơn cho ổ cứng SSD TeamGroup CX2 c&ograve;n được trang bị th&ecirc;m c&ocirc;ng nghệ Wear-Leveling v&agrave; chức năng ECC. Tất cả nhằm mang đến trải nghiệm sử dụng tốt hơn cho người d&ugrave;ng với tốc độ tin cậy trong qu&aacute; tr&igrave;nh truyền dữ liệu. C&ugrave;ng đ&oacute; l&agrave; mức độ bền bỉ khi tuổi thọ của SSD được đảm bảo tốt hơn.&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o_cung_ssd_teamgroup_cx2_256gb_2.5_inch_sata_iii_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3><strong>5. &nbsp;CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;</strong></h3>\r\n<p>CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;&nbsp; l&agrave; một sản phẩm đ&aacute;ng ch&uacute; &yacute; trong ph&acirc;n kh&uacute;c card đồ họa tầm trung.Với kiến tr&uacute;c NVIDI Ampere mới nhất sử dụng chip đồ họa NVIDIA GeForce RTX 3050, c&oacute; khả năng xử l&yacute; đồ họa 3D mượt m&agrave;, hỗ trợ c&ocirc;ng nghệ ray tracing v&agrave; DLSS., RTX 3050 DUAL OC 6GB kết hợp hiệu suất nhiệt tối ưu với khả năng tương th&iacute;ch cao. Đ&acirc;y l&agrave; sự lựa chọn ho&agrave;n hảo cho những game thủ muốn c&oacute; hiệu suất đồ họa mạnh trong một cấu h&igrave;nh nhỏ gọn.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/zt-a30500h-10m-image01_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n</div>', 1, 2, 2, 2, 1, 36, 1, 'images/zNLVsTDHQdO9jgYmwxSBoKia784MVCHcGEh5SB2W.jpg', '2025-06-20 21:23:00', '2025-06-20 21:23:00', NULL),
-(2, 'PC AMD GAMING MAX PERFORMANCE Ryzen 7 7800X3D - RTX 5090 32GB OC', 'WD0622', '<div><strong>PC FASTER GAMING 10400F - RTX 3050 6GB</strong>&nbsp;l&agrave; bộ PC Gaming - PC Đồ Họa Hiệu năng cao, được x&acirc;y dựng để đ&aacute;p ứng nhu cầu chơi game, học tập, l&agrave;m việc với mức gi&aacute; v&ocirc; c&ugrave;ng hợp l&yacute; . C&oacute; thể c&acirc;n tốt c&aacute;c tựa game Moba, FPS : LOL, FIFA, DOTA, CSGO, GTA 5 , PUBG.... cũng như c&aacute;c t&aacute;c vụ văn ph&ograve;ng , chỉnh sửa ảnh , edit video cơ bản.</div>\r\n<h3><strong>1.&nbsp;CPU Intel Core i5-10400F (2.9GHz turbo up to 4.3Ghz, 6 nh&acirc;n 12 luồng, 12MB Cache, 65W) - Socket Intel LGA 1200</strong></h3>\r\n<p><strong>CPU Intel Core i5-10400F</strong>&nbsp;ch&iacute;nh l&agrave; sự lựa chọn ho&agrave;n mỹ cho những ai muốn trải nghiệm hiệu suất đa nhiệm tốt nhưng c&oacute; gi&aacute; th&agrave;nh rẻ. CPU Intel Core i5-10400F đ&atilde; cắt giảm đi iGPU t&iacute;ch hợp sẵn nhưng vẫn đem lại trải nghiệm l&agrave;m việc tốt tương tự như bộ xử l&yacute; Intel Core i5 10400 th&ocirc;ng thường. mẫu CPU n&agrave;y sở hữu 6 nh&acirc;n 12 luồng cho đ&aacute;p ứng tốt nhu cầu l&agrave;m việc v&agrave; giải tr&iacute; c&ugrave;ng l&uacute;c. C&oacute; thể n&oacute;i, với mức gi&aacute; ph&ugrave; hợp, đ&acirc;y chắc chắn l&agrave; lựa chọn số 1 cho người d&ugrave;ng phổ th&ocirc;ng.</p>\r\n<p>&nbsp;</p>\r\n<div>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/i5_10400f_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3>&nbsp;</h3>\r\n<h3><strong>3. RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp;</strong></h3>\r\n<p>RAM GEIL SPEAR EVO 16GB Bus 3200Mhz DDR4&nbsp; l&agrave; d&ograve;ng sản phẩm RAM chất lượng , ổn định , &nbsp;c&oacute; hiệu suất cực cao , tốc độ truyền tải nhanh ch&oacute;ng, khả năng tương th&iacute;ch tốt cho ph&eacute;p tất cả c&aacute;c game thủ vượt giới hạn tốc độ v&agrave; tận hưởng thế giới game ấn tượng nhất . Được thiết kế cho c&aacute;c game thủ v&agrave; những người &nbsp;đam m&ecirc;. những người muốn n&acirc;ng cấp tiết kiệm chi ph&iacute; để chơi game nhanh hơn.Đ&acirc;y l&agrave; sự lựa chọn tuyệt vời cho bộ PC Gaming gi&aacute; rẻ m&agrave; c&aacute;c game thủ kh&ocirc;ng n&ecirc;n bỏ qua.</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/ram-geil-evo-spear-16gb-ddr4-bus-3200_pcm_2114afa10c95413db9ef7c74bf1f9d4d_grande.png\"></p>\r\n<p>&nbsp;</p>\r\n<h3>4.&nbsp;&nbsp;Ổ cứng SSD TeamGroup CX2 256GB 2.5 inch SATA III</h3>\r\n<p>SSD TeamGroup CX2 được trang bị c&ocirc;ng nghệ FLASH hiện đại, tiết kiệm năng lượng ti&ecirc;u thụ cũng như tốc độ truyền cao. Hiệu suất mang lại kh&aacute;c hẳn so với những chiếc ổ cứng truyền thống trước đ&acirc;y. SSD TeamGroup CX2 sử dụng c&ocirc;ng nghệ SLC Caching t&acirc;n tiến được nh&agrave; sản xuất đưa v&agrave;o nhằm tối ưu hiệu suất l&agrave;m việc tr&ecirc;n m&aacute;y t&iacute;nh cho người d&ugrave;ng. Sở hữu tốc độ đọc/ghi nhanh gấp 4 lần so với c&aacute;c ổ cứng truyền thống. Được trang bị khả năng chống sốc v&agrave; rơi 1500G/0.5mili gi&acirc;y mang đến ổ cứng TeamGroup bền bỉ hơn. Đồng thời SSD CX2 cũng được thiết kế với trải nghiệm kh&ocirc;ng g&acirc;y ra tiếng ồn cơ học kh&oacute; chịu tối ưu trải nghiệm người d&ugrave;ng hơn. Để k&eacute;o d&agrave;i tuổi thọ hơn cho ổ cứng SSD TeamGroup CX2 c&ograve;n được trang bị th&ecirc;m c&ocirc;ng nghệ Wear-Leveling v&agrave; chức năng ECC. Tất cả nhằm mang đến trải nghiệm sử dụng tốt hơn cho người d&ugrave;ng với tốc độ tin cậy trong qu&aacute; tr&igrave;nh truyền dữ liệu. C&ugrave;ng đ&oacute; l&agrave; mức độ bền bỉ khi tuổi thọ của SSD được đảm bảo tốt hơn.&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p>&nbsp;</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/o_cung_ssd_teamgroup_cx2_256gb_2.5_inch_sata_iii_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n<h3><strong>5. &nbsp;CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;</strong></h3>\r\n<p>CARD M&Agrave;N H&Igrave;NH ZOTAC GAMING GeForce RTX 3050 Twin Edge OC&nbsp;&nbsp; l&agrave; một sản phẩm đ&aacute;ng ch&uacute; &yacute; trong ph&acirc;n kh&uacute;c card đồ họa tầm trung.Với kiến tr&uacute;c NVIDI Ampere mới nhất sử dụng chip đồ họa NVIDIA GeForce RTX 3050, c&oacute; khả năng xử l&yacute; đồ họa 3D mượt m&agrave;, hỗ trợ c&ocirc;ng nghệ ray tracing v&agrave; DLSS., RTX 3050 DUAL OC 6GB kết hợp hiệu suất nhiệt tối ưu với khả năng tương th&iacute;ch cao. Đ&acirc;y l&agrave; sự lựa chọn ho&agrave;n hảo cho những game thủ muốn c&oacute; hiệu suất đồ họa mạnh trong một cấu h&igrave;nh nhỏ gọn.</p>\r\n<p><img src=\"https://file.hstatic.net/1000288298/file/zt-a30500h-10m-image01_grande.jpg\"></p>\r\n<p>&nbsp;</p>\r\n</div>', 1, 2, 2, 2, 1, 36, 1, 'images/j5JJvaNXnBRTIfgbrRmbWho0NxKqoKzIwe2adQHH.jpg', '2025-06-20 21:23:29', '2025-06-20 21:23:29', NULL);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `sessions`
---
-
-CREATE TABLE `sessions` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` bigint UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_agent` text COLLATE utf8mb4_unicode_ci,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `sessions`
---
-
-INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('ZXUc5OvReLMdikKoHQrGCkyvg0KOrMQ7EnYqBZT1', 11, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZ0tGQ3FNODNrU0ltaURpcVFMWGc1U3VXMXltMWpqQ1hYVmNHOWt5OSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXJ0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTE7fQ==', 1750523637);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `thuong_hieus`
+-- Table structure for table `thuong_hieus`
 --
 
 CREATE TABLE `thuong_hieus` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `thuong_hieus`
+-- Dumping data for table `thuong_hieus`
 --
 
 INSERT INTO `thuong_hieus` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -735,55 +955,55 @@ INSERT INTO `thuong_hieus` (`id`, `ten`, `created_at`, `updated_at`, `deleted_at
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `ten_dang_nhap` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ten_dang_nhap` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ho_ten` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `so_dien_thoai` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `vai_tro` enum('khach_hang','quan_tri') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'khach_hang',
-  `trang_thai` enum('hoat_dong','vo_hieu','an') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hoat_dong',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ho_ten` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `so_dien_thoai` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vai_tro` enum('khach_hang','quan_tri') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'khach_hang',
+  `trang_thai` enum('hoat_dong','vo_hieu','an') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'hoat_dong',
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `ten_dang_nhap`, `email`, `email_verified_at`, `password`, `ho_ten`, `so_dien_thoai`, `vai_tro`, `trang_thai`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'user1', 'user1@example.com', '2025-06-20 21:17:36', '$2y$12$M82WNCPP82hVgCtKngUf1uy/6HDw0pXgyL0aRku5dloCRDgGj0goK', 'Dr. Javon Heathcote IV', '531.766.4545', 'khach_hang', 'hoat_dong', 'TIbuK8PcpQ', '2025-06-20 21:17:37', '2025-06-20 21:17:37', NULL),
-(2, 'user2', 'user2@example.com', '2025-06-20 21:17:37', '$2y$12$emEIcuv/a06Sh0DHAqD.gepPV18Cj3.CECXtHrO7rwOsAdTwazqTO', 'Noel Heller', '424-207-1098', 'quan_tri', 'vo_hieu', 'HTXCknuZvp', '2025-06-20 21:17:37', '2025-06-20 21:17:37', NULL),
-(3, 'user3', 'user3@example.com', '2025-06-20 21:17:37', '$2y$12$hgEGUO92hMKynRPYkmgTWOnj9mi/GTejv6Pkl3w5qIn52jOp5YZjm', 'Kellie Cole', '(331) 643-8718', 'quan_tri', 'hoat_dong', '1urfPSXX9L', '2025-06-20 21:17:37', '2025-06-20 21:17:37', NULL),
-(4, 'user4', 'user4@example.com', '2025-06-20 21:17:37', '$2y$12$V9XYKBokY2Vxket2GqDLPO1Q370baJxXkwyLHHivCs3mqC/Bs.m1q', 'Myron Jerde', '(480) 861-1938', 'khach_hang', 'hoat_dong', 'm09CR2rBj3', '2025-06-20 21:17:37', '2025-06-20 21:17:37', NULL),
-(5, 'user5', 'user5@example.com', '2025-06-20 21:17:37', '$2y$12$q0s5pPoEIX/80M7Rw7x9V.mGesTI32ycAV65mTMZfl50J8xmYIXKi', 'Christelle Kessler', '+1-646-844-1928', 'khach_hang', 'hoat_dong', 'hkHUzBuPSR', '2025-06-20 21:17:37', '2025-06-20 21:17:37', NULL),
-(6, 'user6', 'user6@example.com', '2025-06-20 21:17:37', '$2y$12$/f23bO9LjShISXS8P1z7YOPdfHTYARMTz0SGL9zBQ29Bkb5Zei.X6', 'Magdalena Jaskolski', '+1-641-433-5222', 'khach_hang', 'hoat_dong', '0XbsgQGexf', '2025-06-20 21:17:38', '2025-06-20 21:17:38', NULL),
-(7, 'user7', 'user7@example.com', '2025-06-20 21:17:38', '$2y$12$GK7IMaqc7c8rAWEq.uuEK.QSR6YLydhgCar5IhOe8md42Oax.qYaS', 'Irving Volkman', '+18205056253', 'khach_hang', 'vo_hieu', 'davdqIOB9d', '2025-06-20 21:17:38', '2025-06-20 21:17:38', NULL),
-(8, 'user8', 'user8@example.com', '2025-06-20 21:17:38', '$2y$12$LkXq7JKCinWQsnr2BTa.h.sXFu03vEtuBavYDouDNv6URupuapfqq', 'Hipolito Lakin', '202-327-6013', 'khach_hang', 'vo_hieu', 'rnZViImhFV', '2025-06-20 21:17:38', '2025-06-20 21:17:38', NULL),
-(9, 'user9', 'user9@example.com', '2025-06-20 21:17:38', '$2y$12$sVupVSeLGiXHNeOl3KbIA.ijGQPE8nk6IpMvUevvFs2FEcS2UWa/G', 'Eldora Green', '+1-828-854-1952', 'khach_hang', 'vo_hieu', '8Y0jYUT0E4', '2025-06-20 21:17:38', '2025-06-20 21:17:38', NULL),
-(10, 'user10', 'user10@example.com', '2025-06-20 21:17:38', '$2y$12$UIrTey5/nTcSPQXya/jt6ugXhn7nHKe7hOSCdMNIeKco16ji7IU.K', 'Alaina Cruickshank Jr.', '1-351-732-2295', 'quan_tri', 'vo_hieu', 'Dxh19IPWx9', '2025-06-20 21:17:39', '2025-06-20 21:17:39', NULL),
-(11, 'phong', 'phongtvph52541@gmail.com', NULL, '$2y$12$Kd3PHV7mJm09tpZIx0izWOX6qD7OxrJOFd1x2ZpIWva6qq3nkRh6O', 'Trần Văn Phong', '0325413923', 'quan_tri', 'hoat_dong', NULL, '2025-06-20 21:18:23', '2025-06-20 21:18:23', NULL);
+(11, 'phong', 'phongtvph52541@gmail.com', NULL, '$2y$12$Kd3PHV7mJm09tpZIx0izWOX6qD7OxrJOFd1x2ZpIWva6qq3nkRh6O', 'Trần Văn Phong', '0325413923', 'quan_tri', 'hoat_dong', NULL, '2025-06-20 21:18:23', '2025-06-20 21:18:23', NULL),
+(12, 'Nguyễn Danh Dũng', 'nguyendanhdung479@gmail.com', NULL, '$2y$12$YOP.JeySQGm2Iq5JyCrKjO./3nsy5tVUo83J9sbPR4hLYPBee9DdG', 'Nguyễn Danh Dũng', '0376536999', 'quan_tri', 'hoat_dong', NULL, '2025-06-23 07:01:12', '2025-06-26 11:10:14', NULL),
+(13, 'nguyen van b', 'bnv123@gmail.com', NULL, '$2y$12$j.qyRnI7SM7ESnLWDKZmceYIGmwWdKMPfDh1de9KaxImKAe8rSpdm', 'Nguyen Van A', '0353535355', 'quan_tri', 'hoat_dong', NULL, '2025-06-25 07:05:22', '2025-06-26 11:05:51', NULL),
+(14, 'ADMIN :)', 'longthph53584@gmail.com', NULL, '$2y$12$Cb/MWE7mhw6B.50CY/iqw.GoB.GeCAfchllnSLkoqJ2r3XLN46dpC', 'H L', '0379354599', 'quan_tri', 'hoat_dong', NULL, '2025-07-02 04:36:34', '2025-07-02 04:36:34', NULL);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `anh_san_phams`
+-- Indexes for table `anh_san_phams`
 --
 ALTER TABLE `anh_san_phams`
   ADD PRIMARY KEY (`id`),
   ADD KEY `anh_san_phams_id_product_foreign` (`id_product`);
 
 --
--- Chỉ mục cho bảng `bien_the_san_phams`
+-- Indexes for table `banners`
+--
+ALTER TABLE `banners`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bien_the_san_phams`
 --
 ALTER TABLE `bien_the_san_phams`
   ADD PRIMARY KEY (`id`),
@@ -793,25 +1013,31 @@ ALTER TABLE `bien_the_san_phams`
   ADD KEY `bien_the_san_phams_id_o_cung_foreign` (`id_o_cung`);
 
 --
--- Chỉ mục cho bảng `cache`
+-- Indexes for table `cache`
 --
 ALTER TABLE `cache`
   ADD PRIMARY KEY (`key`);
 
 --
--- Chỉ mục cho bảng `cache_locks`
+-- Indexes for table `cache_locks`
 --
 ALTER TABLE `cache_locks`
   ADD PRIMARY KEY (`key`);
 
 --
--- Chỉ mục cho bảng `chips`
+-- Indexes for table `cases`
+--
+ALTER TABLE `cases`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `chips`
 --
 ALTER TABLE `chips`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `chi_tiet_don_hangs`
+-- Indexes for table `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
   ADD PRIMARY KEY (`id`),
@@ -820,7 +1046,7 @@ ALTER TABLE `chi_tiet_don_hangs`
   ADD KEY `chi_tiet_don_hangs_id_product_foreign` (`id_product`);
 
 --
--- Chỉ mục cho bảng `chi_tiet_gio_hangs`
+-- Indexes for table `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
   ADD PRIMARY KEY (`id`),
@@ -829,7 +1055,7 @@ ALTER TABLE `chi_tiet_gio_hangs`
   ADD KEY `chi_tiet_gio_hangs_id_product_foreign` (`id_product`);
 
 --
--- Chỉ mục cho bảng `danh_gia_san_phams`
+-- Indexes for table `danh_gia_san_phams`
 --
 ALTER TABLE `danh_gia_san_phams`
   ADD PRIMARY KEY (`id`),
@@ -837,20 +1063,20 @@ ALTER TABLE `danh_gia_san_phams`
   ADD KEY `danh_gia_san_phams_id_user_foreign` (`id_user`);
 
 --
--- Chỉ mục cho bảng `danh_mucs`
+-- Indexes for table `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `dia_chi_nguoi_dungs`
+-- Indexes for table `dia_chi_nguoi_dungs`
 --
 ALTER TABLE `dia_chi_nguoi_dungs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `dia_chi_nguoi_dungs_id_user_foreign` (`id_user`);
 
 --
--- Chỉ mục cho bảng `don_hangs`
+-- Indexes for table `don_hangs`
 --
 ALTER TABLE `don_hangs`
   ADD PRIMARY KEY (`id`),
@@ -861,14 +1087,14 @@ ALTER TABLE `don_hangs`
   ADD KEY `don_hangs_id_ma_giam_gia_foreign` (`id_ma_giam_gia`);
 
 --
--- Chỉ mục cho bảng `failed_jobs`
+-- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
--- Chỉ mục cho bảng `gio_hangs`
+-- Indexes for table `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
   ADD PRIMARY KEY (`id`),
@@ -876,26 +1102,26 @@ ALTER TABLE `gio_hangs`
   ADD KEY `gio_hangs_id_giam_gia_foreign` (`id_giam_gia`);
 
 --
--- Chỉ mục cho bảng `gpus`
+-- Indexes for table `gpus`
 --
 ALTER TABLE `gpus`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `jobs`
+-- Indexes for table `jobs`
 --
 ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `jobs_queue_index` (`queue`);
 
 --
--- Chỉ mục cho bảng `job_batches`
+-- Indexes for table `job_batches`
 --
 ALTER TABLE `job_batches`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `lich_su_xems`
+-- Indexes for table `lich_su_xems`
 --
 ALTER TABLE `lich_su_xems`
   ADD PRIMARY KEY (`id`),
@@ -903,57 +1129,63 @@ ALTER TABLE `lich_su_xems`
   ADD KEY `lich_su_xems_id_product_foreign` (`id_product`);
 
 --
--- Chỉ mục cho bảng `mainboards`
+-- Indexes for table `mainboards`
 --
 ALTER TABLE `mainboards`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `ma_giam_gias`
+-- Indexes for table `ma_giam_gias`
 --
 ALTER TABLE `ma_giam_gias`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `ma_giam_gias_ma_unique` (`ma`);
 
 --
--- Chỉ mục cho bảng `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `nhat_ky_ton_khos`
+-- Indexes for table `nguons`
+--
+ALTER TABLE `nguons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `nhat_ky_ton_khos`
 --
 ALTER TABLE `nhat_ky_ton_khos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `nhat_ky_ton_khos_id_bien_the_foreign` (`id_bien_the`);
 
 --
--- Chỉ mục cho bảng `o_cungs`
+-- Indexes for table `o_cungs`
 --
 ALTER TABLE `o_cungs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `password_reset_tokens`
+-- Indexes for table `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
--- Chỉ mục cho bảng `phuong_thuc_thanh_toans`
+-- Indexes for table `phuong_thuc_thanh_toans`
 --
 ALTER TABLE `phuong_thuc_thanh_toans`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `rams`
+-- Indexes for table `rams`
 --
 ALTER TABLE `rams`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `san_phams`
+-- Indexes for table `san_phams`
 --
 ALTER TABLE `san_phams`
   ADD PRIMARY KEY (`id`),
@@ -965,7 +1197,7 @@ ALTER TABLE `san_phams`
   ADD KEY `san_phams_id_brand_foreign` (`id_brand`);
 
 --
--- Chỉ mục cho bảng `sessions`
+-- Indexes for table `sessions`
 --
 ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
@@ -973,13 +1205,19 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
--- Chỉ mục cho bảng `thuong_hieus`
+-- Indexes for table `tan_nhiets`
+--
+ALTER TABLE `tan_nhiets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `thuong_hieus`
 --
 ALTER TABLE `thuong_hieus`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -987,165 +1225,189 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `anh_san_phams`
+-- AUTO_INCREMENT for table `anh_san_phams`
 --
 ALTER TABLE `anh_san_phams`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `banners`
+--
+ALTER TABLE `banners`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `bien_the_san_phams`
+--
+ALTER TABLE `bien_the_san_phams`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `cases`
+--
+ALTER TABLE `cases`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `bien_the_san_phams`
---
-ALTER TABLE `bien_the_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT cho bảng `chips`
+-- AUTO_INCREMENT for table `chips`
 --
 ALTER TABLE `chips`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `chi_tiet_don_hangs`
+-- AUTO_INCREMENT for table `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT cho bảng `chi_tiet_gio_hangs`
+-- AUTO_INCREMENT for table `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT cho bảng `danh_gia_san_phams`
+-- AUTO_INCREMENT for table `danh_gia_san_phams`
 --
 ALTER TABLE `danh_gia_san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT cho bảng `danh_mucs`
+-- AUTO_INCREMENT for table `danh_mucs`
 --
 ALTER TABLE `danh_mucs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `dia_chi_nguoi_dungs`
+-- AUTO_INCREMENT for table `dia_chi_nguoi_dungs`
 --
 ALTER TABLE `dia_chi_nguoi_dungs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `don_hangs`
+-- AUTO_INCREMENT for table `don_hangs`
 --
 ALTER TABLE `don_hangs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT cho bảng `failed_jobs`
+-- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `gio_hangs`
+-- AUTO_INCREMENT for table `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `gpus`
+-- AUTO_INCREMENT for table `gpus`
 --
 ALTER TABLE `gpus`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `jobs`
+-- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `lich_su_xems`
+-- AUTO_INCREMENT for table `lich_su_xems`
 --
 ALTER TABLE `lich_su_xems`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `mainboards`
+-- AUTO_INCREMENT for table `mainboards`
 --
 ALTER TABLE `mainboards`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `ma_giam_gias`
+-- AUTO_INCREMENT for table `ma_giam_gias`
 --
 ALTER TABLE `ma_giam_gias`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT cho bảng `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
--- AUTO_INCREMENT cho bảng `nhat_ky_ton_khos`
+-- AUTO_INCREMENT for table `nguons`
+--
+ALTER TABLE `nguons`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `nhat_ky_ton_khos`
 --
 ALTER TABLE `nhat_ky_ton_khos`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `o_cungs`
+-- AUTO_INCREMENT for table `o_cungs`
 --
 ALTER TABLE `o_cungs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `phuong_thuc_thanh_toans`
+-- AUTO_INCREMENT for table `phuong_thuc_thanh_toans`
 --
 ALTER TABLE `phuong_thuc_thanh_toans`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `rams`
+-- AUTO_INCREMENT for table `rams`
 --
 ALTER TABLE `rams`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT cho bảng `san_phams`
+-- AUTO_INCREMENT for table `san_phams`
 --
 ALTER TABLE `san_phams`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT cho bảng `thuong_hieus`
+-- AUTO_INCREMENT for table `tan_nhiets`
+--
+ALTER TABLE `tan_nhiets`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `thuong_hieus`
 --
 ALTER TABLE `thuong_hieus`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT cho bảng `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
--- Các ràng buộc cho bảng `anh_san_phams`
+-- Constraints for table `anh_san_phams`
 --
 ALTER TABLE `anh_san_phams`
   ADD CONSTRAINT `anh_san_phams_id_product_foreign` FOREIGN KEY (`id_product`) REFERENCES `san_phams` (`id`);
 
 --
--- Các ràng buộc cho bảng `bien_the_san_phams`
+-- Constraints for table `bien_the_san_phams`
 --
 ALTER TABLE `bien_the_san_phams`
   ADD CONSTRAINT `bien_the_san_phams_id_o_cung_foreign` FOREIGN KEY (`id_o_cung`) REFERENCES `o_cungs` (`id`),
@@ -1153,7 +1415,7 @@ ALTER TABLE `bien_the_san_phams`
   ADD CONSTRAINT `bien_the_san_phams_id_ram_foreign` FOREIGN KEY (`id_ram`) REFERENCES `rams` (`id`);
 
 --
--- Các ràng buộc cho bảng `chi_tiet_don_hangs`
+-- Constraints for table `chi_tiet_don_hangs`
 --
 ALTER TABLE `chi_tiet_don_hangs`
   ADD CONSTRAINT `chi_tiet_don_hangs_id_bien_the_foreign` FOREIGN KEY (`id_bien_the`) REFERENCES `bien_the_san_phams` (`id`),
@@ -1161,7 +1423,7 @@ ALTER TABLE `chi_tiet_don_hangs`
   ADD CONSTRAINT `chi_tiet_don_hangs_id_product_foreign` FOREIGN KEY (`id_product`) REFERENCES `san_phams` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `chi_tiet_gio_hangs`
+-- Constraints for table `chi_tiet_gio_hangs`
 --
 ALTER TABLE `chi_tiet_gio_hangs`
   ADD CONSTRAINT `chi_tiet_gio_hangs_id_bien_the_foreign` FOREIGN KEY (`id_bien_the`) REFERENCES `bien_the_san_phams` (`id`),
@@ -1169,20 +1431,20 @@ ALTER TABLE `chi_tiet_gio_hangs`
   ADD CONSTRAINT `chi_tiet_gio_hangs_id_product_foreign` FOREIGN KEY (`id_product`) REFERENCES `san_phams` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `danh_gia_san_phams`
+-- Constraints for table `danh_gia_san_phams`
 --
 ALTER TABLE `danh_gia_san_phams`
   ADD CONSTRAINT `danh_gia_san_phams_id_product_foreign` FOREIGN KEY (`id_product`) REFERENCES `san_phams` (`id`),
   ADD CONSTRAINT `danh_gia_san_phams_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Các ràng buộc cho bảng `dia_chi_nguoi_dungs`
+-- Constraints for table `dia_chi_nguoi_dungs`
 --
 ALTER TABLE `dia_chi_nguoi_dungs`
   ADD CONSTRAINT `dia_chi_nguoi_dungs_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `don_hangs`
+-- Constraints for table `don_hangs`
 --
 ALTER TABLE `don_hangs`
   ADD CONSTRAINT `don_hangs_id_dia_chi_nguoi_dungs_foreign` FOREIGN KEY (`id_dia_chi_nguoi_dungs`) REFERENCES `dia_chi_nguoi_dungs` (`id`),
@@ -1191,27 +1453,27 @@ ALTER TABLE `don_hangs`
   ADD CONSTRAINT `don_hangs_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Các ràng buộc cho bảng `gio_hangs`
+-- Constraints for table `gio_hangs`
 --
 ALTER TABLE `gio_hangs`
   ADD CONSTRAINT `gio_hangs_id_giam_gia_foreign` FOREIGN KEY (`id_giam_gia`) REFERENCES `ma_giam_gias` (`id`),
   ADD CONSTRAINT `gio_hangs_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Các ràng buộc cho bảng `lich_su_xems`
+-- Constraints for table `lich_su_xems`
 --
 ALTER TABLE `lich_su_xems`
   ADD CONSTRAINT `lich_su_xems_id_product_foreign` FOREIGN KEY (`id_product`) REFERENCES `san_phams` (`id`),
   ADD CONSTRAINT `lich_su_xems_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
--- Các ràng buộc cho bảng `nhat_ky_ton_khos`
+-- Constraints for table `nhat_ky_ton_khos`
 --
 ALTER TABLE `nhat_ky_ton_khos`
   ADD CONSTRAINT `nhat_ky_ton_khos_id_bien_the_foreign` FOREIGN KEY (`id_bien_the`) REFERENCES `bien_the_san_phams` (`id`);
 
 --
--- Các ràng buộc cho bảng `san_phams`
+-- Constraints for table `san_phams`
 --
 ALTER TABLE `san_phams`
   ADD CONSTRAINT `san_phams_id_brand_foreign` FOREIGN KEY (`id_brand`) REFERENCES `thuong_hieus` (`id`),

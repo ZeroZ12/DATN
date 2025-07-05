@@ -12,7 +12,7 @@
                 <li><strong>ID:</strong> {{ $ram->id }}</li>
                 <li><strong>Dung lượng:</strong> {{ $ram->dung_luong }}</li>
                 <li><strong>Giá:</strong> {{ number_format($ram->gia ?? '—') }} đ</li>
-                <li><strong>Giá Sale:</strong> {{ number_format($ram->gia_sale ?? '—') }} đ</li>
+                <li><strong>Giá Sale:</strong> {{ number_format((float)$ram->gia_sale ?? '—') }} đ</li>
                 <li><strong>Mô tả:</strong> {!! $ram->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $ram->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $ram->updated_at->format('d/m/Y H:i') }}</li>
