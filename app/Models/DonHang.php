@@ -44,6 +44,7 @@ class DonHang extends Model
         'giao_that_bai',
         'hoan_thanh',
         'da_huy',
+        'yeu_cau_hoan_tra',
         'da_hoan_tien'
     ];
 
@@ -62,6 +63,7 @@ class DonHang extends Model
             'giao_that_bai' => 'Giao thất bại',
             'hoan_thanh' => 'Hoàn thành',
             'da_huy' => 'Đã hủy',
+            'yeu_cau_hoan_tra' => 'Yêu cầu hoàn trả',
             'da_hoan_tien' => 'Đã hoàn tiền',
         ];
 

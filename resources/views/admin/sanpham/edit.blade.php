@@ -62,7 +62,7 @@
                 @enderror
             </div>
 
-            <div class="row mb-3">
+            <div class="row mb-3 variant-section">
                 <div class="col">
                     <label>Chip</label>
                     <select name="id_chip" class="form-select">
@@ -243,7 +243,7 @@
                     @enderror
                 </div>
                 <div class="form-group mb-3">
-                    <label for="gia_so_sanh">Giá so sánh</label>
+                    <label for="gia_so_sanh">Giá gốc</label>
                     <input type="number" name="gia_so_sanh" class="form-control" step="0.01" min="0"
                         value="{{ old('gia_so_sanh', $sanpham->gia_so_sanh) }}">
                     @error('gia_so_sanh')
@@ -293,7 +293,7 @@
                         <label>Tổng giá PC: <span id="tong-gia-linh-kien" class="fw-bold text-danger">0</span> đ</label>
                     </div>
                     <div class="col-md-4">
-                        <label>Giá so sánh áp dụng</label>
+                        <label>Giá gốc áp dụng</label>
                         <input type="number" step="0.01" id="global-price-compare" class="form-control">
                     </div>
                 </div>
@@ -305,7 +305,7 @@
                             <th>RAM</th>
                             <th>Ổ Cứng</th>
                             <th>Giá</th>
-                            <th>Giá So Sánh</th>
+                            <th>Giá Gốc</th>
                             <th>Tồn Kho</th>
                             <th>Xóa</th>
                         </tr>

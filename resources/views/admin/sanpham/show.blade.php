@@ -87,7 +87,7 @@
                             <td>{{ number_format($sanpham->gia) }} đ</td>
                         </tr>
                         <tr>
-                            <th>Giá so sánh</th>
+                            <th>Giá gốc</th>
                             <td>{{ $sanpham->gia_so_sanh ? number_format($sanpham->gia_so_sanh) . ' đ' : 'N/A' }}</td>
                         </tr>
                         <tr>
@@ -133,7 +133,7 @@
                                 <th>RAM</th>
                                 <th>Ổ Cứng</th>
                                 <th>Giá</th>
-                                <th>Giá So Sánh</th>
+                                <th>Giá Gốc</th>
                                 <th>Tồn Kho</th>
                             </tr>
                         </thead>

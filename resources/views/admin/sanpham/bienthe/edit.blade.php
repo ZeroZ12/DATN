@@ -82,7 +82,7 @@
             </div>
 
             <div class="form-group mb-3">
-                <label for="gia_so_sanh">Giá so sánh (tùy chọn)</label>
+                <label for="gia_so_sanh">Giá gốc (tùy chọn)</label>
                 <input type="number" step="0.01" name="gia_so_sanh" id="gia_so_sanh" class="form-control"
                     value="{{ old('gia_so_sanh', $bienthe->gia_so_sanh) }}">
                 @error('gia_so_sanh')

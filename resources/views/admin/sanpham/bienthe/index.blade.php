@@ -30,7 +30,7 @@
                         <th class="col-text">RAM</th>
                         <th class="col-text">Ổ cứng</th>
                         <th class="col-gia">Giá</th>
-                        <th class="col-gia">Giá so sánh</th>
+                        <th class="col-gia">Giá gốc</th>
                         <th class="col-tonkho">Tồn kho</th>
                         <th class="col-img">Ảnh đại diện</th>
                         <th class="col-action">Hành động</th>

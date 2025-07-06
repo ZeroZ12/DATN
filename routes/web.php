@@ -76,7 +76,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         Route::get('/create', [BannerController::class, 'create'])->name('create');
         Route::post('/', [BannerController::class, 'store'])->name('store');
         Route::get('/show/{id}', [BannerController::class, 'show'])->name('show');
-    
+
         Route::get('edit/{id}', [BannerController::class, 'edit'])->name('edit');
         Route::put('update/{id}', [BannerController::class, 'update'])->name('update');
         Route::delete('destroy/{id}', [BannerController::class, 'destroy'])->name('destroy');
@@ -245,7 +245,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
     //Đơn hàng
       Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
-    Route::get('don-hang/{id}', [DonHangController::class, 'show'])->name('don-hang.show');
+    Route::get('don-hang/{id}', action: [DonHangController::class, 'show'])->name('don-hang.show');
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
 });
 

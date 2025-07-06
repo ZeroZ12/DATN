@@ -95,6 +95,7 @@
 .status-giao_that_bai { background: #dc3545; }
 .status-hoan_thanh { background: #28a745; }
 .status-da_huy { background: #dc3545; }
+.status-yeu_cau_hoan_tra { background: #42463d; }
 .status-da_hoan_tien { background: #343a40; }
 
 .status-select {

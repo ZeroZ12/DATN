@@ -102,6 +102,21 @@
                                         <button class="btn-view btn-danger">Thất bại</button>
                                     </form>
 
+                                @elseif ($trangThai === 'yeu_cau_hoan_tra')
+                                    <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="trang_thai" value="da_hoan_tien">
+                                        <button class="btn-view btn-success">Hoàn tiền</button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
+                                        class="d-inline">
+                                        @csrf
+                                        <input type="hidden" name="trang_thai" value="da_huy">
+                                        <button class="btn-view btn-danger">Hủy</button>
+                                    </form>
+
 
                                 @endif
                             </td>
@@ -222,6 +237,10 @@
 
         .status-da_huy {
             background: #dc3545;
+        }
+
+        .status-yeu_cau_hoan_tra {
+            background: #42463d;
         }
 
         .status-da_hoan_tien {
