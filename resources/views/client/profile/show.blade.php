@@ -1,6 +1,11 @@
 {{-- resources/views/client/profile/show.blade.php --}}
 @extends('client.layouts.app')
-
+{{-- @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif --}}
 @section('content')
     <div class="container py-4">
         <div class="row justify-content-center">
@@ -120,11 +125,57 @@
                                                 <span class="badge bg-secondary">Không xác định</span>
                                         @endswitch
                                     </p>
+                                    <p><strong>Thao tác:</strong>
+                                        @if (in_array($selectedDonHang->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan','chuan_bi_hang']))
+                                        <form action="{{ route('client.orders.cancel', $selectedDonHang->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
+                                                <i class="fas fa-times"></i>Hủy đơn hàng
+                                            </button>
+                                        </form>
+                                        @endif
+                                        @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && \Carbon\Carbon::parse($selectedDonHang->created_at)->diffInDays(now()) <= 7)
+                                            <form action="{{ route('client.orders.return', $selectedDonHang->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('POST')
+                                                <button type="submit" class="btn btn-sm btn-outline-warning"
+                                                    onclick="return confirm('Bạn muốn hoàn trả đơn hàng này?')">
+                                                    <i class="fas fa-undo"></i> Hoàn trả hàng
+                                                </button>
+                                            </form>
+                                        @endif
+                                        
+                                    </p>
+                                    <p>
+                                        <strong>Phương thức thanh toán:</strong>
+                                        @switch($selectedDonHang->phuong_thuc_thanh_toan)
+                                            @case('tien_mat')
+                                                Tiền mặt (COD)
+                                            @break
+                                            @case('chuyen_khoan')
+                                                Chuyển khoản
+                                            @break
+                                            @case('momo')
+                                                Momo
+                                            @break
+                                            @case('zalopay')
+                                                ZaloPay
+                                            @break
+                                            @case('the_tin_dung')
+                                                Thẻ tín dụng	
+                                            @break
+                                            @default
+                                                <span class="text-muted">Không xác định</span>      
+                                        @endswitch
+                                    </p>
                                     <h6>Chi tiết sản phẩm</h6>
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Sản phẩm</th>
+                                                <th>Ảnh</th>
                                                 <th>Số lượng</th>
                                                 <th>Giá</th>
                                             </tr>
@@ -135,14 +186,22 @@
                                                     <td>
                                                         {{ $chiTiet->ten_san_pham_tai_thoi_diem ?? ($chiTiet->sanPham->ten_san_pham ?? 'Sản phẩm không xác định') }}
                                                     </td>
+                                                    <td>
+                                                        @if ($chiTiet->sanPham->hinh_anh)
+                                                            <img src="{{ asset('storage/' . $chiTiet->sanPham->hinh_anh) }}"
+                                                                alt="{{ $chiTiet->ten_san_pham_tai_thoi_diem }}"
+                                                                class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                        @else
+                                                            <span class="text-muted">Không có hình ảnh</span>
+                                                        @endif
+                                                    </td>
                                                     <td>{{ $chiTiet->so_luong }}</td>
                                                     <td>{{ number_format($chiTiet->don_gia, 0, ',', '.') }} VNĐ</td>
                                                 </tr>
                                             @endforeach
-
-
                                         </tbody>
                                     </table>
+                                    
                                     <a href="{{ route('client.profile.show', ['tab' => 'orders']) }}"
                                         class="btn btn-primary btn-sm">Quay lại danh sách</a>
                                 @else

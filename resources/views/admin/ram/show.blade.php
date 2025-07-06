@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4">Chi tiết RAM: {{ $ram->dung_luong }}</h2>
+        <h2 class="mb-4">Chi tiết RAM: {{ is_object($ram) ? $ram->dung_luong : 'N/A' }}</h2>
 
         <div class="card p-4">
             <h5 class="mb-3">Thông tin chi tiết</h5>

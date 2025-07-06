@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('chi_tiet_don_hangs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_don_hang')->constrained('don_hangs');
+            $table->string('ten_san_pham_tai_thoi_diem')->nullable();
+
             $table->foreignId('id_bien_the')->nullable()->constrained('bien_the_san_phams');
             $table->string('ten_hien_thi', 255);
             $table->integer('so_luong');

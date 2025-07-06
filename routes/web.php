@@ -264,9 +264,12 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
 
     Route::get('/Table-orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
+    Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/return/{id}', [OrderController::class, 'return'])->name('orders.return');
 
-    Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
+    Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
     Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
     // Route để xóa đánh giá (sử dụng DELETE)
     Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
@@ -319,7 +322,6 @@ Route::get('/payment-success/{id}', function($id) {
 Route::get('/payment-fail/{id}', function($id) {
     return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
 })->name('client.payment.fail');
-
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');

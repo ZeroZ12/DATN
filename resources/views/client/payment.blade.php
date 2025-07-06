@@ -14,7 +14,7 @@
                             <i class="fas fa-check-circle"></i>
                             Đặt hàng thành công!
                         </h4>
-                        <p class="text-muted">Vui lòng chọn phương thức thanh toán phù hợp</p>
+                        {{-- <p class="text-muted">Vui lòng chọn phương thức thanh toán phù hợp</p> --}}
                     </div>
 
                     @if($donHang->phuongThucThanhToan->id === 2)
