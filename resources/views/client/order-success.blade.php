@@ -51,7 +51,11 @@
                                     <tr>
                                         <td>Phương thức thanh toán:</td>
                                         <td class="text-end">
-                                            {{ $donHang->phuongThucThanhToan->ten }}
+                                            @if($donHang->phuongThucThanhToan)
+                                                {{ $donHang->phuongThucThanhToan->ten }}
+                                            @else
+                                                <span class="text-muted">Không xác định</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 </tbody>

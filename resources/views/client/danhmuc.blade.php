@@ -149,7 +149,8 @@
 
               <div class="product-image">
                 <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                     alt="{{ $sp->ten }}">
+                     alt="{{ $sp->ten }}"
+                     onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
               </div>
 
               <div class="product-info">

@@ -97,28 +97,36 @@
                                                 <span class="badge bg-info">Chờ thanh toán</span>
                                             @break
 
-                                            @case('chuan_bi_hang')
-                                                <span class="badge bg-warning">Chuẩn bị hàng</span>
-                                            @break
-
-                                            @case('dang_giao')
-                                                <span class="badge bg-primary">Đang giao</span>
-                                            @break
-
-                                            @case('da_giao')
-                                                <span class="badge bg-success">Đã giao</span>
-                                            @break
-
-                                            @case('da_huy')
-                                                <span class="badge bg-danger">Đã hủy</span>
-                                            @break
-
                                             @case('da_xac_nhan')
                                                 <span class="badge bg-success">Đã xác nhận</span>
                                             @break
 
+                                            @case('chuan_bi_hang')
+                                                <span class="badge bg-warning">Chuẩn bị hàng</span>
+                                            @break
+
+                                            @case('dang_giao_hang')
+                                                <span class="badge bg-primary">Đang giao hàng</span>
+                                            @break
+
                                             @case('giao_thanh_cong')
                                                 <span class="badge bg-success">Giao thành công</span>
+                                            @break
+
+                                            @case('giao_that_bai')
+                                                <span class="badge bg-danger">Giao thất bại</span>
+                                            @break
+
+                                            @case('hoan_thanh')
+                                                <span class="badge bg-success">Hoàn thành</span>
+                                            @break
+
+                                            @case('da_hoan_tien')
+                                                <span class="badge bg-info">Đã hoàn tiền</span>
+                                            @break
+
+                                            @case('da_huy')
+                                                <span class="badge bg-danger">Đã hủy</span>
                                             @break
 
                                             @default
@@ -146,29 +154,15 @@
                                                 </button>
                                             </form>
                                         @endif
-                                        
+
                                     </p>
                                     <p>
                                         <strong>Phương thức thanh toán:</strong>
-                                        @switch($selectedDonHang->phuong_thuc_thanh_toan)
-                                            @case('tien_mat')
-                                                Tiền mặt (COD)
-                                            @break
-                                            @case('chuyen_khoan')
-                                                Chuyển khoản
-                                            @break
-                                            @case('momo')
-                                                Momo
-                                            @break
-                                            @case('zalopay')
-                                                ZaloPay
-                                            @break
-                                            @case('the_tin_dung')
-                                                Thẻ tín dụng	
-                                            @break
-                                            @default
-                                                <span class="text-muted">Không xác định</span>      
-                                        @endswitch
+                                        @if($selectedDonHang->phuongThucThanhToan)
+                                            {{ $selectedDonHang->phuongThucThanhToan->ten }}
+                                        @else
+                                            <span class="text-muted">Không xác định</span>
+                                        @endif
                                     </p>
                                     <h6>Chi tiết sản phẩm</h6>
                                     <table class="table table-striped">
@@ -184,13 +178,28 @@
                                             @foreach ($selectedDonHang->chiTietDonHangs as $chiTiet)
                                                 <tr>
                                                     <td>
-                                                        {{ $chiTiet->ten_san_pham_tai_thoi_diem ?? ($chiTiet->sanPham->ten_san_pham ?? 'Sản phẩm không xác định') }}
+                                                        {{ $chiTiet->ten_san_pham_tai_thoi_diem ?? ($chiTiet->sanPham->ten ?? 'Sản phẩm không xác định') }}
+                                                        @if($chiTiet->bienTheSanPham)
+                                                            <br>
+                                                            <small class="text-muted">
+                                                                @if($chiTiet->bienTheSanPham->ram)
+                                                                    RAM: {{ $chiTiet->bienTheSanPham->ram->dung_luong }}
+                                                                @endif
+                                                                @if($chiTiet->bienTheSanPham->ram && $chiTiet->bienTheSanPham->oCung)
+                                                                    |
+                                                                @endif
+                                                                @if($chiTiet->bienTheSanPham->oCung)
+                                                                    Ổ cứng: {{ $chiTiet->bienTheSanPham->oCung->dung_luong }}
+                                                                @endif
+                                                            </small>
+                                                        @endif
                                                     </td>
                                                     <td>
-                                                        @if ($chiTiet->sanPham->hinh_anh)
-                                                            <img src="{{ asset('storage/' . $chiTiet->sanPham->hinh_anh) }}"
+                                                        @if ($chiTiet->sanPham->anh_dai_dien)
+                                                            <img src="{{ asset('storage/' . $chiTiet->sanPham->anh_dai_dien) }}"
                                                                 alt="{{ $chiTiet->ten_san_pham_tai_thoi_diem }}"
-                                                                class="img-thumbnail" style="width: 50px; height: 50px;">
+                                                                class="img-thumbnail" style="width: 50px; height: 50px;"
+                                                                onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                                                         @else
                                                             <span class="text-muted">Không có hình ảnh</span>
                                                         @endif
@@ -201,7 +210,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    
+
                                     <a href="{{ route('client.profile.show', ['tab' => 'orders']) }}"
                                         class="btn btn-primary btn-sm">Quay lại danh sách</a>
                                 @else
@@ -215,6 +224,7 @@
                                                     <th>Mã đơn hàng</th>
                                                     <th>Ngày đặt</th>
                                                     <th>Tổng tiền</th>
+                                                    <th>Phương thức thanh toán</th>
                                                     <th>Trạng thái</th>
                                                     <th>Hành động</th>
                                                 </tr>
@@ -226,6 +236,13 @@
                                                         <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
                                                         <td>{{ number_format($order->tong_tien, 0, ',', '.') }} VNĐ</td>
                                                         <td>
+                                                            @if($order->phuongThucThanhToan)
+                                                                {{ $order->phuongThucThanhToan->ten }}
+                                                            @else
+                                                                <span class="text-muted">Không xác định</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
                                                             @switch($order->trang_thai)
                                                                 @case('cho_xac_nhan')
                                                                     <span class="badge bg-secondary">Chờ xác nhận</span>
@@ -235,28 +252,36 @@
                                                                     <span class="badge bg-info">Chờ thanh toán</span>
                                                                 @break
 
-                                                                @case('chuan_bi_hang')
-                                                                    <span class="badge bg-warning">Chuẩn bị hàng</span>
-                                                                @break
-
-                                                                @case('dang_giao')
-                                                                    <span class="badge bg-primary">Đang giao</span>
-                                                                @break
-
-                                                                @case('da_giao')
-                                                                    <span class="badge bg-success">Đã giao</span>
-                                                                @break
-
-                                                                @case('da_huy')
-                                                                    <span class="badge bg-danger">Đã hủy</span>
-                                                                @break
-
                                                                 @case('da_xac_nhan')
                                                                     <span class="badge bg-success">Đã xác nhận</span>
                                                                 @break
 
+                                                                @case('chuan_bi_hang')
+                                                                    <span class="badge bg-warning">Chuẩn bị hàng</span>
+                                                                @break
+
+                                                                @case('dang_giao_hang')
+                                                                    <span class="badge bg-primary">Đang giao hàng</span>
+                                                                @break
+
                                                                 @case('giao_thanh_cong')
                                                                     <span class="badge bg-success">Giao thành công</span>
+                                                                @break
+
+                                                                @case('giao_that_bai')
+                                                                    <span class="badge bg-danger">Giao thất bại</span>
+                                                                @break
+
+                                                                @case('hoan_thanh')
+                                                                    <span class="badge bg-success">Hoàn thành</span>
+                                                                @break
+
+                                                                @case('da_hoan_tien')
+                                                                    <span class="badge bg-info">Đã hoàn tiền</span>
+                                                                @break
+
+                                                                @case('da_huy')
+                                                                    <span class="badge bg-danger">Đã hủy</span>
                                                                 @break
 
                                                                 @default

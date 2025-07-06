@@ -16,13 +16,13 @@
 
     @if($gioHang->chiTietGioHangs->count() > 0)
       @foreach($gioHang->chiTietGioHangs as $item)
-      <div class="cart-item" data-item-id="{{ $item->id }}" data-stock="{{ $item->bienThe->ton_kho ?? 0 }}">
-        <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}">
+      <div class="cart-item" data-item-id="{{ $item->id }}" data-stock="{{ $item->bienTheSanPham->ton_kho ?? 0 }}">
+        <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
           @php
-            $ram = isset($item->bienThe->ram) && $item->bienThe->ram ? 'RAM: ' . $item->bienThe->ram->dung_luong : null;
-            $ssd = isset($item->bienThe->oCung) && $item->bienThe->oCung ? 'SSD: ' . $item->bienThe->oCung->loai . ' ' . $item->bienThe->oCung->dung_luong : null;
+            $ram = isset($item->bienTheSanPham->ram) && $item->bienTheSanPham->ram ? 'RAM: ' . $item->bienTheSanPham->ram->dung_luong : null;
+            $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'SSD: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
           @endphp
           @if($ram || $ssd)
             <div class="text-muted small">
@@ -39,9 +39,9 @@
           </div>
         </div>
         <div class="text-end">
-          <div class="cart-item-price">{{ number_format($item->bienThe->gia ?? $item->sanPham->gia) }}₫</div>
-          @if(($item->bienThe->gia_so_sanh ?? $item->sanPham->gia_so_sanh) > ($item->bienThe->gia ?? $item->sanPham->gia))
-            <div class="cart-item-old">{{ number_format($item->bienThe->gia_so_sanh ?? $item->sanPham->gia_so_sanh) }}₫</div>
+          <div class="cart-item-price">{{ number_format($item->bienTheSanPham->gia ?? $item->sanPham->gia) }}₫</div>
+          @if(($item->bienTheSanPham->gia_so_sanh ?? $item->sanPham->gia_so_sanh) > ($item->bienTheSanPham->gia ?? $item->sanPham->gia))
+            <div class="cart-item-old">{{ number_format($item->bienTheSanPham->gia_so_sanh ?? $item->sanPham->gia_so_sanh) }}₫</div>
           @endif
         </div>
       </div>

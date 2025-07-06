@@ -117,7 +117,8 @@
                                         // dd($sp);
                                     @endphp
                                     <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                                        alt="{{ $sp->ten }}">
+                                        alt="{{ $sp->ten }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                                 </div>
                                 <div class="product-info">
                                     <h3 class="product-title">{{ $sp->ten }}</h3>

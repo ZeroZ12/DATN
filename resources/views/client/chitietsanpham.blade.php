@@ -709,8 +709,8 @@
                     <ul class="list-unstyled">
                         <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Tùy chọn' }}</li>
                         <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Tùy chọn' }}</li>
-                        <li><strong>RAM:</strong> {{ $sanpham->ram->dung_luong ?? 'Tùy chọn' }}</li>
-                        <li><strong>SSD:</strong> {{ $sanpham->ssd->dung_luong ?? 'Tùy chọn' }}</li>
+                        <li><strong>RAM:</strong> Tùy chọn</li>
+                        <li><strong>SSD:</strong> Tùy chọn</li>
                         <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
                     </ul>
                 </div>
@@ -881,7 +881,8 @@
                         </div>
                         <div class="product-image">
                             <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                                alt="{{ $sp->ten }}">
+                                alt="{{ $sp->ten }}"
+                                onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">{{ $sp->ten }}</h3>

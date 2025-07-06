@@ -12,16 +12,17 @@
                 <div class="card-body">
                     @foreach($chiTietGioHang as $item)
                     <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                        <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}"
+                        <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}"
                              alt="{{ $item->sanPham->ten }}"
                              class="img-thumbnail"
-                             style="width: 80px; height: 80px; object-fit: cover;">
+                             style="width: 80px; height: 80px; object-fit: cover;"
+                             onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         <div class="ms-3 flex-grow-1">
                             <h6 class="mb-1">{{ $item->sanPham->ten }}</h6>
                             <p class="mb-1 text-muted small">
-                                @if($item->bienThe)
-                                    RAM: {{ $item->bienThe->ram->dung_luong ?? 'N/A' }} |
-                                    Ổ cứng: {{ $item->bienThe->oCung->dung_luong ?? 'N/A' }}
+                                @if($item->bienTheSanPham)
+                                    RAM: {{ $item->bienTheSanPham->ram->dung_luong ?? 'N/A' }} |
+                                    Ổ cứng: {{ $item->bienTheSanPham->oCung->dung_luong ?? 'N/A' }}
                                 @endif
                             </p>
                             <div class="d-flex justify-content-between align-items-center">

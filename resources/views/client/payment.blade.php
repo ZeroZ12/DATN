@@ -17,7 +17,7 @@
                         {{-- <p class="text-muted">Vui lòng chọn phương thức thanh toán phù hợp</p> --}}
                     </div>
 
-                    @if($donHang->phuongThucThanhToan->id === 2)
+                    @if($donHang->phuongThucThanhToan && $donHang->phuongThucThanhToan->id === 2)
                     <div class="payment-method mb-4">
                         <h6 class="mb-3">Thông tin chuyển khoản</h6>
                         <div class="bank-info p-3 bg-light rounded">
@@ -28,7 +28,7 @@
                             <p class="mb-0"><strong>Nội dung chuyển khoản:</strong> THANHTOAN {{ $donHang->id }}</p>
                         </div>
                     </div>
-                    @elseif($donHang->phuongThucThanhToan->id === 3)
+                    @elseif($donHang->phuongThucThanhToan && $donHang->phuongThucThanhToan->id === 3)
                     <div class="payment-method mb-4">
                         <h6 class="mb-3">Thanh toán qua MoMo</h6>
                         <div class="text-center">
@@ -36,7 +36,7 @@
                             <p class="text-muted">Quét mã QR để thanh toán</p>
                         </div>
                     </div>
-                    @elseif($donHang->phuongThucThanhToan->id === 4)
+                    @elseif($donHang->phuongThucThanhToan && $donHang->phuongThucThanhToan->id === 4)
                     <div class="payment-method mb-4">
                         <h6 class="mb-3">Thanh toán qua thẻ tín dụng</h6>
                         <div class="text-center">
@@ -72,12 +72,13 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="flex-shrink-0 me-3">
                                                     <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien ?? 'images/no-image.png')) }}"
-                                                         alt="{{ $item->ten_hien_thi }}"
+                                                         alt="{{ $item->ten_hien_thi ?? ($item->sanPham->ten ?? 'Sản phẩm không xác định') }}"
                                                          class="img-thumbnail"
-                                                         style="width: 50px; height: 50px; object-fit: cover;">
+                                                         style="width: 50px; height: 50px; object-fit: cover;"
+                                                         onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="mb-0">{{ $item->ten_hien_thi }}</h6>
+                                                    <h6 class="mb-0">{{ $item->ten_hien_thi ?? ($item->sanPham->ten ?? 'Sản phẩm không xác định') }}</h6>
                                                     @if($item->bienTheSanPham)
                                                     <small class="text-muted">
                                                         RAM: {{ $item->bienTheSanPham->ram->dung_luong ?? 'N/A' }} |
@@ -136,7 +137,11 @@
                                     <tr>
                                         <td>Phương thức thanh toán:</td>
                                         <td class="text-end">
-                                            {{ $donHang->phuongThucThanhToan->ten }}
+                                            @if($donHang->phuongThucThanhToan)
+                                                {{ $donHang->phuongThucThanhToan->ten }}
+                                            @else
+                                                <span class="text-muted">Không xác định</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 </tbody>
