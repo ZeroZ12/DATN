@@ -82,6 +82,7 @@ class OrderController extends Controller
             'donHangs' => $donHangs,
             'user' => $user,
             'selectedDonHang' => $selectedDonHang,
+            'activeTab' => 'orders',
         ]);
     }
     public function return($id)
@@ -89,16 +90,20 @@ class OrderController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $order = $user->donHangs()->where('id', $id)->firstOrFail();
-        
+
         // Kiểm tra trạng thái đơn hàng có phải là giao hàng thành công hay không và Chỉ cho phép hoàn trả khi trạng thái phù hợp và trong 7 ngày
-        if ($order->trang_thai == 'giao_thanh_cong' && 
+        if ($order->trang_thai == 'giao_thanh_cong' &&
             \Carbon\Carbon::parse($order->created_at)->diffInDays(now()) <= 7
         ) {
             $order->trang_thai = 'yeu_cau_hoan_tra';
             $order->save();
-            return redirect()->route('client.orders.show', $order->id)->with('success', 'Yêu cầu hoàn trả đã được gửi.');
+            return redirect()->route('client.orders.show', $order->id)
+                ->with('success', 'Yêu cầu hoàn trả đã được gửi.')
+                ->with('activeTab', 'orders');
         }
-            return redirect()->route('client.orders.show', $order->id)->with('error', 'Không thể hoàn trả đơn hàng này.');
+            return redirect()->route('client.orders.show', $order->id)
+                ->with('error', 'Không thể hoàn trả đơn hàng này.')
+                ->with('activeTab', 'orders');
     }
 
     public function cancel($id)
@@ -111,8 +116,12 @@ class OrderController extends Controller
     if (in_array($order->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan', 'chuan_bi_hang'])) {
         $order->trang_thai = 'da_huy';
         $order->save();
-        return redirect()->route('client.orders.show', $order->id)->with('success', 'Đơn hàng đã được hủy thành công.');
+        return redirect()->route('client.orders.show', $order->id)
+            ->with('success', 'Đơn hàng đã được hủy thành công.')
+            ->with('activeTab', 'orders');
     }
-        return redirect()->route('client.orders.show', $order->id)->with('error', 'Không thể hủy đơn hàng ở trạng thái hiện tại.');
+        return redirect()->route('client.orders.show', $order->id)
+            ->with('error', 'Không thể hủy đơn hàng ở trạng thái hiện tại.')
+            ->with('activeTab', 'orders');
     }
 }

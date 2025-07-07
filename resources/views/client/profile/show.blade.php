@@ -13,22 +13,21 @@
                 {{-- Các tab điều hướng --}}
                 <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="personal-info-tab" data-bs-toggle="tab"
+                        <button class="nav-link {{ (session('activeTab', $activeTab ?? 'personal-info') == 'personal-info') ? 'active' : '' }}" id="personal-info-tab" data-bs-toggle="tab"
                             data-bs-target="#personal-info" type="button" role="tab" aria-controls="personal-info"
                             aria-selected="true">Thông tin cá nhân</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-update"
-                            type="button" role="tab" aria-controls="password-update" aria-selected="false">Cập nhật mật
-                            khẩu</button>
+                        <button class="nav-link {{ (session('activeTab', $activeTab ?? '') == 'password-update') ? 'active' : '' }}" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-update"
+                            type="button" role="tab" aria-controls="password-update" aria-selected="false">Cập nhật mật khẩu</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="addresses-tab" data-bs-toggle="tab" data-bs-target="#addresses"
+                        <button class="nav-link {{ (session('activeTab', $activeTab ?? '') == 'addresses') ? 'active' : '' }}" id="addresses-tab" data-bs-toggle="tab" data-bs-target="#addresses"
                             type="button" role="tab" aria-controls="addresses" aria-selected="false">Địa chỉ của
                             tôi</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
+                        <button class="nav-link {{ (session('activeTab', $activeTab ?? '') == 'orders') ? 'active' : '' }}" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
                             type="button" role="tab" aria-controls="orders" aria-selected="false">Đơn hàng</button>
                     </li>
                 </ul>
@@ -49,7 +48,7 @@
 
                 <div class="tab-content" id="profileTabsContent">
                     {{-- Tab Thông tin cá nhân --}}
-                    <div class="tab-pane fade show active" id="personal-info" role="tabpanel"
+                    <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? 'personal-info') == 'personal-info') ? 'show active' : '' }}" id="personal-info" role="tabpanel"
                         aria-labelledby="personal-info-tab">
                         <div class="card shadow-sm">
                             <div class="card-header bg-primary text-white">
@@ -62,7 +61,7 @@
                     </div>
 
                     {{-- Tab Cập nhật mật khẩu --}}
-                    <div class="tab-pane fade" id="password-update" role="tabpanel" aria-labelledby="password-tab">
+                    <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'password-update') ? 'show active' : '' }}" id="password-update" role="tabpanel" aria-labelledby="password-tab">
                         <div class="card shadow-sm">
                             <div class="card-header bg-warning text-white">
                                 <h4 class="mb-0">Thay Đổi Mật Khẩu</h4>
@@ -73,8 +72,77 @@
                         </div>
                     </div>
 
+                    {{-- Tab Địa chỉ của tôi --}}
+                    <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'addresses') ? 'show active' : '' }}" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                        <div class="card shadow-sm">
+                            <div
+                                class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                                <h4 class="mb-0">Danh sách địa chỉ</h4>
+                                <a href="{{ route('client.addresses.create') }}" class="btn btn-light btn-sm">Thêm địa
+                                    chỉ mới</a>
+                            </div>
+                            <div class="card-body">
+                                @if ($user->diaChiNguoiDungs->isEmpty())
+                                    <p>Bạn chưa có địa chỉ nào. Hãy thêm một địa chỉ mới!</p>
+                                @else
+                                    <div class="list-group">
+                                        @foreach ($user->diaChiNguoiDungs as $address)
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div>
+                                                            <h6 class="card-title">{{ $address->ten_nguoi_nhan }}</h6>
+                                                            <p class="card-text mb-1">
+                                                                <strong>Số điện thoại:</strong>
+                                                                {{ $address->so_dien_thoai_nguoi_nhan }}
+                                                            </p>
+                                                            <p class="card-text mb-1">
+                                                                <strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa_name }}, {{ $address->quan_huyen_name }}, {{ $address->tinh_thanh_pho_name }}
+                                                            </p>
+                                                            @if ($address->mac_dinh)
+                                                                <span class="badge bg-success">Địa chỉ mặc định</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="btn-group">
+                                                            <a href="{{ route('client.addresses.edit', $address) }}"
+                                                                class="btn btn-sm btn-outline-primary">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            @if (!$address->mac_dinh)
+                                                                <form
+                                                                    action="{{ route('client.addresses.setDefault', $address) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-outline-success">
+                                                                        <i class="fas fa-star"></i>
+                                                                    </button>
+                                                                </form>
+                                                                <form
+                                                                    action="{{ route('client.addresses.destroy', $address) }}"
+                                                                    method="POST" class="d-inline">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        class="btn btn-sm btn-outline-danger"
+                                                                        onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                     {{-- Tab Đơn hàng --}}
-                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                    <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'orders') ? 'show active' : '' }}" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                         <div class="card shadow-sm">
                             <div class="card-header bg-warning text-white">
                                 <h4 class="mb-0">Đơn Hàng</h4>
@@ -128,6 +196,10 @@
                                             @case('da_huy')
                                                 <span class="badge bg-danger">Đã hủy</span>
                                             @break
+
+                                            @case('yeu_cau_hoan_tra')
+                                                <span class="badge bg-dark">Yêu cầu hoàn trả</span>
+                                                @break
 
                                             @default
                                                 <span class="badge bg-secondary">Không xác định</span>
@@ -284,6 +356,10 @@
                                                                     <span class="badge bg-danger">Đã hủy</span>
                                                                 @break
 
+                                                                @case('yeu_cau_hoan_tra')
+                                                                    <span class="badge bg-dark">Yêu cầu hoàn trả</span>
+                                                                    @break
+
                                                                 @default
                                                                     <span class="badge bg-secondary">Không xác định</span>
                                                             @endswitch
@@ -302,77 +378,6 @@
                                         </table>
                                         {{ $donHangs->links() }}
                                     @endif
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Tab Địa chỉ của tôi --}}
-                    <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
-                        <div class="card shadow-sm">
-                            <div
-                                class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                                <h4 class="mb-0">Danh sách địa chỉ</h4>
-                                <a href="{{ route('client.addresses.create') }}" class="btn btn-light btn-sm">Thêm địa
-                                    chỉ mới</a>
-                            </div>
-                            <div class="card-body">
-                                @if ($user->diaChiNguoiDungs->isEmpty())
-                                    <p>Bạn chưa có địa chỉ nào. Hãy thêm một địa chỉ mới!</p>
-                                @else
-                                    <div class="list-group">
-                                        @foreach ($user->diaChiNguoiDungs as $address)
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div>
-                                                            <h6 class="card-title">{{ $address->ten_nguoi_nhan }}</h6>
-                                                            <p class="card-text mb-1">
-                                                                <strong>Số điện thoại:</strong>
-                                                                {{ $address->so_dien_thoai_nguoi_nhan }}
-                                                            </p>
-                                                            <p class="card-text mb-1">
-                                                                <strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }},
-                                                                {{ $address->phuong_xa }}, {{ $address->quan_huyen }},
-                                                                {{ $address->tinh_thanh_pho }}
-                                                            </p>
-                                                            @if ($address->mac_dinh)
-                                                                <span class="badge bg-success">Địa chỉ mặc định</span>
-                                                            @endif
-                                                        </div>
-                                                        <div class="btn-group">
-                                                            <a href="{{ route('client.addresses.edit', $address) }}"
-                                                                class="btn btn-sm btn-outline-primary">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                            @if (!$address->mac_dinh)
-                                                                <form
-                                                                    action="{{ route('client.addresses.setDefault', $address) }}"
-                                                                    method="POST" class="d-inline">
-                                                                    @csrf
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-success">
-                                                                        <i class="fas fa-star"></i>
-                                                                    </button>
-                                                                </form>
-                                                                <form
-                                                                    action="{{ route('client.addresses.destroy', $address) }}"
-                                                                    method="POST" class="d-inline">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit"
-                                                                        class="btn btn-sm btn-outline-danger"
-                                                                        onclick="return confirm('Bạn có chắc muốn xóa địa chỉ này?')">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
                                 @endif
                             </div>
                         </div>
