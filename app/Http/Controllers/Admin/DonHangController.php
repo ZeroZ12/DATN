@@ -34,18 +34,26 @@ class DonHangController extends Controller
         return view('admin.donhang.show', compact('donHang'));
     }
 
-   public function capNhatTrangThai(Request $request, $id)
+public function capNhatTrangThai(Request $request, $id)
 {
     $request->validate([
         'trang_thai' => 'required|in:' . implode(',', DonHang::TRANG_THAI),
+        'trang_thai_hien_tai' => 'required|string',
     ]);
 
     $donHang = DonHang::findOrFail($id);
 
+    // So sánh trạng thái hiện tại trong DB với trạng thái ở form
+    if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
+        return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
+    }
+
+    // Cập nhật trạng thái
     $donHang->trang_thai = $request->trang_thai;
     $donHang->save();
 
     return redirect()->route('admin.don-hang.index')->with('success', 'Cập nhật trạng thái thành công.');
 }
+
 
 }

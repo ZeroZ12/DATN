@@ -147,6 +147,7 @@
                             <div class="card-header bg-warning text-white">
                                 <h4 class="mb-0">Đơn Hàng</h4>
                             </div>
+
                             <div class="card-body">
                                 @if (isset($selectedDonHang))
                                     {{-- Hiển thị chi tiết đơn hàng --}}
@@ -206,28 +207,31 @@
                                         @endswitch
                                     </p>
                                     <p><strong>Thao tác:</strong>
-                                        @if (in_array($selectedDonHang->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan','chuan_bi_hang']))
-                                        <form action="{{ route('client.orders.cancel', $selectedDonHang->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('POST')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
-                                                <i class="fas fa-times"></i>Hủy đơn hàng
-                                            </button>
-                                        </form>
-                                        @endif
-                                        @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && \Carbon\Carbon::parse($selectedDonHang->created_at)->diffInDays(now()) <= 7)
-                                            <form action="{{ route('client.orders.return', $selectedDonHang->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('POST')
-                                                <button type="submit" class="btn btn-sm btn-outline-warning"
-                                                    onclick="return confirm('Bạn muốn hoàn trả đơn hàng này?')">
-                                                    <i class="fas fa-undo"></i> Hoàn trả hàng
-                                                </button>
-                                            </form>
-                                        @endif
+   <span id="cancel-form-box">
+    @if (in_array($selectedDonHang->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan']))
+        <form action="{{ route('client.orders.cancel', $selectedDonHang->id) }}" method="POST" class="d-inline">
+            @csrf
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $selectedDonHang->trang_thai }}">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
+                <i class="fas fa-times"></i> Hủy đơn hàng
+            </button>
+        </form>
+    @endif
+</span>
 
-                                    </p>
+
+    @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && \Carbon\Carbon::parse($selectedDonHang->created_at)->diffInDays(now()) <= 7)
+        <form action="{{ route('client.orders.return', $selectedDonHang->id) }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-outline-warning"
+                onclick="return confirm('Bạn muốn hoàn trả đơn hàng này?')">
+                <i class="fas fa-undo"></i> Hoàn trả hàng
+            </button>
+        </form>
+    @endif
+</p>
+
                                     <p>
                                         <strong>Phương thức thanh toán:</strong>
                                         @if($selectedDonHang->phuongThucThanhToan)
@@ -441,5 +445,7 @@
             const profileTabs = new bootstrap.Tab(triggerEl);
             profileTabs.show();
         });
+
     </script>
+
 @endsection
