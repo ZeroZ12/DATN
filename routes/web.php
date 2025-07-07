@@ -267,6 +267,11 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/return/{id}', [OrderController::class, 'return'])->name('orders.return');
+//
+    Route::get('/orders/{id}/status', function ($id) {
+    $order = Auth::user()->donHangs()->findOrFail($id);
+    return response()->json(['trang_thai' => $order->trang_thai]);
+});
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
