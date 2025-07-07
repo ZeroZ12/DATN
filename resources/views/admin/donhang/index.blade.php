@@ -17,6 +17,13 @@
             @endforeach
         </div>
 
+        @if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+
+        @if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
         {{-- Table --}}
         <div class="table-container">
             <table class="order-table">
@@ -53,6 +60,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="da_xac_nhan">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-success">Xác nhận</button>
                                     </form>
 
@@ -60,6 +69,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="da_huy">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-danger">Hủy</button>
                                     </form>
 
@@ -68,6 +79,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="chuan_bi_hang">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-success">Chuẩn bị</button>
                                     </form>
 
@@ -75,6 +88,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="da_huy">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-danger">Hủy</button>
                                     </form>
 
@@ -84,6 +99,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="dang_giao_hang">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-success">Giao hàng</button>
                                     </form>
 
@@ -92,6 +109,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="giao_thanh_cong">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-success">Đã giao</button>
                                     </form>
 
@@ -99,6 +118,8 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="giao_that_bai">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
+
                                         <button class="btn-view btn-danger">Thất bại</button>
                                     </form>
 
@@ -107,6 +128,7 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="da_hoan_tien">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
                                         <button class="btn-view btn-success">Hoàn tiền</button>
                                     </form>
 
@@ -114,6 +136,7 @@
                                         class="d-inline">
                                         @csrf
                                         <input type="hidden" name="trang_thai" value="da_huy">
+                                        <input type="hidden" name="trang_thai_hien_tai" value="{{ $don->trang_thai }}">
                                         <button class="btn-view btn-danger">Hủy</button>
                                     </form>
 
