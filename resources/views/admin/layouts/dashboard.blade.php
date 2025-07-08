@@ -67,22 +67,22 @@
                     <div class="card-body">
                         <div class="row text-center">
                             <div class="col">
-                                <div class="fw-bold fs-5">{{ number_format($doanhSoNgay) }} VNĐ</div>
+                                <div class="fw-bold fs-6">{{ number_format($doanhSoNgay) }} VNĐ</div>
                                 <div class="text-muted">Doanh số Hôm Nay</div>
                                 
                             </div>
                             <div class="col">
-                                <div class="fw-bold fs-5">{{ number_format($doanhSoThang) }} VNĐ</div>
+                                <div class="fw-bold fs-6">{{ number_format($doanhSoThang) }} VNĐ</div>
                                 <div class="text-muted">Doanh số Tháng Này</div>
                                 
                             </div>
                             <div class="col">
-                                <div class="fw-bold fs-5">{{ number_format($doanhSoNam) }} VNĐ</div>
+                                <div class="fw-bold fs-6">{{ number_format($doanhSoNam) }} VNĐ</div>
                                 <div class="text-muted">Doanh số Năm Nay</div>
                                 
                             </div>
                             <div class="col">
-                                <div class="fw-bold fs-5">{{ number_format($tongDoanhSo) }} VNĐ</div>
+                                <div class="fw-bold fs-6">{{ number_format($tongDoanhSo) }} VNĐ</div>
                                 <div class="text-muted">Tổng Doanh Số</div>
                                 
                             </div>
@@ -126,7 +126,7 @@
                                 Shop cần làm gì ở giai đoạn chuyển tiếp trước và sau ngày 01/07/2025? Có cần cập nhật mã số
                                 thuế đối 888 lên TopPC không? Giải đáp ngắn gọn - đi vào vấn đề tại đây 👉
                             </div>
-                            <div class="small text-secondary">Hôm Nay 11:42</div>
+                            <div class="small text-secondary">Hôm Nay {{date('d-m-Y') }}</div>
                         </div>
                     </div>
                 </div>
