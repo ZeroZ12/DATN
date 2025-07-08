@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\DonHang;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
