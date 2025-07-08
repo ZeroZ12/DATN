@@ -21,6 +21,12 @@
                     </a>
                 </li>
             @endforeach
+            <li class="nav-item">
+                <a href="{{ route('admin.don-hang.index', ['trang_thai' => 'hoan_tra']) }}"
+                   class="nav-link {{ request('trang_thai') == 'hoan_tra' ? 'active' : '' }}">
+                    Yêu cầu hoàn trả
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -40,17 +46,18 @@
     <h5 class="total-count">{{ $donHangs->total() }} Đơn hàng</h5>
 
     {{-- Tiêu đề cột --}}
-    <div class="order-table-header">
+    <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr;">
         <div>Sản phẩm</div>
         <div>Tổng đơn hàng</div>
         <div>Trạng thái</div>
+        <div>Trạng thái hoàn hàng</div>
         <div>Thao tác</div>
     </div>
 
     {{-- Danh sách đơn hàng --}}
     @forelse ($donHangs as $don)
-        <div class="order-grid">
-            {{-- Cột 1: Sản phẩm --}}
+        <div class="order-grid" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr;">
+            {{-- Sản phẩm --}}
             <div class="order-products">
                 <div class="order-user">
                     <div class="username">
@@ -60,8 +67,7 @@
                 </div>
                 @foreach ($don->chiTietDonHangs as $item)
                     <div class="order-item">
-                      <img src="{{ asset('storage/' . $item->sanPham->anh_dai_dien) }}" class="item-img">
-
+                        <img src="{{ asset('storage/' . $item->sanPham->anh_dai_dien) }}" class="item-img">
                         <div class="item-detail">
                             <div class="item-name">{{ $item->sanPham->ten ?? '---' }}</div>
                             <div class="item-variation">Mã biến thể: {{ $item->bienTheSanPham->ma_bien_the ?? '---' }}</div>
@@ -71,31 +77,59 @@
                 @endforeach
             </div>
 
-            {{-- Cột 2: Tổng tiền --}}
+            {{-- Tổng tiền --}}
             <div class="order-total">
                 <div>{{ number_format($don->tong_tien, 0) }}đ</div>
                 <div class="text-muted small">{{ $don->phuongThucThanhToan->ten ?? '---' }}</div>
             </div>
 
-          {{-- Cột 3: Trạng thái --}}
-<div class="order-status">
-    @php $trangThai = $don->trang_thai; @endphp
-    <span class="status-badge status-{{ $trangThai }}">
-        {{ App\Models\DonHang::getTenTrangThai($trangThai) ?? 'Không xác định' }}
-    </span>
+            {{-- Trạng thái đơn --}}
+            <div class="order-status">
+                @php $trangThai = $don->trang_thai; @endphp
+                <span class="status-badge status-{{ $trangThai }}">
+                    {{ App\Models\DonHang::getTenTrangThai($trangThai) ?? 'Không xác định' }}
+                </span>
+               @if ($trangThai === 'da_huy')
+    @php
+        $nguoiHuy = $don->huy_boi ?? 'he_thong';
+        $text = match($nguoiHuy) {
+            'khach_hang' => 'Đã hủy bởi khách hàng',
+            'admin' => 'Đã hủy bởi quản trị viên',
+            default => 'Đã hủy tự động bởi hệ thống',
+        };
+    @endphp
+    <div class="text-muted small">{{ $text }}</div>
+@endif
 
-    @if ($trangThai === 'da_huy')
-        <div class="text-muted small">Đã hủy tự động bởi hệ thống</div>
+            </div>
+
+            {{-- ✅ Trạng thái hoàn hàng --}}
+<div class="order-status">
+    @php
+        $hoanTra = $don->yeuCauHoanTra;
+        $trangThaiDon = $don->trang_thai;
+    @endphp
+
+    @if (in_array($trangThaiDon, ['giao_thanh_cong', 'hoan_thanh']))
+        @if ($hoanTra)
+            <span class="status-hoan-tra status-{{ $hoanTra->trang_thai }}">
+                {{ App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
+            </span>
+        @else
+            <span class="status-hoan-tra status-chua_hoan_tra">Chưa yêu cầu</span>
+        @endif
+    @else
+        <span class="text-muted small">Chưa đủ điều kiện hoàn trả</span>
     @endif
 </div>
 
-{{-- Cột 4: Thao tác --}}
-<div class="order-actions">
-    <a href="{{ route('admin.don-hang.show', $don->id) }}" class="btn-view mb-1">Xem</a>
 
-    {{-- Các button chuyển trạng thái nằm ngang --}}
-    <div class="btn-group-action">
-        @if ($trangThai === 'cho_xac_nhan')
+
+            {{-- Thao tác --}}
+            <div class="order-actions">
+                <a href="{{ route('admin.don-hang.show', $don->id) }}" class="btn-view mb-1">Xem</a>
+                <div class="btn-group-action">
+ @if ($trangThai === 'cho_xac_nhan')
             <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
                 @csrf
                 <input type="hidden" name="trang_thai" value="da_xac_nhan">
@@ -145,24 +179,10 @@
                 <button class="btn btn-sm btn-danger">Thất bại</button>
             </form>
 
-        @elseif ($trangThai === 'yeu_cau_hoan_tra')
-            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                @csrf
-                <input type="hidden" name="trang_thai" value="da_hoan_tien">
-                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-success">Hoàn tiền</button>
-            </form>
-            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                @csrf
-                <input type="hidden" name="trang_thai" value="da_huy">
-                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-danger">Hủy</button>
-            </form>
         @endif
-    </div>
-</div>
 
-
+                </div>
+            </div>
         </div>
     @empty
         <div class="alert alert-warning text-center">Không có đơn hàng nào.</div>
@@ -176,21 +196,9 @@
 
 @push('css')
 <style>
-    .btn-group-action {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 6px;
-}
-
-.btn-group-action form {
-    display: inline;
-}
-
     .order-table-header, .order-grid {
         display: grid;
-        grid-template-columns: 3fr 1fr 1fr 1fr;
+        grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
         padding: 10px;
         border: 1px solid #ddd;
         margin-bottom: 10px;
@@ -217,18 +225,6 @@
         text-align: center;
     }
 
-    .btn-view, .btn-sm {
-        padding: 6px 10px;
-        background: #007bff;
-        color: white;
-        border-radius: 4px;
-        text-decoration: none;
-        font-size: 0.9rem;
-        margin-top: 5px;
-    }
-    .btn-sm.btn-danger { background-color: #dc3545; }
-    .btn-sm.btn-success { background-color: #28a745; }
-
     .status-badge {
         padding: 4px 8px;
         border-radius: 12px;
@@ -239,6 +235,8 @@
     .status-da_huy { background: #dc3545; }
     .status-cho_xac_nhan { background: #ffc107; color: #000; }
     .status-da_xac_nhan { background: #007bff; }
+    .status-cho_thanh_toan { background:rgb(43, 91, 143); }
+
     .status-chuan_bi_hang,
     .status-dang_giao_hang { background: #6c757d; }
     .status-giao_thanh_cong,
@@ -246,6 +244,20 @@
     .status-giao_that_bai { background: #dc3545; }
     .status-yeu_cau_hoan_tra { background: #42463d; }
     .status-da_hoan_tien { background: #343a40; }
+    .status-chua_hoan_tra { background: #adb5bd; }
+
+    .btn-view, .btn-sm {
+        padding: 6px 10px;
+        background: #007bff;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+
+    .btn-sm.btn-danger { background-color: #dc3545; }
+    .btn-sm.btn-success { background-color: #28a745; }
 
     .status-tabs .nav-pills {
         display: flex;
@@ -269,5 +281,56 @@
 
     .status-tabs .nav-link:hover { background-color: #ddd; }
     .status-tabs .nav-link.active { background-color: #007bff; color: #fff; }
+
+    .btn-group-action {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 6px;
+    }
+
+    .btn-group-action form { display: inline; }
+
+    .status-hoan-tra {
+    padding: 4px 10px;
+    font-size: 0.875rem;
+    border-radius: 20px;
+    font-weight: 500;
+    color: #fff;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.status-chua_hoan_tra {
+    background-color: #adb5bd; /* xám nhạt - chưa có gì */
+    color: #000;
+}
+
+.status-cho_phe_duyet {
+    background-color: #ffc107; /* vàng - cảnh báo */
+    color: #000;
+}
+
+.status-da_phe_duyet {
+    background-color: #0d6efd; /* xanh dương - primary */
+}
+
+.status-tu_choi {
+    background-color: #dc3545; /* đỏ - bị từ chối */
+}
+
+.status-dang_van_chuyen_tra_hang {
+    background-color: #6f42c1; /* tím - đang vận chuyển */
+}
+
+.status-da_nhan_hang {
+    background-color: #20c997; /* xanh ngọc - đã nhận */
+}
+
+.status-da_hoan_tien {
+    background-color: #198754; /* xanh lá - đã hoàn tiền */
+}
+
 </style>
 @endpush

@@ -8,18 +8,21 @@ use Illuminate\Http\Request;
 
 class DonHangController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = DonHang::with(['user', 'diaChiNguoiDung'])->orderByDesc('created_at');
+  public function index(Request $request)
+{
+    $query = DonHang::with(['user', 'diaChiNguoiDung'])->orderByDesc('created_at');
 
-        if ($request->trang_thai) {
-            $query->where('trang_thai', $request->trang_thai);
-        }
-
-        $donHangs = $query->paginate(20);
-
-        return view('admin.donhang.index', compact('donHangs'));
+    if ($request->trang_thai === 'hoan_tra') {
+        $query->whereHas('yeuCauHoanTra');
+    } elseif ($request->trang_thai) {
+        $query->where('trang_thai', $request->trang_thai);
     }
+
+    $donHangs = $query->paginate(20);
+
+    return view('admin.donhang.index', compact('donHangs'));
+}
+
 
     public function show($id)
     {
@@ -43,14 +46,20 @@ public function capNhatTrangThai(Request $request, $id)
 
     $donHang = DonHang::findOrFail($id);
 
-    // So sánh trạng thái hiện tại trong DB với trạng thái ở form
     if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
         return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
     }
 
-    // Cập nhật trạng thái
-    $donHang->trang_thai = $request->trang_thai;
-    $donHang->save();
+    if ($request->trang_thai === 'da_huy') {
+        $donHang->update([
+            'trang_thai' => 'da_huy',
+            'huy_boi' => 'admin',
+        ]);
+    } else {
+        $donHang->update([
+            'trang_thai' => $request->trang_thai,
+        ]);
+    }
 
     return redirect()->route('admin.don-hang.index')->with('success', 'Cập nhật trạng thái thành công.');
 }

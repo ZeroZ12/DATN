@@ -32,9 +32,10 @@ class DonHang extends Model
         'tong_tien_goc',
         'giam_gia',
         'trang_thai',
+         'huy_boi',
     ];
 
-     const TRANG_THAI = [
+    const TRANG_THAI = [
         'cho_xac_nhan',
         'cho_thanh_toan',
         'da_xac_nhan',
@@ -44,8 +45,6 @@ class DonHang extends Model
         'giao_that_bai',
         'hoan_thanh',
         'da_huy',
-        'yeu_cau_hoan_tra',
-        'da_hoan_tien'
     ];
 
     /**
@@ -53,6 +52,7 @@ class DonHang extends Model
      */
     public static function getTenTrangThai($trangThai)
     {
+
         $danhSach = [
             'cho_xac_nhan' => 'Chờ xác nhận',
             'cho_thanh_toan' => 'Chờ thanh toán',
@@ -63,8 +63,6 @@ class DonHang extends Model
             'giao_that_bai' => 'Giao thất bại',
             'hoan_thanh' => 'Hoàn thành',
             'da_huy' => 'Đã hủy',
-            'yeu_cau_hoan_tra' => 'Yêu cầu hoàn trả',
-            'da_hoan_tien' => 'Đã hoàn tiền',
         ];
 
         return $danhSach[$trangThai] ?? $trangThai;
@@ -124,4 +122,12 @@ class DonHang extends Model
         // Có thể cần withTrashed() khi eager load nếu muốn lấy cả các chi tiết đã bị xóa mềm (nếu ChiTietDonHang cũng có soft deletes)
         return $this->hasMany(ChiTietDonHang::class, 'id_don_hang');
     }
+    /**
+     * Một đơn hàng có thể có một yêu cầu hoàn trả.
+     */
+    public function yeuCauHoanTra()
+    {
+        return $this->hasOne(YeuCauHoanTra::class, 'id_don_hang');
+    }
+
 }

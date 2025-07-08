@@ -101,27 +101,26 @@ class OrderController extends Controller
             return redirect()->route('client.orders.show', $order->id)->with('error', 'Không thể hoàn trả đơn hàng này.');
     }
 
-   public function cancel(Request $request, $id)
+ public function cancel(Request $request, $id)
 {
     /** @var \App\Models\User $user */
     $user = Auth::user();
     $order = $user->donHangs()->where('id', $id)->firstOrFail();
 
-    // Bắt buộc gửi kèm trạng_thai_hien_tai từ form
     $request->validate([
         'trang_thai_hien_tai' => 'required|string',
     ]);
 
-    // So sánh với trạng thái thực tế trong DB
     if ($order->trang_thai !== $request->trang_thai_hien_tai) {
         return redirect()->route('client.orders.show', $order->id)
             ->with('error', 'Đơn hàng đã được cập nhật trạng thái trước đó. Không thể hủy.');
     }
 
-    // Chỉ cho phép hủy khi trạng thái phù hợp
     if (in_array($order->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan', 'chuan_bi_hang'])) {
-        $order->trang_thai = 'da_huy';
-        $order->save();
+        $order->update([
+            'trang_thai' => 'da_huy',
+            'huy_boi' => 'khach_hang',
+        ]);
 
         return redirect()->route('client.orders.show', $order->id)
             ->with('success', 'Đơn hàng đã được hủy thành công.');
@@ -130,5 +129,6 @@ class OrderController extends Controller
     return redirect()->route('client.orders.show', $order->id)
         ->with('error', 'Không thể hủy đơn hàng ở trạng thái hiện tại.');
 }
+
 
 }

@@ -198,39 +198,36 @@
                                                 <span class="badge bg-danger">Đã hủy</span>
                                             @break
 
-                                            @case('yeu_cau_hoan_tra')
-                                                <span class="badge bg-dark">Yêu cầu hoàn trả</span>
-                                                @break
+
 
                                             @default
                                                 <span class="badge bg-secondary">Không xác định</span>
                                         @endswitch
                                     </p>
                                     <p><strong>Thao tác:</strong>
-                                    <span id="cancel-form-box">
-                                        @if (in_array($selectedDonHang->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan']))
-                                            <form action="{{ route('client.orders.cancel', $selectedDonHang->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $selectedDonHang->trang_thai }}">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
-                                                    <i class="fas fa-times"></i> Hủy đơn hàng
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </span>
+   <span id="cancel-form-box">
+    @if (in_array($selectedDonHang->trang_thai, ['cho_xac_nhan', 'cho_thanh_toan']))
+        <form action="{{ route('client.orders.cancel', $selectedDonHang->id) }}" method="POST" class="d-inline">
+            @csrf
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $selectedDonHang->trang_thai }}">
+            <button type="submit" class="btn btn-sm btn-outline-danger"
+                onclick="return confirm('Bạn có chắc muốn hủy đơn hàng này?')">
+                <i class="fas fa-times"></i> Hủy đơn hàng
+            </button>
+        </form>
+    @endif
+</span>
 
 
-                                        @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && \Carbon\Carbon::parse($selectedDonHang->created_at)->diffInDays(now()) <= 7)
-                                            <form action="{{ route('client.orders.return', $selectedDonHang->id) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-outline-warning"
-                                                    onclick="return confirm('Bạn muốn hoàn trả đơn hàng này?')">
-                                                    <i class="fas fa-undo"></i> Hoàn trả hàng
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </p>
+   @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && !$selectedDonHang->yeuCauHoanTra)
+    <a href="{{ route('client.hoan-tra.create', $selectedDonHang->id) }}"
+       class="btn btn-sm btn-outline-warning"
+       onclick="return confirm('Bạn muốn tạo yêu cầu hoàn trả đơn hàng này?')">
+        <i class="fas fa-undo"></i> Hoàn trả hàng
+    </a>
+@endif
+
+</p>
 
                                     <p>
                                         <strong>Phương thức thanh toán:</strong>
@@ -417,35 +414,33 @@
                 triggerEl = document.querySelector('#addresses-tab');
             @endif
 
-            // Ưu tiên theo query string ?tab=orders 
+            // Ưu tiên theo session
+            @if (session('status') === 'profile-updated')
+                triggerEl = document.querySelector('#personal-info-tab');
+            @elseif (session('status') === 'password-updated')
+                triggerEl = document.querySelector('#password-tab');
+            @elseif (session('success') || session('error'))
+                triggerEl = document.querySelector('#addresses-tab');
+            @elseif (isset($selectedDonHang))
+                triggerEl = document.querySelector('#orders-tab');
+            @endif
+
+            // Ưu tiên theo query string ?tab=orders (nếu chưa có triggerEl)
             if (triggerEl === null) {
                 const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('tab') === 'orders') {
+                const tabParam = urlParams.get('tab');
+                if (tabParam === 'orders') {
                     triggerEl = document.querySelector('#orders-tab');
                 }
             }
 
-            // Ưu tiên theo session
-            if (triggerEl === null) {
-                @if (session('status') === 'profile-updated')
-                    triggerEl = document.querySelector('#personal-info-tab');
-                @elseif (session('status') === 'password-updated')
-                    triggerEl = document.querySelector('#password-tab');
-                @elseif (isset($selectedDonHang))
-                    triggerEl = document.querySelector('#orders-tab');
-                @elseif (session('success') || session('error'))
-                    triggerEl = document.querySelector('#addresses-tab');    
-                @endif
-            }
             // Mặc định nếu không có gì khớp
             if (triggerEl === null) {
                 triggerEl = document.querySelector('#personal-info-tab');
             }
 
-            if (triggerEl) {
-                const profileTabs = new bootstrap.Tab(triggerEl);
-                profileTabs.show();
-            }
+            const profileTabs = new bootstrap.Tab(triggerEl);
+            profileTabs.show();
         });
 
     </script>
