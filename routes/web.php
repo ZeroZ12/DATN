@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashBoardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Admin\BienTheSanPhamController;
 use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
+use Illuminate\Support\Facades\Auth;
 
 
 // Route::middleware('auth')->group(function () {
@@ -275,9 +277,7 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
 });
 
-Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', function () {
-    return view('admin.layouts.app');
-})->name('admin.index');
+Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', [DashBoardController::class, 'index'])->name('admin.index');
 
 //Route client
 Route::get('/', [HomeController::class, 'index'])->name('client.home');
