@@ -33,6 +33,8 @@ use App\Http\Controllers\Client\DanhGiaSanPhamController;
 use App\Http\Controllers\Admin\PhuongThucThanhToanController;
 use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Client\YeuCauHoanTraController as ClientYCHT;
+use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 
 
 // Route::middleware('auth')->group(function () {
@@ -249,6 +251,10 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
       Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
     Route::get('don-hang/{id}', action: [DonHangController::class, 'show'])->name('don-hang.show');
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
+
+    Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('admin.hoan-tra.index');
+    Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('admin.hoan-tra.show');
+    Route::post('/hoan-tra/{id}', [AdminYCHT::class, 'update'])->name('admin.hoan-tra.update');
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
@@ -269,6 +275,10 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/return/{id}', [OrderController::class, 'return'])->name('orders.return');
+//hoàn trả
+      Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
+    Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');

@@ -198,9 +198,7 @@
                                                 <span class="badge bg-danger">Đã hủy</span>
                                             @break
 
-                                            @case('yeu_cau_hoan_tra')
-                                                <span class="badge bg-dark">Yêu cầu hoàn trả</span>
-                                                @break
+
 
                                             @default
                                                 <span class="badge bg-secondary">Không xác định</span>
@@ -221,15 +219,14 @@
 </span>
 
 
-    @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && \Carbon\Carbon::parse($selectedDonHang->created_at)->diffInDays(now()) <= 7)
-        <form action="{{ route('client.orders.return', $selectedDonHang->id) }}" method="POST" class="d-inline">
-            @csrf
-            <button type="submit" class="btn btn-sm btn-outline-warning"
-                onclick="return confirm('Bạn muốn hoàn trả đơn hàng này?')">
-                <i class="fas fa-undo"></i> Hoàn trả hàng
-            </button>
-        </form>
-    @endif
+   @if($selectedDonHang->trang_thai == 'giao_thanh_cong' && !$selectedDonHang->yeuCauHoanTra)
+    <a href="{{ route('client.hoan-tra.create', $selectedDonHang->id) }}"
+       class="btn btn-sm btn-outline-warning"
+       onclick="return confirm('Bạn muốn tạo yêu cầu hoàn trả đơn hàng này?')">
+        <i class="fas fa-undo"></i> Hoàn trả hàng
+    </a>
+@endif
+
 </p>
 
                                     <p>
