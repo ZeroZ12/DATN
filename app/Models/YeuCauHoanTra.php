@@ -45,7 +45,7 @@ public static function getTenTrangThai($trangThai)
         'cho_phe_duyet' => 'Chờ phê duyệt',
         'da_phe_duyet' => 'Đã phê duyệt',
         'tu_choi' => 'Từ chối',
-        'dang_van_chuyen_tra_hang' => 'Đang vận chuyển trả hàng',
+        'dang_van_chuyen_tra_hang' => 'Đang trả hàng',
         'da_nhan_hang' => 'Đã nhận hàng',
         'da_hoan_tien' => 'Đã hoàn tiền',
     ];

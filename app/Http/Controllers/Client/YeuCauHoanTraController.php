@@ -44,7 +44,7 @@ class YeuCauHoanTraController extends Controller
         ]);
 
         $data['id_don_hang'] = $donHang->id;
-        $data['ma_hoan_tra'] = 'HT' . strtoupper(Str::random(8));
+        $data['ma_hoan_tra'] = 'HT' . str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         $data['trang_thai'] = 'cho_phe_duyet';
 
         YeuCauHoanTra::create($data);
