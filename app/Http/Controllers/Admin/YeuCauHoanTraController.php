@@ -27,16 +27,22 @@ class YeuCauHoanTraController extends Controller
 }
 
 
-    public function update(Request $request, $id)
-    {
-        $yeuCau = YeuCauHoanTra::findOrFail($id);
+public function capNhatTrangThai(Request $request, $id)
+{
+    $hoanTra = YeuCauHoanTra::findOrFail($id);
 
-        $request->validate([
-            'trang_thai' => 'required|in:cho_phe_duyet,da_phe_duyet,tu_choi,dang_van_chuyen_tra_hang,da_nhan_hang,da_hoan_tien',
-        ]);
+    $hienTai = $request->input('trang_thai_hien_tai');
+    $moi = $request->input('trang_thai');
 
-        $yeuCau->update(['trang_thai' => $request->trang_thai]);
-
-        return back()->with('success', 'Cập nhật trạng thái thành công.');
+    $allowed = YeuCauHoanTra::TRANG_THAI_FLOW[$hienTai] ?? [];
+    if (!in_array($moi, $allowed)) {
+        return back()->withErrors(['msg' => 'Không thể cập nhật trạng thái này']);
     }
+
+    $hoanTra->trang_thai = $moi;
+    $hoanTra->save();
+
+    return back()->with('success', 'Đã cập nhật trạng thái');
+}
+
 }

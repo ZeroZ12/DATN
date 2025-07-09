@@ -254,7 +254,9 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
     Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('admin.hoan-tra.index');
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
-    Route::post('/hoan-tra/{id}', [AdminYCHT::class, 'update'])->name('admin.hoan-tra.update');
+    Route::post('/hoan-tra/{id}/cap-nhat-trang-thai', [AdminYCHT::class, 'capNhatTrangThai'])
+    ->name('hoan-tra.cap-nhat-trang-thai');
+
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
