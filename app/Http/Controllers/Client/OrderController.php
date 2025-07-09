@@ -27,48 +27,33 @@ class OrderController extends Controller
         return view('client.order-success', compact('donHang'));
     }
 
-    // public function index()
-    // {
+    public function index(Request $request)
+{
+    $userId = Auth::id();
 
-    //     /** @var \App\Models\User $user */
-    //     $user = Auth::user();
-    //     $donHangs = $user->donHangs()
-    //         ->with([
-    //             'maGiamGia',
-    //             'phuongThucThanhToan',
-    //             'chiTietDonHangs.sanPham',
-    //             'chiTietDonHangs.bienTheSanPham',
-    //             'chiTietDonHangs.bienTheSanPham.ram',
-    //             'chiTietDonHangs.bienTheSanPham.oCung'
-    //         ])
-    //         ->orderByDesc('created_at')
-    //         ->paginate(10);
+    $query = DonHang::with([
+        'chiTietDonHangs.sanPham',
+        'chiTietDonHangs.bienTheSanPham',
+        'yeuCauHoanTra' // để load luôn nếu có
+    ])->where('id_user', $userId)
+      ->orderByDesc('created_at');
 
-    //     return view('client.profile.show', [
-    //         'donHangs' => $donHangs,
-    //         'user' => $user
-    //     ]);
-    // }
-
-
-        public function index(Request $request)
-    {
-        $userId = Auth::id();
-
-        // Lấy danh sách đơn hàng theo người dùng đăng nhập
-        $query = DonHang::with(['chiTietDonHangs.sanPham', 'chiTietDonHangs.bienTheSanPham'])
-            ->where('id_user', $userId)
-            ->orderByDesc('created_at');
-
-        // Nếu có lọc theo trạng thái (tùy chọn)
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
+    // Lọc theo trạng thái
+    if ($request->filled('trang_thai')) {
+        if ($request->trang_thai === 'hoan_tra') {
+            // Trả hàng / Hoàn tiền → whereHas yêuCauHoanTra
+            $query->whereHas('yeuCauHoanTra');
+        } else {
+            // Các trạng thái bình thường
+            $query->where('trang_thai', $request->trang_thai);
         }
-
-        $donHangs = $query->get();
-
-        return view('client.donhang', compact('donHangs'));
     }
+
+    $donHangs = $query->get();
+
+    return view('client.donhang', compact('donHangs'));
+}
+
 
     public function show($id)
     {
