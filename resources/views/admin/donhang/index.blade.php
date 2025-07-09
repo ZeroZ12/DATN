@@ -43,7 +43,7 @@
         <button class="btn btn-outline-primary">Áp dụng</button>
     </div>
 
-    <h5 class="total-count">{{ $donHangs->total() }} Đơn hàng</h5>
+    <h5 class="total-count mb-1">Tổng: {{ $donHangs->total() }} Đơn hàng</h5>
 
     {{-- Tiêu đề cột --}}
     <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr;">
@@ -72,7 +72,7 @@
                             <div class="item-name">{{ $item->sanPham->ten ?? '---' }}</div>
                             <div class="item-variation">Mã biến thể: {{ $item->bienTheSanPham->ma_bien_the ?? '---' }}</div>
                         </div>
-                        <div class="item-qty">x{{ $item->so_luong }}</div>
+                        <div class="item-qty"><span style="color: blue">x{{ $item->so_luong }}</span></div>
                     </div>
                 @endforeach
             </div>

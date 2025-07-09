@@ -36,6 +36,13 @@ class YeuCauHoanTra extends Model
         'da_nhan_hang',
         'da_hoan_tien',
     ];
+    //trang thai cap nhat
+    const TRANG_THAI_FLOW = [
+    'cho_phe_duyet' => ['da_phe_duyet', 'tu_choi'],
+    'da_phe_duyet' => ['dang_van_chuyen_tra_hang'],
+    'dang_van_chuyen_tra_hang' => ['da_nhan_hang'],
+    'da_nhan_hang' => ['da_hoan_tien'],
+];
     /**
  * Trả về tên tiếng Việt của trạng thái yêu cầu hoàn trả.
  */
