@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_don_hang')->constrained('don_hangs');
             $table->string('ten_san_pham_tai_thoi_diem')->nullable();
-
             $table->foreignId('id_bien_the')->nullable()->constrained('bien_the_san_phams');
             $table->string('ten_hien_thi', 255);
             $table->integer('so_luong');
-            $table->decimal('don_gia', 10, 2);
+            $table->decimal('don_gia', 12, 2);
             $table->integer('bao_hanh_thang');
             $table->timestamps();
         });
