@@ -14,11 +14,18 @@ class YeuCauHoanTraController extends Controller
         return view('admin.hoan_tra.index', compact('danhSach'));
     }
 
-    public function show($id)
-    {
-        $yeuCau = YeuCauHoanTra::with('donHang')->findOrFail($id);
-        return view('admin.hoan_tra.show', compact('yeuCau'));
-    }
+  public function show($id)
+{
+    $hoanTra = YeuCauHoanTra::with([
+        'donHang.user',
+        'donHang.diaChiNguoiDung',
+        'donHang.phuongThucThanhToan',
+        'donHang.chiTietDonHangs.bienTheSanPham.sanPham'
+    ])->findOrFail($id);
+
+    return view('admin.donhang.showhoantra', compact('hoanTra'));
+}
+
 
     public function update(Request $request, $id)
     {

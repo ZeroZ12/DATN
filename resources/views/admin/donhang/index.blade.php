@@ -105,23 +105,23 @@
 
             {{-- ✅ Trạng thái hoàn hàng --}}
 <div class="order-status">
-    @php
-        $hoanTra = $don->yeuCauHoanTra;
-        $trangThaiDon = $don->trang_thai;
-    @endphp
+    @php $hoanTra = $don->yeuCauHoanTra; @endphp
 
-    @if (in_array($trangThaiDon, ['giao_thanh_cong', 'hoan_thanh']))
-        @if ($hoanTra)
+    @if ($hoanTra && in_array($don->trang_thai, ['giao_thanh_cong', 'hoan_thanh']))
+        <a href="{{ route('admin.hoan-tra.show', $hoanTra->id) }}" class="status-link">
             <span class="status-hoan-tra status-{{ $hoanTra->trang_thai }}">
                 {{ App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
             </span>
-        @else
-            <span class="status-hoan-tra status-chua_hoan_tra">Chưa yêu cầu</span>
-        @endif
+        </a>
+    @elseif ($hoanTra)
+        <span class="status-hoan-tra status-{{ $hoanTra->trang_thai }}">
+            {{ App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
+        </span>
     @else
-        <span class="text-muted small">Chưa đủ điều kiện hoàn trả</span>
+        <span class="status-hoan-tra status-chua_hoan_tra">Chưa yêu cầu</span>
     @endif
 </div>
+
 
 
 

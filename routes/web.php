@@ -253,7 +253,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
 
     Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('admin.hoan-tra.index');
-    Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('admin.hoan-tra.show');
+    Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
     Route::post('/hoan-tra/{id}', [AdminYCHT::class, 'update'])->name('admin.hoan-tra.update');
 });
 
