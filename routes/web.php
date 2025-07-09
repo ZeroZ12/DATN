@@ -272,14 +272,17 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
-    Route::get('/Table-orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::post('/orders/return/{id}', [OrderController::class, 'return'])->name('orders.return');
+Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
+
 //hoàn trả
       Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
     Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+    Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
+    ->name('hoan-tra.trahang');
 
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
