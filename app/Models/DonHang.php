@@ -46,6 +46,18 @@ class DonHang extends Model
         'hoan_thanh',
         'da_huy',
     ];
+    const TRANG_THAI_TEXT = [
+    'cho_xac_nhan'     => 'Chờ xác nhận',
+    'cho_thanh_toan'   => 'Chờ thanh toán',
+    'da_xac_nhan'      => 'Đã xác nhận',
+    'chuan_bi_hang'    => 'Chuẩn bị hàng',
+    'dang_giao_hang'   => 'Đang giao hàng',
+    'giao_thanh_cong'  => 'Giao thành công',
+    'giao_that_bai'    => 'Giao thất bại',
+    'hoan_thanh'       => 'Hoàn thành',
+    'da_huy'           => 'Đã hủy',
+];
+
 
     /**
      * Map trạng thái đơn hàng sang tiếng Việt.

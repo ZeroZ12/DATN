@@ -254,7 +254,9 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
     Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('admin.hoan-tra.index');
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
-    Route::post('/hoan-tra/{id}', [AdminYCHT::class, 'update'])->name('admin.hoan-tra.update');
+    Route::post('/hoan-tra/{id}/cap-nhat-trang-thai', [AdminYCHT::class, 'capNhatTrangThai'])
+    ->name('hoan-tra.cap-nhat-trang-thai');
+
 });
 
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
@@ -270,14 +272,17 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
-    Route::get('/Table-orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
-    Route::post('/orders/return/{id}', [OrderController::class, 'return'])->name('orders.return');
+Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
+
 //hoàn trả
       Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
     Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+    Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
+    ->name('hoan-tra.trahang');
 
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)

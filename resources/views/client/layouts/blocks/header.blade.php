@@ -93,10 +93,36 @@
             @auth
                 {{-- LIÊN KẾT ĐẾN TRANG PROFILE CỦA CLIENT --}}
                 {{-- Bạn có thể dùng Auth::user()->name nếu bạn có cột 'name', hoặc ten_dang_nhap --}}
-                <a href="{{ route('client.profile.show') }}" class="text-white text-decoration-none me-3">
-                    <span><i
-                            class="fa-solid fa-user me-1"></i>{{ Auth::user()->ho_ten ?? Auth::user()->ten_dang_nhap }}</span>
-                </a>
+               <div class="dropdown d-inline-block">
+    <a href="#" class="dropdown-toggle text-white text-decoration-none bg-transparent border-0 me-3"
+       id="dropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-user me-1"></i>
+        {{ Auth::user()->ho_ten ?? Auth::user()->ten_dang_nhap }}
+    </a>
+
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark mt-2" aria-labelledby="dropdownUser">
+        <li>
+            <a class="dropdown-item" href="{{ route('client.profile.show') }}">
+                <i class="fa-solid fa-id-card me-2"></i>Thông tin tài khoản
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ route('client.orders.index') }}">
+                <i class="fa-solid fa-box-open me-2"></i>Đơn hàng của tôi
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="dropdown-item">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>
+
 
                 {{-- LIÊN KẾT ĐĂNG XUẤT (giữ nguyên cách bạn đã làm) --}}
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
