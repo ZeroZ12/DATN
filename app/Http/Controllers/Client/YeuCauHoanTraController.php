@@ -12,42 +12,72 @@ use Carbon\Carbon;
 
 class YeuCauHoanTraController extends Controller
 {
-    public function create($id)
-    {
-        $donHang = DonHang::with('yeuCauHoanTra')
-            ->where('id', $id)
-            ->where('id_user', auth()->id())
-            ->firstOrFail();
-
-        if ($donHang->yeuCauHoanTra) {
-            return back()->with('error', 'Đơn hàng này đã có yêu cầu hoàn trả.');
-        }
-
-        // ❗️Chỉ kiểm tra nếu đơn đã ở trạng thái "hoàn_thành"
-        if (
-            $donHang->trang_thai === 'hoan_thanh' &&
-            $donHang->updated_at->diffInDays(now()) > 3
-        ) {
-            return redirect()->route('client.orders.index')
-                ->with('error', 'Bạn chỉ có thể yêu cầu hoàn trả trong vòng 3 ngày sau khi đơn hoàn thành.');
-        }
-
-        return view('client.hoantra', compact('donHang'));
-    }
-
- public function store(Request $request, $id)
+   public function create($id)
 {
-    $donHang = DonHang::where('id', $id)
+    $donHang = DonHang::with('yeuCauHoanTra')
+        ->where('id', $id)
         ->where('id_user', auth()->id())
         ->firstOrFail();
+
+
+    if ($donHang->trang_thai === 'giao_that_bai') {
+        return redirect()->route('client.orders.index')->with('error', 'Đơn giao thất bại không thể yêu cầu hoàn trả.');
+    }
+
+
+    if (
+        $donHang->trang_thai === 'da_huy' &&
+        in_array($donHang->huy_boi, ['khach_hang', 'he_thong'])
+    ) {
+        return redirect()->route('client.orders.index')->with('error', 'Đơn bị hủy không thể hoàn trả.');
+    }
 
     if ($donHang->yeuCauHoanTra) {
         return back()->with('error', 'Đơn hàng này đã có yêu cầu hoàn trả.');
     }
 
-    // Kiểm tra đã quá 3 ngày kể từ updated_at hay chưa
+
+    if (
+        $donHang->trang_thai === 'hoan_thanh' &&
+        $donHang->id_phuong_thuc_thanh_toan != 2 && // != online
+        $donHang->updated_at->diffInDays(now()) > 3
+    ) {
+        return redirect()->route('client.orders.index')
+            ->with('error', 'Bạn chỉ có thể yêu cầu hoàn trả trong vòng 3 ngày sau khi đơn hoàn thành.');
+    }
+
+    return view('client.hoantra', compact('donHang'));
+}
+
+
+public function store(Request $request, $id)
+{
+    $donHang = DonHang::where('id', $id)
+        ->where('id_user', auth()->id())
+        ->firstOrFail();
+
+
+    if ($donHang->trang_thai === 'giao_that_bai') {
+        return redirect()->route('client.orders.index')->with('error', 'Đơn giao thất bại không thể yêu cầu hoàn trả.');
+    }
+
+
+    if (
+        $donHang->trang_thai === 'da_huy' &&
+        in_array($donHang->huy_boi, ['khach_hang', 'he_thong'])
+    ) {
+        return redirect()->route('client.orders.index')->with('error', 'Đơn bị hủy không thể hoàn trả.');
+    }
+
+    if ($donHang->yeuCauHoanTra) {
+        return back()->with('error', 'Đơn hàng này đã có yêu cầu hoàn trả.');
+    }
+
+    // ❌ Nếu không phải thanh toán online thì phải trong vòng 3 ngày
+    $isOnline = $donHang->id_phuong_thuc_thanh_toan == 2;
     $daQua3Ngay = $donHang->updated_at->diffInDays(now()) > 3;
-    if ($daQua3Ngay) {
+
+    if (!$isOnline && $daQua3Ngay) {
         return back()->with('error', 'Bạn chỉ có thể yêu cầu hoàn trả trong vòng 3 ngày kể từ khi đơn hoàn thành.');
     }
 

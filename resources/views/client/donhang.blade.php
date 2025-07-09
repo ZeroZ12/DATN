@@ -5,17 +5,24 @@
 @section('content')
 <div class="container py-4">
 
-    {{-- Tabs lọc theo trạng thái --}}
+    {{-- Tabs lọc --}}
+    @php
+        $trangThaiHienThi = [
+            null => 'Tất cả',
+            'cho_thanh_toan' => 'Chờ thanh toán',
+            'dang_giao_hang' => 'Đang giao hàng',
+            'hoan_thanh' => 'Hoàn thành',
+            'da_huy' => 'Đã hủy',
+            'hoan_tra' => 'Trả hàng / Hoàn tiền',
+        ];
+    @endphp
+
     <ul class="nav nav-tabs mb-4">
-        <li class="nav-item">
-            <a class="nav-link {{ request('trang_thai') == null ? 'active' : '' }}"
-               href="{{ route('client.orders.index') }}">Tất cả</a>
-        </li>
-        @foreach (App\Models\DonHang::TRANG_THAI as $trangThai)
+        @foreach ($trangThaiHienThi as $key => $label)
             <li class="nav-item">
-                <a href="{{ route('client.orders.index', ['trang_thai' => $trangThai]) }}"
-                   class="nav-link {{ request('trang_thai') == $trangThai ? 'active' : '' }}">
-                    {{ App\Models\DonHang::getTenTrangThai($trangThai) }}
+                <a href="{{ route('client.orders.index', $key ? ['trang_thai' => $key] : []) }}"
+                   class="nav-link {{ request('trang_thai') === $key ? 'active' : (request('trang_thai') === null && $key === null ? 'active' : '') }}">
+                    {{ $label }}
                 </a>
             </li>
         @endforeach
@@ -60,15 +67,6 @@
                 'da_huy' => ['text-danger', 'fa-times-circle'],
             ];
 
-            $color = $style[$trangThai][0] ?? 'text-secondary';
-            $icon = $style[$trangThai][1] ?? 'fa-question-circle';
-
-            $trangThaiVanChuyen = [
-                'cho_xac_nhan', 'cho_thanh_toan', 'da_xac_nhan',
-                'chuan_bi_hang', 'dang_giao_hang',
-                'giao_thanh_cong', 'giao_that_bai', 'hoan_thanh'
-            ];
-
             $leftTrangThai = $trangThai === 'hoan_thanh' ? 'giao_thanh_cong' : $trangThai;
             $leftText = App\Models\DonHang::getTenTrangThai($leftTrangThai);
             $leftIcon = $style[$leftTrangThai][1] ?? 'fa-question-circle';
@@ -76,13 +74,13 @@
         @endphp
 
         <div class="border rounded mb-4 p-3 bg-white shadow-sm">
-            {{-- Header đơn --}}
+            {{-- Header --}}
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <div class="fw-bold">
                     <i class="fa-solid fa-store me-1"></i>Mã đơn: {{ $donHang->ma_don ?? '---' }}
                 </div>
                 <div class="d-flex align-items-center">
-                    @if (in_array($trangThai, $trangThaiVanChuyen) && $trangThai !== 'da_huy')
+                    @if (!in_array($trangThai, ['da_huy']))
                         <span class="{{ $leftColor }}">
                             <i class="fa-solid {{ $leftIcon }}"></i> {{ $leftText }}
                         </span>
@@ -97,30 +95,25 @@
                                 (bởi Khách hàng)
                             @elseif ($donHang->huy_boi === 'admin')
                                 (bởi Admin)
-                            @elseif ($donHang->huy_boi === 'he_thong')
-                                (bởi Hệ thống)
                             @else
-                                (Không rõ người hủy)
+                                (---)
                             @endif
                         </span>
                     @endif
                 </div>
             </div>
 
-            {{-- Sản phẩm --}}
+            {{-- Chi tiết sản phẩm --}}
             @foreach ($donHang->chiTietDonHangs as $ct)
                 <div class="d-flex align-items-center mb-3">
                     <img src="{{ asset('storage/' . $ct->sanPham->anh_dai_dien) }}" alt="ảnh" width="80" class="me-3 border">
                     <div class="flex-grow-1">
-                        <div class="fw-bold">{{ $ct->sanPham->ten ?? 'Lỗi tên' }}</div>
+                        <div class="fw-bold">{{ $ct->sanPham->ten ?? '---' }}</div>
                         <div class="text-muted small">Mã biến thể: {{ $ct->bienTheSanPham->ma_bien_the ?? '---' }}</div>
                         <div class="text-muted small">Số lượng: x{{ $ct->so_luong }}</div>
                     </div>
-                    <div class="text-end fw-bold">
-
-                        <div class="text-danger">
-                            {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
-                        </div>
+                    <div class="text-end fw-bold text-danger">
+                        {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
                     </div>
                 </div>
             @endforeach
@@ -128,27 +121,23 @@
             {{-- Footer --}}
             <div class="d-flex justify-content-between align-items-center border-top pt-3">
                 <div>
+                    Hình thức thanh toán: {{ $donHang->phuongThucThanhToan->ten }}
                     @if ($trangThai === 'hoan_thanh')
                         <div class="text-muted small">
-                            Bạn có thể yêu cầu hoàn trả trước:
-                            <strong>{{ \Carbon\Carbon::parse($donHang->updated_at)->addDays(3)->format('d-m-Y') }}</strong>
+                            Yêu cầu hoàn trả trước: <strong>{{ \Carbon\Carbon::parse($donHang->updated_at)->addDays(3)->format('d-m-Y') }}</strong>
                         </div>
                     @endif
                 </div>
 
                 <div class="text-end">
-                   <!-- @if ($donHang->giam_gia > 0)
-    <div class="mb-1">
-        Giảm giá:
-        <span class="text-success">-{{ number_format($donHang->maGiamGia->gia_tri_toi_da, 0, ',', '.') }}₫</span>
-    </div> -->
-<!-- @endif -->
-
-<div class="mb-2">
-    Thành tiền:
-    <span class="text-danger fw-bold">{{ number_format($donHang->tong_tien, 0, ',', '.') }}₫</span>
-</div>
-
+                    <div class="mb-2">
+                        @if ($donHang->giam_gia > 0)
+                            <div>
+                                Giảm giá: <span class="text-success">-{{ number_format($donHang->giam_gia, 0, ',', '.') }}₫</span>
+                            </div>
+                        @endif
+                        Thành tiền: <span class="text-danger fw-bold">{{ number_format($donHang->tong_tien, 0, ',', '.') }}₫</span>
+                    </div>
 
                     <div class="btn-group">
                         {{-- Hủy đơn --}}
@@ -167,8 +156,23 @@
                             </form>
                         @endif
 
-                        {{-- Hoàn trả --}}
-                        @if ($trangThai === 'hoan_thanh')
+                        {{-- Trả hàng / hoàn tiền --}}
+                        @php
+                            $coTheHoanTra = false;
+                            $isOnline = $donHang->id_phuong_thuc_thanh_toan == 2;
+
+                            // Nếu đơn hoàn thành và chưa quá 3 ngày
+                            if ($trangThai === 'hoan_thanh' && !$daQua3Ngay) {
+                                $coTheHoanTra = true;
+                            }
+
+                            // Nếu đơn hủy bởi admin và thanh toán online (không giới hạn thời gian)
+                            if ($trangThai === 'da_huy' && $donHang->huy_boi === 'admin' && $isOnline) {
+                                $coTheHoanTra = true;
+                            }
+                        @endphp
+
+                        @if ($coTheHoanTra)
                             @if ($ycht)
                                 @if ($ycht->trang_thai === 'da_phe_duyet')
                                     <form action="{{ route('client.hoan-tra.trahang', $ycht->id) }}" method="POST">
@@ -178,22 +182,23 @@
                                         </button>
                                     </form>
                                 @else
-                                    <div class="alert alert-info mb-0">
-                                        <i class="fa-solid fa-rotate-left me-1"></i>
-                                        Yêu cầu hoàn trả:
-                                        <strong>{{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}</strong>
+                                    <div class="small text-muted">
+                                        Hoàn trả:
+                                        <span class="badge bg-info text-dark">
+                                            {{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}
+                                        </span>
                                     </div>
                                 @endif
-                            @elseif (!$daQua3Ngay)
+                            @else
                                 <a href="{{ route('client.hoan-tra.create', $donHang->id) }}"
                                    class="btn btn-outline-secondary">
-                                    Yêu Cầu Trả Hàng/Hoàn Tiền
+                                    Trả Hàng / Hoàn Tiền
                                 </a>
-                            @else
-                                <button type="button" class="btn btn-outline-secondary" disabled title="Quá 3 ngày">
-                                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Hết hạn hoàn trả
-                                </button>
                             @endif
+                        @elseif($trangThai === 'hoan_thanh' && $daQua3Ngay)
+                            <div class="small text-muted fst-italic">
+                                (Đã quá hạn yêu cầu hoàn trả)
+                            </div>
                         @endif
                     </div>
                 </div>
