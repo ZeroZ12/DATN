@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreMaGiamGiaRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MaGiamGiaController extends Controller
 {
@@ -17,6 +18,7 @@ class MaGiamGiaController extends Controller
      */
     public function index(Request $request) // Thêm Request $request để đọc query parameter
     {
+        // dd(Auth::user()->vai_tro);
         $query = MaGiamGia::orderBy('id', 'desc');
 
         // Logic để hiển thị bản ghi đã xóa mềm hoặc đang hoạt động

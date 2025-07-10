@@ -52,9 +52,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::resource('danhmuc', DanhMucController::class);
 
 
-
-
-
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
         Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
@@ -226,6 +223,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::post('phuongthucthanhtoan/{id}/restore', [PhuongThucThanhToanController::class, 'restore'])->name('phuongthucthanhtoan.restore');
     Route::delete('phuongthucthanhtoan/{id}/forceDelete', [PhuongThucThanhToanController::class, 'forceDelete'])->name('phuongthucthanhtoan.forceDelete');
     Route::resource('phuongthucthanhtoan', PhuongThucThanhToanController::class);
+
 
     Route::post('magiamgia/{id}/restore', [MaGiamGiaController::class, 'restore'])->name('magiamgia.restore');
     Route::delete('magiamgia/{id}/forceDelete', [MaGiamGiaController::class, 'forceDelete'])->name('magiamgia.forceDelete');
