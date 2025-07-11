@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('id_product')->constrained('san_phams');
             $table->foreignId('id_ram')->constrained('rams');
             $table->foreignId('id_o_cung')->constrained('o_cungs');
-            $table->decimal('gia', 12, 2);
-            $table->decimal('gia_so_sanh', 12, 2);
+            $table->decimal('gia', 12, 2); // giá bán
+            $table->decimal('gia_so_sanh', 12, 2); //giá gốc
             $table->integer('ton_kho');
             $table->string('ma_bien_the', 100)->unique();
             $table->string('anh_dai_dien', 255)->nullable();

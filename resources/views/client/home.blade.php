@@ -75,6 +75,44 @@
                     </form> --}}
                 </div>
 
+                
+                <h1>🗓️ Các Chương trình Khuyến Mãi Đang Diễn Ra</h1>
+
+                    @if($hasSaleEvents)
+                        @foreach($activeSaleEvents as $event)
+                            <div class="sale-event-card">
+                                <h2>{{ $event->name }}</h2>
+                                <p>{{ $event->description }}</p>
+                                <p>Thời gian: {{ $event->start_date->format('d/m/Y H:i') }} - {{ $event->end_date->format('d/m/Y H:i') }}</p>
+
+                                @if($event->bienTheSanPhams->isNotEmpty())
+                                    <h3>Sản phẩm trong chương trình:</h3>
+                                    <div class="product-list">
+                                        @foreach($event->bienTheSanPhams as $variant)
+                                            <div class="product-card">
+                                                {{-- Lấy thông tin sản phẩm chính nếu cần --}}
+                                                <h3>{{ $variant->sanPham->ten_sp ?? 'Sản phẩm không rõ' }}</h3>
+                                                <p>Biến thể: {{ $variant->ma_sku }}</p>
+                                                <div class="price">
+                                                    <span class="original-price">{{ number_format($variant->gia, 0, ',', '.') }} VNĐ</span>
+                                                    {{ number_format($variant->pivot->sale_price_override ?? $variant->gia, 0, ',', '.') }} VNĐ
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p>Không có sản phẩm nào trong chương trình này.</p>
+                                @endif
+                            </div>
+                            <hr>
+                        @endforeach
+                    @else
+                        <div class="no-products">
+                            <p>😔 Rất tiếc, hiện tại không có chương trình khuyến mãi nào đang diễn ra.</p>
+                            <p>Hãy ghé thăm lại sau nhé!</p>
+                        </div>
+                    @endif
+                
                 <!-- Danh sách sản phẩm -->
                 <div class="products-slider-wrapper">
                     <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i

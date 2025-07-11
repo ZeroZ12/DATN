@@ -387,7 +387,9 @@
         function toggleSimpleProductFields() {
             var coBienThe = document.querySelector('input[name="co_bien_the"]:checked').value;
             document.getElementById('simple-product-fields').style.display = (coBienThe == '0') ? 'block' : 'none';
-            document.querySelector('.variant-section').style.display = (coBienThe == '1') ? 'block' : 'none';
+            document.querySelectorAll('.variant-section').forEach(function(element) {
+                element.style.display = (coBienThe == '1') ? 'block' : 'none';
+            });
         }
 
         document.querySelectorAll('input[name="co_bien_the"]').forEach(function(radio) {
