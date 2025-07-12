@@ -21,32 +21,6 @@ class BienTheSanPham extends Model
         return $this->belongsTo(SanPham::class, 'id_product');
     }
 
-    public function saleEvents()
-    {
-        return $this->belongsToMany(SaleEvent::class, 'sale_event_product_variant')
-                    ->withPivot('sale_price_override')
-                    ->withTimestamps();
-    }
-
-     public function getEffectivePriceAttribute()
-    {
-        $currentPrice = $this->gia; // Giá mặc định là giá gốc của biến thể
-
-        // Tìm các sự kiện sale đang hoạt động mà biến thể này tham gia
-        $activeSaleEvents = $this->saleEvents()->active()->get();
-
-        foreach ($activeSaleEvents as $event) {
-            // Lấy giá sale từ pivot table nếu có, nếu không thì dùng giá mặc định của event (nếu event có giá mặc định)
-            $eventSalePrice = $event->pivot->sale_price_override ?? null;
-
-            // Nếu có giá sale cụ thể trong sự kiện và nó thấp hơn giá hiện tại
-            if ($eventSalePrice !== null && $eventSalePrice < $currentPrice) {
-                $currentPrice = $eventSalePrice;
-            }
-        }
-        return $currentPrice;
-    }
-
     // Quan hệ với bảng RAM
     public function ram()
     {
