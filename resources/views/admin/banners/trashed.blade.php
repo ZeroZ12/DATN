@@ -1,85 +1,103 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Thùng rác Banner')
+@section('title', 'Banner đã xóa mềm')
 
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container py-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
             <h2 class="mb-0">🗑️ Banner đã xóa mềm</h2>
-            <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary" title="Banner Hoạt động"><i class="fa fa-image" aria-hidden="true"></i> Banner Hoạt động</a>
+            <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách
+            </a>
         </div>
-
-        @if (session('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle mb-0">
                     <thead class="table-light text-center">
                         <tr>
-                            <th>ID</th>
-                            <th>Tên Banner</th>
-                            <th>Trạng thái</th>
-                            <th>Thời gian xóa</th>
-                            <th>Hành động</th>
+                            <th style="width: 60px;">ID</th>
+                            <th style="min-width: 180px;">Tên banner</th>
+                            <th style="width: 120px;">Ảnh</th>
+                            <th style="width: 100px;">Giảm giá</th>
+                            <th style="width: 100px;">Trạng thái</th>
+                            <th style="width: 180px;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- {{ dd($banners) }} --}}
                         @forelse($banners as $banner)
                             <tr>
                                 <td class="text-center">{{ $banner->id }}</td>
                                 <td class="text-center">{{ $banner->title }}</td>
                                 <td class="text-center">
-                                    @if ($banner->deleted_at)
-                                        <div class="hide badge badge-warning">
-                                            Vô hiệu
-                                        </div>
+                                    @if ($banner->image_url)
+                                        <img class="banner-img" src="{{ asset('storage/' . $banner->image_url) }}"
+                                            alt="Ảnh lỗi">
                                     @else
-                                        <div class="show badge badge-success">
-                                            Hoạt động
-                                        </div>
+                                        <span class="text-muted">Không có ảnh</span>
                                     @endif
                                 </td>
+                                <td class="text-center">{{ $banner->sale }}</td>
                                 <td class="text-center">
-                                    {{ $banner->deleted_at ? $banner->deleted_at->format('d/m/Y H:i:s') : 'Không xác định' }}
-                                <td class="text-center">
-
-                                    {{-- Nút Khôi phục --}}
-                                    <form action="{{ route('admin.banner.restore', $banner->id) }}" method="POST"
-                                        class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn khôi phục Banner này?')">
-                                        @csrf
-                                        {{-- Sử dụng @method('POST') vì restore là POST route, không phải PUT/PATCH --}}
-                                        <button type="submit" class="btn btn-sm btn-success me-1" title="Khôi phục"><i class="fa fa-reply" aria-hidden="true"></i></button>
-                                    </form>
-
-                                    {{-- Nút Xóa vĩnh viễn --}}
-                                    <form action="{{ route('admin.banner.forceDelete', $banner->id) }}" method="POST"
-                                        class="d-inline-block" onsubmit="return confirm('Bạn CÓ CHẮC chắn muốn XÓA VĨNH VIỄN Banner này?')">
-                                        @csrf
-                                        @method('DELETE') {{-- ForceDelete là DELETE route --}}
-                                        <button type="submit" class="btn btn-sm btn-danger" title="Xóa vĩnh viễn"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                    </form>
+                                    <span class="badge bg-warning text-dark">Vô hiệu</span>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Hành động
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <form action="{{ route('admin.banner.restore', $banner->id) }}"
+                                                    method="POST" onsubmit="return confirm('Khôi phục banner này?')">
+                                                    @csrf
+                                                    <button class="dropdown-item" type="submit">Khôi phục</button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form action="{{ route('admin.banner.forceDelete', $banner->id) }}"
+                                                    method="POST" onsubmit="return confirm('Xóa vĩnh viễn banner này?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="dropdown-item text-danger" type="submit">Xóa vĩnh
+                                                        viễn</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-muted">Không có Banner nào trong thùng rác.</td>
+                                <td colspan="6" class="text-center text-muted">
+                                    Không có banner nào trong thùng rác.
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer d-flex justify-content-center">
-                {{ $banners->links() }}
+            <div class="d-flex justify-content-center my-4">
+                <nav aria-label="Page navigation example">
+                    {{ $banners->links('pagination::bootstrap-5') }}
+                </nav>
             </div>
         </div>
     </div>
+    <style>
+        .banner-img {
+            width: 80px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle !important;
+        }
+    </style>
 @endsection

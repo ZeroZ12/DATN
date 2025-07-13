@@ -37,15 +37,15 @@ class DashBoardController extends Controller
        $thangHienTai = Carbon::now()->month;
        $namHienTai = Carbon::now()->year;
        // Doanh Số Ngày Hiện Tại
-       $doanhSoNgay = DonHang::whereDate('created_at', $homnay)
+       $doanhSoNgay = DonHang::whereDate('updated_at', $homnay)
        ->where('trang_thai', 'hoan_thanh')
        ->sum('tong_tien');
        // Doanh Số Tháng Hiện Tại
-       $doanhSoThang = DonHang::whereMonth('created_at', $thangHienTai)
-       ->whereYear('created_at', $namHienTai)->where('trang_thai', 'hoan_thanh')
+       $doanhSoThang = DonHang::whereMonth('updated_at', $thangHienTai)
+       ->whereYear('updated_at', $namHienTai)->where('trang_thai', 'hoan_thanh')
        ->sum('tong_tien');
        // Doanh Số Năm Hiện Tại
-       $doanhSoNam = DonHang::whereYear('created_at', $namHienTai)->where('trang_thai', 'hoan_thanh')
+       $doanhSoNam = DonHang::whereYear('updated_at', $namHienTai)->where('trang_thai', 'hoan_thanh')
        ->sum('tong_tien');
        // Tổng Doanh Số 
        $tongDoanhSo = DonHang::where('trang_thai', 'hoan_thanh')->sum('tong_tien');

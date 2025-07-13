@@ -3,51 +3,83 @@
 @section('title', 'Chi tiết banner')
 
 @section('content')
-<style>
-    .img-banner
-    {
-        width: 240px;
-        height: 120px;
-    }
-</style>
-    <div class="container">
-        <h2 class="mb-4">📂 Chi tiết banner: <span class="text-primary">{{ $banner->title }}</span></h2>
-
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="mb-3 fw-bold text-uppercase text-muted">Thông tin chi tiết</h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>ID:</strong> {{ $banner->id }}</li>
-                    <li class="list-group-item"><strong>Tên banner:</strong> {{ $banner->title }}</li>
-                    <li class="list-group-item"><strong>Giảm giá:</strong> {{ $banner->sale }} (%)</li>
-                    <li class="list-group-item"><strong>Ngày tạo:</strong> {{ $banner->created_at->format('d/m/Y H:i:s') }}
-                    </li>
-                    <li class="list-group-item"><strong>Ngày cập nhật:</strong>
-                        {{ $banner->updated_at->format('d/m/Y H:i:s') }}</li>
-                    <li class="list-group-item"><strong>Mô tả:</strong> {{ $banner->description }}</li>
-                    <li class="list-group-item img-banner mb-3">
-                    <strong>Ảnh:</strong>
-                    @if ($banner->image_url)
-                        <img class="w-100 h-100" src="{{ asset('storage/' . $banner->image_url) }}" alt="{{ $banner->title }}">
-                    @else
-                        <span>Không có ảnh</span>
-                    @endif
-                    </li>
-                    <li class="list-group-item"><strong>Trạng thái:</strong>
-                    @if ($banner->deleted_at)
-                        <span>Vô hiệu</span>
-                    @else
-                        <span>Hoạt động</span> 
-                    @endif
-                    </li>
-
-                </ul>
-
-                <div class="mt-4 d-flex justify-content-between">
-                    <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary" title="Quay lại"><i class="fa fa-reply" aria-hidden="true"></i></a>
-                    <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-warning" title="Chỉnh sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white fw-bold">
+                        <i class="fa fa-image me-2"></i> Chi tiết Banner
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            @if ($banner->image_url)
+                                <img src="{{ asset('storage/' . $banner->image_url) }}" class="banner-img-lg mb-2"
+                                    alt="Banner">
+                            @else
+                                <div class="text-muted">Không có ảnh</div>
+                            @endif
+                        </div>
+                        <table class="table table-borderless">
+                            <tr>
+                                <th style="width: 150px;">ID:</th>
+                                <td>{{ $banner->id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tên banner:</th>
+                                <td>{{ $banner->title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Giảm giá:</th>
+                                <td>{{ $banner->sale }}</td>
+                            </tr>
+                            <tr>
+                                <th>Trạng thái:</th>
+                                <td>
+                                    @if ($banner->deleted_at)
+                                        <span class="badge bg-warning text-dark">Vô hiệu</span>
+                                    @else
+                                        <span class="badge bg-success">Hoạt động</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Ngày tạo:</th>
+                                <td>{{ $banner->created_at }}</td>
+                            </tr>
+                            <tr>
+                                <th>Cập nhật:</th>
+                                <td>{{ $banner->updated_at }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
+                                Hành động
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.banner.index') }}">Quay lại</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('admin.banner.edit', $banner->id) }}">Sửa</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <style>
+        .banner-img-lg {
+            width: 320px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #eee;
+            background: #fafafa;
+        }
+    </style>
 @endsection

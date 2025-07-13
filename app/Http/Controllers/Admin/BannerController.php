@@ -63,7 +63,7 @@ class BannerController extends Controller
      */
     public function show(Banner $banner, $id)
     {   
-        $banner = Banner::findOrFail($id);
+        $banner = Banner::withTrashed()->findOrFail($id);
         // Kiểm tra xem banner có tồn tại không
         if (!$banner) {
             return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
@@ -76,7 +76,7 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner, $id)
     {
-        $banner = Banner::findOrFail($id);
+        $banner = Banner::withTrashed()->findOrFail($id);
         // Kiểm tra xem banner có tồn tại không
         if (!$banner) {
             return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
@@ -128,9 +128,9 @@ class BannerController extends Controller
             return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
         }
         // Xóa ảnh nếu có
-        if ($banner->image_url) {
-            Storage::disk('public')->delete($banner->image_url);
-        }
+        // if ($banner->image_url) {
+        //     Storage::disk('public')->delete($banner->image_url);
+        // }
         // Xóa mềm banner
         $banner->delete();
         return redirect()->route('admin.banner.index')->with('success', 'Xóa banner thành công.');

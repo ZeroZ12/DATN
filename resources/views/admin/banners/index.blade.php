@@ -4,14 +4,18 @@
 
 @section('content')
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
             <h2 class="mb-0">📂 Danh sách banner đang hoạt động</h2>
-            <div>
-                <a href="{{ route('admin.banner.create') }}" class="btn btn-primary" title="Thêm mới"><i class="fa fa-plus-square" aria-hidden="true"></i> Thêm mới</a>
-                <a href="{{ route('admin.banner.trashed') }}" class="btn btn-secondary me-2" title="Thùng rác"><i
-                        class="fa fa-trash" aria-hidden="true"></i> Thùng rác</a>
-                <a href="{{ route('admin.banner.showall') }}" class="btn btn-primary" title="Tất cả Banner"><i
-                        class="fa fa-image" aria-hidden="true"></i> Tất cả</a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('admin.banner.create') }}" class="btn btn-primary" title="Thêm mới">
+                    <i class="fa fa-plus-square me-1"></i> Thêm mới
+                </a>
+                <a href="{{ route('admin.banner.trashed') }}" class="btn btn-secondary" title="Thùng rác">
+                    <i class="fa fa-trash me-1"></i> Thùng rác
+                </a>
+                <a href="{{ route('admin.banner.showall') }}" class="btn btn-primary" title="Tất cả Banner">
+                    <i class="fa fa-image me-1"></i> Tất cả
+                </a>
             </div>
         </div>
 
@@ -23,15 +27,15 @@
 
         <div class="card shadow-sm">
             <div class="card-body table-responsive">
-                <table class="table table-hover align-middle">
+                <table class="table table-hover align-middle mb-0">
                     <thead class="table-light text-center">
                         <tr>
-                            <th>ID</th>
-                            <th>Tên banner</th>
-                            <th>Ảnh</th>
-                            <th>Giảm giá</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
+                            <th style="width: 60px;">ID</th>
+                            <th style="min-width: 180px;">Tên banner</th>
+                            <th style="width: 120px;">Ảnh</th>
+                            <th style="width: 100px;">Giảm giá</th>
+                            <th style="width: 100px;">Trạng thái</th>
+                            <th style="width: 160px;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,44 +43,75 @@
                             <tr>
                                 <td class="text-center">{{ $banner->id }}</td>
                                 <td class="text-center">{{ $banner->title }}</td>
-                                <td class="text-center image_banner">
+                                <td class="text-center">
                                     @if ($banner->image_url)
-                                        <img class="w-100 h-100" src="{{ asset('storage/' . $banner->image_url) }}"
+                                        <img class="banner-img" src="{{ asset('storage/' . $banner->image_url) }}"
                                             alt="Ảnh lỗi">
                                     @else
-                                        <span>Không có ảnh</span>
+                                        <span class="text-muted">Không có ảnh</span>
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $banner->sale }}</td>
                                 <td class="text-center">
                                     @if ($banner->deleted_at)
-                                        <div class="hide badge badge-warning">
-                                            Vô hiệu
-                                        </div>
+                                        <span class="badge bg-warning text-dark">Vô hiệu</span>
                                     @else
-                                        <div class="show badge badge-success">
-                                            Hoạt động
-                                        </div>
+                                        <span class="badge bg-success">Hoạt động</span>
                                     @endif
                                 </td>
-                                <td class="text-center d-flex justify-content-center gap-1">
-                                    <a href="{{ route('admin.banner.edit', $banner->id) }}" class="btn btn-sm btn-warning"
-                                        title="Sửa"><i class="fa fa-edit" aria-hidden="true"></i></a>
-                                    <a href="{{ route('admin.banner.show', $banner->id) }}" class="btn btn-sm btn-info"
-                                        title="Chi tiết"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                    <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST"
-                                        class="d-inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Bạn chắc muốn xóa mềm banner này?')" type="submit" class="btn btn-sm btn-danger" title="Xóa mềm">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Hành động
                                         </button>
-                                    </form>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('admin.banner.show', $banner->id) }}">Xem</a>
+                                            </li>
+                                            @if ($banner->deleted_at)
+                                                <li>
+                                                    <form action="{{ route('admin.banner.restore', $banner->id) }}"
+                                                        method="POST" onsubmit="return confirm('Khôi phục banner này?')">
+                                                        @csrf
+                                                        <button class="dropdown-item" type="submit">Khôi phục</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form action="{{ route('admin.banner.forceDelete', $banner->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Xóa vĩnh viễn banner này?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item text-danger" type="submit">Xóa vĩnh
+                                                            viễn</button>
+                                                    </form>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('admin.banner.edit', $banner->id) }}">Sửa</a>
+                                                </li>
+                                                <li>
+                                                    <form action="{{ route('admin.banner.destroy', $banner->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Bạn chắc muốn xóa mềm banner này?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item text-danger" type="submit">Xóa
+                                                            mềm</button>
+                                                    </form>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center text-muted">Chưa có banner nào.
+                                <td colspan="6" class="text-center text-muted">
+                                    Chưa có banner nào.
                                     <a href="{{ route('admin.banner.trashed') }}">Xem các banner đã xóa mềm?</a>
                                 </td>
                             </tr>
@@ -91,6 +126,24 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .banner-img {
+            width: 80px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle !important;
+        }
+
+        .btn-info {
+            color: #fff;
+        }
+    </style>
 @endsection
-
-
