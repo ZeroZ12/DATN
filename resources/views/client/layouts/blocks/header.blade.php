@@ -78,11 +78,13 @@
                 @endforeach
             </ul>
         </div>
-        <form class="input-group me-2" style="max-width: 400px;">
-            <input class="form-control" type="search" placeholder="Bạn cần tìm gì?">
+        <form class="input-group me-2" style="max-width: 400px;" method="GET" action="{{ route('searcher.search') }}">
+            {{-- Thêm phương thức GET và action đến route tìm kiếm --}}
+            <input class="form-control" type="search" id="keyword" placeholder="Bạn cần tìm gì?">
             <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <button type="submit" class="btn btn-danger d-block d-md-none"><i
-                    class="fa-solid fa-magnifying-glass"></i></button>
+            <button type="button" id="btnSearch" class="btn btn-danger d-block d-md-none"><i
+                    class="fa-solid fa-magnifying-glass"></i>
+            </button>
         </form>
 
         <div class="ms-auto d-flex align-items-center">

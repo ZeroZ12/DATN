@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\SearcherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -339,3 +340,4 @@ Route::get('/payment-fail/{id}', function($id) {
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
 Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');
+Route::get('/search', [SearcherController::class, 'search'])->name('searcher.search'); // Thêm route tìm kiếm
