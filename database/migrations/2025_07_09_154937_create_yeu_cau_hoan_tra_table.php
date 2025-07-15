@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('yeu_cau_hoan_tra', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('don_hang_id')->unsigned();
+            $table->bigInteger('id_don_hang')->unsigned();
             $table->string('ma_hoan_tra', 100);
-            $table->string('sđt_lien_he', 20);
+            $table->string('sdt_lien_he', 20);
             $table->enum('phuong_thuc_hoan_tien', ['momo', 'bank_transfer']);
             $table->string('ten_ngan_hang',100)->nullable();
             $table->string('so_tai_khoan', 50)->nullable();

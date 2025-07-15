@@ -2,47 +2,64 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\YeuCauHoanTra;
 use Illuminate\Http\Request;
+use App\Models\YeuCauHoanTra;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class YeuCauHoanTraController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $danhSach = YeuCauHoanTra::with('donHang')->latest()->paginate(20);
-        return view('admin.hoan_tra.index', compact('danhSach'));
+        $query = YeuCauHoanTra::with(['donHang', 'donHang.user']);
+        if ($request->filled('trang_thai')) {
+            $query->where('trang_thai', $request->trang_thai);
+        }
+        $danhSach = $query->latest()->paginate(20);
+
+        $trangThaiHienThi = [
+            '' => 'Tất cả',
+            'cho_phe_duyet' => 'Chờ phê duyệt',
+            'da_phe_duyet' => 'Đã phê duyệt',
+            'tu_choi' => 'Từ chối',
+            'dang_van_chuyen_tra_hang' => 'Đang trả hàng',
+            'da_nhan_hang' => 'Đã nhận hàng',
+            'da_hoan_tien' => 'Đã hoàn tiền',
+        ];
+
+        return view('admin.donhang.listhoantra', compact('danhSach', 'trangThaiHienThi'));
     }
 
-  public function show($id)
-{
-    $hoanTra = YeuCauHoanTra::with([
-        'donHang.user',
-        'donHang.diaChiNguoiDung',
-        'donHang.phuongThucThanhToan',
-        'donHang.chiTietDonHangs.bienTheSanPham.sanPham'
-    ])->findOrFail($id);
-
-    return view('admin.donhang.showhoantra', compact('hoanTra'));
-}
-
-
-public function capNhatTrangThai(Request $request, $id)
-{
-    $hoanTra = YeuCauHoanTra::findOrFail($id);
-
-    $hienTai = $request->input('trang_thai_hien_tai');
-    $moi = $request->input('trang_thai');
-
-    $allowed = YeuCauHoanTra::TRANG_THAI_FLOW[$hienTai] ?? [];
-    if (!in_array($moi, $allowed)) {
-        return back()->withErrors(['msg' => 'Không thể cập nhật trạng thái này']);
+    public function show($id)
+    {
+        $hoanTra = YeuCauHoanTra::with([
+            'donHang.user',
+            'donHang.diaChiNguoiDung',
+            'donHang.phuongThucThanhToan',
+            'donHang.chiTietDonHangs.bienTheSanPham.sanPham'
+        ])->findOrFail($id);
+        $adminHoanTra = YeuCauHoanTra::findOrFail($id)->admin_hoan_tra ?? 'admin'; // Lấy tên admin hoặc mặc định là 'admin'
+        return view('admin.donhang.showhoantra', compact('hoanTra', 'adminHoanTra'));
     }
 
-    $hoanTra->trang_thai = $moi;
-    $hoanTra->save();
 
-    return back()->with('success', 'Đã cập nhật trạng thái');
-}
+    public function capNhatTrangThai(Request $request, $id)
+    {
+        $hoanTra = YeuCauHoanTra::findOrFail($id);
 
+        $hienTai = $request->input('trang_thai_hien_tai');
+        $moi = $request->input('trang_thai');
+
+        $allowed = YeuCauHoanTra::TRANG_THAI_FLOW[$hienTai] ?? [];
+        if (!in_array($moi, $allowed)) {
+            return back()->withErrors(['msg' => 'Không thể cập nhật trạng thái này']);
+        }
+        $admin_HoanTra = Auth::user()->ten_dang_nhap ?? 'admin';
+        // Lưu tên người dùng hiện tại hoặc mặc định là 'admin'
+        $hoanTra->trang_thai = $moi;
+        $hoanTra->admin_hoan_tra = $admin_HoanTra;
+        $hoanTra->save();
+
+        return back()->with('success', 'Đã cập nhật trạng thái');
+    }
 }

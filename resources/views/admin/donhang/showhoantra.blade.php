@@ -68,6 +68,7 @@
                 Thông tin hoàn trả
             </div>
             <div class="card-body">
+                <p><strong>Admin xác nhận: </strong>{{ $adminHoanTra }}</p>
                 <p><strong>Mã hoàn trả:</strong> {{ $hoanTra->ma_hoan_tra }}</p>
                 <p><strong>Trạng thái:</strong>
                     <span class="badge status-{{ $hoanTra->trang_thai }}">
@@ -101,7 +102,7 @@
             </div>
         </div>
 
-        <a href="{{ route('admin.don-hang.index')}}" class="btn btn-outline-secondary">
+        <a href="{{ route('admin.hoan-tra.index')}}" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
         @php

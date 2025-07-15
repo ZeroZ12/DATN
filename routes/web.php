@@ -246,14 +246,15 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
 
     //Đơn hàng
-      Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
+    Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
     Route::get('don-hang/{id}', action: [DonHangController::class, 'show'])->name('don-hang.show');
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
+    Route::get('admin/don-hang/revenue-list', [\App\Http\Controllers\Admin\DonHangController::class, 'revenueList'])->name('don-hang.revenue-list');
 
-    Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('admin.hoan-tra.index');
+    Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('hoan-tra.index');
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
     Route::post('/hoan-tra/{id}/cap-nhat-trang-thai', [AdminYCHT::class, 'capNhatTrangThai'])
-    ->name('hoan-tra.cap-nhat-trang-thai');
+        ->name('hoan-tra.cap-nhat-trang-thai');
 
 });
 
@@ -274,13 +275,13 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
-Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
+    Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
 
-//hoàn trả
-      Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
+    //hoàn trả
+    Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
     Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
     Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
-    ->name('hoan-tra.trahang');
+        ->name('hoan-tra.trahang');
 
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
@@ -327,14 +328,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Payment routes
     Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
-Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
-Route::get('/payment-success/{id}', function($id) {
-    return "Thanh toán thành công! Đơn hàng: #" . $id;
-})->name('client.payment.success');
+    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
+    Route::get('/payment-success/{id}', function ($id) {
+        return "Thanh toán thành công! Đơn hàng: #" . $id;
+    })->name('client.payment.success');
 
-Route::get('/payment-fail/{id}', function($id) {
-    return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
-})->name('client.payment.fail');
+    Route::get('/payment-fail/{id}', function ($id) {
+        return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
+    })->name('client.payment.fail');
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
