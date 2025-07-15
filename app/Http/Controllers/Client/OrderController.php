@@ -110,6 +110,7 @@ public function cancel($id)
 {
     $user = Auth::user();
 
+    /** @var \App\Models\User $user */
     $order = $user->donHangs()->where('id', $id)->firstOrFail();
 
     // Chỉ cho phép hủy nếu đơn hàng chưa xử lý

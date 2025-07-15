@@ -78,11 +78,13 @@
                 @endforeach
             </ul>
         </div>
-        <form class="input-group me-2" style="max-width: 400px;">
-            <input class="form-control" type="search" placeholder="Bạn cần tìm gì?">
-            <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <button type="submit" class="btn btn-danger d-block d-md-none"><i
-                    class="fa-solid fa-magnifying-glass"></i></button>
+        <form class="input-group me-2" style="max-width: 400px;" method="GET" action="{{ route('searcher.search') }}">
+            <input class="form-control" type="search" id="keyword" name="keyword" placeholder="Bạn cần tìm gì?">
+
+            <button type="submit" class="btn btn-danger">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                {{-- <i class="fa-solid fa-magnifying-glass"></i> --}}
+            </button>
         </form>
 
         <div class="ms-auto d-flex align-items-center">
@@ -124,13 +126,7 @@
 </div>
 
 
-                {{-- LIÊN KẾT ĐĂNG XUẤT (giữ nguyên cách bạn đã làm) --}}
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-link text-white text-decoration-none p-0 border-0 me-3">
-                        <span><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất</span>
-                    </button>
-                </form>
+
 
                 {{-- THÊM LIÊN KẾT ADMIN DASHBOARD NẾU LÀ QUẢN TRỊ VIÊN --}}
                 @if (Auth::user()->vai_tro === 'quan_tri')
