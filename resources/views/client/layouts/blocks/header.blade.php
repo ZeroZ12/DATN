@@ -81,9 +81,8 @@
         <form class="input-group me-2" style="max-width: 400px;" method="GET" action="{{ route('searcher.search') }}">
             <input class="form-control" type="search" id="keyword" name="keyword" placeholder="Bạn cần tìm gì?">
             
-            <button type="submit" class="btn btn-danger d-block d-md-none"> 
-                <span class="input-group-text bg-white">
-                <i class="fa-solid fa-magnifying-glass"></i></span>
+            <button type="submit" class="btn btn-danger"> 
+                <i class="fa-solid fa-magnifying-glass"></i>
                 {{-- <i class="fa-solid fa-magnifying-glass"></i> --}}
             </button>
         </form>
