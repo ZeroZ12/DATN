@@ -79,11 +79,12 @@
             </ul>
         </div>
         <form class="input-group me-2" style="max-width: 400px;" method="GET" action="{{ route('searcher.search') }}">
-            {{-- Thêm phương thức GET và action đến route tìm kiếm --}}
-            <input class="form-control" type="search" id="keyword" placeholder="Bạn cần tìm gì?">
-            <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <button type="button" id="btnSearch" class="btn btn-danger d-block d-md-none"><i
-                    class="fa-solid fa-magnifying-glass"></i>
+            <input class="form-control" type="search" id="keyword" name="keyword" placeholder="Bạn cần tìm gì?">
+            
+            <button type="submit" class="btn btn-danger d-block d-md-none"> 
+                <span class="input-group-text bg-white">
+                <i class="fa-solid fa-magnifying-glass"></i></span>
+                {{-- <i class="fa-solid fa-magnifying-glass"></i> --}}
             </button>
         </form>
 

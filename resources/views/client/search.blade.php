@@ -2,89 +2,68 @@
 @section('content')
     @include('client.layouts.blocks.banner')
     <div class="container py-4">
-        <!-- Categories Section -->
-    <div class="filter-area mb-4">
-            <form method="GET" action="{{ route('searcher.search') }}" class="filter-form">
-                <input type="hidden" name="keyword" value="{{ $keyword }}"> {{-- Giữ lại từ khóa tìm kiếm ban đầu --}}
-                <div class="d-flex flex-wrap gap-2"> {{-- Sử dụng flexbox cho các select box --}}
-                    <select name="id_brand" class="form-select filter-tab-select">
-                        <option value="">Hãng</option>
-                        @foreach ($thuongHieus as $item)
-                            <option value="{{ $item->id }}" {{ request('id_brand') == $item->id ? 'selected' : '' }}>
-                                {{ $item->ten }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select name="id_chip" class="form-select filter-tab-select">
-                        <option value="">CPU</option>
-                        @foreach ($chips as $item)
-                            <option value="{{ $item->id }}" {{ request('id_chip') == $item->id ? 'selected' : '' }}>
-                                {{ $item->ten }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select name="id_ram" class="form-select filter-tab-select">
-                        <option value="">RAM</option>
-                        @foreach ($rams as $item)
-                            <option value="{{ $item->id }}" {{ request('id_ram') == $item->id ? 'selected' : '' }}>
-                                {{ $item->dung_luong }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select name="id_o_cung" class="form-select filter-tab-select">
-                        <option value="">SSD</option>
-                        @foreach ($oCungs as $item)
-                            <option value="{{ $item->id }}" {{ request('id_o_cung') == $item->id ? 'selected' : '' }}>
-                                {{ $item->dung_luong }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select name="id_gpu" class="form-select filter-tab-select">
-                        <option value="">VGA</option>
-                        @foreach ($gpus as $item)
-                            <option value="{{ $item->id }}" {{ request('id_gpu') == $item->id ? 'selected' : '' }}>
-                                {{ $item->ten }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <button type="submit" class="btn btn-primary filter-submit-btn">
-                        <i class="fas fa-search"></i> Lọc
-                    </button>
-
-                    <button type="button" class="btn btn-secondary filter-reset-btn" onclick="resetSearchFilters()">
-                        <i class="fas fa-times"></i> Xóa bộ lọc
-                    </button>
+        <div class="filter-area mb-4">
+            <form method="GET" action="{{ route('searcher.search') }}" class="filter-form d-flex align-items-center flex-wrap">
+                <div class="input-group me-3 mb-2">
+                    <input type="text" name="keyword" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="{{ $keyword }}">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </div>
+
+                {{-- Thêm các bộ lọc khác ở đây --}}
+                @isset($rams) {{-- Kiểm tra xem biến $rams có tồn tại không trước khi hiển thị --}}
+                <div class="me-3 mb-2">
+                    <label for="id_ram" class="form-label visually-hidden">RAM:</label>
+                    <select name="id_ram" id="id_ram" class="form-select" onchange="this.form.submit()">
+                        <option value="">Tất cả RAM</option>
+                        @foreach($rams as $ram)
+                            <option value="{{ $ram->id }}" {{ request('id_ram') == $ram->id ? 'selected' : '' }}>{{ $ram->ten_ram }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @endisset
+
+                @isset($o_cungs) {{-- Kiểm tra xem biến $o_cungs có tồn tại không trước khi hiển thị --}}
+                <div class="me-3 mb-2">
+                    <label for="id_o_cung" class="form-label visually-hidden">Ổ cứng:</label>
+                    <select name="id_o_cung" id="id_o_cung" class="form-select" onchange="this.form.submit()">
+                        <option value="">Tất cả ổ cứng</option>
+                        @foreach($o_cungs as $oc)
+                            <option value="{{ $oc->id }}" {{ request('id_o_cung') == $oc->id ? 'selected' : '' }}>{{ $oc->ten_o_cung }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @endisset
+                
+                <button type="button" class="btn btn-outline-secondary mb-2" onclick="resetSearchFilters()">
+                    <i class="fas fa-redo-alt"></i> Xóa bộ lọc
+                </button>
             </form>
         </div>
 
-
-        @if ($searchResults->isEmpty())
+        @if ($sanphams->isEmpty())
             <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
         @else
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-                @foreach ($searchResults as $sp)
-                    @php
-                        if ($sp->co_bien_the) {
-                            $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) use ($request) {
-                                return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                                       (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-                            }) ?? $sp->BienTheSanPhams->first(); // fallback if specific variant not found
-                            $gia = $bienThe ? $bienThe->gia : 0;
-                            $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
-                        } else {
-                            $bienThe = null;
-                            $gia = $sp->gia;
-                            $gia_so_sanh = $sp->gia_so_sanh;
-                        }
-                    @endphp
-                    {{-- Product Card (Tái sử dụng code từ trang chủ) --}}
-                    <div class="col">
+            {{--
+                LƯU Ý: Mã gốc có bộ lọc where('id_category', $danhMuc->id) ở đây.
+            --}}
+            <div class="products-slider-wrapper">
+                <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i
+                        class="fas fa-chevron-left"></i></button>
+                <div class="products-slider">
+                    {{-- Lặp qua TẤT CẢ $sanphams vì chúng đã được lọc bởi controller --}}
+                    @foreach ($sanphams as $sp) 
+                        @php
+                            $bienThe = $sp->bienTheSanPhams->first() ?? $sp->BienTheSanPhams()->first(); // Sử dụng first() từ collection, fallback để truy vấn nếu cần (mặc dù eager loading sẽ bao gồm điều này)
+                            
+                            if ($sp->co_bien_the) {
+                                $gia = $bienThe ? $bienThe->gia : 0;
+                                $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                            } else {
+                                $gia = $sp->gia;
+                                $gia_so_sanh = $sp->gia_so_sanh;
+                            }
+                        @endphp
+
                         <div class="product-card">
                             <div class="product-badges">
                                 @if ($sp->is_hot)
@@ -103,8 +82,8 @@
                             </div>
                             <div class="product-image">
                                 <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                                     alt="{{ $sp->ten }}"
-                                     onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                                    alt="{{ $sp->ten }}"
+                                    onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                             </div>
                             <div class="product-info">
                                 <h3 class="product-title">{{ $sp->ten }}</h3>
@@ -134,10 +113,10 @@
                                     <form action="{{ route('client.cart.add') }}" method="POST"
                                         class="add-to-cart-form"
                                         data-product-id="{{ $sp->id }}"
-                                        data-variant-id="{{ $bienThe->id ?? '' }}">
+                                        data-variant-id="{{ $bienThe->id ?? '' }}"> {{-- Bây giờ nó sẽ đúng --}}
                                         @csrf
                                         <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                        <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                        <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> {{-- Bây giờ nó sẽ đúng --}}
                                         <input type="hidden" name="so_luong" value="1">
                                         <button type="submit" class="add-to-cart-btn">
                                             <i class="fas fa-shopping-cart"></i>
@@ -148,31 +127,28 @@
                             </div>
                             <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+                <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)"><i
+                        class="fas fa-chevron-right"></i></button>
             </div>
-            {{-- Thêm phân trang nếu bạn dùng $searchResults->links() --}}
             <div class="d-flex justify-content-center mt-4">
-                {{-- {{ $searchResults->links() }} --}}
+                {{ $sanphams->appends(request()->except('page'))->links() }}
             </div>
         @endif
     </div>
 
     <script>
         function resetSearchFilters() {
-            // Lấy URL hiện tại
             const url = new URL(window.location.href);
-
             // Xóa tất cả các tham số lọc trừ 'keyword'
             url.searchParams.forEach((value, key) => {
-                if (key !== 'keyword') {
+                if (key !== 'keyword' && key !== 'page') { // Giữ 'keyword' và loại bỏ 'page'
                     url.searchParams.delete(key);
                 }
             });
-
-            // Chuyển hướng đến URL mới
+            url.searchParams.set('keyword', ''); // Xóa luôn từ khóa khi reset
             window.location.href = url.toString();
         }
     </script>
 @endsection
-

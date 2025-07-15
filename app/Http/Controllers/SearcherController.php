@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BienTheSanPham;
+use App\Models\OCung;
+use App\Models\Ram;
 use App\Models\SanPham;
 use Illuminate\Http\Request;
 
@@ -11,33 +13,53 @@ class SearcherController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('keyword', '');
-        $idBrand = $request->input('id_brand');
-        $isChip = $request->input('is_chip');
+        $idRam = $request->input('id_ram');
+        $idOCung = $request->input('id_o_cung');
+
         $query = SanPham::query();
-        if (!empty($keyword)) {
-            $query->where('ten_san_pham', 'LIKE', '%' . $keyword . '%')
+
+        // Tìm kiếm theo từ khóa
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('ten', 'LIKE', '%' . $keyword . '%') // Giả sử tên cột là 'ten'
                   ->orWhere('mo_ta', 'LIKE', '%' . $keyword . '%');
-        }
-        if($idBrand){
-            $query->where('is_thuong_hieu', $idBrand);
-        }
-        if($isChip){
-            $query->where('is_chip', $isChip);
-        }
-        if($request->has('is_ram') || $request->has('is_o_cung')) {
-            $query->whereHas('BienTheSanPham', function($q) use ($request) {
-                if($request->has('is_ram')) {
-                    $q->where('is_ram', $request->input('is_ram'));
-                }
-                if($request->has('is_o_cung')) {
-                    $q->where('is_o_cung', $request->input('is_o_cung'));
-                }
             });
         }
-        $searchResults = $query->with('BienTheSanPham','thuongHieu', 'chip', 'ram', 'oCung')
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
-        return view('client.search', compact('keyword', 'searchResults', 'idBrand', 'isChip'))
+
+        // Lọc theo RAM (nếu có ID RAM được cung cấp)
+        if ($idRam) {
+            $query->whereHas('bienTheSanPhams', function ($q) use ($idRam) {
+                $q->where('id_ram', $idRam);
+            });
+        }
+
+        // Lọc theo Ổ cứng (nếu có ID Ổ cứng được cung cấp)
+        if ($idOCung) {
+            $query->whereHas('bienTheSanPhams', function ($q) use ($idOCung) {
+                $q->where('id_o_cung', $idOCung);
+            });
+        }
+        
+        // Eager load các mối quan hệ cho giá và biến thể
+        $sanphams = $query->with([
+            'bienTheSanPhams' => function ($q) use ($idRam, $idOCung) {
+                if ($idRam) {
+                    $q->where('id_ram', $idRam);
+                }
+                if ($idOCung) {
+                    $q->where('id_o_cung', $idOCung);
+                }
+            },
+            'bienTheSanPhams.ram', // Tải chi tiết RAM nếu cần
+            'bienTheSanPhams.oCung', // Tải chi tiết OCung nếu cần
+            'danhGiaSanPhams' // Tải đánh giá để tính điểm trung bình
+        ])->paginate(10);
+
+        // Lấy tất cả RAM và Ổ cứng để hiển thị trong dropdown
+        $rams = Ram::all();
+        $o_cungs = OCung::all();
+
+        return view('client.search', compact('keyword', 'sanphams', 'rams', 'o_cungs'))
             ->with('title', 'Kết quả tìm kiếm');
     }
 
