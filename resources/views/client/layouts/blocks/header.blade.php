@@ -80,8 +80,8 @@
         </div>
         <form class="input-group me-2" style="max-width: 400px;" method="GET" action="{{ route('searcher.search') }}">
             <input class="form-control" type="search" id="keyword" name="keyword" placeholder="Bạn cần tìm gì?">
-            
-            <button type="submit" class="btn btn-danger"> 
+
+            <button type="submit" class="btn btn-danger">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 {{-- <i class="fa-solid fa-magnifying-glass"></i> --}}
             </button>
@@ -126,13 +126,7 @@
 </div>
 
 
-                {{-- LIÊN KẾT ĐĂNG XUẤT (giữ nguyên cách bạn đã làm) --}}
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-link text-white text-decoration-none p-0 border-0 me-3">
-                        <span><i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất</span>
-                    </button>
-                </form>
+
 
                 {{-- THÊM LIÊN KẾT ADMIN DASHBOARD NẾU LÀ QUẢN TRỊ VIÊN --}}
                 @if (Auth::user()->vai_tro === 'quan_tri')
