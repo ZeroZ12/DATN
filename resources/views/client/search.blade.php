@@ -4,10 +4,10 @@
     <div class="container py-4">
         <div class="filter-area mb-4">
             <form method="GET" action="{{ route('searcher.search') }}" class="filter-form d-flex align-items-center flex-wrap">
-                <div class="input-group me-3 mb-2">
+                {{-- <div class="input-group me-3 mb-2">
                     <input type="text" name="keyword" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="{{ $keyword }}">
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                </div>
+                </div> --}}
 
                 {{-- Thêm các bộ lọc khác ở đây --}}
                 @isset($rams) {{-- Kiểm tra xem biến $rams có tồn tại không trước khi hiển thị --}}
