@@ -17,17 +17,17 @@
                             </div>
                         </a>
                         <div class="vr mx-3"></div>
-                        <a href="{{ route('admin.hoan-tra.index') }}" class="text-decoration-none text-dark flex-fill">
+                        <a href="{{ route('admin.hoan-tra.index', ['trang_thai' => 'cho_phe_duyet']) }}" class="text-decoration-none text-dark flex-fill">
                             <div class="text-center py-2 hover-shadow">
                                 <div class="fw-bold fs-4">{{ $HoanTra['cho_phe_duyet'] }}</div>
                                 <div>Yêu Cầu Hoàn Trả</div>
                             </div>
                         </a>
                         <div class="vr mx-3"></div>
-                        <a href="{{ route('admin.don-hang.index', ['trang_thai' => 'da_hoan_tien']) }}"
+                        <a href="{{ route('admin.hoan-tra.index', ['trang_thai' => 'da_hoan_tien']) }}"
                             class="text-decoration-none text-dark flex-fill">
                             <div class="text-center py-2 hover-shadow">
-                                <div class="fw-bold fs-4">{{ $thongKe['da_hoan_tien'] }}</div>
+                                <div class="fw-bold fs-4">{{ $HoanTra['da_hoan_tien'] }}</div>
                                 <div>Đơn Đã Hoàn Tiền</div>
                             </div>
                         </a>
