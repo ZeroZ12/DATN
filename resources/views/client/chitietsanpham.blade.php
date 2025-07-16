@@ -557,25 +557,23 @@
             <div class="col-md-8">
                 <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
 
-                <div class="d-flex align-items-center mb-3">
-                    <span class="fs-5 text-warning me-2">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-3">Tình trạng: <span id="tinhtrang-span">
                         @php
-                            $fullStars = floor($averageRating);
-                            $halfStar = $averageRating - $fullStars >= 0.5 ? 1 : 0;
-                            $emptyStars = 5 - $fullStars - $halfStar;
+                            if ($sanpham->co_bien_the) {
+                                // Nếu có biến thể, kiểm tra tất cả biến thể đều hết hàng thì mới coi là hết hàng
+                                $allVariantsOut = $sanpham->bienTheSanPhams->count() > 0 && $sanpham->bienTheSanPhams->every(function($bt){ return $bt->ton_kho <= 0; });
+                                $isOutOfStock = $allVariantsOut;
+                            } else {
+                                $isOutOfStock = $sanpham->so_luong <= 0;
+                            }
                         @endphp
-                        @for ($i = 0; $i < $fullStars; $i++)
-                            <i class="fas fa-star"></i>
-                        @endfor
-                        @if ($halfStar)
-                            <i class="fas fa-star-half-alt"></i>
+                        @if($isOutOfStock)
+                            <span class="fw-bold text-warning">Hết hàng</span>
+                        @else
+                            <span class="fw-bold text-success">Còn hàng</span>
                         @endif
-                        @for ($i = 0; $i < $emptyStars; $i++)
-                            <i class="far fa-star"></i>
-                        @endfor
-                    </span>
-                    <span class="fs-5 fw-bold me-2">{{ number_format($averageRating, 1) }}</span>
-                    <span class="text-muted">({{ $totalReviews }} đánh giá)</span>
+                    </span></span>
                 </div>
 
                 <div class="d-md-flex gap-3">
@@ -635,8 +633,12 @@
                             </div>
 
                             <div class="d-flex gap-2 mb-2">
-                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill">THÊM VÀO GIỎ</button>
-                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn">MUA NGAY</button>
+                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
+                                </button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
+                                </button>
                             </div>
                         </form>
                         @else
@@ -659,8 +661,12 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-2 mb-2">
-                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill">THÊM VÀO GIỎ</button>
-                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn">MUA NGAY</button>
+                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
+                                </button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
+                                </button>
                             </div>
                         </form>
                         @endif
@@ -1035,9 +1041,36 @@
                 if (variant) {
                     document.getElementById('selected_variant').value = variant.id;
                     document.getElementById('bienthe-info').style.display = 'block';
-                    document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') +
-                        'đ';
+                    document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
                     document.getElementById('bienthe-stock').textContent = variant.stock + ' sản phẩm';
+                    // Disable nút nếu hết hàng
+                    const addBtn = document.querySelector('.btn-outline-danger');
+                    const buyBtn = document.getElementById('buy-now-btn');
+                    if (parseInt(variant.stock) <= 0) {
+                        addBtn.disabled = true;
+                        addBtn.textContent = 'HẾT HÀNG';
+                        addBtn.style.background = '#e9ecef';
+                        addBtn.style.color = '#888';
+                        addBtn.style.cursor = 'not-allowed';
+                        buyBtn.disabled = true;
+                        buyBtn.textContent = 'HẾT HÀNG';
+                        buyBtn.style.background = '#e9ecef';
+                        buyBtn.style.color = '#888';
+                        buyBtn.style.cursor = 'not-allowed';
+                        document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-warning">Hết hàng</span>';
+                    } else {
+                        addBtn.disabled = false;
+                        addBtn.textContent = 'THÊM VÀO GIỎ';
+                        addBtn.style.background = '';
+                        addBtn.style.color = '';
+                        addBtn.style.cursor = '';
+                        buyBtn.disabled = false;
+                        buyBtn.textContent = 'MUA NGAY';
+                        buyBtn.style.background = '';
+                        buyBtn.style.color = '';
+                        buyBtn.style.cursor = '';
+                        document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-success">Còn hàng</span>';
+                    }
                 } else {
                     document.getElementById('selected_variant').value = '';
                     document.getElementById('bienthe-info').style.display = 'none';

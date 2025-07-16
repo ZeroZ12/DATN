@@ -33,7 +33,7 @@
                     </select>
                 </div>
                 @endisset
-                
+
                 <button type="button" class="btn btn-outline-secondary mb-2" onclick="resetSearchFilters()">
                     <i class="fas fa-redo-alt"></i> Xóa bộ lọc
                 </button>
@@ -51,22 +51,26 @@
                         class="fas fa-chevron-left"></i></button>
                 <div class="products-slider">
                     {{-- Lặp qua TẤT CẢ $sanphams vì chúng đã được lọc bởi controller --}}
-                    @foreach ($sanphams as $sp) 
+                    @foreach ($sanphams as $sp)
                         @php
                             $bienThe = $sp->bienTheSanPhams->first() ?? $sp->BienTheSanPhams()->first(); // Sử dụng first() từ collection, fallback để truy vấn nếu cần (mặc dù eager loading sẽ bao gồm điều này)
-                            
+
                             if ($sp->co_bien_the) {
                                 $gia = $bienThe ? $bienThe->gia : 0;
                                 $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                                $isOutOfStock = !$bienThe || $bienThe->ton_kho <= 0;
                             } else {
                                 $gia = $sp->gia;
                                 $gia_so_sanh = $sp->gia_so_sanh;
+                                $isOutOfStock = $sp->so_luong <= 0;
                             }
                         @endphp
 
                         <div class="product-card">
                             <div class="product-badges">
-                                @if ($sp->is_hot)
+                                @if ($isOutOfStock)
+                                    <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+                                @elseif ($sp->is_hot)
                                     <span class="product-badge hot-badge">
                                         <i class="fas fa-gift"></i> Quà tặng HOT
                                     </span>
@@ -118,9 +122,9 @@
                                         <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
                                         <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> {{-- Bây giờ nó sẽ đúng --}}
                                         <input type="hidden" name="so_luong" value="1">
-                                        <button type="submit" class="add-to-cart-btn">
+                                        <button type="submit" class="add-to-cart-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
                                             <i class="fas fa-shopping-cart"></i>
-                                            <span>Thêm vào giỏ</span>
+                                            <span>@if($isOutOfStock) HẾT HÀNG @else Thêm vào giỏ @endif</span>
                                         </button>
                                     </form>
                                 </div>

@@ -75,7 +75,7 @@
                     </form> --}}
                 </div>
 
-                
+
                 <!-- Danh sách sản phẩm -->
                 <div class="products-slider-wrapper">
                     <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i
@@ -90,16 +90,20 @@
                                     }) ?? $sp->BienTheSanPhams->first();
                                     $gia = $bienThe ? $bienThe->gia : 0;
                                     $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                                    $isOutOfStock = !$bienThe || $bienThe->ton_kho <= 0;
                                 } else {
                                     $bienThe = null;
                                     $gia = $sp->gia;
                                     $gia_so_sanh = $sp->gia_so_sanh;
+                                    $isOutOfStock = $sp->so_luong <= 0;
                                 }
                             @endphp
 
                             <div class="product-card">
                                 <div class="product-badges">
-                                    @if ($sp->is_hot)
+                                    @if ($isOutOfStock)
+                                        <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+                                    @elseif ($sp->is_hot)
                                         <span class="product-badge hot-badge">
                                             <i class="fas fa-gift"></i> Quà tặng HOT
                                         </span>
@@ -154,9 +158,9 @@
                                             <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
                                             <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> {{-- NGHI NGỜ --}}
                                             <input type="hidden" name="so_luong" value="1">
-                                            <button type="submit" class="add-to-cart-btn">
+                                            <button type="submit" class="add-to-cart-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
                                                 <i class="fas fa-shopping-cart"></i>
-                                                <span>Thêm vào giỏ</span>
+                                                <span>@if($isOutOfStock) HẾT HÀNG @else Thêm vào giỏ @endif</span>
                                             </button>
                                         </form>
                                     </div>
