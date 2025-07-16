@@ -78,30 +78,67 @@ class CartController extends Controller
                 ->where('id_bien_the', $request->bien_the_id)
                 ->first();
 
+            $soLuongMuonThem = $request->so_luong;
+            $soLuongHienTaiTrongGio = $chiTietGioHang ? $chiTietGioHang->so_luong : 0;
+            $tongSoLuongSauKhiThem = $soLuongHienTaiTrongGio + $soLuongMuonThem;
+
+            // Kiểm tra tồn kho
+            if ($request->bien_the_id) {
+                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                if ($tongSoLuongSauKhiThem > $bienThe->ton_kho) {
+                    $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
+                    if ($request->ajax()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $message
+                        ], 400);
+                    }
+                    return redirect()->back()->with('error', $message);
+                }
+            } else {
+                $sanPham = SanPham::findOrFail($request->san_pham_id);
+                if ($tongSoLuongSauKhiThem > $sanPham->so_luong) {
+                    $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
+                    if ($request->ajax()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $message
+                        ], 400);
+                    }
+                    return redirect()->back()->with('error', $message);
+                }
+            }
+
+            // Nếu đủ tồn kho, tiến hành thêm vào giỏ và trừ tồn kho
             if ($chiTietGioHang) {
-                // Nếu đã có thì tăng số lượng
-                $chiTietGioHang->so_luong += $request->so_luong;
+                $chiTietGioHang->so_luong = $tongSoLuongSauKhiThem;
                 $chiTietGioHang->save();
             } else {
-                // Nếu chưa có thì tạo mới
-                $sanPham = SanPham::findOrFail($request->san_pham_id);
-
-                // Kiểm tra bien_the_id có tồn tại không
                 if ($request->bien_the_id) {
                     $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
                     $gia = $bienThe->gia;
                 } else {
-                    // Nếu không có biến thể, lấy giá từ sản phẩm chính
+                    $sanPham = SanPham::findOrFail($request->san_pham_id);
                     $gia = $sanPham->gia ?? 0;
                 }
-
                 ChiTietGioHang::create([
                     'id_gio_hang' => $gioHang->id,
                     'id_product' => $request->san_pham_id,
                     'id_bien_the' => $request->bien_the_id,
-                    'so_luong' => $request->so_luong,
+                    'so_luong' => $soLuongMuonThem,
                     'gia' => $gia
                 ]);
+            }
+
+            // Trừ tồn kho
+            if ($request->bien_the_id) {
+                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                $bienThe->ton_kho -= $soLuongMuonThem;
+                $bienThe->save();
+            } else {
+                $sanPham = SanPham::findOrFail($request->san_pham_id);
+                $sanPham->so_luong -= $soLuongMuonThem;
+                $sanPham->save();
             }
 
             // Tính tổng số lượng sản phẩm trong giỏ hàng
@@ -155,7 +192,34 @@ class CartController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
-        $chiTietGioHang->so_luong = $request->so_luong;
+        // Kiểm tra tồn kho trước khi cập nhật
+        $soLuongMoi = $request->so_luong;
+        if ($chiTietGioHang->id_bien_the) {
+            $bienThe = BienTheSanPham::findOrFail($chiTietGioHang->id_bien_the);
+            $soLuongThayDoi = $soLuongMoi - $chiTietGioHang->so_luong;
+            if ($soLuongMoi > ($bienThe->ton_kho + $chiTietGioHang->so_luong)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!'
+                ], 400);
+            }
+            // Trừ hoặc cộng lại tồn kho
+            $bienThe->ton_kho -= $soLuongThayDoi;
+            $bienThe->save();
+        } else {
+            $sanPham = SanPham::findOrFail($chiTietGioHang->id_product);
+            $soLuongThayDoi = $soLuongMoi - $chiTietGioHang->so_luong;
+            if ($soLuongMoi > ($sanPham->so_luong + $chiTietGioHang->so_luong)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!'
+                ], 400);
+            }
+            $sanPham->so_luong -= $soLuongThayDoi;
+            $sanPham->save();
+        }
+
+        $chiTietGioHang->so_luong = $soLuongMoi;
         $chiTietGioHang->save();
 
         $total = $gioHang->chiTietGioHangs()
@@ -501,25 +565,60 @@ class CartController extends Controller
             // Xóa tất cả sản phẩm trong giỏ hàng hiện tại
             ChiTietGioHang::where('id_gio_hang', $gioHang->id)->delete();
 
+            // Kiểm tra tồn kho trước khi thêm
+            $soLuongMuonThem = $request->so_luong;
+            if ($request->bien_the_id) {
+                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                if ($soLuongMuonThem > $bienThe->ton_kho) {
+                    $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
+                    if ($request->ajax()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $message
+                        ], 400);
+                    }
+                    return redirect()->back()->with('error', $message);
+                }
+            } else {
+                $sanPham = SanPham::findOrFail($request->san_pham_id);
+                if ($soLuongMuonThem > $sanPham->so_luong) {
+                    $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
+                    if ($request->ajax()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => $message
+                        ], 400);
+                    }
+                    return redirect()->back()->with('error', $message);
+                }
+            }
+
             // Thêm sản phẩm mới vào giỏ hàng
             $sanPham = SanPham::findOrFail($request->san_pham_id);
-
-            // Kiểm tra bien_the_id có tồn tại không
             if ($request->bien_the_id) {
                 $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
                 $gia = $bienThe->gia;
             } else {
-                // Nếu không có biến thể, lấy giá từ sản phẩm chính
                 $gia = $sanPham->gia ?? 0;
             }
-
             ChiTietGioHang::create([
                 'id_gio_hang' => $gioHang->id,
                 'id_product' => $request->san_pham_id,
                 'id_bien_the' => $request->bien_the_id,
-                'so_luong' => $request->so_luong,
+                'so_luong' => $soLuongMuonThem,
                 'gia' => $gia
             ]);
+
+            // Trừ tồn kho
+            if ($request->bien_the_id) {
+                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                $bienThe->ton_kho -= $soLuongMuonThem;
+                $bienThe->save();
+            } else {
+                $sanPham = SanPham::findOrFail($request->san_pham_id);
+                $sanPham->so_luong -= $soLuongMuonThem;
+                $sanPham->save();
+            }
 
             // Tính tổng số lượng sản phẩm trong giỏ hàng
             $cartCount = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
