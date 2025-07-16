@@ -161,7 +161,7 @@
                     <div class="old-price">{{ number_format($bienThe->gia_so_sanh) }}₫</div>
                   @endif
                   <div class="current-price-wrapper">
-                    <div class="current-price">{{ number_format($bienThe->gia ?? 0) }}₫</div>
+                    <div class="current-price">{{ number_format($bienThe->gia ?? $sp->gia ?? 0) }}₫</div>
                     @if ($bienThe && $bienThe->gia_so_sanh > $bienThe->gia)
                       <div class="discount-badge">
                         -{{ $discountPercent }}%

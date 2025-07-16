@@ -69,8 +69,9 @@
             </div>
             <div class="card-body">
                 <p><strong>Admin xác nhận: </strong>{{ $adminHoanTra }}</p>
+                <p><strong>Thời gian xác nhận:</strong> {{ date('d/m/Y H:i', strtotime($hoanTra->updated_at)) }}</p>
                 <p><strong>Mã hoàn trả:</strong> {{ $hoanTra->ma_hoan_tra }}</p>
-                <p><strong>Trạng thái:</strong>
+                <p><strong>Trạng thái:</strong> 
                     <span class="badge status-{{ $hoanTra->trang_thai }}">
                         {{ \App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
                     </span>

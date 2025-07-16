@@ -18,7 +18,7 @@
                         <div class="input-group">
                             <input class="form-control pe-0" type="text" placeholder="Tìm kiếm ...">
                             <span class="input-group-text">
-                               <i class="fa fa-search" aria-hidden="true"></i></span>
+                                <i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </form>
                 </div>
@@ -356,7 +356,13 @@
                                             <use
                                                 href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Login">
                                             </use>
-                                        </svg><a class="ms-2" href="login.html">Log Out</a>
+                                        </svg>
+                                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </div>
