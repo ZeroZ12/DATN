@@ -47,8 +47,18 @@
                 <div class="card mb-3">
                     <div class="card-header fw-bold">Hiệu quả bán hàng</div>
                     <div class="card-body">
-                        <div class="fw-bold text-success">Xuất sắc</div>
-                        <div class="text-muted">Tất cả chỉ số đều tốt!</div>
+                        @if ($thongKe['hoan_thanh'] < 10)
+                            <div class="fw-bold text-danger">Cần cải thiện</div>
+                            <div class="text-muted">Chỉ số hoàn thành đơn hàng thấp!</div>
+                        @elseif ($thongKe['hoan_thanh'] < 50)
+                            <div class="fw-bold text-warning">Cần chú ý</div>
+                            <div class="text-muted">Chỉ số hoàn thành đơn hàng trung bình!</div>
+                        @else
+                            <div class="fw-bold text-success">Xuất sắc</div>
+                            <div class="text-muted">Tất cả chỉ số đều tốt!</div>
+                        @endif
+                        {{-- <div class="fw-bold text-success">Xuất sắc</div>
+                        <div class="text-muted">Tất cả chỉ số đều tốt!</div> --}}
                     </div>
                 </div>
             </div>
