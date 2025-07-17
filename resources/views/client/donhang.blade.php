@@ -114,11 +114,10 @@
                     </div>
                     <div class="text-end fw-bold text-danger">
                         @if ($ct->bienTheSanPham)
-                            {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
+                            {{ number_format($ct->sanPham->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
                         @else
-                            {{ number_format($ct->gia * $ct->so_luong, 0, ',', '.') }}₫
+                            {{ number_format($ct->sanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
                         @endif
-                        
                     </div>
                 </div>
             @endforeach

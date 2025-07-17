@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('gpus', function (Blueprint $table) {
             $table->id();
             $table->string('ten', 255);
-            $table->decimal('gia', 12, 2);
+            $table->decimal('gia', 12, 2)->nullable();
             $table->decimal('gia_sale', 12, 2)->nullable();
             $table->longText('mo_ta')->nullable();
             $table->timestamps();

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('loai', 50);
             $table->string('dung_luong', 100);
-            $table->decimal('gia', 10, 2);
+            $table->decimal('gia', 10, 2)->nullable();
             $table->decimal('gia_sale', 10, 2)->nullable();
             $table->longText('mo_ta')->nullable();
             $table->timestamps();

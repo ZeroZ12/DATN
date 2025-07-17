@@ -1,6 +1,5 @@
 @extends('client.layouts.app')
 @section('content')
-    @include('client.layouts.blocks.banner')
     <div class="container py-4">
         <div class="filter-area mb-4">
             <form method="GET" action="{{ route('searcher.search') }}" class="filter-form d-flex align-items-center flex-wrap">
@@ -16,7 +15,7 @@
                     <select name="id_ram" id="id_ram" class="form-select" onchange="this.form.submit()">
                         <option value="">Tất cả RAM</option>
                         @foreach($rams as $ram)
-                            <option value="{{ $ram->id }}" {{ request('id_ram') == $ram->id ? 'selected' : '' }}>{{ $ram->ten_ram }}</option>
+                            <option value="{{ $ram->id }}" {{ request('id_ram') == $ram->id ? 'selected' : '' }}>{{ $ram->dung_luong }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -28,7 +27,7 @@
                     <select name="id_o_cung" id="id_o_cung" class="form-select" onchange="this.form.submit()">
                         <option value="">Tất cả ổ cứng</option>
                         @foreach($o_cungs as $oc)
-                            <option value="{{ $oc->id }}" {{ request('id_o_cung') == $oc->id ? 'selected' : '' }}>{{ $oc->ten_o_cung }}</option>
+                            <option value="{{ $oc->id }}" {{ request('id_o_cung') == $oc->id ? 'selected' : '' }}>{{ $oc->dung_luong }}</option>
                         @endforeach
                     </select>
                 </div>
