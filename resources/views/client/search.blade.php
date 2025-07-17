@@ -866,4 +866,181 @@
         }
     </style>
 @endpush
+
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hiển thị toast nếu có session message
+            @if (session('success'))
+                showToast("{{ session('success') }}", 'success');
+            @endif
+
+            @if (session('error'))
+                showToast("{{ session('error') }}", 'error');
+            @endif
+
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    showToast("{{ $error }}", 'error');
+                @endforeach
+            @endif
+
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    console.log('Form submission detected for .add-to-cart-form. Preventing default action.');
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    try {
+                        addToCart(this);
+                    } catch (e) {
+                        console.error('A critical error occurred while trying to call addToCart:', e);
+                        showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
+                    }
+                });
+            });
+        });
+
+        function addToCart(form) {
+            console.log('addToCart function initiated for form:', form);
+            const button = form.querySelector('.add-to-cart-btn');
+            const originalContent = button.innerHTML;
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfToken) {
+                console.error('FATAL: CSRF token meta tag not found.');
+                showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
+                return;
+            }
+            console.log('CSRF token found.');
+
+            button.className = 'add-to-cart-btn loading';
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
+
+            const formData = new FormData(form);
+            console.log('FormData created:', Object.fromEntries(formData.entries()));
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('Received response from server:', response);
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        console.error('Server responded with an error:', err);
+                        throw new Error(err.message || `Lỗi ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Successfully parsed JSON data:', data);
+                if (data.success) {
+                    console.log('Action successful. Updating UI.');
+                    button.className = 'add-to-cart-btn success';
+                    button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
+
+                    const cartCount = document.querySelector('.cart-count');
+                    if (cartCount && data.cart_count) {
+                        cartCount.textContent = data.cart_count;
+                        console.log('Cart count updated to:', data.cart_count);
+                    }
+
+                    showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+
+                } else {
+                    console.warn('Server indicated a non-success response:', data);
+                    if (data.redirect) {
+                        showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                        setTimeout(() => { window.location.href = data.redirect; }, 1000);
+                        return;
+                    }
+                    throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred in the fetch chain:', error);
+                button.className = 'add-to-cart-btn error';
+                button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+                showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    button.className = 'add-to-cart-btn';
+                    button.disabled = false;
+                    button.innerHTML = originalContent;
+                }, 2000);
+            });
+        }
+
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            // Icon based on type
+            let icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'info') icon = 'info-circle';
+
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas fa-${icon}"></i>
+                    <span>${message}</span>
+                    <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => toast.remove(), 5000);
+        }
+
+        function scrollProducts(button, direction) {
+            const wrapper = button.closest('.products-slider-wrapper');
+            const slider = wrapper.querySelector('.products-slider');
+            const card = slider.querySelector('.product-card');
+            if (!card) return;
+
+            const scrollAmount = card.offsetWidth + 20; // 20 là gap
+            slider.scrollBy({
+                left: direction * scrollAmount * 2,
+                behavior: 'smooth'
+            });
+        }
+
+        function resetFilters() {
+            // Reset all select elements to their default values
+            const selects = document.querySelectorAll('.filter-tab-select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+            });
+
+            // Submit the form to clear filters
+            document.querySelector('.filter-form').submit();
+        }
+
+        function showFilterModal() {
+            // Implement filter modal functionality if needed
+            alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
+        }
+    </script>
+@endpush
 @endsection

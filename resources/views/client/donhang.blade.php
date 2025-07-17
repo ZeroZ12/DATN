@@ -113,7 +113,12 @@
                         <div class="text-muted small">Số lượng: x{{ $ct->so_luong }}</div>
                     </div>
                     <div class="text-end fw-bold text-danger">
-                        {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
+                        @if ($ct->bienTheSanPham)
+                            {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
+                        @else
+                            {{ number_format($ct->gia * $ct->so_luong, 0, ',', '.') }}₫
+                        @endif
+                        
                     </div>
                 </div>
             @endforeach

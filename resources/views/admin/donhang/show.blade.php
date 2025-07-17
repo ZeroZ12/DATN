@@ -54,7 +54,12 @@
                                 <tr>
                                     <td>
                                         @php
-                                            $anh = $ct->bienTheSanPham->sanPham->anh_dai_dien ?? null;
+                                        $anh = null;
+                                        if ($ct->bienTheSanPham) {
+                                            $anh = $ct->bienTheSanPham->sanPham?->anh_dai_dien;
+                                        } else {
+                                            $anh = $ct->sanPham?->anh_dai_dien;
+                                        }
                                         @endphp
                                         <img src="{{ $anh ? asset('storage/' . $anh) : 'https://via.placeholder.com/60' }}"
                                             alt="Ảnh" width="60" height="60" class="rounded border">
@@ -63,7 +68,12 @@
                                         {{ $ct->ten_hien_thi }}
                                         <br>
                                         <small class="text-muted">
-                                            Mã biến thể: {{$ct->bienTheSanPham->ma_bien_the  }}
+                                            Mã biến thể: 
+                                            @if ($ct->bienTheSanPham)
+                                                {{$ct->bienTheSanPham->ma_bien_the  }}
+                                            @else
+                                                <div class="btn-success" style="width: auto; display: inline-block; padding: 5px 10px;">Không có mã biến thể</div>
+                                            @endif
                                         </small>
                                         <br>
                                         <small class="text-muted">
