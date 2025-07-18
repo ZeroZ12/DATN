@@ -89,7 +89,18 @@ class SanPhamController extends Controller
                 }
             });
         }
-
+        // Lọc theo Ram
+        if ($request->filled('ram')) {
+            $query->whereHas('BienTheSanPhams', function ($q) use ($request) {
+                $q->whereIn('id_ram', $request->ram);
+            });
+        }
+        // Lọc theo OCung
+        if ($request->filled('o_cung')) {
+            $query->whereHas('BienTheSanPhams', function ($q) use ($request) {
+                $q->whereIn('id_o_cung', $request->o_cung);
+            });
+        }
         // Sắp xếp sản phẩm
         if ($request->filled('sort')) {
             switch ($request->sort) {
