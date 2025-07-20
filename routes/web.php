@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AdminSuKienController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\SearcherController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,10 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('danhmuc/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('danhmuc.forceDelete');
     Route::resource('danhmuc', DanhMucController::class);
 
+    Route::resource('sukien', AdminSuKienController::class);
+    Route::get('sukien/trashed', [AdminSuKienController::class, 'trashed'])->name('sukien.trashed');
+    Route::post('sukien/{id}/restore', [AdminSuKienController::class, 'restore'])->name('sukien.restore');
+    Route::delete('sukien/{id}/force-delete', [AdminSuKienController::class, 'forceDelete'])->name('sukien.forceDelete');
 
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
         Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');

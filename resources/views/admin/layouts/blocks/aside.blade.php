@@ -145,6 +145,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.sukien.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-bolt me-2"></i>
+                            <span class="flex-grow-1">Sự kiện</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.magiamgia.index') }}" class="d-flex align-items-center">
                             <i class="fa fa-gift me-2"></i>
                             <span class="flex-grow-1">Mã giảm giá</span>

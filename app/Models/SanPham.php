@@ -97,4 +97,11 @@ class SanPham extends Model
     {
         return $this->hasMany(DanhGiaSanPham::class, 'id_product');
     }
+
+    public function suKien()
+    {
+        return $this->belongsToMany(SuKien::class, 'su_kien_san_pham', 'san_pham_id', 'su_kien_id')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit')
+                    ->withTimestamps();
+    }
 }

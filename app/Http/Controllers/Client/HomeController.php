@@ -14,6 +14,7 @@ use App\Models\DanhMuc;
 use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
 use App\Models\BienTheSanPham;
+use App\Models\SuKien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,6 +74,8 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(3) // Lấy 3 banner mới nhất
             ->get();
+
+        // $suKien = SuKien::active()->with('sanphams')->get();
 
         return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners'));
     }
