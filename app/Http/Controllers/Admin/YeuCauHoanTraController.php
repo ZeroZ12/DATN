@@ -43,23 +43,37 @@ class YeuCauHoanTraController extends Controller
     }
 
 
-    public function capNhatTrangThai(Request $request, $id)
-    {
-        $hoanTra = YeuCauHoanTra::findOrFail($id);
+public function capNhatTrangThai(Request $request, $id)
+{
+    $hoanTra = YeuCauHoanTra::findOrFail($id);
 
-        $hienTai = $request->input('trang_thai_hien_tai');
-        $moi = $request->input('trang_thai');
+    $hienTai = $request->input('trang_thai_hien_tai');
+    $moi = $request->input('trang_thai');
 
-        $allowed = YeuCauHoanTra::TRANG_THAI_FLOW[$hienTai] ?? [];
-        if (!in_array($moi, $allowed)) {
-            return back()->withErrors(['msg' => 'Không thể cập nhật trạng thái này']);
-        }
-        $admin_HoanTra = Auth::user()->ten_dang_nhap ?? 'admin';
-        // Lưu tên người dùng hiện tại hoặc mặc định là 'admin'
-        $hoanTra->trang_thai = $moi;
-        $hoanTra->admin_hoan_tra = $admin_HoanTra;
-        $hoanTra->save();
-
-        return back()->with('success', 'Đã cập nhật trạng thái');
+    $allowed = YeuCauHoanTra::TRANG_THAI_FLOW[$hienTai] ?? [];
+    if (!in_array($moi, $allowed)) {
+        return back()->withErrors(['msg' => 'Không thể cập nhật trạng thái này']);
     }
+
+    $admin = Auth::user();
+
+    $hoanTra->trang_thai = $moi;
+    $hoanTra->admin_hoan_tra = $admin->ten_dang_nhap ?? 'admin';
+
+    // Nếu là trạng thái "đã nhận hàng" → lưu thời gian nhận
+    if ($moi === 'da_nhan_hang') {
+        $hoanTra->thoi_gian_nhan_hang = now();
+    }
+
+    // Nếu là trạng thái "đã hoàn tiền" → lưu thời gian hoàn tiền + người hoàn tiền
+    if ($moi === 'da_hoan_tien') {
+        $hoanTra->thoi_gian_hoan_tien = now();
+        $hoanTra->id_nguoi_hoan_tien = $admin->id;
+    }
+
+    $hoanTra->save();
+
+    return back()->with('success', 'Đã cập nhật trạng thái');
+}
+
 }

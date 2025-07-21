@@ -8,7 +8,8 @@
         <div class="alert alert-danger mt-2">{{ session('error') }}</div>
     @endif
 
-    <form action="{{ route('client.hoan-tra.store', $donHang->id) }}" method="POST" id="returnForm">
+   <form action="{{ route('client.hoan-tra.store', $donHang->id) }}" method="POST" enctype="multipart/form-data" id="returnForm">
+
         @csrf
 
         <div class="mb-3">
@@ -76,6 +77,14 @@
                 <small class="text-danger">{{ $message }}</small>
             @enderror
         </div>
+        <div class="mb-3">
+    <label for="anh_minh_chung" class="form-label">Ảnh minh chứng (có thể chọn nhiều)</label>
+    <input type="file" name="anh_minh_chung[]" id="anh_minh_chung" class="form-control" multiple accept="image/*">
+    @error('anh_minh_chung.*')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+
 
         <button class="btn btn-warning" type="submit">
             <i class="fas fa-undo"></i> Gửi yêu cầu hoàn trả
