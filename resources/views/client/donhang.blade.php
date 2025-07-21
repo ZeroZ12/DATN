@@ -113,13 +113,15 @@
                         <div class="text-muted small">Số lượng: x{{ $ct->so_luong }}</div>
                     </div>
                     <div class="text-end fw-bold text-danger">
-                        @if ($ct->bienTheSanPham)
-                            {{ number_format($ct->sanPham->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
-                        @else
-                            {{ number_format($ct->sanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
-                        @endif
-                    </div>
+    @if ($ct->bienTheSanPham)
+        {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
+    @else
+        {{ number_format($ct->sanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
+    @endif
+</div>
+
                 </div>
+                <hr>
             @endforeach
 
             {{-- Footer --}}
@@ -152,58 +154,71 @@
                             </form>
                         @endif
 
-                        {{-- Đã nhận hàng --}}
-                        @if ($trangThai === 'giao_thanh_cong')
-                            <form action="{{ route('client.orders.daNhanHang', $donHang->id) }}" method="POST" class="me-2">
-                                @csrf
-                                <button type="submit" class="btn btn-success">Đã Nhận Hàng</button>
-                            </form>
-                        @endif
+
 
                         {{-- Trả hàng / hoàn tiền --}}
-                        @php
-                            $coTheHoanTra = false;
-                            $isOnline = $donHang->id_phuong_thuc_thanh_toan == 2;
+                      @php
+    $coTheHoanTra = false;
+    $isOnline = $donHang->id_phuong_thuc_thanh_toan == 2;
 
-                            // Nếu đơn hoàn thành và chưa quá 3 ngày
-                            if ($trangThai === 'hoan_thanh' && !$daQua3Ngay) {
-                                $coTheHoanTra = true;
-                            }
+    // Nếu đơn đã giao thành công hoặc hoàn thành và chưa quá 3 ngày
+    if (in_array($trangThai, ['giao_thanh_cong', 'hoan_thanh']) && !$daQua3Ngay) {
+        $coTheHoanTra = true;
+    }
 
-                            // Nếu đơn hủy bởi admin và thanh toán online (không giới hạn thời gian)
-                            if ($trangThai === 'da_huy' && $donHang->huy_boi === 'admin' && $isOnline) {
-                                $coTheHoanTra = true;
-                            }
-                        @endphp
+    // Nếu đơn hủy bởi admin và thanh toán online (không giới hạn thời gian)
+    if ($trangThai === 'da_huy' && $donHang->huy_boi === 'admin' && $isOnline) {
+        $coTheHoanTra = true;
+    }
+@endphp
 
-                        @if ($coTheHoanTra)
-                            @if ($ycht)
-                                @if ($ycht->trang_thai === 'da_phe_duyet')
-                                    <form action="{{ route('client.hoan-tra.trahang', $ycht->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-warning">
-                                            <i class="fa-solid fa-box-open me-1"></i> Tôi đã gửi trả hàng
-                                        </button>
-                                    </form>
-                                @else
-                                    <div class="small text-muted">
-                                        Hoàn trả:
-                                        <span class="badge bg-info text-dark">
-                                            {{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}
-                                        </span>
-                                    </div>
-                                @endif
-                            @else
-                                <a href="{{ route('client.hoan-tra.create', $donHang->id) }}"
-                                   class="btn btn-outline-secondary">
-                                    Trả Hàng / Hoàn Tiền
-                                </a>
-                            @endif
-                        @elseif($trangThai === 'hoan_thanh' && $daQua3Ngay)
-                            <div class="small text-muted fst-italic">
-                                (Đã quá hạn yêu cầu hoàn trả)
-                            </div>
-                        @endif
+{{-- Nút xác nhận đã nhận hàng --}}
+@if ($trangThai === 'giao_thanh_cong' && !$ycht)
+    <form action="{{ route('client.orders.daNhanHang', $donHang->id) }}" method="POST" class="me-2">
+        @csrf
+        <button type="submit" class="btn btn-success">Đã Nhận Hàng</button>
+    </form>
+@endif
+
+
+{{-- Nút trả hàng / hoàn tiền --}}
+@if ($coTheHoanTra)
+    @if ($ycht)
+        @if ($ycht->trang_thai === 'da_phe_duyet')
+            <form action="{{ route('client.hoan-tra.trahang', $ycht->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-warning">
+                    <i class="fa-solid fa-box-open me-1"></i> Tôi đã gửi trả hàng
+                </button>
+            </form>
+        @else
+          <div class="small text-muted">
+    Hoàn trả:
+    <span class="badge bg-info text-dark">
+        {{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}
+    </span>
+
+    @if ($ycht->trang_thai === 'da_hoan_tien' && $ycht->thoi_gian_hoan_tien)
+        <div class="mt-1">
+            <i class="bi bi-clock"></i>
+            Hoàn tiền lúc: {{ \Carbon\Carbon::parse($ycht->thoi_gian_hoan_tien)->format('H:i d/m/Y') }}
+        </div>
+    @endif
+</div>
+
+        @endif
+    @else
+        <a href="{{ route('client.hoan-tra.create', $donHang->id) }}"
+           class="btn btn-outline-secondary">
+            Trả Hàng / Hoàn Tiền
+        </a>
+    @endif
+@elseif (in_array($trangThai, ['giao_thanh_cong', 'hoan_thanh']) && $daQua3Ngay)
+    <div class="small text-muted fst-italic">
+        (Đã quá hạn yêu cầu hoàn trả)
+    </div>
+@endif
+
                     </div>
                 </div>
             </div>

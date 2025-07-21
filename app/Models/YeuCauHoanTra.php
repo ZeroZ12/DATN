@@ -11,17 +11,22 @@ class YeuCauHoanTra extends Model
 
     protected $table = 'yeu_cau_hoan_tra';
 
-    protected $fillable = [
-        'id_don_hang',
-        'ma_hoan_tra',
-        'sdt_lien_he',
-        'phuong_thuc_hoan_tien',
-        'ten_ngan_hang',
-        'so_tai_khoan',
-        'ten_chu_tai_khoan',
-        'ly_do',
-        'trang_thai',
-    ];
+  protected $fillable = [
+    'id_don_hang',
+    'ma_hoan_tra',
+    'sdt_lien_he',
+    'phuong_thuc_hoan_tien',
+    'ten_ngan_hang',
+    'so_tai_khoan',
+    'ten_chu_tai_khoan',
+    'ly_do',
+    'trang_thai',
+    'thoi_gian_tra_hang',
+    'thoi_gian_nhan_hang',
+    'thoi_gian_hoan_tien',
+    'id_nguoi_hoan_tien',
+];
+
 
     const PHUONG_THUC_HOAN_TIEN = [
         'momo',
@@ -68,4 +73,14 @@ public static function getTenTrangThai($trangThai)
     {
         return $this->belongsTo(DonHang::class, 'id_don_hang');
     }
+    public function nguoiHoanTien()
+{
+    return $this->belongsTo(User::class, 'id_nguoi_hoan_tien');
+}
+
+public function anhMinhChung()
+{
+    return $this->hasMany(AnhMinhChung::class, 'id_yeu_cau_hoan_tra');
+}
+
 }
