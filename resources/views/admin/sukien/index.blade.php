@@ -33,6 +33,7 @@
                             <th>Ngày bắt đầu</th>
                             <th>Ngày kết thúc</th>
                             <th>Sản phẩm</th>
+                            <th>Trạng thái</th>
                             <th class="text-center">Hành động</th>
                         </tr>
                     </thead>
@@ -44,17 +45,19 @@
                                 <td>{{ $suKien->ngay_bat_dau->format('d/m/Y H:i') }}</td>
                                 <td>{{ $suKien->ngay_ket_thuc->format('d/m/Y H:i') }}</td>
                                 <td>
-                                    @if($suKien->sanPham)
+                                    @if($suKien->total > 0)
                                         <ul class="list-unstyled mb-0">
-                                            @foreach($suKien->sanPham as $sanPham)
-                                                <li>{{ $sanPham->ten }} <br>
-                                                    Giá sự kiện ({{ number_format($sanPham->pivot->gia_su_kien, 0, ',', '.' ) }} đ) <br>
-                                                    Giá gốc ({{ number_format($sanPham->pivot->gia_goc ?? $sanPham->gia, 0, ',', '.' ) }} đ)
-                                                </li>
-                                            @endforeach
+                                            <span>Số lượng sản phẩm tham gia : {{ $suKien->total }} </span>
                                         </ul>
                                     @else
                                         <span class="text-muted">Chưa có sản phẩm</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($suKien->hien_thi = '1')
+                                        <span class="badge bg-success">Đang diễn ra</span>
+                                    @else
+                                        <span class="badge bg-secondary">Ngừng diễn ra</span>
                                     @endif
                                 </td>
                                 <td class="text-center">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SanPham;
 use App\Models\SuKien;
 use App\Models\BienTheSanPham;
+use App\Models\SuKienSanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,10 +14,14 @@ class AdminSuKienController extends Controller
 {
     public function index()
     {
-        // Lấy tất cả sự kiện bán hàng cùng với các sản phẩm liên quan, sắp xếp theo ngày bắt đầu giảm dần và phân trang.
         $saleEvents = SuKien::with('sanPhams')
             ->orderBy('ngay_bat_dau', 'desc')
             ->paginate(10); // Phân trang để tối ưu
+        foreach ($saleEvents as $event) {
+            $event->total = $event->sanPhams->sum(function ($sanPham) {
+                return $sanPham->pivot->quantity_limit ?? 0; // Tổng số lượng giới hạn của sản phẩm trong sự kiện
+            });
+        }
         return view('admin.sukien.index', compact('saleEvents'));
     }
 
@@ -102,8 +107,7 @@ class AdminSuKienController extends Controller
     public function edit($id)
     {
         // Tìm sự kiện theo ID và tải các sản phẩm liên quan.
-        $suKien = SuKien::with('sanPhams')->findOrFail($id);
-        // Lấy tất cả sản phẩm và biến thể đang hoạt động để hiển thị trên form chỉnh sửa.
+        $suKien = SuKien::with('sanPhamsDaChon','bienTheDaChon','ChiTietSuKien')->findOrFail($id);
         $sanphams = SanPham::whereNull('deleted_at')->get();
         $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->get();
         return view('admin.sukien.edit', compact('suKien', 'sanphams', 'bienThes'));
@@ -136,31 +140,7 @@ class AdminSuKienController extends Controller
                 'ngay_ket_thuc' => $request->ngay_ket_thuc,
             ]);
 
-            // Bước 1: Detach (gỡ bỏ) tất cả các liên kết hiện có trong bảng trung gian.
-            $suKien->sanPhams()->detach();
-
-            // Bước 2: Gắn lại (attach) tất cả các sản phẩm/biến thể mới từ request.
-            $items = array_merge(
-                array_map(function ($id) { return ['type' => 'san_pham', 'id' => $id]; }, $request->id_san_pham ?? []),
-                array_map(function ($id) { return ['type' => 'bien_the', 'id' => $id]; }, $request->id_bien_the_san_pham ?? [])
-            );
-
-            foreach ($items as $index => $item) {
-                $model = $item['type'] === 'san_pham'
-                    ? SanPham::find($item['id'])
-                    : BienTheSanPham::find($item['id']);
-                if ($model) {
-                    $suKien->sanPhams()->attach(
-                        $item['type'] === 'san_pham' ? $item['id'] : $model->id_product,
-                        [
-                            'id_bien_the' => $item['type'] === 'bien_the' ? $item['id'] : null,
-                            'gia_su_kien' => $request->gia_su_kien[$index],
-                            'gia_goc' => $item['type'] === 'san_pham' ? $model->gia : $model->gia,
-                            'quantity_limit' => $request->quantity_limit[$index] ?? null,
-                        ]
-                    );
-                }
-            }
+            
 
             DB::commit(); // Hoàn thành giao dịch.
             return redirect()->route('admin.sukien.index')->with('success', 'Sự kiện đã được cập nhật thành công.');
@@ -169,6 +149,13 @@ class AdminSuKienController extends Controller
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }
     }
+
+    public function show($id)
+    {
+        // Hiển thị chi tiết sự kiện.
+        $suKien = SuKien::findOrFail($id);
+        return view('admin.sukien.show', compact('suKien'));
+    }   
 
     public function destroy($id)
     {
@@ -185,10 +172,10 @@ class AdminSuKienController extends Controller
         }
     }
 
-    public function trash()
+    public function trashed()
     {
         // Hiển thị danh sách các sự kiện đã bị xóa mềm (trong thùng rác).
-        $trashedSuKiens = SuKien::onlyTrashed()->paginate(10);
+        $trashedSuKiens = SuKien::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
         return view('admin.sukien.trash', compact('trashedSuKiens'));
     }
 

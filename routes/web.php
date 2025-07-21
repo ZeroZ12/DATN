@@ -48,21 +48,22 @@ use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
 
 
-    Route::get('danhmuc/trashed', [DanhMucController::class, 'trashed'])->name('danhmuc.trashed');
+    Route::get('danhmuc/trash', [DanhMucController::class, 'trashed'])->name('danhmuc.trashed');
     Route::post('danhmuc/{id}/restore', [DanhMucController::class, 'restore'])->name('danhmuc.restore');
     Route::delete('danhmuc/{id}/force-delete', [DanhMucController::class, 'forceDelete'])->name('danhmuc.forceDelete');
     Route::resource('danhmuc', DanhMucController::class);
 
-    Route::resource('sukien', AdminSuKienController::class);
     Route::get('sukien/trashed', [AdminSuKienController::class, 'trashed'])->name('sukien.trashed');
     Route::post('sukien/{id}/restore', [AdminSuKienController::class, 'restore'])->name('sukien.restore');
     Route::delete('sukien/{id}/force-delete', [AdminSuKienController::class, 'forceDelete'])->name('sukien.forceDelete');
+    Route::resource('sukien', AdminSuKienController::class);
+    
 
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
         Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
         Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
-        // Resource route
+        // Resource route          
 
         Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
 

@@ -10,13 +10,13 @@ class SuKien extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'su_kien'; // Chỉ định tên bảng (nếu không dùng quy tắc mặc định)
+    protected $table = 'su_kien'; 
 
     protected $fillable = [
         'ten_su_kien',
         'ngay_bat_dau',
         'ngay_ket_thuc',
-        'trang_thai', // Trạng thái sự kiện (đang hoạt động, đã kết thúc, v.v.)
+        // 'trang_thai', 
     ];
 
     protected $casts = [
@@ -30,6 +30,18 @@ class SuKien extends Model
         return $this->belongsToMany(SanPham::class, 'su_kien_san_pham', 'id_su_kien', 'id_san_pham')
                     ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit', 'hien_thi')
                     ->withTimestamps();
+    }
+
+    public function bienTheSanPhams()
+    {
+        return $this->belongsToMany(BienTheSanPham::class, 'su_kien_san_pham', 'id_su_kien', 'id_bien_the_san_pham')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit', 'hien_thi')
+                    ->withTimestamps();
+    }
+
+    public function ChiTietSuKien()
+    {
+        return $this->hasMany(SuKienSanPham::class, 'id_su_kien');
     }
 
     public function isActive()

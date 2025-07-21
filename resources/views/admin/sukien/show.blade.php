@@ -4,24 +4,28 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4">Chi tiết Tản Nhiệt: {{ $TanNhiet->ten }}</h2>
+        <h2 class="mb-4">Chi tiết Sự Kiện: {{ $suKien->ten_su_kien }}</h2>
 
         <div class="card p-4">
             <h5 class="mb-3">Thông tin chi tiết</h5>
             <ul class="list-unstyled">
-                <li><strong>ID:</strong> {{ $TanNhiet->id }}</li>
-                <li><strong>Dung lượng:</strong> {{ $TanNhiet->ten }}</li>
-                <li><strong>Giá:</strong> {{ number_format($TanNhiet->gia ?? '—') }} đ</li>
-                <li><strong>Giá Sale:</strong> {{ number_format($TanNhiet->gia_sale ?? '—') }} đ</li>
-                <li><strong>Mô tả:</strong> {!! $TanNhiet->mo_ta ?? 'N/A' !!}</li>
-                <li><strong>Ngày tạo:</strong> {{ $TanNhiet->created_at->format('d/m/Y H:i') }}</li>
-                <li><strong>Ngày cập nhật:</strong> {{ $TanNhiet->updated_at->format('d/m/Y H:i') }}</li>
+                <li><strong>ID:</strong> {{ $suKien->id }}</li>
+                <li><strong>Sản phẩm tham gia sự kiện:</strong>
+                    @if($suKien->total > 0)
+                        <span>{{ $suKien->total }} sản phẩm</span>
+                    @else
+                        <span class="text-muted">Chưa có sản phẩm</span>
+                    @endif
+                </li>
+                <li><strong>Ngày bắt đầu:</strong> {{ $suKien->ngay_bat_dau->format('d/m/Y H:i') }}</li>
+                <li><strong>Ngày tạo:</strong> {{ $suKien->ngay_ket_thuc->format('d/m/Y H:i') }}</li>
+                <li><strong>Ngày cập nhật:</strong> {{ $suKien->updated_at->format('d/m/Y H:i') }}</li>
             </ul>
         </div>
 
         <div class="mt-4">
-            <a href="{{ route('admin.tannhiet.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
-            <a href="{{ route('admin.tannhiet.edit', $TanNhiet->id) }}" class="btn btn-warning">Chỉnh sửa</a>
+            <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
+            <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-warning">Chỉnh sửa</a>
         </div>
     </div>
 @endsection

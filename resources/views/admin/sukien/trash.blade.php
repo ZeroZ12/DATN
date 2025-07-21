@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Thùng rác RAM')
+@section('title', 'Thùng rác Sự Kiện')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Thùng rác - RAM đã xóa</h2>
-        <a href="{{ route('admin.ram.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
+        <h2 class="mb-0">Thùng rác - Sự Kiện đã xóa</h2>
+        <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
     </div>
 
     @if (session('message'))
@@ -23,24 +23,24 @@
         <thead class="table-light">
             <tr>
                 <th>ID</th>
-                <th>Dung lượng</th>
+                <th>Sự Kiện</th>
                 <th>Đã xóa lúc</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($rams as $ram)
+            @forelse($trashedSuKiens as $sk)
                 <tr>
-                    <td>{{ $ram->id }}</td>
-                    <td>{{ $ram->dung_luong }}</td>
-                    <td>{{ $ram->deleted_at->format('d/m/Y H:i') }}</td>
+                    <td>{{ $sk->id }}</td>
+                    <td>{{ $sk->ten_su_kien }}</td>
+                    <td>{{ $sk->deleted_at->format('d/m/Y H:i') }}</td>
                     <td>
-                        <form action="{{ route('admin.ram.restore', $ram->id) }}" method="POST" class="d-inline">
+                        <form action="{{ route('admin.sukien.restore', $sk->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('PATCH')
                             <button class="btn btn-sm btn-success">Khôi phục</button>
                         </form>
-                        <form action="{{ route('admin.ram.forceDelete', $ram->id) }}" method="POST" class="d-inline"
+                        <form action="{{ route('admin.sukien.forceDelete', $sk->id) }}" method="POST" class="d-inline"
                             onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
@@ -56,5 +56,5 @@
         </tbody>
     </table>
 
-    {{ $rams->links() }}
+    {{ $trashedSuKiens->links() }}
 @endsection

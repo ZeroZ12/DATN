@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('id_bien_the_san_pham')->nullable()->constrained('bien_the_san_phams')->onDelete('cascade');
             $table->decimal('gia_su_kien', 12, 2);
             $table->decimal('gia_goc', 12, 2)->nullable(); // Optional discount price
-            $table->integer('so_luong')->nullable();
+            // $table->integer('so_luong')->nullable();
             $table->timestamps();
         });
     }

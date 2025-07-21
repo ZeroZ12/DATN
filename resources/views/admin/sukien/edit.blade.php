@@ -1,18 +1,28 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Sửa Tản Nhiệt')
+@section('title', 'Thêm Sự Kiện Mới')
 
 @section('content')
-    <div class="container">
-        <h2 class="mb-4">Sửa Sự Kiện: {{ $suKien->ten }}</h2>
+    <div class="container mt-4"> {{-- Thêm margin-top để có khoảng cách với phần trên --}}
+        <h2 class="mb-4 text-center">Thêm Sự Kiện Mới ✨</h2> {{-- Thêm icon và căn giữa --}}
 
-        <form action="{{ route('admin.sukien.update', $suKien->id) }}" method="POST">
+        {{-- Hiển thị thông báo lỗi nếu có --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('admin.sukien.store') }}" method="POST" class="needs-validation" novalidate>
             @csrf
-            @method('PUT')
 
             <div class="mb-3"> {{-- Khoảng cách dưới cho mỗi nhóm input --}}
                 <label for="ten_su_kien" class="form-label">Tên sự kiện <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="ten_su_kien" name="ten_su_kien" value="{{ old('ten_su_kien',$suKien->ten_su_kien) }}" required>
+                <input type="text" class="form-control" id="ten_su_kien" name="ten_su_kien" value="{{ old('ten_su_kien') }}" required>
                 <div class="invalid-feedback">
                     Vui lòng nhập tên sự kiện.
                 </div>
@@ -21,14 +31,14 @@
             <div class="row mb-3"> {{-- Sử dụng grid system của Bootstrap cho ngày bắt đầu và kết thúc --}}
                 <div class="col-md-6">
                     <label for="ngay_bat_dau" class="form-label">Ngày bắt đầu <span class="text-danger">*</span></label>
-                    <input type="datetime-local" class="form-control" id="ngay_bat_dau" name="ngay_bat_dau" value="{{ old('ngay_bat_dau',\Carbon\Carbon::parse($suKien->ngay_bat_dau)->format('Y-m-d\TH:i')) }}" required>
+                    <input type="datetime-local" class="form-control" id="ngay_bat_dau" name="ngay_bat_dau" value="{{ old('ngay_bat_dau') ? \Carbon\Carbon::parse(old('ngay_bat_dau'))->format('Y-m-d\TH:i') : '' }}" required>
                     <div class="invalid-feedback">
                         Vui lòng chọn ngày bắt đầu hợp lệ.
                     </div>
                 </div>
                 <div class="col-md-6">
                     <label for="ngay_ket_thuc" class="form-label">Ngày kết thúc <span class="text-danger">*</span></label>
-                    <input type="datetime-local" class="form-control" id="ngay_ket_thuc" name="ngay_ket_thuc" value="{{ old('ngay_ket_thuc',\Carbon\Carbon::parse($suKien->ngay_ket_thuc)->format('Y-m-d\TH:i')) }}" required>
+                    <input type="datetime-local" class="form-control" id="ngay_ket_thuc" name="ngay_ket_thuc" value="{{ old('ngay_ket_thuc') ? \Carbon\Carbon::parse(old('ngay_ket_thuc'))->format('Y-m-d\TH:i') : '' }}" required>
                     <div class="invalid-feedback">
                         Vui lòng chọn ngày kết thúc sau ngày bắt đầu.
                     </div>
@@ -40,7 +50,7 @@
                 {{-- Sử dụng Select2 để có giao diện đẹp và tìm kiếm cho select multiple --}}
                 <select class="form-select select2-enable" id="id_san_pham" name="id_san_pham[]" multiple="multiple">
                     @foreach($sanphams as $sanpham)
-                        <option value="{{ $sanpham->id }}" {{ in_array($sanpham->id, old('id_san_pham', [],)) ? 'selected' : '' }}>
+                        <option value="{{ $sanpham->id }}" {{ in_array($sanpham->id, old('id_san_pham', [])) ? 'selected' : '' }}>
                             {{ $sanpham->ten }} ({{ $sanpham->co_bien_the ? 'Có biến thể' : 'Không biến thể' }})
                         </option>
                     @endforeach
@@ -67,12 +77,13 @@
             </div>
 
             <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success btn-lg">💾 Cập Nhật Sự Kiện</button>
+                <button type="submit" class="btn btn-success btn-lg">💾 Lưu Sự Kiện</button>
                 <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary btn-lg">↩️ Quay lại</a>
             </div>
         </form>
     </div>
 @endsection
+
 
 @section('js-custom')
 {{-- Thêm thư viện Select2 cho các dropdown đẹp hơn và có chức năng tìm kiếm --}}
@@ -101,6 +112,9 @@
         const bienThes = @json($bienThes->keyBy('id'));
         const productVariantPricesDiv = $('#product_variant_prices');
 
+        // Lấy dữ liệu old() dưới dạng đối tượng JavaScript
+        const oldInput = @json(old());
+
         function updatePriceQuantityFields() {
             productVariantPricesDiv.empty(); // Xóa các trường cũ
 
@@ -116,8 +130,9 @@
             selectedSanPhams.forEach(function(sanPhamId) {
                 const sanPham = sanPhams[sanPhamId];
                 if (sanPham) {
-                    const oldGiaSuKien = '{{ old("gia_su_kien") }}' ? JSON.parse('{{ json_encode(old("gia_su_kien")) }}')['{{ $sanpham->id }}'] : '';
-                    const oldQuantityLimit = '{{ old("quantity_limit") }}' ? JSON.parse('{{ json_encode(old("quantity_limit")) }}')['{{ $sanpham->id }}'] : '';
+                    // Truy cập giá trị old từ đối tượng oldInput
+                    const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined ? oldInput.gia_su_kien[sanPham.id] : '';
+                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[sanPham.id] !== undefined ? oldInput.quantity_limit[sanPham.id] : '';
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -127,13 +142,13 @@
                                     <div class="col-md-6 mb-2">
                                         <label for="gia_su_kien_${sanPham.id}" class="form-label">Giá sự kiện (${sanPham.ten}) <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="gia_su_kien_${sanPham.id}"
-                                               name="gia_su_kien[${sanPham.id}]" step="0.01" min="0" value="${oldGiaSuKien || ''}" required>
+                                                name="gia_su_kien[${sanPham.id}]" step="0.01" min="0" value="${oldGiaSuKien || ''}" required>
                                         <div class="form-text">Giá gốc: ${sanPham.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label for="quantity_limit_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
                                         <input type="number" class="form-control" id="quantity_limit_${sanPham.id}"
-                                               name="quantity_limit[${sanPham.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                                name="quantity_limit[${sanPham.id}]" min="0" value="${oldQuantityLimit || ''}">
                                     </div>
                                 </div>
                             </div>
@@ -146,8 +161,9 @@
             selectedBienThes.forEach(function(bienTheId) {
                 const bienThe = bienThes[bienTheId];
                 if (bienThe) {
-                    const oldGiaSuKien = '{{ old("gia_su_kien") }}' ? JSON.parse('{{ json_encode(old("gia_su_kien")) }}')['bien_the_${bienThe.id}'] : '';
-                    const oldQuantityLimit = '{{ old("quantity_limit") }}' ? JSON.parse('{{ json_encode(old("quantity_limit")) }}')['bien_the_${bienThe.id}'] : '';
+                    // Truy cập giá trị old từ đối tượng oldInput
+                    const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[`bien_the_${bienThe.id}`] !== undefined ? oldInput.gia_su_kien[`bien_the_${bienThe.id}`] : '';
+                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[`bien_the_${bienThe.id}`] !== undefined ? oldInput.quantity_limit[`bien_the_${bienThe.id}`] : '';
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -157,13 +173,13 @@
                                     <div class="col-md-6 mb-2">
                                         <label for="gia_su_kien_bien_the_${bienThe.id}" class="form-label">Giá sự kiện (${bienThe.ma_bien_the}) <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="gia_su_kien_bien_the_${bienThe.id}"
-                                               name="gia_su_kien[bien_the_${bienThe.id}]" step="0.01" min="0" value="${oldGiaSuKien || ''}" required>
+                                                name="gia_su_kien[bien_the_${bienThe.id}]" step="0.01" min="0" value="${oldGiaSuKien || ''}" required>
                                         <div class="form-text">Giá gốc: ${bienThe.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
                                         <label for="quantity_limit_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
                                         <input type="number" class="form-control" id="quantity_limit_bien_the_${bienThe.id}"
-                                               name="quantity_limit[bien_the_${bienThe.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                                name="quantity_limit[bien_the_${bienThe.id}]" min="0" value="${oldQuantityLimit || ''}">
                                     </div>
                                 </div>
                             </div>
