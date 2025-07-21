@@ -63,22 +63,52 @@
         </div>
 
         {{-- Trạng thái + lý do hoàn trả --}}
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-light fw-bold">
-                Thông tin hoàn trả
-            </div>
-            <div class="card-body">
-                <p><strong>Admin xác nhận: </strong>{{ $adminHoanTra }}</p>
-                <p><strong>Thời gian xác nhận:</strong> {{ date('d/m/Y H:i', strtotime($hoanTra->updated_at)) }}</p>
-                <p><strong>Mã hoàn trả:</strong> {{ $hoanTra->ma_hoan_tra }}</p>
-                <p><strong>Trạng thái:</strong> 
-                    <span class="badge status-{{ $hoanTra->trang_thai }}">
-                        {{ \App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
-                    </span>
-                </p>
-                <p><strong>Lý do hoàn trả: </strong>{{ $hoanTra->ly_do }}</p>
-            </div>
-        </div>
+       <div class="card shadow-sm mb-4">
+    <div class="card-header bg-light fw-bold">
+        Thông tin hoàn trả
+    </div>
+    <div class="card-body">
+        @if ($hoanTra->trang_thai !== 'cho_phe_duyet')
+    <p><strong>Người xác nhận: </strong>{{ $adminHoanTra }}</p>
+@endif
+
+        <p><strong>Thời gian yêu cầu hoàn trả:</strong> {{ date('H:i d/m/Y', strtotime($hoanTra->created_at)) }}</p>
+        <p><strong>Mã hoàn trả:</strong> {{ $hoanTra->ma_hoan_tra }}</p>
+        <p><strong>Trạng thái:</strong>
+            <span class="badge status-{{ $hoanTra->trang_thai }}">
+                {{ \App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}
+            </span>
+        </p>
+        <p><strong>Lý do hoàn trả: </strong>{{ $hoanTra->ly_do }}</p>
+
+        @if ($hoanTra->thoi_gian_nhan_hang)
+    <p><strong>Thời gian nhận hàng:</strong>
+        {{ \Carbon\Carbon::parse($hoanTra->thoi_gian_nhan_hang)->format('H:i d/m/Y') }}
+    </p>
+@elseif ($hoanTra->trang_thai === 'dang_van_chuyen_tra_hang')
+    <p><strong>Thời gian nhận hàng:</strong> <span class="text-danger">Chưa nhận được hàng</span></p>
+@endif
+
+
+       {{-- Thời gian hoàn tiền --}}
+@if ($hoanTra->thoi_gian_hoan_tien)
+    <p><strong>Thời gian hoàn tiền:</strong>
+        {{ \Carbon\Carbon::parse($hoanTra->thoi_gian_hoan_tien)->format('H:i d/m/Y') }}
+    </p>
+@elseif ($hoanTra->trang_thai === 'da_nhan_hang' || $hoanTra->trang_thai === 'da_hoan_tien')
+    <p><strong>Thời gian hoàn tiền:</strong> <span class="text-danger">Chưa hoàn tiền</span></p>
+@endif
+
+{{-- Người hoàn tiền --}}
+@if ($hoanTra->nguoiHoanTien)
+    <p><strong>Người hoàn tiền:</strong> {{ $hoanTra->nguoiHoanTien->ho_ten ?? '---' }}</p>
+@elseif ($hoanTra->trang_thai === 'da_nhan_hang' || $hoanTra->trang_thai === 'da_hoan_tien')
+    <p><strong>Người hoàn tiền:</strong> <span class="text-danger">Chưa hoàn tiền</span></p>
+@endif
+
+    </div>
+</div>
+
 
         {{-- Danh sách sản phẩm --}}
         <div class="card shadow-sm mb-4">
@@ -101,6 +131,44 @@
                     </div>
                 @endforeach
             </div>
+ {{-- Ảnh minh chứng --}}
+@if ($hoanTra->anhMinhChung && count($hoanTra->anhMinhChung))
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light fw-bold">
+            Ảnh minh chứng người dùng cung cấp
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($hoanTra->anhMinhChung as $index => $anh)
+                    <div class="col-md-3 mb-3">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAnhMinhChung{{ $index }}">
+                            <img src="{{ asset($anh->duong_dan) }}"
+                                 class="img-fluid border rounded"
+                                 style="object-fit: contain; aspect-ratio: 1/1; width: 100%; background-color: #f8f9fa;">
+                        </a>
+                    </div>
+
+                    {{-- Modal phóng to ảnh --}}
+                    <div class="modal fade" id="modalAnhMinhChung{{ $index }}" tabindex="-1" aria-labelledby="modalLabel{{ $index }}" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalLabel{{ $index }}">Ảnh minh chứng</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img src="{{ asset($anh->duong_dan) }}" class="img-fluid rounded" style="max-height: 80vh;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@endif
+
+
         </div>
 
         <a href="{{ route('admin.hoan-tra.index')}}" class="btn btn-outline-secondary">
