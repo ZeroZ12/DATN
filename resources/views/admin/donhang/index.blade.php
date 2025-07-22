@@ -178,6 +178,16 @@
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
                 <button class="btn btn-sm btn-danger">Thất bại</button>
             </form>
+            @elseif ($trangThai === 'giao_that_bai')
+    <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+        @csrf
+        <input type="hidden" name="trang_thai" value="da_huy">
+        <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+        <button class="btn btn-sm btn-danger">Hủy</button>
+    </form>
+
+
+
 
         @endif
 
