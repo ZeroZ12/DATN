@@ -376,6 +376,21 @@
             height: calc(100% - 60px);
             z-index: 1;
         }
+ .collapsed-mo-ta {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* ← Đổi từ 3 sang 4 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+    max-height: 7.2em; /* ← Tăng theo dòng (4 x 1.8em) */
+}
+
+.expanded-mo-ta {
+    display: block;
+    max-height: none;
+}
+
+
 
         @media (max-width: 1200px) {
             .products-grid {
@@ -557,6 +572,8 @@
             <div class="col-md-8">
                 <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
 
+                <h5>Thương hiệu: {{ $sanpham->thuongHieu->ten }}</h5>
+
                 <div class="d-flex align-items-center mb-2">
                     <span class="me-3">Tình trạng: <span id="tinhtrang-span">
                         @php
@@ -702,12 +719,17 @@
         <hr>
 
         <div class="row mt-5">
-            <div class="col-md-8">
-                <div class="bg-light p-3 rounded mb-4">
-                    <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div>{!! $sanpham->mo_ta !!}</div>
-                </div>
-            </div>
+      <div class="col-md-8">
+    <div class="bg-light p-3 rounded mb-4 position-relative">
+        <h5 class="fw-bold">Thông tin sản phẩm</h5>
+        <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
+        <div class="text-end mt-2">
+            <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
+        </div>
+    </div>
+</div>
+
+
 
             <div class="col-md-4">
                 <div class="bg-light p-3 rounded">
@@ -1385,6 +1407,20 @@
                 });
             });
         });
+   document.getElementById('btnToggleMoTa').addEventListener('click', function () {
+        const moTa = document.getElementById('moTaSanPham');
+        const btn = this;
+
+        if (moTa.classList.contains('collapsed-mo-ta')) {
+            moTa.classList.remove('collapsed-mo-ta');
+            moTa.classList.add('expanded-mo-ta');
+            btn.textContent = 'Thu gọn';
+        } else {
+            moTa.classList.remove('expanded-mo-ta');
+            moTa.classList.add('collapsed-mo-ta');
+            btn.textContent = 'Xem thêm';
+        }
+    });
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
