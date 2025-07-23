@@ -11,8 +11,8 @@
             <ul class="list-unstyled">
                 <li><strong>ID:</strong> {{ $TanNhiet->id }}</li>
                 <li><strong>Dung lượng:</strong> {{ $TanNhiet->ten }}</li>
-                <li><strong>Giá:</strong> {{ number_format($TanNhiet->gia ?? '—') }} đ</li>
-                <li><strong>Giá Sale:</strong> {{ number_format($TanNhiet->gia_sale ?? '—') }} đ</li>
+                <li><strong>Giá:</strong> {{ number_format($TanNhiet->gia ?? '0') }} đ</li>
+                <li><strong>Giá Sale:</strong> {{ number_format($TanNhiet->gia_sale ?? '0') }} đ</li>
                 <li><strong>Mô tả:</strong> {!! $TanNhiet->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $TanNhiet->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $TanNhiet->updated_at->format('d/m/Y H:i') }}</li>

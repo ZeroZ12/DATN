@@ -12,8 +12,8 @@
                 <li><strong>ID:</strong> {{ $oCung->id }}</li>
                 <li><strong>Loại:</strong> {{ $oCung->loai }}</li>
                 <li><strong>Dung lượng:</strong> {{ $oCung->dung_luong }}</li>
-                <li><strong>Giá:</strong> {{ number_format($oCung->gia ?? '—') }} đ</li>
-                <li><strong>Giá Sale:</strong> {{ number_format($oCung->gia_sale ?? '—') }} đ</li>
+                <li><strong>Giá:</strong> {{ number_format($oCung->gia ?? '0') }} đ</li>
+                <li><strong>Giá Sale:</strong> {{ number_format($oCung->gia_sale ?? '0') }} đ</li>
                 <li><strong>Mô tả:</strong> {!! $oCung->mo_ta ?? 'N/A' !!}</li>
                 <li><strong>Ngày tạo:</strong> {{ $oCung->created_at->format('d/m/Y H:i') }}</li>
                 <li><strong>Ngày cập nhật:</strong> {{ $oCung->updated_at->format('d/m/Y H:i') }}</li>

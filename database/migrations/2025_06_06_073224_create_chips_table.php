@@ -30,7 +30,7 @@ return new class extends Migration
         Schema::table('chips', function (Blueprint $table) {
             $table->dropSoftDeletes(); // Xóa cột deleted_at khi rollback
         });
-        
+
         Schema::dropIfExists('chips');
     }
 };
