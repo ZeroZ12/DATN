@@ -1077,227 +1077,229 @@
 @endpush
 
 <!-- Đặt script filter trực tiếp để luôn nhận được hàm applyFilters -->
-<script>
-    function applyFilters() {
-        // Lấy tất cả checkbox thương hiệu và giá
-        const brandCheckboxes = document.querySelectorAll('input[name="brand[]"]');
-        const priceCheckboxes = document.querySelectorAll('input[name="price[]"]');
-        // Lấy các giá trị được chọn
-        const brands = [];
-        brandCheckboxes.forEach(cb => {
-            if (cb.checked) brands.push(cb.value);
-        });
-        const prices = [];
-        priceCheckboxes.forEach(cb => {
-            if (cb.checked) prices.push(cb.value);
-        });
-        // Lấy các checkbox ram và o_cung
-        const ramCheckboxes = document.querySelectorAll('input[name="ram[]"]');
-        const oCungCheckboxes = document.querySelectorAll('input[name="o_cung[]"]');
-        const rams = [];
-        ramCheckboxes.forEach(cb => {
-            if (cb.checked) rams.push(cb.value);
-        });
-        const oCungs = [];
-        oCungCheckboxes.forEach(cb => {
-            if (cb.checked) oCungs.push(cb.value);
-        });
-        // Lấy URL gốc (không query string)
-        let url = window.location.origin + window.location.pathname;
-        let params = new URLSearchParams();
-        brands.forEach(brand => params.append('brand[]', brand));
-        prices.forEach(price => params.append('price[]', price));
-        rams.forEach(ram => params.append('ram[]', ram));
-        oCungs.forEach(o_cung => params.append('o_cung[]', o_cung));
-        // Nếu có sort thì giữ lại
-        const sortSelect = document.querySelector('select[name="sort"]');
-        if (sortSelect && sortSelect.value) {
-            params.set('sort', sortSelect.value);
+@push('scripts')
+    <script>
+        function applyFilters() {
+            // Lấy tất cả checkbox thương hiệu và giá
+            const brandCheckboxes = document.querySelectorAll('input[name="brand[]"]');
+            const priceCheckboxes = document.querySelectorAll('input[name="price[]"]');
+            // Lấy các giá trị được chọn
+            const brands = [];
+            brandCheckboxes.forEach(cb => {
+                if (cb.checked) brands.push(cb.value);
+            });
+            const prices = [];
+            priceCheckboxes.forEach(cb => {
+                if (cb.checked) prices.push(cb.value);
+            });
+            // Lấy các checkbox ram và o_cung
+            const ramCheckboxes = document.querySelectorAll('input[name="ram[]"]');
+            const oCungCheckboxes = document.querySelectorAll('input[name="o_cung[]"]');
+            const rams = [];
+            ramCheckboxes.forEach(cb => {
+                if (cb.checked) rams.push(cb.value);
+            });
+            const oCungs = [];
+            oCungCheckboxes.forEach(cb => {
+                if (cb.checked) oCungs.push(cb.value);
+            });
+            // Lấy URL gốc (không query string)
+            let url = window.location.origin + window.location.pathname;
+            let params = new URLSearchParams();
+            brands.forEach(brand => params.append('brand[]', brand));
+            prices.forEach(price => params.append('price[]', price));
+            rams.forEach(ram => params.append('ram[]', ram));
+            oCungs.forEach(o_cung => params.append('o_cung[]', o_cung));
+            // Nếu có sort thì giữ lại
+            const sortSelect = document.querySelector('select[name="sort"]');
+            if (sortSelect && sortSelect.value) {
+                params.set('sort', sortSelect.value);
+            }
+            // Chuyển hướng
+            window.location.href = url + (params.toString() ? '?' + params.toString() : '');
         }
-        // Chuyển hướng
-        window.location.href = url + (params.toString() ? '?' + params.toString() : '');
-    }
 
-    function resetFilters() {
-        // Lấy URL hiện tại
-        let url = new URL(window.location.href);
-        // Xóa tất cả các tham số filter
-        url.searchParams.delete('brand');
-        url.searchParams.delete('price');
-        url.searchParams.delete('sort');
-        url.searchParams.delete('ram');
-        url.searchParams.delete('o_cung');
-        // Bỏ chọn tất cả checkbox
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.checked = false;
-        });
-        // Reset select box về giá trị mặc định
-        document.querySelector('select[name="sort"]').value = '';
-        // Chuyển hướng đến URL mới
-        window.location.href = url.toString();
-    }
-
-    function sortProducts(value) {
-        // Lấy URL hiện tại
-        let url = new URL(window.location.href);
-
-        // Cập nhật tham số sort
-        if (value) {
-            url.searchParams.set('sort', value);
-        } else {
+        function resetFilters() {
+            // Lấy URL hiện tại
+            let url = new URL(window.location.href);
+            // Xóa tất cả các tham số filter
+            url.searchParams.delete('brand');
+            url.searchParams.delete('price');
             url.searchParams.delete('sort');
+            url.searchParams.delete('ram');
+            url.searchParams.delete('o_cung');
+            // Bỏ chọn tất cả checkbox
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            // Reset select box về giá trị mặc định
+            document.querySelector('select[name="sort"]').value = '';
+            // Chuyển hướng đến URL mới
+            window.location.href = url.toString();
         }
 
-        // Chuyển hướng đến URL mới
-        window.location.href = url.toString();
-    }
+        function sortProducts(value) {
+            // Lấy URL hiện tại
+            let url = new URL(window.location.href);
 
-    document.addEventListener('DOMContentLoaded', function() {
-        // Kiểm tra và đánh dấu các checkbox đã được chọn từ URL
-        const urlParams = new URLSearchParams(window.location.search);
-        // Đánh dấu các checkbox thương hiệu
-        urlParams.getAll('brand[]').forEach(brand => {
-            const checkbox = document.querySelector(`input[name="brand[]"][value="${brand}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-        // Đánh dấu các checkbox giá
-        urlParams.getAll('price[]').forEach(price => {
-            const checkbox = document.querySelector(`input[name="price[]"][value="${price}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-        // Đánh dấu các checkbox ram
-        urlParams.getAll('ram[]').forEach(ram => {
-            const checkbox = document.querySelector(`input[name="ram[]"][value="${ram}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-        // Đánh dấu các checkbox o_cung
-        urlParams.getAll('o_cung[]').forEach(o_cung => {
-            const checkbox = document.querySelector(`input[name="o_cung[]"][value="${o_cung}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-        // Đánh dấu select box sắp xếp
-        const sortValue = urlParams.get('sort');
-        if (sortValue) {
-            const select = document.querySelector('select[name="sort"]');
-            if (select) select.value = sortValue;
+            // Cập nhật tham số sort
+            if (value) {
+                url.searchParams.set('sort', value);
+            } else {
+                url.searchParams.delete('sort');
+            }
+
+            // Chuyển hướng đến URL mới
+            window.location.href = url.toString();
         }
 
-        // Add cart form event listeners
-        document.querySelectorAll('.add-to-cart-form').forEach(form => {
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-                addToCart(this);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra và đánh dấu các checkbox đã được chọn từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            // Đánh dấu các checkbox thương hiệu
+            urlParams.getAll('brand[]').forEach(brand => {
+                const checkbox = document.querySelector(`input[name="brand[]"][value="${brand}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            // Đánh dấu các checkbox giá
+            urlParams.getAll('price[]').forEach(price => {
+                const checkbox = document.querySelector(`input[name="price[]"][value="${price}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            // Đánh dấu các checkbox ram
+            urlParams.getAll('ram[]').forEach(ram => {
+                const checkbox = document.querySelector(`input[name="ram[]"][value="${ram}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            // Đánh dấu các checkbox o_cung
+            urlParams.getAll('o_cung[]').forEach(o_cung => {
+                const checkbox = document.querySelector(`input[name="o_cung[]"][value="${o_cung}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            // Đánh dấu select box sắp xếp
+            const sortValue = urlParams.get('sort');
+            if (sortValue) {
+                const select = document.querySelector('select[name="sort"]');
+                if (select) select.value = sortValue;
+            }
+
+            // Add cart form event listeners
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    addToCart(this);
+                });
+            });
+
+            // Prevent product link from being triggered when clicking add to cart button
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
             });
         });
 
-        // Prevent product link from being triggered when clicking add to cart button
-        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-        });
-    });
+        function addToCart(form) {
+            const button = form.querySelector('.add-to-cart-btn');
+            const originalContent = button.innerHTML;
 
-    function addToCart(form) {
-        const button = form.querySelector('.add-to-cart-btn');
-        const originalContent = button.innerHTML;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfToken) {
+                showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
+                return;
+            }
 
-        const csrfToken = document.querySelector('meta[name="csrf-token"]');
-        if (!csrfToken) {
-            showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
-            return;
-        }
+            button.className = 'add-to-cart-btn loading';
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
 
-        button.className = 'add-to-cart-btn loading';
-        button.disabled = true;
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
+            const formData = new FormData(form);
 
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => {
-                        throw new Error(err.message || `Lỗi ${response.status}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    button.className = 'add-to-cart-btn success';
-                    button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
-
-                    const cartCount = document.querySelector('.cart-count');
-                    if (cartCount && data.cart_count) {
-                        cartCount.textContent = data.cart_count;
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                        'Accept': 'application/json'
                     }
-
-                    showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
-                } else {
-                    if (data.redirect) {
-                        showToast('Đang chuyển đến trang đăng nhập...', 'info');
-                        setTimeout(() => {
-                            window.location.href = data.redirect;
-                        }, 1000);
-                        return;
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.message || `Lỗi ${response.status}`);
+                        });
                     }
-                    throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
-                }
-            })
-            .catch(error => {
-                button.className = 'add-to-cart-btn error';
-                button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
-                showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    button.className = 'add-to-cart-btn';
-                    button.disabled = false;
-                    button.innerHTML = originalContent;
-                }, 2000);
-            });
-    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        button.className = 'add-to-cart-btn success';
+                        button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
 
-    function showToast(message, type = 'success') {
-        // Create toast container if it doesn't exist
-        let container = document.querySelector('.toast-container');
-        if (!container) {
-            container = document.createElement('div');
-            container.className = 'toast-container';
-            document.body.appendChild(container);
+                        const cartCount = document.querySelector('.cart-count');
+                        if (cartCount && data.cart_count) {
+                            cartCount.textContent = data.cart_count;
+                        }
+
+                        showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                    } else {
+                        if (data.redirect) {
+                            showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                            setTimeout(() => {
+                                window.location.href = data.redirect;
+                            }, 1000);
+                            return;
+                        }
+                        throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                    }
+                })
+                .catch(error => {
+                    button.className = 'add-to-cart-btn error';
+                    button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+                    showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        button.className = 'add-to-cart-btn';
+                        button.disabled = false;
+                        button.innerHTML = originalContent;
+                    }, 2000);
+                });
         }
 
-        // Create toast element
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
 
-        // Icon based on type
-        let icon = 'check-circle';
-        if (type === 'error') icon = 'exclamation-circle';
-        if (type === 'info') icon = 'info-circle';
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
 
-        toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-${icon}"></i>
-            <span>${message}</span>
-            <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    `;
+            // Icon based on type
+            let icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'info') icon = 'info-circle';
 
-        container.appendChild(toast);
-        setTimeout(() => toast.classList.add('show'), 100);
-        setTimeout(() => toast.remove(), 5000);
-    }
-</script>
+            toast.innerHTML = `
+            <div class="toast-content">
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => toast.remove(), 5000);
+        }
+    </script>
+@endpush
