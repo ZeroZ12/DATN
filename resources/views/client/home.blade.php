@@ -183,6 +183,9 @@
 
 @push('css')
     <style>
+        body {
+            background-color: #f8f9fa;
+        }   
         .product-section {
             background: white;
             border-radius: 12px;
