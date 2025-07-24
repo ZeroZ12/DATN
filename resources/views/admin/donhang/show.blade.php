@@ -68,7 +68,7 @@
                                         {{ $ct->ten_hien_thi }}
                                         <br>
                                         <small class="text-muted">
-                                            Mã biến thể: 
+                                            Mã biến thể:
                                             @if ($ct->bienTheSanPham)
                                                 {{$ct->bienTheSanPham->ma_bien_the  }}
                                             @else
@@ -91,9 +91,75 @@
                 </div>
             </div>
         </div>
-        <a href="{{ route('admin.don-hang.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Quay lại
-        </a>
+
+
+<div class="d-flex flex-wrap gap-2">
+     <a href="{{ route('admin.don-hang.index') }}" class="btn btn-outline-secondary mb-3">
+    <i class="bi bi-arrow-left"></i> Quay lại
+</a>
+    @if ($donHang->trang_thai === 'cho_xac_nhan')
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="da_xac_nhan">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-success">Xác nhận</button>
+        </form>
+
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="da_huy">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-danger">Hủy</button>
+        </form>
+
+    @elseif ($donHang->trang_thai === 'da_xac_nhan')
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="chuan_bi_hang">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-success">Chuẩn bị hàng</button>
+        </form>
+
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="da_huy">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-danger">Hủy</button>
+        </form>
+
+    @elseif ($donHang->trang_thai === 'chuan_bi_hang')
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="dang_giao_hang">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-success">Giao hàng</button>
+        </form>
+
+    @elseif ($donHang->trang_thai === 'dang_giao_hang')
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="giao_thanh_cong">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-success">Đã giao</button>
+        </form>
+
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="giao_that_bai">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-danger">Thất bại</button>
+        </form>
+
+    @elseif ($donHang->trang_thai === 'giao_that_bai')
+        <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
+            @csrf
+            <input type="hidden" name="trang_thai" value="da_huy">
+            <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
+            <button class="btn btn-sm btn-danger">Hủy đơn</button>
+        </form>
+    @endif
+</div>
+
     </div>
 @endsection
 

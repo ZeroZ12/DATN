@@ -41,12 +41,16 @@ class SanPhamController extends Controller
                     });
                 }
             )
-            ->withCount(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }])
-            ->withAvg(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }], 'so_sao')
+            ->withCount([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ])
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
             ->orderByDesc('id')
             ->paginate(10)
             ->withQueryString();
@@ -82,10 +86,10 @@ class SanPhamController extends Controller
                 foreach ($request->price as $priceRange) {
                     list($min, $max) = explode('-', $priceRange);
                     // Lọc trên giá của sản phẩm hoặc giá của biến thể
-                    $q->orWhereBetween('gia', [(int)$min, (int)$max])
-                      ->orWhereHas('bienTheSanPhams', function ($subQ) use ($min, $max) {
-                          $subQ->whereBetween('gia', [(int)$min, (int)$max]);
-                      });
+                    $q->orWhereBetween('gia', [(int) $min, (int) $max])
+                        ->orWhereHas('bienTheSanPhams', function ($subQ) use ($min, $max) {
+                            $subQ->whereBetween('gia', [(int) $min, (int) $max]);
+                        });
                 }
             });
         }
@@ -123,15 +127,19 @@ class SanPhamController extends Controller
             }
         }
 
-        $sanphams = $query->withCount(['danhGiaSanPhams' => function ($query) {
-            $query->where('trang_thai', 'da_duyet');
-        }])
-        ->withAvg(['danhGiaSanPhams' => function ($query) {
-            $query->where('trang_thai', 'da_duyet');
-        }], 'so_sao')
-        ->orderByDesc('id')
-        ->paginate(10)
-        ->withQueryString();
+        $sanphams = $query->withCount([
+            'danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }
+        ])
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
 
         // Lấy danh mục hiện tại
         $category = DanhMuc::findOrFail($id);
@@ -170,6 +178,7 @@ class SanPhamController extends Controller
                     ->orderBy('created_at', 'desc'); // Sắp xếp đánh giá mới nhất lên trước
             },
         ])->findOrFail($id);
+        $sanpham->increment('luot_xem');
 
         $bienTheSanPhams = $sanpham->bienTheSanPhams;
 
@@ -180,12 +189,16 @@ class SanPhamController extends Controller
         $sanphamTuongTu = SanPham::where('id_category', $sanpham->id_category)
             ->where('id', '!=', $sanpham->id)
             ->where('hoat_dong', 1)
-            ->withAvg(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }], 'so_sao')
-            ->withCount(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }])
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
+            ->withCount([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ])
             ->latest()
             ->take(10)
             ->get();

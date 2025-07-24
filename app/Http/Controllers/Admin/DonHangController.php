@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\DonHang;
+use App\Models\YeuCauHoanTra;
 use Illuminate\Http\Request;
 
 class DonHangController extends Controller
@@ -37,32 +38,86 @@ class DonHangController extends Controller
         return view('admin.donhang.show', compact('donHang'));
     }
 
-    public function capNhatTrangThai(Request $request, $id)
-    {
-        $request->validate([
-            'trang_thai' => 'required|in:' . implode(',', DonHang::TRANG_THAI),
-            'trang_thai_hien_tai' => 'required|string',
-        ]);
+    // public function capNhatTrangThai(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'trang_thai' => 'required|in:' . implode(',', DonHang::TRANG_THAI),
+    //         'trang_thai_hien_tai' => 'required|string',
+    //     ]);
 
-        $donHang = DonHang::findOrFail($id);
+    //     $donHang = DonHang::findOrFail($id);
 
-        if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
-            return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
-        }
+    //     if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
+    //         return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
+    //     }
 
-        if ($request->trang_thai === 'da_huy') {
-            $donHang->update([
-                'trang_thai' => 'da_huy',
-                'huy_boi' => 'admin',
-            ]);
-        } else {
-            $donHang->update([
-                'trang_thai' => $request->trang_thai,
-            ]);
-        }
+    //     if ($request->trang_thai === 'da_huy') {
+    //         $donHang->update([
+    //             'trang_thai' => 'da_huy',
+    //             'huy_boi' => 'admin',
+    //         ]);
+    //     } else {
+    //         $donHang->update([
+    //             'trang_thai' => $request->trang_thai,
+    //         ]);
+    //     }
 
-        return redirect()->route('admin.don-hang.index')->with('success', 'Cập nhật trạng thái thành công.');
+    //   return redirect()->back()->with('success', 'Cập nhật trạng thái thành công.');
+
+    // }
+
+
+public function capNhatTrangThai(Request $request, $id)
+{
+    $request->validate([
+        'trang_thai' => 'required|in:' . implode(',', DonHang::TRANG_THAI),
+        'trang_thai_hien_tai' => 'required|string',
+    ]);
+
+    $donHang = DonHang::with('chiTietDonHangs.sanPham')->findOrFail($id);
+
+    if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
+        return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
     }
+
+    $trangThaiCu  = $donHang->trang_thai;
+    $trangThaiMoi = $request->trang_thai;
+
+    // Cập nhật trạng thái
+    if ($trangThaiMoi === 'da_huy') {
+        $donHang->update([
+            'trang_thai' => 'da_huy',
+            'huy_boi' => 'admin',
+        ]);
+    } else {
+        $donHang->update([
+            'trang_thai' => $trangThaiMoi,
+        ]);
+    }
+
+    // ✅ Chỉ cộng luot_mua nếu trạng thái mới là giao_thanh_cong
+    // Và trạng thái cũ chưa phải là giao_thanh_cong hoặc hoan_thanh
+    if (
+        $trangThaiMoi === 'giao_thanh_cong' &&
+        !in_array($trangThaiCu, ['giao_thanh_cong', 'hoan_thanh'])
+    ) {
+        // Nếu không có yêu cầu hoàn trả
+        $coYeuCauHoanTra = YeuCauHoanTra::where('id_don_hang', $donHang->id)->exists();
+
+        if (!$coYeuCauHoanTra) {
+            foreach ($donHang->chiTietDonHangs as $chiTiet) {
+                $sanPham = $chiTiet->sanPham;
+                if ($sanPham) {
+                    $sanPham->luot_mua += $chiTiet->so_luong;
+                    $sanPham->save();
+                }
+            }
+        }
+    }
+
+    return redirect()->back()->with('success', 'Cập nhật trạng thái thành công.');
+}
+
 
     public function revenueList(Request $request)
     {

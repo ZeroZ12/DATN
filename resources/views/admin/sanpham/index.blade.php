@@ -56,8 +56,8 @@
                         <th>Mã sản phẩm</th>
                         <th>Danh mục</th>
                         <th>Thương hiệu</th>
-                        <th>Chip</th>
-                        <th>Bảo hành</th>
+                        <th>Lượt xem</th>
+                        <th>Lượt mua</th>
                         <th>Ảnh đại diện</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
@@ -72,8 +72,8 @@
                             <td>{{ $sanpham->ma_san_pham }}</td>
                             <td>{{ $sanpham->danhMuc->ten ?? 'N/A' }}</td>
                             <td>{{ $sanpham->thuongHieu->ten ?? 'N/A' }}</td>
-                            <td>{{ $sanpham->chip->ten ?? 'N/A' }}</td>
-                            <td>{{ $sanpham->bao_hanh_thang }} tháng</td>
+                            <td>{{ $sanpham->luot_xem ?? 'N/A' }}</td>
+                            <td>{{ $sanpham->luot_mua ?? 'N/A' }}</td>
                             <td>
                                 @if ($sanpham->anh_dai_dien)
                                     <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}" alt="Ảnh sản phẩm"
