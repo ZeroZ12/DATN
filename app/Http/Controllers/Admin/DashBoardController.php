@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\BienTheSanPham;
 use App\Models\DonHang;
+use App\Models\SanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -62,7 +64,7 @@ class DashBoardController extends Controller
     // Doanh Số Năm Hiện Tại
     $doanhSoNam = DonHang::whereYear('updated_at', $namHienTai)->where('trang_thai', 'hoan_thanh')
       ->sum('tong_tien');
-    // Tổng Doanh Số 
+    // Tổng Doanh Số
     $tongDoanhSo = DonHang::where('trang_thai', 'hoan_thanh')->sum('tong_tien');
 
     // Xử lý filter doanh số
@@ -95,7 +97,25 @@ class DashBoardController extends Controller
         ->whereYear('updated_at', $year)
         ->sum('tong_tien');
     }
+ $sanPhamBanChay = SanPham::whereNull('deleted_at')
+    ->orderByDesc('luot_mua')
+    ->limit(5)
+    ->get();
 
-    return view('admin.layouts.dashboard', compact('thongKe', 'HoanTra', 'doanhSoNgay', 'doanhSoThang', 'doanhSoNam', 'tongDoanhSo', 'doanhSoFilter'));
+    $sanPhamXemNhieu = SanPham::whereNull('deleted_at')
+    ->orderByDesc('luot_xem')
+    ->limit(10)
+    ->get();
+    $donHangHoanThanh = DonHang::where('trang_thai', 'hoan_thanh')
+    ->whereDoesntHave('yeuCauHoanTra') // không có yêu cầu hoàn trả
+    ->latest()
+    ->take(15)
+    ->get();
+    $sanPhamSapHetHang = BienTheSanPham::with('sanPham')
+    ->where('ton_kho', '<', 5)
+    ->orderBy('ton_kho', 'asc')
+    ->limit(10)
+    ->get();
+    return view('admin.layouts.dashboard', compact('sanPhamSapHetHang','donHangHoanThanh','sanPhamXemNhieu','sanPhamBanChay','thongKe', 'HoanTra', 'doanhSoNgay', 'doanhSoThang', 'doanhSoNam', 'tongDoanhSo', 'doanhSoFilter'));
   }
 }
