@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\YeuCauHoanTra;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Models\AnhMinhChung;
 
 class YeuCauHoanTraController extends Controller
 {
@@ -56,19 +58,37 @@ public function capNhatTrangThai(Request $request, $id)
     }
 
     $admin = Auth::user();
-
     $hoanTra->trang_thai = $moi;
     $hoanTra->admin_hoan_tra = $admin->ten_dang_nhap ?? 'admin';
 
-    // Nếu là trạng thái "đã nhận hàng" → lưu thời gian nhận
     if ($moi === 'da_nhan_hang') {
         $hoanTra->thoi_gian_nhan_hang = now();
     }
 
-    // Nếu là trạng thái "đã hoàn tiền" → lưu thời gian hoàn tiền + người hoàn tiền
     if ($moi === 'da_hoan_tien') {
+        // ✅ Validate bắt buộc có ảnh
+        $request->validate([
+            'anh_minh_chung' => 'required|array|min:1',
+            'anh_minh_chung.*' => 'required|image|max:5120', // 5MB
+        ], [
+            'anh_minh_chung.required' => 'Vui lòng chọn ảnh minh chứng hoàn tiền.',
+            'anh_minh_chung.*.image' => 'Tất cả file phải là ảnh.',
+            'anh_minh_chung.*.max' => 'Ảnh không được lớn hơn 5MB.',
+        ]);
+
         $hoanTra->thoi_gian_hoan_tien = now();
         $hoanTra->id_nguoi_hoan_tien = $admin->id;
+
+       foreach ($request->file('anh_minh_chung') as $file) {
+    $path = $file->store('minhchung/anh_hoan_tien', 'public');
+
+
+            AnhMinhChung::create([
+                'id_yeu_cau_hoan_tra' => $hoanTra->id,
+                'duong_dan' => $path,
+                'loai' => 'admin',
+            ]);
+        }
     }
 
     $hoanTra->save();

@@ -132,29 +132,32 @@
                 @endforeach
             </div>
  {{-- Ảnh minh chứng --}}
-@if ($hoanTra->anhMinhChung && count($hoanTra->anhMinhChung))
+ @php
+    $anhNguoiDung = $hoanTra->anhMinhChung->where('loai', 'nguoi_dung');
+    $anhAdmin = $hoanTra->anhMinhChung->where('loai', 'admin');
+@endphp
+
+@if ($anhNguoiDung->count())
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-light fw-bold">
             Ảnh minh chứng người dùng cung cấp
         </div>
         <div class="card-body">
             <div class="row">
-                @foreach ($hoanTra->anhMinhChung as $index => $anh)
+                @foreach ($anhNguoiDung as $index => $anh)
                     <div class="col-md-3 mb-3">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAnhMinhChung{{ $index }}">
-                            <img src="{{ asset($anh->duong_dan) }}"
-                                 class="img-fluid border rounded"
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAnhNguoiDung{{ $index }}">
+                            <img src="{{ asset($anh->duong_dan) }}" class="img-fluid border rounded"
                                  style="object-fit: contain; aspect-ratio: 1/1; width: 100%; background-color: #f8f9fa;">
                         </a>
                     </div>
 
-                    {{-- Modal phóng to ảnh --}}
-                    <div class="modal fade" id="modalAnhMinhChung{{ $index }}" tabindex="-1" aria-labelledby="modalLabel{{ $index }}" aria-hidden="true">
+                    <div class="modal fade" id="modalAnhNguoiDung{{ $index }}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="modalLabel{{ $index }}">Ảnh minh chứng</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    <h5 class="modal-title">Ảnh minh chứng</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body text-center">
                                     <img src="{{ asset($anh->duong_dan) }}" class="img-fluid rounded" style="max-height: 80vh;">
@@ -167,6 +170,40 @@
         </div>
     </div>
 @endif
+@if ($anhAdmin->count())
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light fw-bold">
+            Ảnh minh chứng hoàn tiền
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach ($anhAdmin as $index => $anh)
+                    <div class="col-md-3 mb-3">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAnhAdmin{{ $index }}">
+                            <img src="{{ asset('storage/' . $anh->duong_dan) }}" class="img-fluid border rounded"
+                                 style="object-fit: contain; aspect-ratio: 1/1; width: 100%; background-color: #f1f3f5;">
+                        </a>
+                    </div>
+
+                    <div class="modal fade" id="modalAnhAdmin{{ $index }}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Ảnh minh chứng hoàn tiền</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img src="{{ asset('storage/' . $anh->duong_dan) }}" class="img-fluid rounded" style="max-height: 80vh;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@endif
+
 
 
         </div>
@@ -202,14 +239,46 @@
         <button class="btn btn-sm btn-info">Đã nhận hàng</button>
     </form>
 
+
 @elseif ($trangThai === 'da_nhan_hang')
-    <form method="POST" action="{{ route('admin.hoan-tra.cap-nhat-trang-thai', $hoanTra->id) }}" class="d-inline">
+    <button type="button" class="btn btn-sm btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-hoan-tien-{{ $hoanTra->id }}">
+        Hoàn tiền
+    </button>
+@endif
+
+<div class="modal fade" id="modal-hoan-tien-{{ $hoanTra->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $hoanTra->id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <form method="POST" action="{{ route('admin.hoan-tra.cap-nhat-trang-thai', $hoanTra->id) }}"
+            enctype="multipart/form-data">
         @csrf
+
         <input type="hidden" name="trang_thai" value="da_hoan_tien">
         <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-        <button class="btn btn-sm btn-success">Hoàn tiền</button>
-    </form>
-@endif
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel{{ $hoanTra->id }}">Xác nhận đã hoàn tiền</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+
+        <div class="modal-body">
+          <label for="anh_minh_chung">Ảnh bill minh chứng:</label>
+          <input type="file" name="anh_minh_chung[]" multiple accept="image/*" class="form-control" required>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-primary">Xác nhận hoàn tiền</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
 
     </div>
 @endsection
