@@ -11,7 +11,7 @@ class DanhMuc extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'danh_mucs';
-    protected $fillable = ['ten'];
+    protected $fillable = ['ten','hinh_anh'];
 
     // Quan hệ với bảng Sản Phẩm
     public function sanPhams()

@@ -33,11 +33,20 @@ class DanhMucController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $data = $request->validate([
             'ten' => 'required|string|max:255',
+            'hinh_anh' => 'required|mimes:jpeg,png,jpg,gif,svg', // Thêm validation cho hình ảnh
         ]);
-        DanhMuc::create($data);
+        // Xử lý upload hình ảnh nếu có
+        if ($request->hasFile('hinh_anh')) {
+    $file = $request->file('hinh_anh');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $path = $file->storeAs('images', $filename, 'public');
+    $data['hinh_anh'] = $path;
+        }
+        
+        $create = DanhMuc::create($data);
         return redirect()->route('admin.danhmuc.index')->with('message', 'Danh mục đã được tạo thành công.');
     }
 
@@ -64,15 +73,31 @@ class DanhMucController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $danhmuc = DanhMuc::findOrFail($id);
-        $data = $request->validate([
-            'ten' => 'required|string|max:255',
-        ]);
-        $danhmuc->update($data);
-        return redirect()->route('admin.danhmuc.index')->with('message', 'Danh mục đã được cập nhật thành công.');
+public function update(Request $request, string $id)
+{
+    $danhmuc = DanhMuc::findOrFail($id);
+
+    $data = $request->validate([
+        'ten' => 'required|string|max:255',
+        'hinh_anh' => 'required|mimes:jpeg,png,jpg,gif,svg',
+    ]);
+
+    if ($request->hasFile('hinh_anh')) {
+        $file = $request->file('hinh_anh');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('images', $filename, 'public');
+        $data['hinh_anh'] = $path;
+    } else {
+        // Nếu không upload ảnh mới thì giữ nguyên ảnh cũ
+        $data['hinh_anh'] = $danhmuc->hinh_anh;
     }
+
+    $danhmuc->update($data);
+
+    return redirect()->route('admin.danhmuc.index')
+        ->with('message', 'Danh mục đã được cập nhật thành công.');
+}
+
 
     /**
      * Remove the specified resource from storage.

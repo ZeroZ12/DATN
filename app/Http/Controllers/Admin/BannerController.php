@@ -49,6 +49,7 @@ class BannerController extends Controller
             ]
     );
     // Kiểm tra thêm ảnh
+    
     if ($request->hasFile('image_url')) {
         $validated['image_url'] = $request->file('image_url')->store('banners', 'public');
     }
@@ -112,6 +113,7 @@ class BannerController extends Controller
             if ($banner->image_url) {
                 Storage::disk('public')->delete($banner->image_url);
             }
+            
             $validated['image_url'] = $request->file('image_url')->store('banners', 'public');
         }
         $banner->update($validated);

@@ -74,10 +74,11 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(3) // Lấy 3 banner mới nhất
             ->get();
-
+        $r_cates = DanhMuc::orderBy('id', 'desc')->paginate(3);
+        $b_cates = DanhMuc::orderBy('id','asc')->paginate(4);
         // $suKien = SuKien::active()->with('sanphams')->get();
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners'));
+        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
     public function addToCart(Request $request)

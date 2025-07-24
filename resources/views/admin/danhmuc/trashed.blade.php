@@ -27,6 +27,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Tên danh mục</th>
+                            <th>Hình ảnh</th>
                             <th>Thời gian xóa</th>
                             <th>Hành động</th>
                         </tr>
@@ -37,7 +38,15 @@
                                 <td class="text-center">{{ $dm->id }}</td>
                                 <td class="text-center">{{ $dm->ten }}</td>
                                 <td class="text-center">
+                                    @if($dm->hinh_anh)
+                                        <img src="{{ asset('storage/' . $dm->hinh_anh) }}" alt="{{ $dm->ten }}" class="img-thumbnail" style="max-width: 100px;">
+                                    @else
+                                        <span class="text-muted">Chưa có hình ảnh</span>
+                                    @endif
+                                </td>
+                                <td class="text-center">
                                     {{ $dm->deleted_at ? $dm->deleted_at->format('d/m/Y H:i:s') : 'Không xác định' }}
+                                </td>
                                 <td class="text-center">
 
                                     {{-- Nút Khôi phục --}}
