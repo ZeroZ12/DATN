@@ -61,7 +61,7 @@
                 <div class="col-3 mb-3">
                     <div class="bottom-banner">
                         <a href="{{ route('danhmuc.index', $b_cate->id) }}">
-                            <img src="{{ asset('storage/' . $b_cate->hinh_anh) }}" class="img-fluid" style="width: 100%; height: 120px; object-fit: cover;">
+                            <img src="{{ asset('storage/' . $b_cate->hinh_anh) }}" class="img-fluid" style="width: 100%; height: 138px; object-fit: cover;">
                         </a>
                     </div>
                 </div>
