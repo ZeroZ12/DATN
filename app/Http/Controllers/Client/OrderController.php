@@ -90,11 +90,11 @@ class OrderController extends Controller
         ]);
     }
 
-    public function daNhanHang($id)
+ public function daNhanHang($id)
 {
     $donHang = DonHang::where('id', $id)
-        ->where('id_user', auth()->id()) // đảm bảo chỉ người chủ đơn hàng mới cập nhật
-        ->where('trang_thai', 'giao_thanh_cong') // chỉ được cập nhật nếu đúng trạng thái
+        ->where('id_user', auth()->id())
+        ->where('trang_thai', 'giao_thanh_cong')
         ->firstOrFail();
 
     $donHang->update([
@@ -104,6 +104,7 @@ class OrderController extends Controller
 
     return redirect()->route('client.orders.index')->with('success', 'Đơn hàng đã được xác nhận là đã nhận.');
 }
+
 
 
 public function cancel($id)
