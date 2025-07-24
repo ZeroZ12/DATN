@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="{{ asset('assets/css/style_2.css') }}">
   {{-- <link rel="stylesheet" href="{{ asset('assets/js/script_2.css') }}"> --}}
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
   @stack('css')
   <title>@yield('title', 'Electro - Cửa hàng máy tính')</title>
 </head>
