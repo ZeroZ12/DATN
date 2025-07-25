@@ -47,119 +47,106 @@
             </div>
 
             <div class="mb-3">
-                <label for="id_san_pham" class="form-label">Chọn sản phẩm</label>
-                {{-- Sử dụng Select2 để có giao diện đẹp và tìm kiếm cho select multiple --}}
-                <select class="form-select select2-enable" id="id_san_pham" name="id_san_pham[]" multiple="multiple">
-                    @foreach($sanphams as $sanpham)
-                        <option value="{{ $sanpham->id }}" {{ in_array($sanpham->id, old('id_san_pham', $suKien->sanPhams->pluck('id')->toArray())) ? 'selected' : '' }}>
-                            {{ $sanpham->ten }} ({{ $sanpham->co_bien_the ? 'Có biến thể' : 'Không biến thể' }})
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <label for="id_san_pham" class="form-label">Chọn sản phẩm</label>
+            <select class="form-select select2-enable" id="id_san_pham" name="id_san_pham[]" multiple="multiple">
+                @foreach($sanphams as $sanpham)
+                    <option value="{{ $sanpham->id }}" {{ in_array($sanpham->id, old('id_san_pham', $suKien->sanPhams->pluck('id')->toArray())) ? 'selected' : '' }}>
+                        {{ $sanpham->ten }} ({{ $sanpham->co_bien_the ? 'Có biến thể' : 'Không biến thể' }})
+                    </option>
+                @endforeach
+            </select>
+            @error('id_san_pham')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <div class="mb-3">
-                <label for="id_bien_the_san_pham" class="form-label">Chọn biến thể (nếu có)</label>
-                <select class="form-select select2-enable" id="id_bien_the_san_pham" name="id_bien_the_san_pham[]" multiple="multiple">
-                    @foreach($bienThes as $bienThe)
-                        <option value="{{ $bienThe->id }}" {{ in_array($bienThe->id, old('id_bien_the_san_pham', $suKien->bienTheSanPhams->pluck('id')->toArray())) ? 'selected' : '' }}>
-                            {{ $bienThe->sanPham->ten }} - {{ $bienThe->ma_bien_the }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+        <div class="mb-3">
+            <label for="id_bien_the_san_pham" class="form-label">Chọn biến thể (nếu có)</label>
+            <select class="form-select select2-enable" id="id_bien_the_san_pham" name="id_bien_the_san_pham[]" multiple="multiple">
+                @foreach($bienThes as $bienThe)
+                    <option value="{{ $bienThe->id }}" {{ in_array($bienThe->id, old('id_bien_the_san_pham', $suKien->bienTheSanPhams->pluck('id')->toArray())) ? 'selected' : '' }}>
+                        {{ $bienThe->sanPham->ten }} - {{ $bienThe->ma_bien_the }}
+                    </option>
+                @endforeach
+            </select>
+            @error('id_bien_the_san_pham')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
-            <div class="mb-4">
-                <label class="form-label">Giá sự kiện và Giới hạn số lượng (chỉ điền cho các sản phẩm/biến thể đã chọn)</label>
-                <div id="product_variant_prices">
-                    {{-- Các input giá và số lượng sẽ được thêm bằng JavaScript --}}
-                    <p class="text-muted fst-italic">Vui lòng chọn sản phẩm hoặc biến thể để hiển thị các trường nhập giá và giới hạn số lượng.</p>
-                </div>
+        <div class="mb-4">
+            <label class="form-label">Giá sự kiện và Giới hạn số lượng</label>
+            <div id="product_variant_prices">
+                <p class="text-muted fst-italic">Vui lòng chọn sản phẩm hoặc biến thể để hiển thị các trường nhập giá và giới hạn số lượng.</p>
             </div>
+        </div>
 
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-success btn-lg">💾 Lưu Sự Kiện</button>
-                <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary btn-lg">↩️ Quay lại</a>
-            </div>
-        </form>
-    </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success btn-lg">💾 Cập nhật Sự Kiện</button>
+            <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary btn-lg">↩️ Quay lại</a>
+        </div>
+    </form>
+</div>
 @endsection
 
-
 @section('js-custom')
-{{-- Thêm thư viện Select2 cho các dropdown đẹp hơn và có chức năng tìm kiếm --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
 <script>
-    // Khởi tạo TinyMCE (nếu bạn có trường 'mo_ta' - trong mã bạn đưa ra không có, nhưng tôi giữ lại)
-    // tinymce.init({
-    //     selector: '#mo_ta', 
-    //     height: 300,
-    //     plugins: 'image link table lists code',
-    //     toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | image link table | code',
-    //     menubar: false
-    // });
-
     $(document).ready(function() {
-        // Khởi tạo Select2 cho các thẻ select
+        // Khởi tạo Select2
         $('.select2-enable').select2({
             placeholder: "Chọn...",
-            allowClear: true // Cho phép xóa lựa chọn
+            allowClear: true
         });
 
         const sanPhams = @json($sanphams->keyBy('id'));
         const bienThes = @json($bienThes->keyBy('id'));
         const productVariantPricesDiv = $('#product_variant_prices');
-        const suKienData = @json(
-            $suKien->sanPhams
-                ->mapWithKeys(function ($sanPham) {
-                    return ([
-                        $sanPham->id => [
-                            'gia_su_kien' => $sanPham->pivot->gia_su_kien ?? '',
-                            'quantity_limit' => $sanPham->pivot->quantity_limit ?? '',
-                            'id_bien_the_san_pham' => $sanPham->pivot->id_bien_the_san_pham ?? null
-                        ]
-                    ]);
-                })
-            )->merge(
-                $suKien->bienTheSanPhams->mapWithKeys(function ($bienThe) {
-                    return ([
-                        'bien_the_' . $bienThe->id => [
-                        'gia_su_kien' => $bienThe->pivot->gia_su_kien ?? '',
-                        'quantity_limit' => $bienThe->pivot->quantity_limit ?? '',
-                        'id_bien_the_san_pham' => $bienThe->id
-                        ]
-                    ]);
-                })
-            )
-        ); // Lấy dữ liệu từ mối quan hệ và chuyển đổi sang định dạng dễ sử dụng
-        
-        // Lấy dữ liệu old() dưới dạng đối tượng JavaScript
-        // const oldInput = @json(old());
+
+        // Dữ liệu từ sự kiện hiện tại
+        const suKienData = {
+            san_phams: @json($suKien->sanPhams->map(function($sanPham) {
+                return [
+                    'id' => $sanPham->id,
+                    'gia_su_kien' => $sanPham->pivot->gia_su_kien,
+                    'quantity_limit' => $sanPham->pivot->quantity_limit
+                ];
+            })->keyBy('id')),
+            bien_thes: @json($suKien->bienTheSanPhams->map(function($bienThe) {
+                return [
+                    'id' => $bienThe->id,
+                    'gia_su_kien' => $bienThe->pivot->gia_su_kien,
+                    'quantity_limit' => $bienThe->pivot->quantity_limit
+                ];
+            })->keyBy('id'))
+        };
+
+        // Lấy dữ liệu old() hoặc dữ liệu hiện tại của sự kiện
+        const oldInput = @json(old());
 
         function updatePriceQuantityFields() {
-            productVariantPricesDiv.empty(); // Xóa các trường cũ
+        productVariantPricesDiv.empty();
 
-            const selectedSanPhams = $('#id_san_pham').val() || [];
-            const selectedBienThes = $('#id_bien_the_san_pham').val() || [];
+        const selectedSanPhams = $('#id_san_pham').val() || [];
+        const selectedBienThes = $('#id_bien_the_san_pham').val() || [];
 
-            if (selectedSanPhams.length === 0 && selectedBienThes.length === 0) {
-                productVariantPricesDiv.append('<p class="text-muted fst-italic">Vui lòng chọn sản phẩm hoặc biến thể để hiển thị các trường nhập giá và giới hạn số lượng.</p>');
-                return;
-            }
+        if (selectedSanPhams.length === 0 && selectedBienThes.length === 0) {
+            productVariantPricesDiv.append('<p class="text-muted fst-italic">Vui lòng chọn sản phẩm hoặc biến thể để hiển thị các trường nhập giá và giới hạn số lượng.</p>');
+            return;
+        }
 
-            // Tạo trường cho các sản phẩm đã chọn
+        // Xử lý sản phẩm
             selectedSanPhams.forEach(function(sanPhamId) {
                 const sanPham = sanPhams[sanPhamId];
                 if (sanPham) {
-                    // Truy cập giá trị old từ đối tượng oldInput
-                    const pivotData = suKienData[sanPham.id] || {};
-                    const oldGiaSuKien = pivotData.gia_su_kien || '';
-                    const oldQuantityLimit = pivotData.quantity_limit || '';
-                    // const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined ? oldInput.gia_su_kien[sanPham.id] : '';
-                    // const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[sanPham.id] !== undefined ? oldInput.quantity_limit[sanPham.id] : '';
+                    const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined
+                        ? oldInput.gia_su_kien[sanPham.id]
+                        : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].gia_su_kien : '');
+                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[sanPham.id] !== undefined
+                        ? oldInput.quantity_limit[sanPham.id]
+                        : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].quantity_limit : '');
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -175,7 +162,8 @@
                                     <div class="col-md-6 mb-2">
                                         <label for="quantity_limit_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
                                         <input type="number" class="form-control" id="quantity_limit_${sanPham.id}"
-                                                name="quantity_limit[${sanPham.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                                name="quantity_limit[${sanPham.id}]" min="0" max="${sanPham.so_luong}" value="${oldQuantityLimit || ''}">
+                                        <div class="form-text">Số lượng tồn kho: ${sanPham.so_luong}</div>
                                     </div>
                                 </div>
                             </div>
@@ -184,32 +172,34 @@
                 }
             });
 
-            // Tạo trường cho các biến thể đã chọn
+            // Xử lý biến thể
             selectedBienThes.forEach(function(bienTheId) {
                 const bienThe = bienThes[bienTheId];
                 if (bienThe) {
-                    const pivotData = suKienData['bien_the_' + bienTheId] || {};
-                    const oldGiaSuKien = pivotData.id_bien_the_san_pham === bienTheId ? pivotData.gia_su_kien || '':'';
-                    const oldQuantityLimit = pivotData.id_bien_the_san_pham === bienTheId ? pivotData.quantity_limit || '':'';
-                    // Truy cập giá trị old từ đối tượng oldInput
-                    // const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[`bien_the_${bienThe.id}`] !== undefined ? oldInput.gia_su_kien[`bien_the_${bienThe.id}`] : '';
-                    // const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[`bien_the_${bienThe.id}`] !== undefined ? oldInput.quantity_limit[`bien_the_${bienThe.id}`] : '';
+                    const key = 'bien_the_' + bienThe.id;
+                    const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[key] !== undefined
+                        ? oldInput.gia_su_kien[key]
+                        : (suKienData.bien_thes[bienThe.id] ? suKienData.bien_thes[bienThe.id].gia_su_kien : '');
+                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[key] !== undefined
+                        ? oldInput.quantity_limit[key]
+                        : (suKienData.bien_thes[bienThe.id] ? suKienData.bien_thes[bienThe.id].quantity_limit : '');
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
                             <div class="card-body">
-                                <h5 class="card-title text-success">${bienThe.san_pham ? bienThe.san_pham.ten : 'Không có tên'} - ${bienThe.ma_bien_the || 'Không có mã'}</h5>
+                                <h5 class="card-title text-success">${bienThe.san_pham.ten} - ${bienThe.ma_bien_the}</h5>
                                 <div class="row">
                                     <div class="col-md-6 mb-2">
-                                        <label for="gia_su_kien_bien_the_${bienThe.id}" class="form-label">Giá sự kiện (${bienThe.ma_bien_the || 'Không có mã'}) <span class="text-danger">*</span></label>
+                                        <label for="gia_su_kien_bien_the_${bienThe.id}" class="form-label">Giá sự kiện (${bienThe.ma_bien_the}) <span class="text-danger">*</span></label>
                                         <input type="number" class="form-control" id="gia_su_kien_bien_the_${bienThe.id}"
                                                 name="gia_su_kien[bien_the_${bienThe.id}]" step="0.01" min="0" value="${oldGiaSuKien || ''}" required>
-                                        <div class="form-text">Giá gốc: ${bienThe.gia||"0"}</div>
+                                        <div class="form-text">Giá gốc: ${bienThe.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <label for="quantity_limit_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the || 'Không có mã'})</label>
+                                        <label for="quantity_limit_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
                                         <input type="number" class="form-control" id="quantity_limit_bien_the_${bienThe.id}"
-                                                name="quantity_limit[bien_the_${bienThe.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                                name="quantity_limit[bien_the_${bienThe.id}]" min="0" max="${bienThe.so_luong}" value="${oldQuantityLimit || ''}">
+                                        <div class="form-text">Số lượng tồn kho: ${bienThe.so_luong}</div>
                                     </div>
                                 </div>
                             </div>
@@ -219,27 +209,26 @@
             });
         }
 
-        // Cập nhật các trường giá và số lượng khi lựa chọn sản phẩm/biến thể thay đổi
+        // Cập nhật khi thay đổi lựa chọn
         $('#id_san_pham, #id_bien_the_san_pham').on('change', updatePriceQuantityFields);
 
-        // Gọi hàm một lần khi tải trang để hiển thị các trường đã chọn từ `old()`
+        // Gọi hàm để hiển thị dữ liệu ban đầu
         updatePriceQuantityFields();
 
-        // Thêm validation của Bootstrap
+        // Validation của Bootstrap
         (function () {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
+            'use strict';
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
     });
 </script>
 @endsection

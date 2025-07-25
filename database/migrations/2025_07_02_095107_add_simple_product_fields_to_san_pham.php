@@ -15,7 +15,7 @@ class AddSimpleProductFieldsToSanPham extends Migration
     {
         Schema::table('san_phams', function (Blueprint $table) {
             $table->decimal('gia', 15, 2)->nullable()->after('mo_ta');
-            $table->integer('so_luong')->nullable()->after('gia');
+            $table->integer('so_luong')->default(0)->nullable()->after('gia');
             $table->string('sku')->nullable()->after('so_luong');
             $table->boolean('co_bien_the')->default(true)->after('sku');
             $table->unsignedBigInteger('id_chip')->nullable()->change();
