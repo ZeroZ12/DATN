@@ -88,7 +88,7 @@
                                             <div class="col">
                                                 <div class="card h-100 border-0 shadow-sm">
                                                     <div class="card-body">
-                                                        <h6 class="card-title mb-3">{{ $address->ten_nguoi_nhan }}</h6>
+                                                        <h6 class="card-text mb-1"><strong>Người Nhận: </strong>{{ $address->ten_nguoi_nhan }}</h6>
                                                         <p class="card-text mb-1"><strong>Số điện thoại:</strong> {{ $address->so_dien_thoai_nguoi_nhan }}</p>
                                                         <p class="card-text mb-1"><strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa_name }}, {{ $address->quan_huyen_name }}, {{ $address->tinh_thanh_pho_name }}</p>
                                                         @if ($address->mac_dinh)
