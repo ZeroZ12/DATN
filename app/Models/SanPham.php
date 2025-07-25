@@ -100,7 +100,7 @@ class SanPham extends Model
 
     public function suKien()
     {
-        return $this->belongsToMany(SuKien::class, 'su_kien_san_pham', 'san_pham_id', 'su_kien_id')
+        return $this->belongsToMany(SuKien::class, 'su_kien_san_pham', 'id_san_pham', 'id_su_kien')
                     ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit')
                     ->withTimestamps();
     }

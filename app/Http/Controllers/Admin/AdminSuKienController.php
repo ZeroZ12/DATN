@@ -35,7 +35,6 @@ class AdminSuKienController extends Controller
 
     public function store(Request $request)
     {
-        // Xác thực dữ liệu đầu vào từ yêu cầu.
         $request->validate([
             'ten_su_kien' => 'required|string|max:255',
             'id_san_pham' => 'nullable|array', 
@@ -107,7 +106,7 @@ class AdminSuKienController extends Controller
     public function edit($id)
     {
         // Tìm sự kiện theo ID và tải các sản phẩm liên quan.
-        $suKien = SuKien::with('sanPhamsDaChon','bienTheDaChon','ChiTietSuKien')->findOrFail($id);
+        $suKien = SuKien::with('sanPhams','bienTheSanPhams','ChiTietSuKien')->findOrFail($id);
         $sanphams = SanPham::whereNull('deleted_at')->get();
         $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->get();
         return view('admin.sukien.edit', compact('suKien', 'sanphams', 'bienThes'));
@@ -115,35 +114,71 @@ class AdminSuKienController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Xác thực dữ liệu đầu vào tương tự như khi tạo.
         $request->validate([
             'ten_su_kien' => 'required|string|max:255',
-            'id_san_pham' => 'nullable|array',
-            'id_san_pham.*' => 'exists:san_phams,id',
-            'id_bien_the_san_pham' => 'nullable|array',
-            'id_bien_the_san_pham.*' => 'exists:bien_the_san_phams,id',
-            'gia_su_kien' => 'required|array',
-            'gia_su_kien.*' => 'numeric|min:0',
-            'ngay_bat_dau' => 'required|date|after_or_equal:today',
-            'ngay_ket_thuc' => 'required|date|after:ngay_bat_dau',
-            'quantity_limit' => 'nullable|array',
-            'quantity_limit.*' => 'nullable|integer|min:0',
+            'id_san_pham' => 'nullable|array', 
+            'id_san_pham.*' => 'exists:san_phams,id', // Đảm bảo ID sản phẩm tồn tại trong bảng 'san_phams'.
+            'id_bien_the_san_pham' => 'nullable|array', // Thêm hỗ trợ cho các biến thể sản phẩm.
+            'id_bien_the_san_pham.*' => 'exists:bien_the_san_phams,id', // Đảm bảo ID biến thể tồn tại trong bảng 'bien_the_san_phams'.
+            'gia_su_kien' => 'required|array', 
+            'gia_su_kien.*' => 'numeric|min:0', 
+            'ngay_bat_dau' => 'required|date|after_or_equal:today', 
+            'ngay_ket_thuc' => 'required|date|after:ngay_bat_dau', 
+            'quantity_limit' => 'nullable|array', 
+            'quantity_limit.*' => 'nullable|integer|min:0', 
         ]);
 
         try {
-            DB::beginTransaction(); // Bắt đầu một giao dịch.
+            DB::beginTransaction(); 
 
-            $suKien = SuKien::findOrFail($id); // Tìm sự kiện cần cập nhật.
-            $suKien->update([ // Cập nhật thông tin cơ bản của sự kiện.
+            $suKien = SuKien::findOrFail($id); 
+            $suKien->update([
                 'ten_su_kien' => $request->ten_su_kien,
                 'ngay_bat_dau' => $request->ngay_bat_dau,
                 'ngay_ket_thuc' => $request->ngay_ket_thuc,
             ]);
 
-            
+            $suKien->sanPhams()->detach(); // Xóa tất cả các liên kết hiện tại trong bảng trung gian.
+
+            // Kết hợp ID sản phẩm và biến thể thành một mảng duy nhất để xử lý.
+            $giaSuKienData = $request->input('gia_su_kien', []);
+            $quantityLimitData = $request->input('quantity_limit', []);
+
+            // Gắn từng sản phẩm hoặc biến thể vào sự kiện trong bảng trung gian.
+            foreach ($request->id_san_pham ?? [] as $sanPhamId) {
+                $sanPham = SanPham::find($sanPhamId);
+                if ($sanPham) {
+                    $suKien->sanPhams()->attach(
+                        $sanPhamId,
+                        [
+                            'id_bien_the_san_pham' => null, // Không có biến thể
+                            'gia_su_kien' => $giaSuKienData[$sanPhamId] ?? null, // Truy cập bằng khóa là ID sản phẩm
+                            'gia_goc' => $sanPham->gia,
+                            'quantity_limit' => $quantityLimitData[$sanPhamId] ?? null, // Truy cập bằng khóa là ID sản phẩm
+                        ]
+                    );
+                }
+            }
+
+            foreach ($request->id_bien_the_san_pham ?? [] as $bienTheId) {
+                $bienThe = BienTheSanPham::with('sanPham')->find($bienTheId);
+                if ($bienThe) {
+                    $key = 'bien_the_' . $bienTheId; // Tạo khóa tương ứng với tên input trong Blade
+                    $suKien->bienTheSanPhams()->attach(
+                        $bienTheId, // Gắn vào id_product của biến thể
+                        [
+                            'id_bien_the_san_pham' => $bienTheId,
+                            'gia_su_kien' => $giaSuKienData[$key] ?? null, // Truy cập bằng khóa là 'bien_the_' + ID biến thể
+                            'gia_goc' => $bienThe->gia, // Giá gốc của biến thể
+                            'quantity_limit' => $quantityLimitData[$key] ?? null, // Truy cập bằng khóa là 'bien_the_' + ID biến thể
+                        ]
+                    );
+                }
+            }
+
 
             DB::commit(); // Hoàn thành giao dịch.
-            return redirect()->route('admin.sukien.index')->with('success', 'Sự kiện đã được cập nhật thành công.');
+            return redirect()->route('admin.sukien.index')->with('success', 'Sự kiện đã được tạo thành công.');
         } catch (\Exception $e) {
             DB::rollBack(); // Hoàn tác giao dịch nếu có lỗi.
             return redirect()->back()->withInput()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
