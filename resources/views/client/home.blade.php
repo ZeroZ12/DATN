@@ -5,8 +5,9 @@
         @foreach ($danhMucs as $danhMuc)
          @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
             <div class="product-section mb-4">
-                <div class="section-header">
-                    <h2 class="section-title">{{ $danhMuc->ten }}</h2>
+                <div class="row section-header">
+                    <h2 class="col-10 section-title">{{ $danhMuc->ten }}</h2>
+                    <a  class="col-2 dm text-end pe-5 pt-3" href="{{ route('danhmuc.index', $danhMuc->id) }}">Xem Tất Cả</a>
                     <form method="GET" action="{{ route('client.home') }}" class="filter-form">
                     </form>
                 </div>
@@ -123,9 +124,9 @@
         @endforeach
             
         <!-- Phân trang -->
-        <div class="pagination-wrapper">
+        {{-- <div class="pagination-wrapper">
             {{ $sanphams->links() }}
-        </div>
+        </div> --}}
     </div>
 
     @push('css')
@@ -140,11 +141,28 @@
 
 
             .product-section:nth-child(1) {
+                
                 background: url(https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg) no-repeat;
                 background-size: cover;
                 background-position: center;
                 border-radius: 12px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .dm{
+                color: black;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .dm:hover {
+                text-decoration: underline;
+            }
+            .product-section:nth-child(1) .dm {
+                color: white;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .product-section:nth-child(1) .dm:hover {
+                text-decoration: underline;
             }
             .product-section {
                 background: white;
