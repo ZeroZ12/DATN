@@ -127,9 +127,7 @@
                     <!-- Tab Đơn hàng -->
                     <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'orders') ? 'show active' : '' }}" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                         <div class="card shadow-sm border-0">
-                            <div class="card-header bg-white text-black rounded-top">
-                                <h4 class="mb-0">Đơn Hàng</h4>
-                            </div>
+                        
                             <div class="card-body p-4">
                                 @if (isset($selectedDonHang))
                                     <!-- Chi tiết đơn hàng -->

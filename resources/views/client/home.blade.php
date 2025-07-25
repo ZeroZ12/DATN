@@ -2,8 +2,8 @@
 @section('content')
     @include('client.layouts.blocks.banner')
     <div class="container py-4">
-        <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
+         @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
             <div class="product-section mb-4">
                 <div class="section-header">
                     <h2 class="section-title">{{ $danhMuc->ten }}</h2>
@@ -119,8 +119,9 @@
                             class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
+            @endif
         @endforeach
-
+            
         <!-- Phân trang -->
         <div class="pagination-wrapper">
             {{ $sanphams->links() }}

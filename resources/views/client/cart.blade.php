@@ -150,7 +150,7 @@
   margin-bottom: 30px;
 }
 
-.cart-step::before {
+/* .cart-step::before {
   content: '';
   position: absolute;
   top: 15px;
@@ -159,7 +159,7 @@
   height: 2px;
   background: #e9ecef;
   z-index: 1;
-}
+} */
 
 .step {
   position: relative;

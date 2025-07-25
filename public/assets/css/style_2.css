@@ -639,7 +639,7 @@ body {
 .cart-step .step.active .circle {
   background-color: #e60023;
 }
-.cart-step .step:not(:last-child)::after {
+/* .cart-step .step:not(:last-child)::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -648,10 +648,10 @@ body {
   top: 14px;
   left: 50%;
   z-index: -1;
-}
-.cart-step .step.active:not(:last-child)::after {
+} */
+/* .cart-step .step.active:not(:last-child)::after {
   background-color: #e60023;
-}
+} */
 
 .cart-item {
   display: flex;
