@@ -1,14 +1,4 @@
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Thông tin cá nhân
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Cập nhật tên, địa chỉ email và tên đăng nhập của bạn.
-        </p>
-    </header>
-
     <form method="post" action="{{ route('client.profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
@@ -16,7 +6,7 @@
         <div>
             <label for="ho_ten" class="form-label">Họ và Tên:</label> {{-- Đổi nhãn cho rõ ràng --}}
             {{-- THAY ĐỔI TÊN Ở ĐÂY --}}
-            <input id="ho_ten" name="ho_ten" type="text" class="form-control mt-1 block w-full"
+            <input id="ho_ten" name="ho_ten" type="text" class="form-control mb-3 mt-1 block w-full"
                 value="{{ old('ho_ten', $user->ho_ten) }}"  autofocus autocomplete="name">
             @error('ho_ten')
                 {{-- Đổi tên lỗi ở đây --}}
@@ -26,7 +16,7 @@
 
         <div>
             <label for="so_dien_thoai" class="form-label">Số điện thoại:</label>
-            <input id="so_dien_thoai" name="so_dien_thoai" type="number" class="form-control mt-1 block w-full"
+            <input id="so_dien_thoai" name="so_dien_thoai" type="number" class="form-control mb-3 mt-1 block w-full"
                 value="{{ old('so_dien_thoai', $user->so_dien_thoai) }}" autocomplete="tel">
             @error('so_dien_thoai')
                 <div class="text-danger mt-2">{{ $message }}</div>
@@ -35,7 +25,7 @@
 
         <div>
             <label for="email" class="form-label">Email:</label>
-            <input id="email" name="email" type="email" class="form-control mt-1 block w-full"
+            <input id="email" name="email" type="email" class="form-control mb-3 mt-1 block w-full"
                 value="{{ old('email', $user->email) }}"  autocomplete="username">
             @error('email')
                 <div class="text-danger mt-2">{{ $message }}</div>
@@ -62,7 +52,7 @@
 
         <div>
             <label for="ten_dang_nhap" class="form-label">Tên đăng nhập:</label>
-            <input id="ten_dang_nhap" name="ten_dang_nhap" type="text" class="form-control mt-1 block w-full"
+            <input id="ten_dang_nhap" name="ten_dang_nhap" type="text" class="form-control mb-3 mt-1 block w-full"
                 value="{{ old('ten_dang_nhap', optional($user)->ten_dang_nhap) }}"  autocomplete="username">
             @error('ten_dang_nhap')
                 <div class="text-danger mt-2">{{ $message }}</div>

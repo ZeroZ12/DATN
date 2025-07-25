@@ -17,6 +17,7 @@
                     <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i
                             class="fas fa-chevron-left"></i></button>
                     <div class="products-slider">
+                        {{-- Hiển thị sản phẩm --}}
                         @foreach ($sanphams->where('id_category', $danhMuc->id) as $sp)
                             @php
                                 if ($sp->co_bien_the) {
@@ -36,7 +37,7 @@
                                 }
                             @endphp
 
-                            <div class="product-card">
+                            <div class="product-card col">
                                 <div class="product-badges">
                                     @if ($isOutOfStock)
                                         <span class="product-badge" style="background:#6c757d">Hết hàng</span>
@@ -142,7 +143,6 @@
                 background-size: cover;
                 background-position: center;
                 border-radius: 12px;
-                padding: 20px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
             .product-section {
@@ -150,7 +150,6 @@
                 background-size: cover;
                 background-position: center;
                 border-radius: 12px;
-                padding: 20px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
             .section-header {
@@ -162,11 +161,13 @@
                 color: #ffffff;
                 text-transform: uppercase;
                 margin-bottom: 15px;
+                padding:  10px 0 0 35px;
             }
                 .section-title{
                 color: #333;
                 text-transform: uppercase;
                 margin-bottom: 15px;
+                padding: 10px 0 0 35px;
             }
 
             .filter-form {

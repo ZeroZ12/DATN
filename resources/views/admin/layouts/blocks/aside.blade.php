@@ -50,6 +50,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.banner.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-image me-2"></i>
+                            <span class="flex-grow-1">Banner</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.danhgias.index') }}"
                             class="d-flex align-items-center {{ Request::routeIs('admin.danhgias.*') ? 'active' : '' }}">
                             <i class="fa fa-star me-2"></i>
@@ -156,12 +162,7 @@
                             <span class="flex-grow-1">Mã giảm giá</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.banner.index') }}" class="d-flex align-items-center">
-                            <i class="fa fa-image me-2"></i>
-                            <span class="flex-grow-1">Banner</span>
-                        </a>
-                    </li>
+
                 </ul>
             </li>
 

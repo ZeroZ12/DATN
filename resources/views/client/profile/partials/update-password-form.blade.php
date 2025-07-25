@@ -1,16 +1,6 @@
 {{-- resources/views/client/profile/partials/update-password-form.blade.php --}}
 
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Cập nhật mật khẩu
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Đảm bảo tài khoản của bạn sử dụng mật khẩu dài, ngẫu nhiên để luôn an toàn.
-        </p>
-    </header>
-
     <form method="post" action="{{ route('client.password.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('put') {{-- Sử dụng phương thức PUT cho cập nhật mật khẩu --}}
