@@ -1,19 +1,17 @@
-{{-- <div class="header-top">
+<div class="header-top bg-black">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
-            <i class="fa-solid fa-gift me-2"></i>MUA PC GVN x MSI TẶNG MÀN OLED 240HZ
+            <i class="fa-solid fa-gift me-2"></i>MUA PC TOP PC x MSI TẶNG MÀN OLED 240HZ
         </div>
         <div>
             <span><i class="fa-solid fa-phone me-1"></i>Hotline: 1900.1009</span>
             <span><i class="fa-solid fa-location-dot me-1"></i>Hệ thống Showroom</span>
-            <span><i class="fa-solid fa-box me-1"></i>Đơn hàng</span>
-            <span><i class="fa-solid fa-user me-1"></i>Đăng nhập</span>
         </div>
     </div>
-</div> --}}
+</div>
 <div class="header-main">
     <div class="container d-flex align-items-center">
-        <a href="/" class="logo-link" title="Về trang chủ TopPC">
+        <a href="/" class="logo-link" title="Trang Chủ TopPC">
             <svg width="180" height="60" viewBox="0 0 180 60" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="whiteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -45,7 +43,8 @@
                     <rect x="10" y="44" width="20" height="2" rx="1" fill="#dc2626" opacity="0.2" />
                 </g>
 
-                <g transform="translate(55, 15)">
+                
+                <g class="icon-text" transform="translate(55, 15)">
                     <text x="0" y="20" font-family="Arial, sans-serif" font-size="24" font-weight="900" fill="white"
                         letter-spacing="1px">TOP</text>
 
@@ -56,7 +55,7 @@
                         letter-spacing="2px">TOPPC.COM</text>
                 </g>
 
-                <g transform="translate(150, 20)">
+                <g class="icon-text" transform="translate(150, 20)">
                     <rect x="0" y="0" width="3" height="20" fill="white" opacity="0.3" />
                     <rect x="5" y="5" width="3" height="15" fill="white" opacity="0.5" />
                     <rect x="10" y="8" width="3" height="12" fill="white" opacity="0.7" />
@@ -66,7 +65,8 @@
         {{-- DROPDOWN DANH MỤC TỪ DATABASE --}}
         <div class="dropdown me-3">
             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                <i class="fa-solid fa-bars me-2"></i><span class="d-none d-lg-inline">Danh mục</span>
+                <i class="fa-solid fa-bars me-2"></i>
+                <span class="category-text">Danh mục</span>
             </button>
             <ul class="dropdown-menu menu-dropdown">
                 @foreach ($danhmucs as $danhmuc)
@@ -149,9 +149,90 @@
     </div>
 </div>
 <style>
+@media only screen and (max-width: 768px) {
+    .logo-link{
+        display: inline-block;
+    }
+    .header-top {
+        display: none;
+    }
+    .icon-text {
+        display: none;
+    }
+}
+@media only screen and (min-width:769px) and (max-width: 1024px) {
+    .logo-link{
+        display: inline-block;
+    }
+    .header-top {
+        display: none;
+    }
+    .icon-text {
+        display: none;
+    }
+}
 span
 {
     font-size: 14px;
+}
+
+/* Responsive cho dropdown danh mục */
+@media only screen and (max-width: 768px) {
+    .category-text {
+        display: none;
+    }
+    .dropdown .btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 14px;
+    }
+    .menu-dropdown {
+        min-width: 200px;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .category-text {
+        display: none;
+    }
+    .dropdown .btn {
+        padding: 0.375rem 0.75rem;
+    }
+    .menu-dropdown {
+        min-width: 220px;
+    }
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .category-text {
+        display: inline;
+    }
+    .menu-dropdown {
+        min-width: 250px;
+    }
+}
+
+/* Thêm style chung cho dropdown */
+.dropdown .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown-menu {
+    margin-top: 0.5rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
 }
 </style>
 <script>
@@ -159,7 +240,7 @@ span
         // Cập nhật số lượng sản phẩm trong giỏ hàng
         fetch('/cart/count')
             .then(res =>res.json())
-            .then(data => {
+            .then data => {
                 const cartCount = document.querySelector('.cart-count');
                 if(cartCount) cartCount.textContent = data.count;
             });
