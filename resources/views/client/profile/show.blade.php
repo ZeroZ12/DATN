@@ -65,7 +65,7 @@
                     <!-- Tab Cập nhật mật khẩu -->
                     <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'password-update') ? 'show active' : '' }}" id="password-update" role="tabpanel" aria-labelledby="password-tab">
                         <div class="card shadow-sm border-0">
-           
+
                             <div class="card-body p-4">
                                 @include('client.profile.partials.update-password-form')
                             </div>
@@ -127,7 +127,7 @@
                     <!-- Tab Đơn hàng -->
                     <div class="tab-pane fade {{ (session('activeTab', $activeTab ?? '') == 'orders') ? 'show active' : '' }}" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                         <div class="card shadow-sm border-0">
-                        
+
                             <div class="card-body p-4">
                                 @if (isset($selectedDonHang))
                                     <!-- Chi tiết đơn hàng -->
@@ -611,7 +611,7 @@
                     padding: 12px 15px;
                     font-size: 13px;
                 }
-           
+
             }
         </style>
     @endpush
