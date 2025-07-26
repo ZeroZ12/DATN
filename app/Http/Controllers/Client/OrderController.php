@@ -55,42 +55,57 @@ class OrderController extends Controller
 }
 
 
-    public function show($id)
-    {
-        $selectedDonHang = DonHang::where('id_user', Auth::id())
-            ->where('id', $id)
-            ->with([
-                'maGiamGia',
-                'phuongThucThanhToan',
-                'chiTietDonHangs.sanPham',
-                'chiTietDonHangs.bienTheSanPham',
-                'chiTietDonHangs.bienTheSanPham.ram',
-                'chiTietDonHangs.bienTheSanPham.oCung'
-            ])
-            ->firstOrFail();
+    // public function show($id)
+    // {
+    //     $selectedDonHang = DonHang::where('id_user', Auth::id())
+    //         ->where('id', $id)
+    //         ->with([
+    //             'maGiamGia',
+    //             'phuongThucThanhToan',
+    //             'chiTietDonHangs.sanPham',
+    //             'chiTietDonHangs.bienTheSanPham',
+    //             'chiTietDonHangs.bienTheSanPham.ram',
+    //             'chiTietDonHangs.bienTheSanPham.oCung'
+    //         ])
+    //         ->firstOrFail();
 
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $donHangs = $user->donHangs()
-            ->with([
-                'maGiamGia',
-                'phuongThucThanhToan',
-                'chiTietDonHangs.sanPham',
-                'chiTietDonHangs.bienTheSanPham',
-                'chiTietDonHangs.bienTheSanPham.ram',
-                'chiTietDonHangs.bienTheSanPham.oCung'
-            ])
-            ->orderByDesc('created_at')
-            ->paginate(10);
+    //     /** @var \App\Models\User $user */
+    //     $user = Auth::user();
+    //     $donHangs = $user->donHangs()
+    //         ->with([
+    //             'maGiamGia',
+    //             'phuongThucThanhToan',
+    //             'chiTietDonHangs.sanPham',
+    //             'chiTietDonHangs.bienTheSanPham',
+    //             'chiTietDonHangs.bienTheSanPham.ram',
+    //             'chiTietDonHangs.bienTheSanPham.oCung'
+    //         ])
+    //         ->orderByDesc('created_at')
+    //         ->paginate(10);
 
-        return view('client.profile.show', [
-            'donHangs' => $donHangs,
-            'user' => $user,
-            'selectedDonHang' => $selectedDonHang,
-        ]);
-    }
+    //     return view('client.profile.show', [
+    //         'donHangs' => $donHangs,
+    //         'user' => $user,
+    //         'selectedDonHang' => $selectedDonHang,
+    //     ]);
+    // }
 
- public function daNhanHang($id)
+
+public function show($id)
+{
+    $donHang = DonHang::with([
+        'user',
+        'diaChiNguoiDung',
+        'phuongThucThanhToan',
+        'chiTietDonHangs.bienTheSanPham.sanPham',
+        'yeuCauHoanTra.anhMinhChung'
+    ])->findOrFail($id);
+
+    return view('client.chitietdonhang', compact('donHang'));
+}
+
+
+    public function daNhanHang($id)
 {
     $donHang = DonHang::where('id', $id)
         ->where('id_user', auth()->id())
