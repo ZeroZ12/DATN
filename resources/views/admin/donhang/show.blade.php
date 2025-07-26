@@ -68,17 +68,17 @@
                                         {{ $ct->ten_hien_thi }}
                                         <br>
                                         <small class="text-muted">
-                                            Mã biến thể:
-                                            @if ($ct->bienTheSanPham)
-                                                {{$ct->bienTheSanPham->ma_bien_the  }}
-                                            @else
-                                                <div class="btn-success" style="width: auto; display: inline-block; padding: 5px 10px;">Không có mã biến thể</div>
-                                            @endif
-                                        </small>
-                                        <br>
-                                        <small class="text-muted">
-                                            RAM: {{ $ct->bienTheSanPham->ram->dung_luong ?? 'N/A' }} |
-                                            Ổ cứng: {{ $ct->bienTheSanPham->oCung->dung_luong ?? 'N/A' }}
+                                          @if ($ct->bienTheSanPham)
+    <div class="item-variation">
+        Mã biến thể: {{ $ct->bienTheSanPham->ma_bien_the ?? '---' }} <br>
+        RAM: {{ $ct->bienTheSanPham->ram->dung_luong ?? '---' }} |
+        Ổ cứng: {{ $ct->bienTheSanPham->oCung->loai ?? '---' }} - {{ $ct->bienTheSanPham->oCung->dung_luong ?? '---' }}
+    </div>
+@else
+    <div class="item-variation">
+        Thương hiệu: {{ $ct->sanPham->thuongHieu->ten ?? '---' }}
+    </div>
+@endif
                                         </small>
                                     </td>
                                     <td class="text-center">{{ $ct->so_luong }}</td>

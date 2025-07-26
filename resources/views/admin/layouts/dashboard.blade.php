@@ -143,7 +143,11 @@
 </div>
 
 <div class="card">
-    <div class="card-header fw-bold">📉 Sản phẩm sắp hết hàng</div>
+<div class="card-header fw-bold">
+    📉 Sản phẩm sắp hết hàng
+    <span class="text-muted ms-2">(Tổng: {{ $sanPhamSapHetHang->count() }} sản phẩm)</span>
+</div>
+
     <div class="card-body">
         <ul class="list-group">
             @forelse ($sanPhamSapHetHang as $bienThe)
@@ -151,6 +155,7 @@
                     <div class="flex-grow-1 me-2">
                         <div><strong>{{ $bienThe->sanPham->ten ?? '---' }}</strong></div>
                         <div class="small text-muted">
+                            Mã biến thể: {{ $bienThe->ma_bien_the ?? '---' }} |
                             @if ($bienThe->ram) RAM: {{ $bienThe->ram->dung_luong }} | @endif
                             @if ($bienThe->oCung) Ổ cứng: {{ $bienThe->oCung->loai }} - {{ $bienThe->oCung->dung_luong }} | @endif
                           <span style="color:red"> Còn lại: <strong>{{ $bienThe->ton_kho }}</strong> cái</span>
