@@ -1,4 +1,56 @@
 /* style.css - Custom styles for GearVN clone */
+/* Giao diện Desktop - giới hạn chiều rộng thanh tìm kiếm */
+/* Desktop ≥ 992px: thanh tìm kiếm rộng 800px */
+@media (min-width: 992px) {
+    .search-form {
+        max-width: 600px;
+        width: 100%;
+    }
+}
+
+/* Mobile < 992px: full chiều ngang */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        gap: 1rem;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center;
+    }
+
+    .navbar-nav {
+        flex-direction: column !important;
+        align-items: center;
+        width: 100%;
+    }
+
+    .navbar-nav .nav-item {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .search-form {
+        width: 100% !important;
+        padding: 0 1rem;
+    }
+
+    .search-form input {
+        width: 100%;
+    }
+
+    .navbar .dropdown-menu {
+        text-align: center;
+    }
+
+    .navbar-brand {
+        margin-bottom: 1rem;
+    }
+
+    .cart-count {
+        top: 5px !important;
+        right: -10px !important;
+    }
+}
+
 
 body {
   background: #ECECEC;
@@ -7,7 +59,7 @@ body {
                 font-weight: 400;
                 font-style: normal;
   color: #222;
-  background-color: #fff !important;
+  /* background-color:#fff8f8e7 !important; */
 }
 
 .content-section {
