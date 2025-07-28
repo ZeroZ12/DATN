@@ -114,6 +114,18 @@
                 </div>
             </div>
 
+            @if (!empty($labels) && !empty($data))
+    <hr>
+    <canvas id="salesChart" height="100"></canvas>
+
+
+
+@endif
+<hr>
+<canvas id="orderChart" height="100"></canvas>
+
+
+
    <div class="card">
     <div class="card-header fw-bold">15 đơn hàng hoàn thành gần nhất</div>
     <div class="card-body">
@@ -265,3 +277,119 @@
     }
 
 </style>
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Tạo gradient cho biểu đồ doanh số
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesGradient = salesCtx.createLinearGradient(0, 0, 0, 300);
+    salesGradient.addColorStop(0, 'rgba(54, 162, 235, 0.6)');
+    salesGradient.addColorStop(1, 'rgba(54, 162, 235, 0.1)');
+
+    const salesChart = new Chart(salesCtx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: [{
+                label: 'Doanh số (VNĐ)',
+                data: {!! json_encode($data) !!},
+                backgroundColor: salesGradient,
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                borderRadius: 6, // Bo góc cột
+                hoverBackgroundColor: 'rgba(54, 162, 235, 0.9)',
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { size: 14 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let value = context.raw;
+                            return new Intl.NumberFormat('vi-VN').format(value) + ' VNĐ';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return new Intl.NumberFormat('vi-VN').format(value) + ' đ';
+                        },
+                        font: { size: 12 }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: { size: 12 }
+                    }
+                }
+            }
+        }
+    });
+
+    // Biểu đồ đơn hàng hoàn thành
+    const orderCtx = document.getElementById('orderChart').getContext('2d');
+    const orderGradient = orderCtx.createLinearGradient(0, 0, 0, 300);
+    orderGradient.addColorStop(0, 'rgba(255, 99, 132, 0.4)');
+    orderGradient.addColorStop(1, 'rgba(255, 99, 132, 0.1)');
+
+    const orderChart = new Chart(orderCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: [{
+                label: 'Số đơn hàng hoàn thành',
+                data: {!! json_encode($orderData) !!},
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: orderGradient,
+                fill: true,
+                tension: 0.4, // Độ cong của line
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                pointHoverRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        font: { size: 14 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.raw + ' đơn';
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        font: { size: 12 }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: { size: 12 }
+                    }
+                }
+            }
+        }
+    });
+</script>
+@endpush
