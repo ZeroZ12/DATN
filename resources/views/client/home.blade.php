@@ -1,6 +1,138 @@
 @extends('client.layouts.app')
 @section('content')
     @include('client.layouts.blocks.banner')
+    <section class="product-section container py-4 ">
+        <div class=" text-center mb-5">
+            <h1 class="fw-bold text-primary">FLASH SALE 🔥 
+                @if ($activeSaleEvents->isNotEmpty() && $activeSaleEvents->first()->suKien->hien_thi)
+                    <span class="countdown fs-5 text-danger fw-bold" 
+                        data-end-time="{{ $activeSaleEvents->first()->suKien->ngay_ket_thuc->toIso8601String() }}"
+                        data-id="{{ $activeSaleEvents->first()->id }}"></span>
+                @endif
+            </h1>
+            
+        </div>
+
+        @if ($activeSaleEvents->isEmpty() || !$activeSaleEvents->contains(fn($event) => $event->suKien->hien_thi))
+            <div class="product-section alert alert-info text-center">
+                Hiện không có sản phẩm nào đang sale. Hãy quay lại sau nhé!
+            </div>
+        @else
+        <div class="products-slider-wrapper position-relative">
+            <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="products-slider d-flex overflow-hidden">
+                @foreach ($activeSaleEvents as $saleEvent)
+                @if ($saleEvent->suKien->hien_thi)
+                    @php
+                        $sp = $saleEvent->sanPham;
+                        $bienThe = $saleEvent->bienTheSanPham;
+                        $gia = $bienThe ? $bienThe->gia : $sp->gia;
+                        $gia_so_sanh = $saleEvent->gia_goc_khi_bat_dau ?? $gia;
+                        $isOutOfStock = $bienThe ? $bienThe->ton_kho <= 0 : $sp->so_luong <= 0;
+                        $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                        $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                        $discountPercent = ($gia_so_sanh > 0 && $saleEvent->gia_su_kien < $gia_so_sanh) 
+                            ? number_format(($gia_so_sanh - $saleEvent->gia_su_kien) / $gia_so_sanh * 100, 0) 
+                            : 0;
+                    @endphp
+                    <div class="product-card col mx-2 shadow-sm rounded-3 position-relative" style="transition: transform 0.3s;">
+                        <div class="product-badges position-absolute top-0 start-0 p-2">
+                            @if ($discountPercent > 0)
+                                <span class="product-badge bg-danger text-white rounded-pill px-2 py-1">
+                                    Sale {{ $discountPercent }}%
+                                </span>
+                            @endif
+                            @if ($isOutOfStock)
+                                <span class="product-badge bg-secondary text-white rounded-pill px-2 py-1 mt-1">Hết hàng</span>
+                            @elseif ($sp->is_hot)
+                                <span class="product-badge bg-warning text-dark rounded-pill px-2 py-1 mt-1">
+                                    <i class="fas fa-gift"></i> Quà tặng HOT
+                                </span>
+                            @endif
+                        </div>
+                        <div class="product-image overflow-hidden rounded-top">
+                            <img src="{{ $sp->anh_dai_dien ? asset('storage/' . $sp->anh_dai_dien) : asset('images/no-image.png') }}"
+                                 alt="{{ $sp->ten }}"
+                                 class="img-fluid w-100"
+                                 style="height: 200px; object-fit: cover;"
+                                 onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                        </div>
+                        <div class="product-info p-3">
+                            <h3 class="product-title fs-6 fw-bold">{{ Str::limit($sp->ten, 50) }}</h3>
+                            <div class="product-price mb-2">
+                                @if ($gia_so_sanh > $saleEvent->gia_su_kien)
+                                    <div class="old-price text-muted text-decoration-line-through fs-6">
+                                        {{ number_format($gia_so_sanh) }}₫
+                                    </div>
+                                @endif
+                                <div class="current-price-wrapper d-flex align-items-center gap-2">
+                                    <div class="current-price text-primary fw-bold fs-5">
+                                        {{ number_format($saleEvent->gia_su_kien) }}₫
+                                    </div>
+                                    @if ($gia_so_sanh > $saleEvent->gia_su_kien)
+                                        <div class="discount-badge bg-danger text-white rounded-pill px-2 py-1 fs-6">
+                                            -{{ $discountPercent }}%
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="product-rating">
+                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
+                            </div>
+                            @if ($saleEvent->so_luong_gioi_han)
+                                <p class="card-text text-warning fw-bold">
+                                    <i class="bi bi-lightning-fill"></i> Chỉ còn {{ $saleEvent->so_luong_gioi_han }} sản phẩm!
+                                </p>
+                            @endif
+                            {{-- <p class="card-text text-muted fs-6">
+                                Kết thúc sau: 
+                                <span class="countdown" 
+                                      data-end-time="{{ $saleEvent->suKien->ngay_ket_thuc->toIso8601String() }}"
+                                      data-id="{{ $saleEvent->id }}"></span>
+                            </p> --}}
+                            <div class="product-actions mt-2">
+                                <form action="{{ route('client.cart.add') }}" method="POST"
+                                      class="add-to-cart-form" data-product-id="{{ $sp->id }}"
+                                      data-variant-id="{{ $bienThe->id ?? '' }}">
+                                    @csrf
+                                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                    <input type="hidden" name="so_luong" value="1">
+                                    <button type="submit" class="add-to-cart-btn btn w-100 py-2"
+                                            @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                        <span>
+                                            @if ($isOutOfStock)
+                                                HẾT HÀNG
+                                            @else
+                                                Thêm vào giỏ
+                                            @endif
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                           class="product-link position-absolute top-0 start-0 w-100 h-100"></a>
+                    </div>
+                @endif
+                @endforeach
+            </div>
+            <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        @if ($activeSaleEvents->hasPages())
+            <div class="pagination-wrapper mt-5 d-flex justify-content-center">
+                {{ $activeSaleEvents->links('pagination::bootstrap-5') }}
+            </div>
+        @endif
+    @endif
+</section>
     <div class="container py-4">
         @foreach ($danhMucs as $danhMuc)
          @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
@@ -12,6 +144,7 @@
                     </form>
                 </div>
 
+                
 
                 <!-- Danh sách sản phẩm -->
                 <div class="products-slider-wrapper">
@@ -879,10 +1012,31 @@
                 font-size: 14px;
 
             }
+
+            .sale-card {
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            .sale-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+            .rounded-bottom-right {
+                border-bottom-right-radius: 0.5rem;
+                border-top-left-radius: 0.25rem;
+            }
+            .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
         </style>
     @endpush
 
     @push('js')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Hiển thị toast nếu có session message
@@ -1061,6 +1215,36 @@
                 // Implement filter modal functionality if needed
                 alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
             }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                const countdownElements = document.querySelectorAll('.countdown');
+
+                function updateCountdown() {
+                    countdownElements.forEach(element => {
+                        const endTime = new Date(element.dataset.endTime).getTime();
+                        const id = element.dataset.id;
+                        const now = new Date().getTime();
+                        const distance = endTime - now;
+
+                        if (distance < 0) {
+                            element.innerHTML = 'Đã kết thúc!';
+                            element.closest('.col-md-4').style.display = 'none';
+                            return;
+                        }
+
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        element.innerHTML = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+                    });
+                }
+
+                // Cập nhật đếm ngược mỗi giây
+                setInterval(updateCountdown, 1000);
+                updateCountdown(); // Gọi lần đầu để tránh trễ
+            });
         </script>
     @endpush
 @endsection

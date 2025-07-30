@@ -56,6 +56,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('sukien/trashed', [AdminSuKienController::class, 'trashed'])->name('sukien.trashed');
     Route::post('sukien/{id}/restore', [AdminSuKienController::class, 'restore'])->name('sukien.restore');
     Route::delete('sukien/{id}/force-delete', [AdminSuKienController::class, 'forceDelete'])->name('sukien.forceDelete');
+    Route::patch('sukien/toggle-display/{id}', [AdminSuKienController::class, 'toggleDisplay'])->name('sukien.toggle-display');
     Route::resource('sukien', AdminSuKienController::class);
     
 

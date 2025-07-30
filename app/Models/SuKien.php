@@ -10,7 +10,7 @@ class SuKien extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'su_kien'; 
+    protected $table = 'su_kiens'; 
 
     protected $fillable = [
         'ten_su_kien',
@@ -27,15 +27,15 @@ class SuKien extends Model
 
     public function sanPhams()
     {
-        return $this->belongsToMany(SanPham::class, 'su_kien_san_pham', 'id_su_kien', 'id_san_pham')
-                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit', 'hien_thi')
+        return $this->belongsToMany(SanPham::class, 'su_kien_san_phams', 'id_su_kien', 'id_san_pham')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'so_luong_gioi_han', 'hien_thi')
                     ->withTimestamps();
     }
 
     public function bienTheSanPhams()
     {
-        return $this->belongsToMany(BienTheSanPham::class, 'su_kien_san_pham', 'id_su_kien', 'id_bien_the_san_pham')
-                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit', 'hien_thi')
+        return $this->belongsToMany(BienTheSanPham::class, 'su_kien_san_phams', 'id_su_kien', 'id_bien_the_san_pham')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'so_luong_gioi_han', 'hien_thi')
                     ->withTimestamps();
     }
 

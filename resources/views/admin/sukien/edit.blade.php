@@ -111,14 +111,14 @@
                 return [
                     'id' => $sanPham->id,
                     'gia_su_kien' => $sanPham->pivot->gia_su_kien,
-                    'quantity_limit' => $sanPham->pivot->quantity_limit
+                    'so_luong_gioi_han' => $sanPham->pivot->so_luong_gioi_han
                 ];
             })->keyBy('id')),
             bien_thes: @json($suKien->bienTheSanPhams->map(function($bienThe) {
                 return [
                     'id' => $bienThe->id,
                     'gia_su_kien' => $bienThe->pivot->gia_su_kien,
-                    'quantity_limit' => $bienThe->pivot->quantity_limit
+                    'so_luong_gioi_han' => $bienThe->pivot->so_luong_gioi_han
                 ];
             })->keyBy('id'))
         };
@@ -144,9 +144,9 @@
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined
                         ? oldInput.gia_su_kien[sanPham.id]
                         : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].gia_su_kien : '');
-                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[sanPham.id] !== undefined
-                        ? oldInput.quantity_limit[sanPham.id]
-                        : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].quantity_limit : '');
+                    const oldSoLuongGioiHan = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[sanPham.id] !== undefined
+                        ? oldInput.so_luong_gioi_han[sanPham.id]
+                        : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].so_luong_gioi_han : '');
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -160,9 +160,9 @@
                                         <div class="form-text">Giá gốc: ${sanPham.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <label for="quantity_limit_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
-                                        <input type="number" class="form-control" id="quantity_limit_${sanPham.id}"
-                                                name="quantity_limit[${sanPham.id}]" min="0" max="${sanPham.so_luong}" value="${oldQuantityLimit || ''}">
+                                        <label for="so_luong_gioi_han_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
+                                        <input type="number" class="form-control" id="so_luong_gioi_han_${sanPham.id}"
+                                                name="so_luong_gioi_han[${sanPham.id}]" min="0" max="${sanPham.so_luong}" value="${oldSoLuongGioiHan || ''}">
                                         <div class="form-text">Số lượng tồn kho: ${sanPham.so_luong}</div>
                                     </div>
                                 </div>
@@ -180,9 +180,9 @@
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[key] !== undefined
                         ? oldInput.gia_su_kien[key]
                         : (suKienData.bien_thes[bienThe.id] ? suKienData.bien_thes[bienThe.id].gia_su_kien : '');
-                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[key] !== undefined
-                        ? oldInput.quantity_limit[key]
-                        : (suKienData.bien_thes[bienThe.id] ? suKienData.bien_thes[bienThe.id].quantity_limit : '');
+                    const oldSoLuongGioiHan  = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[key] !== undefined
+                        ? oldInput.so_luong_gioi_han[key]
+                        : (suKienData.bien_thes[bienThe.id] ? suKienData.bien_thes[bienThe.id].so_luong_gioi_han : '');
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -196,10 +196,10 @@
                                         <div class="form-text">Giá gốc: ${bienThe.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <label for="quantity_limit_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
-                                        <input type="number" class="form-control" id="quantity_limit_bien_the_${bienThe.id}"
-                                                name="quantity_limit[bien_the_${bienThe.id}]" min="0" max="${bienThe.so_luong}" value="${oldQuantityLimit || ''}">
-                                        <div class="form-text">Số lượng tồn kho: ${bienThe.so_luong}</div>
+                                        <label for="so_luong_gioi_han_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
+                                        <input type="number" class="form-control" id="so_luong_gioi_han_bien_the_${bienThe.id}"
+                                                name="so_luong_gioi_han[bien_the_${bienThe.id}]" min="0" max="${bienThe.ton_kho}" value="${oldSoLuongGioiHan || ''}">
+                                        <div class="form-text">Số lượng tồn kho: ${bienThe.ton_kho}</div>
                                     </div>
                                 </div>
                             </div>

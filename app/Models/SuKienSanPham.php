@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SuKienSanPham extends Model
 {
-    protected $table = 'su_kien_san_pham';
+    protected $table = 'su_kien_san_phams';
 
     protected $fillable = [
         'id_su_kien',
@@ -14,7 +14,8 @@ class SuKienSanPham extends Model
         'id_bien_the_san_pham',
         'gia_su_kien',
         'gia_goc',
-        'quantity_limit', 
+        'gia_goc_khi_bat_dau',
+        'so_luong_gioi_han', 
         'hien_thi', 
         // 'so_luong', // Optional quantity limit
     ];

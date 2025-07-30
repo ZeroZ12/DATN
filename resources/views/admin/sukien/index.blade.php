@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Quản lý Tản Nhiệt')
+@section('title', 'Quản lý Sự Kiện')
 
 @section('content')
     <div class="container">
@@ -46,19 +46,28 @@
                                 <td>{{ $suKien->ngay_ket_thuc->format('d/m/Y H:i') }}</td>
                                 <td>
                                     @if($suKien->total > 0)
-                                        <ul class="list-unstyled mb-0">
-                                            <span>Số lượng sản phẩm tham gia : {{ $suKien->total }} </span>
-                                        </ul>
+                                        <span>Số lượng sản phẩm: {{ $suKien->total }}</span>
+                                        @if($suKien->sanPhams->isNotEmpty())
+                                            <button type="button" class="btn btn-sm btn-link text-info p-0 ms-2" data-bs-toggle="tooltip" data-bs-title="{{ $suKien->sanPhams->pluck('ten')->join(', ') }}">
+                                                (Xem chi tiết)
+                                            </button>
+                                        @endif
                                     @else
                                         <span class="text-muted">Chưa có sản phẩm</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if($suKien->hien_thi = '1')
-                                        <span class="badge bg-success">Đang diễn ra</span>
-                                    @else
-                                        <span class="badge bg-secondary">Ngừng diễn ra</span>
-                                    @endif
+                                    @php
+                                    if ($suKien->hien_thi == 1) {
+                                        $now = now();
+                                        $isActive = $suKien->hien_thi == 1 && $now->between($suKien->ngay_bat_dau, $suKien->ngay_ket_thuc);
+                                    } else {
+                                        $isActive = false;
+                                    }
+                                    @endphp
+                                    <span class="badge {{ $isActive ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ $isActive ? 'Đang diễn ra' : 'Ngừng diễn ra' }}
+                                    </span>
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-sm btn-warning me-1">
@@ -72,6 +81,17 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                    </form>
+                                    <form action="{{ route('admin.sukien.toggle-display', $suKien->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn {{ $suKien->hien_thi == 1 ? 'ẩn' : 'hiển thị' }} sự kiện này?')">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="btn btn-sm {{ $suKien->hien_thi == 1 ? 'btn-secondary' : 'btn-primary' }}" data-bs-toggle="tooltip" data-bs-title="{{ $suKien->hien_thi == 1 ? 'Ẩn sự kiện' : 'Hiển thị sự kiện' }}">
+                                            @if ($suKien->hien_thi == 1)
+                                                👁️ Ẩn
+                                            @else
+                                                👁️ Hiện
+                                            @endif
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
@@ -180,4 +200,22 @@
             </div>
         </div>
     </div>
+@endsection
+@section('css-custom')
+    <style>
+        .btn-group .btn {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+@endsection
+
+@section('js-custom')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
 @endsection

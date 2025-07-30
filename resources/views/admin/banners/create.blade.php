@@ -80,7 +80,10 @@
             background: #fafafa;
         }
     </style>
-    <script>
+    
+@endsection
+@section('js-custom')
+<script>
         function previewBanner(event) {
             const [file] = event.target.files;
             if (file) {

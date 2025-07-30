@@ -132,7 +132,7 @@
                 if (sanPham) {
                     // Truy cập giá trị old từ đối tượng oldInput
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined ? oldInput.gia_su_kien[sanPham.id] : '';
-                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[sanPham.id] !== undefined ? oldInput.quantity_limit[sanPham.id] : '';
+                    const oldSoLuongGioiHan = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[sanPham.id] !== undefined ? oldInput.so_luong_gioi_han[sanPham.id] : '';
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -146,9 +146,10 @@
                                         <div class="form-text">Giá gốc: ${sanPham.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <label for="quantity_limit_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
-                                        <input type="number" class="form-control" id="quantity_limit_${sanPham.id}"
-                                                name="quantity_limit[${sanPham.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                        <label for="so_luong_gioi_han_${sanPham.id}" class="form-label">Giới hạn số lượng (${sanPham.ten})</label>
+                                        <input type="number" class="form-control" id="so_luong_gioi_han_${sanPham.id}"
+                                                name="so_luong_gioi_han[${sanPham.id}]" min="0" value="${oldSoLuongGioiHan || ''}">
+                                        <div class="form-text">Số lượng tồn kho: ${sanPham.so_luong}</div>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +164,7 @@
                 if (bienThe) {
                     // Truy cập giá trị old từ đối tượng oldInput
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[`bien_the_${bienThe.id}`] !== undefined ? oldInput.gia_su_kien[`bien_the_${bienThe.id}`] : '';
-                    const oldQuantityLimit = oldInput.quantity_limit && oldInput.quantity_limit[`bien_the_${bienThe.id}`] !== undefined ? oldInput.quantity_limit[`bien_the_${bienThe.id}`] : '';
+                    const oldQuantityLimit = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] !== undefined ? oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] : '';
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
@@ -177,9 +178,10 @@
                                         <div class="form-text">Giá gốc: ${bienThe.gia}</div>
                                     </div>
                                     <div class="col-md-6 mb-2">
-                                        <label for="quantity_limit_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
-                                        <input type="number" class="form-control" id="quantity_limit_bien_the_${bienThe.id}"
-                                                name="quantity_limit[bien_the_${bienThe.id}]" min="0" value="${oldQuantityLimit || ''}">
+                                        <label for="so_luong_gioi_han_bien_the_${bienThe.id}" class="form-label">Giới hạn số lượng (${bienThe.ma_bien_the})</label>
+                                        <input type="number" class="form-control" id="so_luong_gioi_han_bien_the_${bienThe.id}"
+                                                name="so_luong_gioi_han[bien_the_${bienThe.id}]" min="0" value="${oldSoLuongGioiHan || ''}">
+                                        <div class="form-text">Số lượng tồn kho: ${bienThe.ton_kho}</div>
                                     </div>
                                 </div>
                             </div>

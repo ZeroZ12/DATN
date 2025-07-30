@@ -21,6 +21,9 @@ class AddSimpleProductFieldsToSanPham extends Migration
             $table->unsignedBigInteger('id_chip')->nullable()->change();
             $table->unsignedBigInteger('id_mainboard')->nullable()->change();
             $table->unsignedBigInteger('id_gpu')->nullable()->change();
+            $table->unsignedBigInteger('id_case')->nullable()->change();
+            $table->unsignedBigInteger('id_nguon')->nullable()->change();
+            $table->unsignedBigInteger('id_tannhiet')->nullable()->change();
         });
     }
 
@@ -36,7 +39,9 @@ class AddSimpleProductFieldsToSanPham extends Migration
             $table->unsignedBigInteger('id_chip')->nullable(false)->change();
             $table->unsignedBigInteger('id_mainboard')->nullable(false)->change();
             $table->unsignedBigInteger('id_gpu')->nullable(false)->change();
-            
+            $table->unsignedBigInteger('id_case')->nullable(false)->change();
+            $table->unsignedBigInteger('id_nguon')->nullable(false)->change();
+            $table->unsignedBigInteger('id_tannhiet')->nullable(false)->change();
 
         });
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->decimal('sale', 10, 2)->default(0);
             $table->text('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

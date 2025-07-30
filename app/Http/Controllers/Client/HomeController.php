@@ -15,6 +15,7 @@ use App\Models\GioHang;
 use App\Models\ChiTietGioHang;
 use App\Models\BienTheSanPham;
 use App\Models\SuKien;
+use App\Models\SuKienSanPham;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,8 +78,15 @@ class HomeController extends Controller
         $r_cates = DanhMuc::orderBy('id', 'desc')->paginate(3);
         $b_cates = DanhMuc::orderBy('id','asc')->paginate(4);
         // $suKien = SuKien::active()->with('sanphams')->get();
+        $activeSaleEvents = SuKienSanPham::with('sanPham','bienTheSanPham')
+        ->whereHas('suKien', function ($query) {
+            $query->where('ngay_bat_dau', '<=', now())
+                  ->where('ngay_ket_thuc', '>=', now())
+                  ->where('hien_thi', 1);
+        })
+        ->paginate(9);
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
+        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates', 'activeSaleEvents'));
     }
 
     public function addToCart(Request $request)

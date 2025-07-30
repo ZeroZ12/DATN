@@ -40,10 +40,10 @@ class DanhMucController extends Controller
         ]);
         // Xử lý upload hình ảnh nếu có
         if ($request->hasFile('hinh_anh')) {
-    $file = $request->file('hinh_anh');
-    $filename = time() . '_' . $file->getClientOriginalName();
-    $path = $file->storeAs('images', $filename, 'public');
-    $data['hinh_anh'] = $path;
+            $file = $request->file('hinh_anh');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('images', $filename, 'public');
+            $data['hinh_anh'] = $path;
         }
         
         $create = DanhMuc::create($data);
