@@ -86,7 +86,12 @@ class HomeController extends Controller
         })
         ->paginate(9);
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates', 'activeSaleEvents'));
+    $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+        ->limit(5)
+        ->pluck('id')
+        ->toArray();
+
+        return view('client.home', compact('sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
     public function addToCart(Request $request)

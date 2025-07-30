@@ -116,6 +116,120 @@ class DashBoardController extends Controller
     ->orderBy('ton_kho', 'asc')
     ->limit(10)
     ->get();
-    return view('admin.layouts.dashboard', compact('sanPhamSapHetHang','donHangHoanThanh','sanPhamXemNhieu','sanPhamBanChay','thongKe', 'HoanTra', 'doanhSoNgay', 'doanhSoThang', 'doanhSoNam', 'tongDoanhSo', 'doanhSoFilter'));
-  }
+
+
+
+// Khởi tạo biến
+$labels = [];
+$data = [];
+
+// Xác định loại lọc
+if ($filterType === 'month' && $request->filled('month')) {
+    $month = $request->input('month');
+    [$year, $monthNum] = explode('-', $month);
+    $daysInMonth = Carbon::create($year, $monthNum)->daysInMonth;
+
+    for ($i = 1; $i <= $daysInMonth; $i++) {
+        $date = Carbon::create($year, $monthNum, $i);
+        $labels[] = $date->format('d/m/Y');
+        $data[] = DonHang::whereDate('updated_at', $date->format('Y-m-d'))
+            ->where('trang_thai', 'hoan_thanh')
+            ->sum('tong_tien');
+    }
+} elseif ($filterType === 'year' && $request->filled('year')) {
+    $year = $request->input('year');
+    $isCurrentYear = $year == now()->year;
+
+    for ($i = 1; $i <= 12; $i++) {
+        $label = $isCurrentYear ? "Tháng $i" : "Tháng $i/$year"; // ✅ nếu không phải năm nay thì thêm năm
+        $labels[] = $label;
+        $data[] = DonHang::whereYear('updated_at', $year)
+            ->whereMonth('updated_at', $i)
+            ->where('trang_thai', 'hoan_thanh')
+            ->sum('tong_tien');
+    }
+} elseif ($filterType === 'range' && $request->filled(['from', 'to'])) {
+    $from = Carbon::parse($request->input('from'));
+    $to = Carbon::parse($request->input('to'));
+
+    while ($from->lte($to)) {
+        $labels[] = $from->format('d/m/Y');
+        $data[] = DonHang::whereDate('updated_at', $from->format('Y-m-d'))
+            ->where('trang_thai', 'hoan_thanh')
+            ->sum('tong_tien');
+        $from->addDay();
+    }
+} else {
+    // Mặc định: 7 ngày gần nhất
+    $today = Carbon::today();
+    for ($i = 6; $i >= 0; $i--) {
+        $date = $today->copy()->subDays($i);
+        $labels[] = $date->format('d/m/Y');
+        $data[] = DonHang::whereDate('updated_at', $date->format('Y-m-d'))
+            ->where('trang_thai', 'hoan_thanh')
+            ->sum('tong_tien');
+    }
 }
+
+// Gộp mốc không có dữ liệu nếu quá nhiều
+$MAX_POINTS = 15;
+$filteredLabels = [];
+$filteredData = [];
+foreach ($labels as $i => $label) {
+    if ($data[$i] != 0 || count($labels) <= $MAX_POINTS) {
+        $filteredLabels[] = $label;
+        $filteredData[] = $data[$i];
+    }
+}
+$labels = $filteredLabels;
+$data = $filteredData;
+
+// Biểu đồ đơn hàng hoàn thành
+$orderLabels = $labels;
+$orderData = [];
+
+foreach ($orderLabels as $label) {
+    if (str_starts_with($label, 'Tháng')) {
+        // Label dạng "Tháng X" hoặc "Tháng X/YYYY"
+        preg_match('/Tháng (\d+)(?:\/(\d+))?/', $label, $matches);
+        $month = (int) ($matches[1] ?? 0);
+        $labelYear = isset($matches[2]) ? $matches[2] : $year;
+
+        $orderData[] = DonHang::whereYear('updated_at', $labelYear)
+            ->whereMonth('updated_at', $month)
+            ->where('trang_thai', 'hoan_thanh')
+            ->count();
+    } else {
+        // Dạng ngày dd/mm/yyyy
+        $parsedDate = Carbon::createFromFormat('d/m/Y', $label);
+        $orderData[] = DonHang::whereDate('updated_at', $parsedDate->format('Y-m-d'))
+            ->where('trang_thai', 'hoan_thanh')
+            ->count();
+    }
+}
+
+
+
+
+
+   return view('admin.layouts.dashboard', compact(
+    'sanPhamSapHetHang',
+    'donHangHoanThanh',
+    'sanPhamXemNhieu',
+    'sanPhamBanChay',
+    'thongKe',
+    'HoanTra',
+    'doanhSoNgay',
+    'doanhSoThang',
+    'doanhSoNam',
+    'tongDoanhSo',
+    'doanhSoFilter',
+    'labels',
+    'data',
+    'orderData',
+    'orderLabels'
+));
+
+}
+}
+

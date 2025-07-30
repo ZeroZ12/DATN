@@ -58,13 +58,13 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::delete('sukien/{id}/force-delete', [AdminSuKienController::class, 'forceDelete'])->name('sukien.forceDelete');
     Route::patch('sukien/toggle-display/{id}', [AdminSuKienController::class, 'toggleDisplay'])->name('sukien.toggle-display');
     Route::resource('sukien', AdminSuKienController::class);
-    
+
 
     Route::prefix('sanpham')->name('sanpham.')->group(function () {
         Route::get('/thungrac', [SanPhamController::class, 'trash'])->name('trash');
         Route::post('/{id}/restore', [SanPhamController::class, 'restore'])->name('restore');
         Route::delete('/{id}/force-delete', [SanPhamController::class, 'forceDelete'])->name('forceDelete');
-        // Resource route          
+        // Resource route
 
         Route::resource('/', SanPhamController::class)->parameters(['' => 'sanpham']);
 
@@ -280,7 +280,7 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');

@@ -40,7 +40,7 @@ class UpdateBienTheSanPhamRequest extends FormRequest
             // 'ma_bien_the' không cần validate unique ở đây vì nó không thay đổi khi update
             // Nếu bạn cho phép sửa mã biến thể, hãy thêm lại Rule::unique ở đây.
             'gia' => 'required|numeric|min:0',
-            'gia_so_sanh' => 'nullable|numeric|min:0|lte:gia',
+           'gia_so_sanh' => 'nullable|numeric|min:0|gt:gia',
             'ton_kho' => 'required|integer|min:0',
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
@@ -62,9 +62,9 @@ class UpdateBienTheSanPhamRequest extends FormRequest
             'gia.required' => 'Giá bán là bắt buộc.',
             'gia.numeric' => 'Giá bán phải là số.',
             'gia.min' => 'Giá bán không được âm.',
-            'gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
-            'gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'gia_so_sanh.lte' => 'Giá so sánh không được lớn hơn giá bán.',
+            'gia_so_sanh.numeric' => 'Giá gốc phải là số.',
+            'gia_so_sanh.min' => 'Giá gốc không được âm.',
+            'gia_so_sanh.gt' => 'Giá gốc phải lớn hơn giá bán.',
             'ton_kho.required' => 'Tồn kho là bắt buộc.',
             'ton_kho.integer' => 'Tồn kho phải là số nguyên.',
             'ton_kho.min' => 'Tồn kho không được âm.',

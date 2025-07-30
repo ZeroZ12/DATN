@@ -173,16 +173,21 @@
 
                             <div class="product-card col">
                                 <div class="product-badges">
-                                    @if ($isOutOfStock)
-                                        <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+                                 @if ($isOutOfStock)
+    <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+@endif
+
+@if (in_array($sp->id, $sanPhamBanChay))
+    <span class="product-badge bestseller-badge">
+        <i class="fas fa-fire"></i> Bán chạy
+    </span>
+
+
                                     @elseif ($sp->is_hot)
                                         <span class="product-badge hot-badge">
                                             <i class="fas fa-gift"></i> Quà tặng HOT
                                         </span>
-                                    @elseif(rand(1, 3) == 1)
-                                        <span class="product-badge bestseller-badge">
-                                            <i class="fas fa-fire"></i> Bán chạy
-                                        </span>
+
                                     @elseif(rand(1, 2) == 1)
                                         <span class="product-badge gift-badge">
                                             <i class="fas fa-gift"></i> Quà tặng
@@ -255,7 +260,7 @@
             </div>
             @endif
         @endforeach
-            
+
         <!-- Phân trang -->
         {{-- <div class="pagination-wrapper">
             {{ $sanphams->links() }}
@@ -274,8 +279,9 @@
 
 
             .product-section:nth-child(1) {
+
                 
-                background: url(https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg) no-repeat;
+                background: url("{{ asset('assets/images/background.jpg') }}") no-repeat;
                 background-size: cover;
                 background-position: center;
                 border-radius: 12px;
@@ -309,7 +315,7 @@
             }
 
             .product-section:nth-child(1)  .section-title{
-           
+
                 color: #ffffff;
                 text-transform: uppercase;
                 margin-bottom: 15px;

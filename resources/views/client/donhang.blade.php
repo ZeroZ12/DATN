@@ -75,54 +75,71 @@
 
         <div class="border rounded mb-4 p-3 bg-white shadow-sm">
             {{-- Header --}}
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <div class="fw-bold">
-                    <i class="fa-solid fa-store me-1"></i>Mã đơn: {{ $donHang->ma_don ?? '---' }}
-                </div>
-                <div class="d-flex align-items-center">
-                    @if (!in_array($trangThai, ['da_huy']))
-                        <span class="{{ $leftColor }}">
-                            <i class="fa-solid {{ $leftIcon }}"></i> {{ $leftText }}
-                        </span>
-                    @endif
+          <a href="{{ route('client.orders.show', $donHang->id) }}" class="text-decoration-none text-dark">
+    <div class="p-3 mb-4 border rounded hover-shadow">
+        {{-- Mã đơn hàng và trạng thái --}}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="fw-bold">
+                <i class="fa-solid fa-store me-1"></i>Mã đơn: {{ $donHang->ma_don ?? '---' }}
+            </div>
+            <div class="d-flex align-items-center">
+                @if (!in_array($trangThai, ['da_huy']))
+                    <span class="{{ $leftColor }}">
+                        <i class="fa-solid {{ $leftIcon }}"></i> {{ $leftText }}
+                    </span>
+                @endif
 
-                    @if ($trangThai === 'hoan_thanh')
-                        <span class="ms-3 fw-bold text-purple">HOÀN THÀNH</span>
-                    @elseif ($trangThai === 'da_huy')
-                        <span class="ms-3 fw-bold text-danger">
-                            ĐÃ HỦY
-                            @if ($donHang->huy_boi === 'khach_hang')
-                                (bởi Khách hàng)
-                            @elseif ($donHang->huy_boi === 'admin')
-                                (bởi Admin)
-                            @else
-                                (---)
-                            @endif
-                        </span>
-                    @endif
+                @if ($trangThai === 'hoan_thanh')
+                    <span class="ms-3 fw-bold text-purple">HOÀN THÀNH</span>
+                @elseif ($trangThai === 'da_huy')
+                    <span class="ms-3 fw-bold text-danger">
+                        ĐÃ HỦY
+                        @if ($donHang->huy_boi === 'khach_hang')
+                            (bởi Khách hàng)
+                        @elseif ($donHang->huy_boi === 'admin')
+                            (bởi Admin)
+                        @else
+                            (---)
+                        @endif
+                    </span>
+                @endif
+            </div>
+        </div>
+
+        {{-- Chi tiết sản phẩm --}}
+        @foreach ($donHang->chiTietDonHangs as $ct)
+            <div class="d-flex align-items-center mb-3">
+                <img src="{{ asset('storage/' . $ct->sanPham->anh_dai_dien) }}" alt="ảnh"
+                     width="80" class="me-3 border rounded">
+                <div class="flex-grow-1">
+                    <div class="fw-bold">{{ $ct->sanPham->ten ?? '---' }}</div>
+                    <div class="text-muted small">
+                        @if($ct->bienTheSanPham)
+                        Mã biến thể: {{ $ct->bienTheSanPham->ma_bien_the ?? '---' }} |
+                        Ram: {{ $ct->bienTheSanPham->ram->dung_luong ?? '---' }} |
+                        Ổ cứng: {{ $ct->bienTheSanPham->oCung->loai ?? '---' }} -
+                        {{ $ct->bienTheSanPham->oCung->dung_luong ?? '---' }}
+                        @else
+                        Thương hiệu: {{ $ct->sanPham->thuongHieu->ten ?? '---'}}
+                        @endif
+                    </div>
+                    <div class="text-muted small">Số lượng: x{{ $ct->so_luong }}</div>
+                </div>
+                <div class="text-end fw-bold text-danger">
+                    @php
+                        $gia = $ct->bienTheSanPham->gia ?? $ct->sanPham->gia;
+                        $tong = $gia * $ct->so_luong;
+                    @endphp
+                    {{ number_format($tong, 0, ',', '.') }}₫
                 </div>
             </div>
-
-            {{-- Chi tiết sản phẩm --}}
-            @foreach ($donHang->chiTietDonHangs as $ct)
-                <div class="d-flex align-items-center mb-3">
-                    <img src="{{ asset('storage/' . $ct->sanPham->anh_dai_dien) }}" alt="ảnh" width="80" class="me-3 border">
-                    <div class="flex-grow-1">
-                        <div class="fw-bold">{{ $ct->sanPham->ten ?? '---' }}</div>
-                        <div class="text-muted small">Mã biến thể: {{ $ct->bienTheSanPham->ma_bien_the ?? '---' }}</div>
-                        <div class="text-muted small">Số lượng: x{{ $ct->so_luong }}</div>
-                    </div>
-                    <div class="text-end fw-bold text-danger">
-    @if ($ct->bienTheSanPham)
-        {{ number_format($ct->bienTheSanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
-    @else
-        {{ number_format($ct->sanPham->gia * $ct->so_luong, 0, ',', '.') }}₫
-    @endif
-</div>
-
-                </div>
+            @if (!$loop->last)
                 <hr>
-            @endforeach
+            @endif
+        @endforeach
+    </div>
+</a>
+
 
             {{-- Footer --}}
             <div class="d-flex justify-content-between align-items-center border-top pt-3">
