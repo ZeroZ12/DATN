@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\DanhMuc;
+use App\Models\GioHang;
+use App\Models\ChiTietGioHang;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -15,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
+        //
     }
 
     /**
@@ -25,13 +27,34 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
+        // Gửi tên user
         View::composer('*', function ($view) {
             if (Auth::check()) {
-                $view->with('username', Auth::user()->ten_dang_nhap); // hoặc 'username' tùy cột DB
+                $view->with('username', Auth::user()->ten_dang_nhap);
             }
         });
-         View::composer('*', function ($view) {
-        $view->with('danhmucs', DanhMuc::all());
-    });
+
+        // Gửi danh mục
+        View::composer('*', function ($view) {
+            $view->with('danhmucs', DanhMuc::all());
+        });
+
+        // Gửi tổng số lượng giỏ hàng
+        View::composer('*', function ($view) {
+            $tongSoLuongGioHang = 0;
+
+            if (Auth::check()) {
+                $gioHang = GioHang::where('id_user', Auth::id())
+                    ->where('loai', 'chinh')
+                    ->first();
+
+                if ($gioHang) {
+                    $tongSoLuongGioHang = ChiTietGioHang::where('id_gio_hang', $gioHang->id)
+                        ->sum('so_luong');
+                }
+            }
+
+            $view->with('tongSoLuongGioHang', $tongSoLuongGioHang);
+        });
     }
 }

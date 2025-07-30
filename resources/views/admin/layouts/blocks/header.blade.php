@@ -1,8 +1,7 @@
         <header class="page-header row">
             <div class="logo-wrapper d-flex align-items-center col-auto">
                 <a href="{{ route('admin.index') }}">
-                    <img class="for-light" src="/assets/images/logo/logo.png" alt="logo">
-                    <img class="for-dark" src="/assets/images/logo/dark-logo.png" alt="logo">
+                 <img src="{{ asset('storage/logo/logo.png') }}" alt="TopPC Logo" class="img-fluid" style="max-height: 70px;">
                 </a>
                 <a class="close-btn" href="javascript:void(0)">
                     <div class="toggle-sidebar">
