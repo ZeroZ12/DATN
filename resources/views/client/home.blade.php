@@ -147,7 +147,8 @@
 
             .product-section:nth-child(1) {
 
-                background: url(https://t4.ftcdn.net/jpg/02/40/63/55/360_F_240635575_EJifwRAbKsVTDnA3QE0bCsWG5TLhUNEZ.jpg) no-repeat;
+                
+                background: url("{{ asset('assets/images/background.jpg') }}") no-repeat;
                 background-size: cover;
                 background-position: center;
                 border-radius: 12px;
