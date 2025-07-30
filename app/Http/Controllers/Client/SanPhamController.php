@@ -203,7 +203,12 @@ class SanPhamController extends Controller
             ->take(10)
             ->get();
 
+   $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+    ->limit(5)
+    ->pluck('id')
+    ->toArray();
         return view('client.chitietsanpham', compact(
+            'sanPhamBanChay',
             'sanpham',
             'sanphamTuongTu',
             'bienTheSanPhams',
