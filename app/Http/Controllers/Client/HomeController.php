@@ -78,7 +78,12 @@ class HomeController extends Controller
         $b_cates = DanhMuc::orderBy('id','asc')->paginate(4);
         // $suKien = SuKien::active()->with('sanphams')->get();
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
+$sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+    ->limit(5)
+    ->pluck('id')
+    ->toArray();
+
+        return view('client.home', compact('sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
     public function addToCart(Request $request)
