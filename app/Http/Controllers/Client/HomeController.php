@@ -91,7 +91,7 @@ class HomeController extends Controller
         ->pluck('id')
         ->toArray();
 
-        return view('client.home', compact('sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
+        return view('client.home', compact('activeSaleEvents','sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
     public function addToCart(Request $request)
