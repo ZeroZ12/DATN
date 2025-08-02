@@ -3,9 +3,8 @@
     <div class="container">
         <div class="row">
 
-
             <!-- Slider -->
-            <div class="col-9">
+            <div class="col-12 col-md-9">
                 <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -39,7 +38,7 @@
             </div>
 
             <!-- Banner bên phải -->
-            <div class="col-3">
+            <div class="col-12 col-md-3">
                 <div class="side-banners">
                   @if (isset($r_cates) && $r_cates->count() > 0)
                     @foreach ($r_cates as $r_cate)
@@ -55,7 +54,7 @@
         </div>
 
         <!-- 4 Banner phía dưới -->
-        <div class="row mt-4">
+        <div class="row mt-4 bottom-banners">
           @if (isset($b_cates) && $b_cates->count() > 0)
             @foreach ($b_cates as $b_cate)
                 <div class="col-3 mb-3">
@@ -70,7 +69,6 @@
             <div class="col-12">
                 <span class="text-muted">Chưa có banner phía dưới</span>
             </div>
-              
           @endif
         </div>
     </div>
@@ -116,5 +114,12 @@
 .carousel-inner {
     border-radius: 8px;
     overflow: hidden;
+}
+
+/* Hide bottom banners on mobile */
+@media (max-width: 767.98px) {
+    .bottom-banners {
+        display: none;
+    }
 }
 </style>
