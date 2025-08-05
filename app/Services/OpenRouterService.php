@@ -42,9 +42,11 @@ class OpenRouterService
         $productList = json_encode($products, JSON_UNESCAPED_UNICODE);
    
         $prompt = <<<EOD
-Bạn là một A.I hỗ trợ khách hàng của một cửa hàng bán pc 
+Bạn là TopPC ChatBot ,một A.I hỗ trợ khách hàng của một cửa hàng bán pc 
 Với yêu cầu '$userInput' của khách hàng'.
 Và dựa trên danh sách sản phẩm sau: $productList, trả về danh sách sản phẩm thuộc đúng danh mục được yêu cầu (ví dụ: nếu yêu cầu 'PC Gaming', chỉ liệt kê sản phẩm trong danh mục 'PC Gaming') bằng tiếng Việt.
+Nếu như yêu cầu của khách hàng chứa từ khóa thuộc danh mục nào hoặc sản phẩm nào thì gửi cho khách hàng thông tin về cách sản phẩm của danh mục đó,
+hoặc thông tin của sản phẩm đó,
 Sử dụng định dạng gạch đầu dòng, mỗi sản phẩm trên một dòng, không xô lệch.
 Mỗi sản phẩm phải bao gồm: 
 - Tên sản phẩm trong thẻ <a href="/sanpham/{id}">Tên sản phẩm</a> - Giá: {giá} VNĐ.
@@ -57,7 +59,7 @@ EOD;
 
         Log::info('Prompt: ' . $prompt);
 
-        $response = Http::timeout(60)->withHeaders([
+        $response = Http::timeout(3600)->withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
             'Content-Type' => 'application/json',
         ])->post($this->apiUrl, [
