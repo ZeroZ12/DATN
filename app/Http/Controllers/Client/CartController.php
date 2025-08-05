@@ -838,4 +838,6 @@ class CartController extends Controller
             ], 500);
         }
     }
+
+    // Hoàn trả số lượng tồn kho
 }

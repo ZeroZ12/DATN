@@ -644,7 +644,7 @@
                                 <div class="input-group" style="max-width: 160px;">
                                     <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
                                     <input type="number" name="so_luong" id="so_luong" class="form-control text-center"
-                                        value="1" min="1" style="max-width: 60px;">
+                                        value="1" min="1" style="max-width: 60px;" >
                                     <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
                                 </div>
                             </div>

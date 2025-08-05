@@ -124,32 +124,27 @@
                 {{ $activeSaleEvents->links('pagination::bootstrap-5') }}
             </div>
         @endif
-    @endif
-</section>
+        @endif
+    </section>
     <div class="container py-4">
         @foreach ($danhMucs as $danhMuc)
-         @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
+            @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
             <div class="product-section mb-4">
-                <div class="row section-header align-items-center"> <!-- Thêm align-items-center -->
-                    <h2 class="col-7 section-title mb-0">{{ $danhMuc->ten }}</h2> <!-- Xóa margin-bottom -->
-                    <a class="col-5 dm text-end pe-5" href="{{ route('danhmuc.index', $danhMuc->id) }}">Xem Tất Cả</a> <!-- Xóa pt-3 -->
-                    <form method="GET" action="{{ route('client.home') }}" class="filter-form">
-                    </form>
+                <div class="row section-header align-items-center">
+                    <h2 class="col-7 section-title mb-0">{{ $danhMuc->ten }}</h2>
+                    <a class="col-5 dm text-end pe-5" href="{{ route('danhmuc.index', $danhMuc->id) }}">Xem Tất Cả</a>
+                    <form method="GET" action="{{ route('client.home') }}" class="filter-form"></form>
                 </div>
-
-                <!-- Danh sách sản phẩm -->
                 <div class="products-slider-wrapper">
-                    <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i
-                            class="fas fa-chevron-left"></i></button>
+                    <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i class="fas fa-chevron-left"></i></button>
                     <div class="products-slider">
                         @foreach ($sanphams->where('id_category', $danhMuc->id) as $sp)
                             @php
                                 if ($sp->co_bien_the) {
-                                    $bienThe =
-                                        $sp->BienTheSanPhams->firstWhere(function ($bt) {
-                                            return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                                                (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-                                        }) ?? $sp->BienTheSanPhams->first();
+                                    $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                                        return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                                            (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+                                    }) ?? $sp->BienTheSanPhams->first();
                                     $gia = $bienThe ? $bienThe->gia : 0;
                                     $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
                                     $isOutOfStock = !$bienThe || $bienThe->ton_kho <= 0;
@@ -160,17 +155,15 @@
                                     $isOutOfStock = $sp->so_luong <= 0;
                                 }
                             @endphp
-
                             <div class="product-card col">
                                 <div class="product-badges">
-                                 @if ($isOutOfStock)
-    <span class="product-badge" style="background:#6c757d">Hết hàng</span>
-@endif
-
-@if (in_array($sp->id, $sanPhamBanChay))
-    <span class="product-badge bestseller-badge">
-        <i class="fas fa-fire"></i> Bán chạy
-    </span>
+                                    @if ($isOutOfStock)
+                                        <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+                                    @endif
+                                    @if (in_array($sp->id, $sanPhamBanChay))
+                                        <span class="product-badge bestseller-badge">
+                                            <i class="fas fa-fire"></i> Bán chạy
+                                        </span>
                                     @elseif ($sp->is_hot)
                                         <span class="product-badge hot-badge">
                                             <i class="fas fa-gift"></i> Quà tặng HOT
@@ -237,12 +230,42 @@
                             </div>
                         @endforeach
                     </div>
-                    <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)"><i
-                            class="fas fa-chevron-right"></i></button>
+                    <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             @endif
         @endforeach
+    </div>
+
+    <!-- Chat Button -->
+    <button class="chat-toggle-btn" onclick="toggleChatBox()">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+
+    <!-- Chat Box -->
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h5>Chat với TopPC AI</h5>
+            <button class="chat-close-btn" onclick="toggleChatBox()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-message bot-message">
+                <p>Xin chào! Tôi là AI hỗ trợ mua sắm. Hãy nhập yêu cầu của bạn (VD: "Tôi muốn một chiếc Màn hình giá dưới 500k") để tôi tìm sản phẩm phù hợp!</p>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <form id="chatForm" action="{{ route('chat.search') }}" method="POST">
+                @csrf
+                <div class="input-group">
+                    <input type="text" name="message" class="form-control" placeholder="Nhập yêu cầu của bạn..." required>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
 @push('css')
@@ -267,7 +290,7 @@
             color: black;
             text-decoration: none;
             font-weight: 500;
-            line-height: 1; /* Đảm bảo căn chỉnh chiều cao */
+            line-height: 1;
         }
 
         .dm:hover {
@@ -294,21 +317,21 @@
 
         .section-header {
             margin-bottom: 20px;
-            display: flex; /* Sử dụng flexbox để căn chỉnh */
-            align-items: center; /* Căn giữa theo chiều dọc */
+            display: flex;
+            align-items: center;
         }
 
         .product-section:nth-child(1) .section-title {
             color: #ffffff;
             text-transform: uppercase;
-            margin-bottom: 0; /* Xóa margin-bottom */
+            margin-bottom: 0;
             padding: 10px 0 0 35px;
         }
 
         .section-title {
             color: #333;
             text-transform: uppercase;
-            margin-bottom: 0; /* Xóa margin-bottom */
+            margin-bottom: 0;
             padding: 10px 0 0 35px;
         }
 
@@ -552,6 +575,149 @@
             margin-top: 20px;
         }
 
+        /* Chat Box Styles */
+        .chat-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .chat-toggle-btn:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .chat-box {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .chat-box.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .chat-header h5 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chat-close-btn:hover {
+            color: #f0f0f0;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            max-height: 400px;
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .bot-message {
+            background: #e9ecef;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: 10px;
+            text-align: right;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-footer .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-footer input {
+            border-radius: 20px;
+            border: 1px solid #e9ecef;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .chat-footer button {
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 576px) {
+            .chat-box {
+                width: 90%;
+                right: 5%;
+                bottom: 80px;
+            }
+
+            .chat-toggle-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
         /* Media Queries for Mobile */
         @media (max-width: 768px) {
             .product-card {
@@ -665,15 +831,13 @@
                 height: 30px;
                 font-size: 14px;
             }
-            .dm
-            {   
+            .dm {   
                 /* display: flex;
                 float: left;
                 font-size: 10px; */
             }
         }
 
-        /* Các kiểu dáng khác không thay đổi */
         .filter-form {
             margin-bottom: 20px;
         }
@@ -920,126 +1084,203 @@
     </style>
 @endpush
 
-    @push('js')
+@push('js')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                @if (session('success'))
-                    showToast("{{ session('success') }}", 'success');
-                @endif
+    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script> <!-- Thay your-kit-id.js bằng ID của bạn -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                showToast("{{ session('success') }}", 'success');
+            @endif
 
-                @if (session('error'))
-                    showToast("{{ session('error') }}", 'error');
-                @endif
+            @if (session('error'))
+                showToast("{{ session('error') }}", 'error');
+            @endif
 
-                @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        showToast("{{ $error }}", 'error');
-                    @endforeach
-                @endif
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    showToast("{{ $error }}", 'error');
+                @endforeach
+            @endif
 
-                document.querySelectorAll('.add-to-cart-form').forEach(form => {
-                    form.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        try {
-                            addToCart(this);
-                        } catch (e) {
-                            console.error('A critical error occurred while trying to call addToCart:', e);
-                            showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
-                        }
-                    });
+            document.querySelectorAll('.add-to-cart-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    try {
+                        addToCart(this);
+                    } catch (e) {
+                        console.error('A critical error occurred while trying to call addToCart:', e);
+                        showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
+                    }
                 });
             });
 
-            function addToCart(form) {
-                const button = form.querySelector('.add-to-cart-btn');
-                const originalContent = button.innerHTML;
+            // Handle chat form submission
+            const chatForm = document.getElementById('chatForm');
+            if (chatForm) {
+                chatForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const messageInput = chatForm.querySelector('input[name="message"]');
+                    const message = messageInput.value.trim();
+                    if (!message) return;
 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]');
-                if (!csrfToken) {
-                    console.error('FATAL: CSRF token meta tag not found.');
-                    showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
-                    return;
-                }
+                    // Add user message to chat
+                    const chatBody = document.getElementById('chatBody');
+                    const userMessage = document.createElement('div');
+                    userMessage.className = 'chat-message user-message';
+                    userMessage.innerHTML = `<p>${message}</p>`;
+                    chatBody.appendChild(userMessage);
+                    chatBody.scrollTop = chatBody.scrollHeight;
 
-                button.className = 'add-to-cart-btn loading';
-                button.disabled = true;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
+                    // Clear input
+                    messageInput.value = '';
 
-                const formData = new FormData(form);
+                    // Show loading
+                    const loadingMessage = document.createElement('div');
+                    loadingMessage.className = 'chat-message bot-message';
+                    loadingMessage.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Đang xử lý...</p>';
+                    chatBody.appendChild(loadingMessage);
+                    chatBody.scrollTop = chatBody.scrollHeight;
 
-                fetch(form.action, {
+                    // Send AJAX request
+                    const formData = new FormData(chatForm);
+                    fetch(chatForm.action, {
                         method: 'POST',
                         body: formData,
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                             'Accept': 'application/json'
                         }
                     })
                     .then(response => {
                         if (!response.ok) {
                             return response.json().then(err => {
-                                console.error('Server responded with an error:', err);
-                                throw new Error(err.message || `Lỗi ${response.status}`);
+                                throw new Error(err.message || 'Lỗi khi gọi API');
                             });
                         }
                         return response.json();
                     })
                     .then(data => {
-                        if (data.success) {
-                            button.className = 'add-to-cart-btn success';
-                            button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
+                        // Remove loading message
+                        loadingMessage.remove();
 
-                            const cartCount = document.querySelector('.cart-count');
-                            if (cartCount && data.cart_count) {
-                                cartCount.textContent = data.cart_count;
-                            }
-
-                            showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
-                        } else {
-                            if (data.redirect) {
-                                showToast('Đang chuyển đến trang đăng nhập...', 'info');
-                                setTimeout(() => {
-                                    window.location.href = data.redirect;
-                                }, 1000);
-                                return;
-                            }
-                            throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
-                        }
+                        // Add bot response
+                        const botMessage = document.createElement('div');
+                        botMessage.className = 'chat-message bot-message';
+                        botMessage.innerHTML = `<p>${data.message}</p>`;
+                        chatBody.appendChild(botMessage);
+                        chatBody.scrollTop = chatBody.scrollHeight;
                     })
                     .catch(error => {
-                        console.error('An error occurred in the fetch chain:', error);
-                        button.className = 'add-to-cart-btn error';
-                        button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
-                        showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
-                    })
-                    .finally(() => {
-                        setTimeout(() => {
-                            button.className = 'add-to-cart-btn';
-                            button.disabled = false;
-                            button.innerHTML = originalContent;
-                        }, 2000);
+                        // Remove loading message
+                        loadingMessage.remove();
+
+                        // Show error
+                        const errorMessage = document.createElement('div');
+                        errorMessage.className = 'chat-message bot-message';
+                        errorMessage.innerHTML = `<p>Lỗi: ${error.message}</p>`;
+                        chatBody.appendChild(errorMessage);
+                        chatBody.scrollTop = chatBody.scrollHeight;
                     });
+                });
+            }
+        });
+
+        function toggleChatBox() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.classList.toggle('active');
+        }
+
+        function addToCart(form) {
+            const button = form.querySelector('.add-to-cart-btn');
+            const originalContent = button.innerHTML;
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfToken) {
+                console.error('FATAL: CSRF token meta tag not found.');
+                showToast('Lỗi: Không tìm thấy CSRF token!', 'error');
+                return;
             }
 
-            function showToast(message, type = 'success') {
-                let container = document.querySelector('.toast-container');
-                if (!container) {
-                    container = document.createElement('div');
-                    container.className = 'toast-container';
-                    document.body.appendChild(container);
-                }
+            button.className = 'add-to-cart-btn loading';
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang thêm...</span>';
 
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
+            const formData = new FormData(form);
 
-                let icon = 'check-circle';
-                if (type === 'error') icon = 'exclamation-circle';
-                if (type === 'info') icon = 'info-circle';
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': csrfToken.getAttribute('content'),
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            console.error('Server responded with an error:', err);
+                            throw new Error(err.message || `Lỗi ${response.status}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        button.className = 'add-to-cart-btn success';
+                        button.innerHTML = '<i class="fas fa-check"></i> <span>Đã thêm!</span>';
 
-                toast.innerHTML = `
+                        const cartCount = document.querySelector('.cart-count');
+                        if (cartCount && data.cart_count) {
+                            cartCount.textContent = data.cart_count;
+                        }
+
+                        showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                    } else {
+                        if (data.redirect) {
+                            showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                            setTimeout(() => {
+                                window.location.href = data.redirect;
+                            }, 1000);
+                            return;
+                        }
+                        throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                    }
+                })
+                .catch(error => {
+                    console.error('An error occurred in the fetch chain:', error);
+                    button.className = 'add-to-cart-btn error';
+                    button.innerHTML = '<i class="fas fa-times"></i> <span>Lỗi!</span>';
+                    showToast(error.message || 'Có lỗi khi thêm vào giỏ hàng!', 'error');
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        button.className = 'add-to-cart-btn';
+                        button.disabled = false;
+                        button.innerHTML = originalContent;
+                    }, 2000);
+                });
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            let icon = 'check-circle';
+            if (type === 'error') icon = 'exclamation-circle';
+            if (type === 'info') icon = 'info-circle';
+
+            toast.innerHTML = `
                 <div class="toast-content">
                     <i class="fas fa-${icon}"></i>
                     <span>${message}</span>
@@ -1049,64 +1290,64 @@
                 </div>
             `;
 
-                container.appendChild(toast);
-                setTimeout(() => toast.classList.add('show'), 100);
-                setTimeout(() => toast.remove(), 5000);
-            }
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => toast.remove(), 3000);
+        }
 
-            function scrollProducts(button, direction) {
-                const wrapper = button.closest('.products-slider-wrapper');
-                const slider = wrapper.querySelector('.products-slider');
-                const card = slider.querySelector('.product-card');
-                if (!card) return;
+        function scrollProducts(button, direction) {
+            const wrapper = button.closest('.products-slider-wrapper');
+            const slider = wrapper.querySelector('.products-slider');
+            const card = slider.querySelector('.product-card');
+            if (!card) return;
 
-                const scrollAmount = card.offsetWidth + 20;
-                slider.scrollBy({
-                    left: direction * scrollAmount * 2,
-                    behavior: 'smooth'
-                });
-            }
-
-            function resetFilters() {
-                const selects = document.querySelectorAll('.filter-tab-select');
-                selects.forEach(select => {
-                    select.selectedIndex = 0;
-                });
-                document.querySelector('.filter-form').submit();
-            }
-
-            function showFilterModal() {
-                alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                const countdownElements = document.querySelectorAll('.countdown');
-
-                function updateCountdown() {
-                    countdownElements.forEach(element => {
-                        const endTime = new Date(element.dataset.endTime).getTime();
-                        const id = element.dataset.id;
-                        const now = new Date().getTime();
-                        const distance = endTime - now;
-
-                        if (distance < 0) {
-                            element.innerHTML = 'Đã kết thúc!';
-                            element.closest('.col-md-4').style.display = 'none';
-                            return;
-                        }
-
-                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                        element.innerHTML = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
-                    });
-                }
-
-                setInterval(updateCountdown, 1000);
-                updateCountdown();
+            const scrollAmount = card.offsetWidth + 20;
+            slider.scrollBy({
+                left: direction * scrollAmount * 2,
+                behavior: 'smooth'
             });
-        </script>
-    @endpush
+        }
+
+        function resetFilters() {
+            const selects = document.querySelectorAll('.filter-tab-select');
+            selects.forEach(select => {
+                select.selectedIndex = 0;
+            });
+            document.querySelector('.filter-form').submit();
+        }
+
+        function showFilterModal() {
+            alert('Bộ lọc nâng cao - Có thể implement modal ở đây');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const countdownElements = document.querySelectorAll('.countdown');
+
+            function updateCountdown() {
+                countdownElements.forEach(element => {
+                    const endTime = new Date(element.dataset.endTime).getTime();
+                    const id = element.dataset.id;
+                    const now = new Date().getTime();
+                    const distance = endTime - now;
+
+                    if (distance < 0) {
+                        element.innerHTML = 'Đã kết thúc!';
+                        element.closest('.col-md-4').style.display = 'none';
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    element.innerHTML = `${days} ngày ${hours} giờ ${minutes} phút ${seconds} giây`;
+                });
+            }
+
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+    </script>
+@endpush
 @endsection

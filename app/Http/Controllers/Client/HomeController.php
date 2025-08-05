@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters
         if ($request->filled('san_pham_id') && $request->filled('so_luong')) {
             return $this->addToCart($request);
