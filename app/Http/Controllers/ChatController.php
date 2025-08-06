@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Log;
 class ChatController extends Controller
 {
     public function search(Request $request)
-    {
+    {   
         $userInput = $request->input('message');
+    
+        
         Log::info('Chat Input: ' . $userInput);
 
         $openRouterService = new OpenRouterService();

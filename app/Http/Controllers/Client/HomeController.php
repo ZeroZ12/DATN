@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Client; // Lưu ý namespace có thể là App\Http\Controllers nếu bạn không dùng Client subfolder
 
-use App\Http\Controllers\Controller;
-use App\Models\Banner;
-use App\Models\Chip;
 use App\Models\Gpu;
-use App\Models\OCung;
 use App\Models\Ram;
-use App\Models\SanPham;    // Đảm bảo import Model SanPham
-use App\Models\ThuongHieu;
+use App\Models\Chip;
+use App\Models\OCung;
+use App\Models\Banner;
+use App\Models\SuKien;
 use App\Models\DanhMuc;
 use App\Models\GioHang;
-use App\Models\ChiTietGioHang;
-use App\Models\BienTheSanPham;
-use App\Models\SuKien;
-use App\Models\SuKienSanPham;
+use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
+use App\Models\SuKienSanPham;
+use App\Models\BienTheSanPham;
+use App\Models\ChiTietGioHang;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SanPham;    // Đảm bảo import Model SanPham
 
 class HomeController extends Controller
-{
+{  
     public function index(Request $request)
     {   
         // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters

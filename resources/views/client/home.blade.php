@@ -259,7 +259,7 @@
             <form id="chatForm" action="{{ route('chat.search') }}" method="POST">
                 @csrf
                 <div class="input-group">
-                    <input type="text" name="message" class="form-control" placeholder="Nhập yêu cầu của bạn..." required>
+                    <input id="message" type="text" name="message" class="form-control" placeholder="Nhập yêu cầu của bạn..." required>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i>
                     </button>
@@ -1086,7 +1086,7 @@
 
 @push('js')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script> <!-- Thay your-kit-id.js bằng ID của bạn -->
+    <script src="https://kit.fontawesome.com/ffb3c051a8.js" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             @if (session('success'))
@@ -1133,8 +1133,7 @@
                     chatBody.appendChild(userMessage);
                     chatBody.scrollTop = chatBody.scrollHeight;
 
-                    // Clear input
-                    messageInput.value = '';
+                    
 
                     // Show loading
                     const loadingMessage = document.createElement('div');
@@ -1145,6 +1144,7 @@
 
                     // Send AJAX request
                     const formData = new FormData(chatForm);
+                    
                     fetch(chatForm.action, {
                         method: 'POST',
                         body: formData,
@@ -1184,6 +1184,8 @@
                         chatBody.appendChild(errorMessage);
                         chatBody.scrollTop = chatBody.scrollHeight;
                     });
+                    // Clear input
+                    messageInput.value = '';
                 });
             }
         });
