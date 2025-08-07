@@ -130,16 +130,16 @@ class CartController extends Controller
                 ]);
             }
 
-            // Trừ tồn kho
-            if ($request->bien_the_id) {
-                $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
-                $bienThe->ton_kho -= $soLuongMuonThem;
-                $bienThe->save();
-            } else {
-                $sanPham = SanPham::findOrFail($request->san_pham_id);
-                $sanPham->so_luong -= $soLuongMuonThem;
-                $sanPham->save();
-            }
+            // // Trừ tồn kho
+            // if ($request->bien_the_id) {
+            //     $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+            //     $bienThe->ton_kho -= $soLuongMuonThem;
+            //     $bienThe->save();
+            // } else {
+            //     $sanPham = SanPham::findOrFail($request->san_pham_id);
+            //     $sanPham->so_luong -= $soLuongMuonThem;
+            //     $sanPham->save();
+            // }
 
             // Tính tổng số lượng sản phẩm trong giỏ hàng
             $cartCount = ChiTietGioHang::where('id_gio_hang', $gioHang->id)->sum('so_luong');
