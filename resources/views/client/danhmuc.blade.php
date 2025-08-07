@@ -1091,7 +1091,7 @@
 @endpush
 
 <!-- Đặt script filter trực tiếp để luôn nhận được hàm applyFilters -->
-@push('scripts')
+@push('js')
     <script>
         function applyFilters() {
             // Lấy tất cả checkbox thương hiệu và giá
