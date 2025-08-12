@@ -34,7 +34,7 @@ class BannerController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'image_url' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Chỉ cho phép các định dạng hình ảnh
-            'sale' => 'required|numeric|min:0|max:100', // Giảm giá theo phần trăm, phải là một số từ 0 đến 100
+            'sale' => 'nullable|numeric|min:0|max:100', // Giảm giá theo phần trăm, phải là một số từ 0 đến 100
             'description' => 'nullable|string',
         ],
             [
@@ -42,7 +42,6 @@ class BannerController extends Controller
                 'image_url.required' => 'Ảnh banner là bắt buộc.',
                 'image_url.mimes' => 'Ảnh banner phải có định dạng jpeg, png, jpg hoặc gif.',
                 'image_url.max' => 'Ảnh banner không được vượt quá 2MB.',
-                'sale.required' => 'Trường giảm giá là bắt buộc.',
                 'sale.numeric' => 'Giảm giá phải là một số.',
                 'sale.min' => 'Giảm giá phải ít nhất là 0.',
                 'sale.max' => 'Giảm giá không được vượt quá 100%.',

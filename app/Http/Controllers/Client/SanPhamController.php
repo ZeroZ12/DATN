@@ -162,7 +162,8 @@ class SanPhamController extends Controller
         return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners'));
     }
     public function show($id)
-    {
+    {   
+        
         $sanpham = SanPham::with([
             'chip',
             'mainboard',
