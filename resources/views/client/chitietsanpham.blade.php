@@ -404,6 +404,19 @@
             max-height: 7.2em;
         }
 
+        .collapsed-mo-ta {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            position: relative;
+            max-height: 7.2em;
+        }
+
+        .expanded-mo-ta {
+            display: block;
+            max-height: none;
+        }
         .expanded-mo-ta {
             display: block;
             max-height: none;
@@ -541,7 +554,7 @@
             font-size: 14px;
         }
     </style>
-    <div class="container mt-4">
+    <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -624,7 +637,7 @@
                 <div class="d-md-flex gap-3">
                     <div class="flex-fill" style="min-width:0;">
                         @if ($sanpham->co_bien_the)
-                        <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
+                        <form id="variant-selection-area" action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
                             @csrf
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
 
@@ -674,7 +687,7 @@
                                 <div class="input-group" style="max-width: 160px;">
                                     <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
                                     <input type="number" name="so_luong" id="so_luong" class="form-control text-center"
-                                        value="1" min="1" style="max-width: 60px;">
+                                        value="1" min="1" style="max-width: 60px;" >
                                     <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
                                 </div>
                             </div>
@@ -704,7 +717,18 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                {{-- @if ($activeSaleEvents->so_luong > 0) 
+                                <div id="bienthe-info" class="mb-3" style="display: none;">
+                                    <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
+                                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                                        <p><strong>Giá FLASH SALE:</strong> <span id="bienthe-sale-price" class="text-danger fw-bold"></span></p>
+                                        <p><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
+                                    @endif
+                                    <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
+                                </div>
+                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                                    <p><strong>Số lượng FLASH SALE:</strong> <span class="text-success fw-bold">{{ $activeSaleEvent->so_luong_gioi_han ?? $sanpham->so_luong }} sản phẩm</span></p>
+                                @endif
+                                {{-- @if ($activeSaleEvents->so_luong_gioi_han > 0) 
                                    <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $activeSaleEvents->so_luong_gioi_han }} sản phẩm</span></p> 
                                 @else
                                    <p><strong>Tồn kho:</strong> <span class="text-danger fw-bold">Hết hàng</span></p>
@@ -756,7 +780,6 @@
                     </div>
                 </div>
             </div>
-        </div>
 
         <hr>
 
@@ -1019,6 +1042,10 @@
     </div>
 
     <script>
+        // Lấy phần tử chứa data hasVariants
+        const product = document.getElementById('container');
+        const hasVariant = product.dataset.hasVariants === 'true';
+
         // Hàm hiển thị thông báo
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
@@ -1072,7 +1099,6 @@
         let isAnimating = false;
         let currentImageIndex = 1;
 
-        // Đổi ảnh chính với hiệu ứng trượt liền mạch
         document.querySelectorAll('.img-thumb').forEach(img => {
             img.addEventListener('click', function() {
                 if (isAnimating) return;
@@ -1115,91 +1141,156 @@
             mainImg1.classList.add('current');
         });
 
-        // Lưu danh sách biến thể vào JS
+        // Xử lý nút "Xem thêm" cho mô tả sản phẩm
+        document.getElementById('btnToggleMoTa').addEventListener('click', function() {
+            const moTa = document.getElementById('moTaSanPham');
+            const isCollapsed = moTa.classList.contains('collapsed-mo-ta');
+
+            if (isCollapsed) {
+                moTa.classList.remove('collapsed-mo-ta');
+                moTa.classList.add('expanded-mo-ta');
+                this.textContent = 'Thu gọn';
+            } else {
+                moTa.classList.remove('expanded-mo-ta');
+                moTa.classList.add('collapsed-mo-ta');
+                this.textContent = 'Xem thêm';
+            }
+        });
+
+        // Danh sách biến thể lưu trong JS (mảng các object)
         const bienThes = [
             @foreach ($sanpham->bienTheSanPhams as $bienThe)
                 {
                     id: '{{ $bienThe->id }}',
                     ram: '{{ $bienThe->ram->dung_luong ?? '' }}',
                     ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
-                    price: '{{ $bienThe->gia }}',
-                    salePrice: '@php
+                    price: parseFloat('{{ $bienThe->gia ?? 0 }}'),
+                    salePrice: parseFloat('@php
                         $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
                         echo $saleEvent ? $saleEvent->gia_khuyen_mai : $bienThe->gia;
-                    @endphp',
-                    stock: '{{ $bienThe->ton_kho }}'
-                },
+                    @endphp' ?? 0),
+                    stock: parseInt('{{ $bienThe->ton_kho ?? 0 }}')
+        }@if (!$loop->last),@endif
             @endforeach
         ];
 
         let selectedRam = null;
         let selectedSsd = null;
 
-        document.querySelectorAll('.ram-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.ram-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                selectedRam = this.dataset.ram;
-                updateVariantInfo();
+        if (hasVariant) {
+            // Nếu có biến thể, hiển thị phần chọn biến thể, gán sự kiện
+            document.querySelectorAll('.ram-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.ram-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedRam = this.dataset.ram;
+                    updateVariantInfo();
+                });
             });
-        });
-        document.querySelectorAll('.ssd-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.ssd-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                selectedSsd = this.dataset.ssd;
-                updateVariantInfo();
+            document.querySelectorAll('.ssd-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.ssd-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedSsd = this.dataset.ssd;
+                    updateVariantInfo();
+                });
             });
-        });
 
-        function updateVariantInfo() {
-            if (selectedRam && selectedSsd) {
-                const variant = bienThes.find(v => v.ram === selectedRam && v.ssd === selectedSsd);
-                if (variant) {
-                    document.getElementById('selected_variant').value = variant.id;
-                    document.getElementById('bienthe-info').style.display = 'block';
-                    document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
-                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                        document.getElementById('bienthe-sale-price').textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
-                    @endif
-                    document.getElementById('bienthe-stock').textContent = variant.stock + ' sản phẩm';
-                    // Disable nút nếu hết hàng
-                    const addBtn = document.querySelector('.btn-outline-danger');
-                    const buyBtn = document.getElementById('buy-now-btn');
-                    if (parseInt(variant.stock) <= 0) {
-                        addBtn.disabled = true;
-                        addBtn.textContent = 'HẾT HÀNG';
-                        addBtn.style.background = '#e9ecef';
-                        addBtn.style.color = '#888';
-                        addBtn.style.cursor = 'not-allowed';
-                        buyBtn.disabled = true;
-                        buyBtn.textContent = 'HẾT HÀNG';
-                        buyBtn.style.background = '#e9ecef';
-                        buyBtn.style.color = '#888';
-                        buyBtn.style.cursor = 'not-allowed';
-                        document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-warning">Hết hàng</span>';
+            function updateVariantInfo() {
+                    if (selectedRam && selectedSsd) {
+                        const variant = bienThes.find(v => v.ram === selectedRam && v.ssd === selectedSsd);
+                        if (variant) {
+                            document.getElementById('selected_variant').value = variant.id;
+                            document.getElementById('bienthe-info').style.display = 'block';
+                            document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
+                            const salePriceElement = document.getElementById('bienthe-sale-price');
+                            if (salePriceElement && variant.salePrice < variant.price) {
+                                salePriceElement.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                                salePriceElement.parentElement.style.display = 'block';
+                            } else {
+                                if (salePriceElement) salePriceElement.parentElement.style.display = 'none';
+                            }
+                            // Thêm số lượng Flash Sale (giả sử lấy từ salePrice hoặc dữ liệu khác)
+                            const saleStockElement = document.getElementById('bienthe-sale-stock');
+                            if (saleStockElement && variant.salePrice > 0) {
+                                // Giả sử số lượng Flash Sale được lấy từ một trường mới hoặc logic backend
+                                saleStockElement.textContent = variant.stock + ' sản phẩm'; // Thay bằng dữ liệu thực tế nếu có
+                                saleStockElement.parentElement.style.display = 'block';
+                            } else {
+                                if (saleStockElement) saleStockElement.parentElement.style.display = 'none';
+                            }
+                            document.getElementById('bienthe-stock').textContent = variant.stock + ' sản phẩm';
+
+                            // Disable nút nếu hết hàng
+                            const addBtn = document.querySelector('.btn-outline-danger');
+                            const buyBtn = document.getElementById('buy-now-btn');
+                            if (parseInt(variant.stock) <= 0) {
+                                addBtn.disabled = true;
+                                addBtn.textContent = 'HẾT HÀNG';
+                                addBtn.style.background = '#e9ecef';
+                                addBtn.style.color = '#888';
+                                addBtn.style.cursor = 'not-allowed';
+                                buyBtn.disabled = true;
+                                buyBtn.textContent = 'HẾT HÀNG';
+                                buyBtn.style.background = '#e9ecef';
+                                buyBtn.style.color = '#888';
+                                buyBtn.style.cursor = 'not-allowed';
+                                document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-warning">Hết hàng</span>';
+                            } else {
+                                addBtn.disabled = false;
+                                addBtn.textContent = 'THÊM VÀO GIỎ';
+                                addBtn.style.background = '';
+                                addBtn.style.color = '';
+                                addBtn.style.cursor = '';
+                                buyBtn.disabled = false;
+                                buyBtn.textContent = 'MUA NGAY';
+                                buyBtn.style.background = '';
+                                buyBtn.style.color = '';
+                                buyBtn.style.cursor = '';
+                                document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-success">Còn hàng</span>';
+                            }
+                        } else {
+                            document.getElementById('selected_variant').value = '';
+                            document.getElementById('bienthe-info').style.display = 'none';
+                        }
                     } else {
-                        addBtn.disabled = false;
-                        addBtn.textContent = 'THÊM VÀO GIỎ';
-                        addBtn.style.background = '';
-                        addBtn.style.color = '';
-                        addBtn.style.cursor = '';
-                        buyBtn.disabled = false;
-                        buyBtn.textContent = 'MUA NGAY';
-                        buyBtn.style.background = '';
-                        buyBtn.style.color = '';
-                        buyBtn.style.cursor = '';
-                        document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-success">Còn hàng</span>';
+                        document.getElementById('selected_variant').value = '';
+                        document.getElementById('bienthe-info').style.display = 'none';
                     }
-                } else {
-                    document.getElementById('selected_variant').value = '';
-                    document.getElementById('bienthe-info').style.display = 'none';
                 }
             } else {
-                document.getElementById('selected_variant').value = '';
-                document.getElementById('bienthe-info').style.display = 'none';
+                // Không có biến thể: giá và tồn kho đã được hiển thị tĩnh trong Blade
+                const productStock = product.dataset.stock;
+
+                // Disable nút nếu hết hàng
+                const addBtn = document.querySelector('.btn-outline-danger');
+                const buyBtn = document.getElementById('buy-now-btn');
+                if (parseInt(productStock) <= 0) {
+                    addBtn.disabled = true;
+                    addBtn.textContent = 'HẾT HÀNG';
+                    addBtn.style.background = '#e9ecef';
+                    addBtn.style.color = '#888';
+                    addBtn.style.cursor = 'not-allowed';
+                    buyBtn.disabled = true;
+                    buyBtn.textContent = 'HẾT HÀNG';
+                    buyBtn.style.background = '#e9ecef';
+                    buyBtn.style.color = '#888';
+                    buyBtn.style.cursor = 'not-allowed';
+                    document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-warning">Hết hàng</span>';
+                } else {
+                    addBtn.disabled = false;
+                    addBtn.textContent = 'THÊM VÀO GIỎ';
+                    addBtn.style.background = '';
+                    addBtn.style.color = '';
+                    addBtn.style.cursor = '';
+                    buyBtn.disabled = false;
+                    buyBtn.textContent = 'MUA NGAY';
+                    buyBtn.style.background = '';
+                    buyBtn.style.color = '';
+                    buyBtn.style.cursor = '';
+                    document.getElementById('tinhtrang-span').innerHTML = '<span class="fw-bold text-success">Còn hàng</span>';
+                }
             }
-        }
 
         // Tăng giảm số lượng với kiểm tra tồn kho
         document.getElementById('qty-minus').onclick = function() {
@@ -1211,58 +1302,86 @@
 
         document.getElementById('qty-plus').onclick = function() {
             var qty = document.getElementById('so_luong');
-            const selectedVariantId = document.getElementById('selected_variant').value;
+            const selectedVariantId = document.getElementById('selected_variant')?.value;
 
-            if (selectedVariantId) {
-                const variant = bienThes.find(v => v.id === selectedVariantId);
-                if (variant) {
-                    const maxStock = parseInt(variant.stock);
-                    if (parseInt(qty.value) < maxStock) {
-                        qty.value = parseInt(qty.value) + 1;
-                    } else {
-                        console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+            if (hasVariant) {
+                if (selectedVariantId) {
+                    const variant = bienThes.find(v => v.id === selectedVariantId);
+                    if (variant) {
+                        const maxStock = parseInt(variant.stock);
+                        if (parseInt(qty.value) < maxStock) {
+                            qty.value = parseInt(qty.value) + 1;
+                        } else {
+                            console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+                        }
                     }
+                } else {
+                    showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
                 }
             } else {
-                showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
+                const maxStock = parseInt(product.dataset.stock);
+                if (parseInt(qty.value) < maxStock) {
+                    qty.value = parseInt(qty.value) + 1;
+                } else {
+                    console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+                }
             }
         };
 
         document.getElementById('so_luong').addEventListener('input', function() {
-            const selectedVariantId = document.getElementById('selected_variant').value;
-            if (selectedVariantId) {
-                const variant = bienThes.find(v => v.id === selectedVariantId);
-                if (variant) {
-                    const maxStock = parseInt(variant.stock);
-                    let currentQty = parseInt(this.value);
+            const selectedVariantId = document.getElementById('selected_variant')?.value;
+            let maxStock = 0;
 
-                    if (isNaN(currentQty) || currentQty < 1) {
-                        this.value = 1;
-                        showToast('Số lượng tối thiểu là 1!', 'error');
-                    } else if (currentQty > maxStock) {
-                        this.value = maxStock;
-                        console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
+            if (hasVariant) {
+                if (selectedVariantId) {
+                    const variant = bienThes.find(v => v.id === selectedVariantId);
+                    if (variant) {
+                        maxStock = parseInt(variant.stock);
                     }
+                } else {
+                    this.value = 1;
+                    showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
+                    return;
                 }
             } else {
+                maxStock = parseInt(product.dataset.stock);
+            }
+
+            let currentQty = parseInt(this.value);
+            if (isNaN(currentQty) || currentQty < 1) {
                 this.value = 1;
-                showToast('Vui lòng chọn cấu hình sản phẩm trước!', 'error');
+                showToast('Số lượng tối thiểu là 1!', 'error');
+            } else if (currentQty > maxStock) {
+                this.value = maxStock;
+                console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm`);
             }
         });
 
         // Xử lý nút MUA NGAY
         document.getElementById('buy-now-btn').addEventListener('click', function() {
-            const selectedVariant = document.getElementById('selected_variant').value;
+            let selectedVariant = '';
+            if (hasVariant) {
+                selectedVariant = document.getElementById('selected_variant')?.value;
+            }
             const soLuong = parseInt(document.getElementById('so_luong').value);
 
-            if (!selectedVariant) {
+            if (hasVariant && !selectedVariant) {
                 showToast('Vui lòng chọn cấu hình sản phẩm trước khi mua!', 'error');
                 return;
             }
 
-            const variant = bienThes.find(v => v.id === selectedVariant);
-            if (variant && soLuong > parseInt(variant.stock)) {
-                console.log(`Số lượng không được vượt quá ${variant.stock} sản phẩm!`);
+            let maxStock = 0;
+            if (hasVariant) {
+                const variant = bienThes.find(v => v.id === selectedVariant);
+                if (variant) {
+                    maxStock = parseInt(variant.stock);
+                }
+            } else {
+                maxStock = parseInt(product.dataset.stock);
+            }
+
+            if (soLuong > maxStock) {
+                console.log(`Số lượng không được vượt quá ${maxStock} sản phẩm!`);
                 return;
             }
 

@@ -35,7 +35,20 @@ class UserController extends Controller
                 'email' => 'required|email|max:255|unique:users,email,' . $user->id,
                 'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap,' . $user->id . ',id',
                 'trang_thai' => 'required|in:hoat_dong,vo_hieu,an',
-            ]);
+            ],
+        [
+            'ho_ten.required' => 'Họ tên không được để trống.',
+            'ho_ten.max' => 'Họ tên không được vượt quá 100 ký tự.',
+            'so_dien_thoai.required' => 'Số điện thoại không được để trống.',
+            'so_dien_thoai.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.max' => 'Email không được vượt quá 255 ký tự.',
+            'ten_dang_nhap.required' => 'Tên đăng nhập không được để trống.',
+            'ten_dang_nhap.max' => 'Tên đăng nhập không được vượt quá 50 ký tự.',
+            'trang_thai.required' => 'Trạng thái không được để trống.',
+            'trang_thai.in' => 'Trạng thái không hợp lệ.',
+        ]);
 
             // Chỉ cập nhật thông tin cá nhân, không thay đổi vai trò
             $user->update($request->only('ho_ten', 'so_dien_thoai', 'email', 'ten_dang_nhap', 'trang_thai'));
@@ -51,8 +64,23 @@ class UserController extends Controller
             'vai_tro' => 'required|in:quan_tri,khach_hang',
             'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap,' . $user->id . ',id',
             'trang_thai' => 'required|in:hoat_dong,vo_hieu,an',
-        ]);
-
+        ],
+    [
+        'ho_ten.required' => 'Họ tên không được để trống.',
+        'ho_ten.max' => 'Họ tên không được vượt quá 100 ký tự.',
+        'so_dien_thoai.required' => 'Số điện thoại không được để trống.',
+        'so_dien_thoai.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+        'email.required' => 'Email không được để trống.',
+        'email.email' => 'Email không hợp lệ.',
+        'email.max' => 'Email không được vượt quá 255 ký tự.',
+        'ten_dang_nhap.required' => 'Tên đăng nhập không được để trống.',
+        'ten_dang_nhap.max' => 'Tên đăng nhập không được vượt quá 50 ký tự.',
+        'trang_thai.required' => 'Trạng thái không được để trống.',
+        'trang_thai.in' => 'Trạng thái không hợp lệ.',
+        'vai_tro.required' => 'Vai trò không được để trống.',
+        'vai_tro.in' => 'Vai trò không hợp lệ',
+    ]);
+    
         // Thử cập nhật thông tin user
         try {
             $user->update($request->only('ho_ten', 'so_dien_thoai', 'email', 'vai_tro', 'ten_dang_nhap', 'trang_thai'));

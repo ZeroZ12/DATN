@@ -78,7 +78,7 @@ $request->validate([
     'ho_ten' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\'\p{L}]+$/u',
     'email' => 'required|email|unique:users,email',
     'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,so_dien_thoai',
-    'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/|confirmed',
+    'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/|confirmed',
 ], [
     'ten_dang_nhap.required' => 'Không được bỏ trống tên đăng nhập.',
     'ten_dang_nhap.max' => 'Tên đăng nhập không được vượt quá 50 ký tự.',
@@ -100,7 +100,7 @@ $request->validate([
 
     'password.required' => 'Không được bỏ trống mật khẩu.',
     'password.min' => 'Mật khẩu phải trên 8 ký tự.',
-    'password.regex' => 'Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt.',
+    'password.regex' => 'Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt(@$!%*?&_).',
     'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
 ]);
 

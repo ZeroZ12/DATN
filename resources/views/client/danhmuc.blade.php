@@ -321,7 +321,7 @@
                                         class="product-link"></a>
                                 </div>
                             @empty
-                                <div class="col-12">
+                                <div class="col-12 col-md-12">
                                     <div class="text-center py-5">
                                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
                                         <h5 class="text-muted">Không tìm thấy sản phẩm nào</h5>
@@ -1073,11 +1073,25 @@
             background: #e3f2fd;
             color: #007bff !important;
         }
+        /* Đảm bảo phần empty chiếm toàn bộ chiều rộng trên mobile */
+        @media (max-width: 767.98px) {
+            .products-grid .col-12 {
+                grid-column: 1 / -1; /* Chiếm toàn bộ cột trong grid */
+                width: 100%;
+            }
+        }
+
+        /* Đảm bảo .products-grid không ảnh hưởng khi empty */
+        .products-grid:empty,
+        .products-grid > :only-child {
+            display: block; /* Hoặc flex nếu cần */
+            width: 100%;
+        }
     </style>
 @endpush
 
 <!-- Đặt script filter trực tiếp để luôn nhận được hàm applyFilters -->
-@push('scripts')
+@push('js')
     <script>
         function applyFilters() {
             // Lấy tất cả checkbox thương hiệu và giá

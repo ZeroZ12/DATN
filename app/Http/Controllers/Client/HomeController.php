@@ -2,27 +2,28 @@
 
 namespace App\Http\Controllers\Client; // Lưu ý namespace có thể là App\Http\Controllers nếu bạn không dùng Client subfolder
 
-use App\Http\Controllers\Controller;
-use App\Models\Banner;
-use App\Models\Chip;
 use App\Models\Gpu;
-use App\Models\OCung;
 use App\Models\Ram;
-use App\Models\SanPham;    // Đảm bảo import Model SanPham
-use App\Models\ThuongHieu;
+use App\Models\Chip;
+use App\Models\OCung;
+use App\Models\Banner;
+use App\Models\SuKien;
 use App\Models\DanhMuc;
 use App\Models\GioHang;
-use App\Models\ChiTietGioHang;
-use App\Models\BienTheSanPham;
-use App\Models\SuKien;
-use App\Models\SuKienSanPham;
+use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
+use App\Models\SuKienSanPham;
+use App\Models\BienTheSanPham;
+use App\Models\ChiTietGioHang;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SanPham;    // Đảm bảo import Model SanPham
 
 class HomeController extends Controller
-{
+{  
     public function index(Request $request)
-    {
+    {   
         // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters
         if ($request->filled('san_pham_id') && $request->filled('so_luong')) {
             return $this->addToCart($request);
@@ -91,7 +92,7 @@ class HomeController extends Controller
         ->pluck('id')
         ->toArray();
 
-        return view('client.home', compact('sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates','activeSaleEvents'));
+        return view('client.home', compact('activeSaleEvents','sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
     public function addToCart(Request $request)

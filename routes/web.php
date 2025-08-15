@@ -37,6 +37,8 @@ use App\Http\Controllers\Client\SanPhamController as ClientSanPhamController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Client\YeuCauHoanTraController as ClientYCHT;
 use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
+use App\Http\Controllers\ProductSearchController;
+
 
 
 // Route::middleware('auth')->group(function () {
@@ -349,3 +351,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
 Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');
 Route::get('/search', [SearcherController::class, 'search'])->name('searcher.search'); // Thêm route tìm kiếm
+
+use App\Http\Controllers\ChatController;
+
+Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
