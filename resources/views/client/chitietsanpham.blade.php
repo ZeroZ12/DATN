@@ -254,6 +254,24 @@
             margin-bottom: 10px;
         }
 
+        .flash-sale-badge {
+            background: #ff4500;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .flash-sale-timer {
+            font-size: 14px;
+            color: #ff4500;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
         .product-rating {
             display: flex;
             align-items: center;
@@ -376,21 +394,20 @@
             height: calc(100% - 60px);
             z-index: 1;
         }
- .collapsed-mo-ta {
-    display: -webkit-box;
-    -webkit-line-clamp: 4; /* ← Đổi từ 3 sang 4 dòng */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    position: relative;
-    max-height: 7.2em; /* ← Tăng theo dòng (4 x 1.8em) */
-}
 
-.expanded-mo-ta {
-    display: block;
-    max-height: none;
-}
+        .collapsed-mo-ta {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            position: relative;
+            max-height: 7.2em;
+        }
 
-
+        .expanded-mo-ta {
+            display: block;
+            max-height: none;
+        }
 
         @media (max-width: 1200px) {
             .products-grid {
@@ -519,7 +536,8 @@
         .card-subtitle .far.fa-star {
             color: #ccc;
         }
-        span{
+
+        span {
             font-size: 14px;
         }
     </style>
@@ -578,7 +596,6 @@
                     <span class="me-3">Tình trạng: <span id="tinhtrang-span">
                         @php
                             if ($sanpham->co_bien_the) {
-                                // Nếu có biến thể, kiểm tra tất cả biến thể đều hết hàng thì mới coi là hết hàng
                                 $allVariantsOut = $sanpham->bienTheSanPhams->count() > 0 && $sanpham->bienTheSanPhams->every(function($bt){ return $bt->ton_kho <= 0; });
                                 $isOutOfStock = $allVariantsOut;
                             } else {
@@ -592,6 +609,17 @@
                         @endif
                     </span></span>
                 </div>
+
+                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                    <div class="flash-sale-info mb-3">
+                        <span class="flash-sale-badge">
+                            <i class="fas fa-bolt"></i> FLASH SALE
+                        </span>
+                        <div class="flash-sale-timer" id="flash-sale-timer">
+                            Kết thúc sau: <span id="countdown-timer"></span>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="d-md-flex gap-3">
                     <div class="flex-fill" style="min-width:0;">
@@ -635,8 +663,10 @@
 
                             <div id="bienthe-info" class="mb-3" style="display: none;">
                                 <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span>
-                                </p>
+                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                                    <p><strong>Giá FLASH SALE:</strong> <span id="bienthe-sale-price" class="text-danger fw-bold"></span></p>
+                                @endif
+                                <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
                             </div>
 
                             <div class="mb-3">
@@ -664,10 +694,22 @@
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
                             <div class="mb-3">
                                 <label class="form-label"><strong>Giá:</strong></label>
-                                <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">{{ number_format($sanpham->gia) }}₫</div>
+                                <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">
+                                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                                        <span class="old-price">{{ number_format($sanpham->gia) }}₫</span><br>
+                                        <span>{{ number_format($activeSaleEvent->gia_su_kien) }}₫</span>
+                                    @else
+                                        {{ number_format($sanpham->gia) }}₫
+                                    @endif
+                                </div>
                             </div>
                             <div class="mb-3">
-                                <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p>
+                                {{-- @if ($activeSaleEvents->so_luong > 0) 
+                                   <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $activeSaleEvents->so_luong_gioi_han }} sản phẩm</span></p> 
+                                @else
+                                   <p><strong>Tồn kho:</strong> <span class="text-danger fw-bold">Hết hàng</span></p>
+                                @endif --}}
+                                    <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p> 
                             </div>
                             <div class="mb-3">
                                 <label class="form-label"><strong>Số lượng:</strong></label>
@@ -719,17 +761,15 @@
         <hr>
 
         <div class="row mt-5">
-      <div class="col-md-8">
-    <div class="bg-light p-3 rounded mb-4 position-relative">
-        <h5 class="fw-bold">Thông tin sản phẩm</h5>
-        <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
-        <div class="text-end mt-2">
-            <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
-        </div>
-    </div>
-</div>
-
-
+            <div class="col-md-8">
+                <div class="bg-light p-3 rounded mb-4 position-relative">
+                    <h5 class="fw-bold">Thông tin sản phẩm</h5>
+                    <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
+                    <div class="text-end mt-2">
+                        <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-md-4">
                 <div class="bg-light p-3 rounded">
@@ -884,16 +924,24 @@
                             }) ?? $sp->BienTheSanPhams->first();
                             $gia = $bienThe ? $bienThe->gia : 0;
                             $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                            $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
+                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
                         } else {
                             $bienThe = null;
                             $gia = $sp->gia;
                             $gia_so_sanh = $sp->gia_so_sanh;
+                            $saleEvent = $activeSaleEvents->firstWhere('san_pham_id', $sp->id);
+                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
                         }
                     @endphp
 
                     <div class="product-card">
                         <div class="product-badges">
-                            @if ($sp->is_hot)
+                            @if ($saleEvent && $saleEvent->suKien->ngay_ket_thuc >= now())
+                                <span class="flash-sale-badge">
+                                    <i class="fas fa-bolt"></i> FLASH SALE
+                                </span>
+                            @elseif ($sp->is_hot)
                                 <span class="product-badge hot-badge">
                                     <i class="fas fa-gift"></i> Quà tặng HOT
                                 </span>
@@ -919,10 +967,21 @@
                                     <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
                                 @endif
                                 <div class="current-price-wrapper">
-                                    <div class="current-price">{{ number_format($gia) }}₫</div>
+                                    <div class="current-price">
+                                        @if ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                            <span class="old-price">{{ number_format($gia) }}₫</span><br>
+                                            {{ number_format($gia_khuyen_mai) }}₫
+                                        @else
+                                            {{ number_format($gia) }}₫
+                                        @endif
+                                    </div>
                                     @if ($gia_so_sanh && $gia_so_sanh > $gia)
                                         <div class="discount-badge">
                                             -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
+                                        </div>
+                                    @elseif ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                        <div class="discount-badge">
+                                            -{{ round((100 * ($gia - $gia_khuyen_mai)) / $gia) }}%
                                         </div>
                                     @endif
                                 </div>
@@ -976,6 +1035,38 @@
                 }
             }, 3000);
         }
+
+        // Countdown timer cho Flash Sale
+        @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+            function startCountdown(endTime) {
+                const timerElement = document.getElementById('countdown-timer');
+                if (!timerElement) return;
+
+                function updateTimer() {
+                    const now = new Date();
+                    const end = new Date(endTime);
+                    const diff = end - now;
+
+                    if (diff <= 0) {
+                        timerElement.textContent = 'Đã kết thúc';
+                        return;
+                    }
+
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+
+                updateTimer();
+                setInterval(updateTimer, 1000);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                startCountdown('{{ $activeSaleEvent->suKien->ngay_ket_thuc }}');
+            });
+        @endif
 
         // Biến theo dõi trạng thái animation
         let isAnimating = false;
@@ -1032,6 +1123,10 @@
                     ram: '{{ $bienThe->ram->dung_luong ?? '' }}',
                     ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
                     price: '{{ $bienThe->gia }}',
+                    salePrice: '@php
+                        $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
+                        echo $saleEvent ? $saleEvent->gia_khuyen_mai : $bienThe->gia;
+                    @endphp',
                     stock: '{{ $bienThe->ton_kho }}'
                 },
             @endforeach
@@ -1064,6 +1159,9 @@
                     document.getElementById('selected_variant').value = variant.id;
                     document.getElementById('bienthe-info').style.display = 'block';
                     document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
+                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                        document.getElementById('bienthe-sale-price').textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                    @endif
                     document.getElementById('bienthe-stock').textContent = variant.stock + ' sản phẩm';
                     // Disable nút nếu hết hàng
                     const addBtn = document.querySelector('.btn-outline-danger');
@@ -1407,20 +1505,21 @@
                 });
             });
         });
-   document.getElementById('btnToggleMoTa').addEventListener('click', function () {
-        const moTa = document.getElementById('moTaSanPham');
-        const btn = this;
 
-        if (moTa.classList.contains('collapsed-mo-ta')) {
-            moTa.classList.remove('collapsed-mo-ta');
-            moTa.classList.add('expanded-mo-ta');
-            btn.textContent = 'Thu gọn';
-        } else {
-            moTa.classList.remove('expanded-mo-ta');
-            moTa.classList.add('collapsed-mo-ta');
-            btn.textContent = 'Xem thêm';
-        }
-    });
+        document.getElementById('btnToggleMoTa').addEventListener('click', function() {
+            const moTa = document.getElementById('moTaSanPham');
+            const btn = this;
+
+            if (moTa.classList.contains('collapsed-mo-ta')) {
+                moTa.classList.remove('collapsed-mo-ta');
+                moTa.classList.add('expanded-mo-ta');
+                btn.textContent = 'Thu gọn';
+            } else {
+                moTa.classList.remove('expanded-mo-ta');
+                moTa.classList.add('collapsed-mo-ta');
+                btn.textContent = 'Xem thêm';
+            }
+        });
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

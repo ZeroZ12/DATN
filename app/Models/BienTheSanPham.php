@@ -23,10 +23,20 @@ class BienTheSanPham extends Model
 
     public function suKien()
     {
-        return $this->belongsToMany(SuKien::class, 'su_kien_san_pham', 'id_bien_the_san_pham', 'id_su_kien')
-                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit', 'hien_thi')
+        return $this->belongsToMany(SuKien::class, 'su_kien_san_phams', 'id_bien_the_san_pham', 'id_su_kien')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'so_luong_gioi_han', 'hien_thi')
                     ->withTimestamps();
     }
+
+    public function suKienDangHoatDong()
+    {
+        return $this->suKien()
+            ->where('su_kien_san_phams.hien_thi', true)
+            ->where('ngay_ket_thuc', '>=', now())
+            ->orderBy('ngay_bat_dau', 'desc')
+            ->first();
+    }
+
 
     // Quan hệ với bảng RAM
     public function ram()

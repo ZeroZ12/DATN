@@ -14,7 +14,7 @@ use App\Models\ThuongHieu;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Models\DanhGiaSanPham;
-
+use App\Models\SuKienSanPham;
 
 class SanPhamController extends Controller
 {
@@ -203,17 +203,37 @@ class SanPhamController extends Controller
             ->take(10)
             ->get();
 
-   $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
-    ->limit(5)
-    ->pluck('id')
-    ->toArray();
+        $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+            ->limit(5)
+            ->pluck('id')
+            ->toArray();
+
+        $activeSaleEvent = SuKienSanPham::with('suKien')
+            ->where('id_san_pham', $id)
+            ->whereHas('suKien', function ($query) {
+                $query->where('ngay_bat_dau', '<=', now())
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->where('hien_thi', 1);
+            })
+            ->first();
+
+        $activeSaleEvents = SuKienSanPham::with('sanPham', 'bienTheSanPham')
+            ->whereHas('suKien', function ($query) {
+                $query->where('ngay_bat_dau', '<=', now())
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->where('hien_thi', 1);
+            })
+            ->get();
+            
         return view('client.chitietsanpham', compact(
             'sanPhamBanChay',
             'sanpham',
             'sanphamTuongTu',
             'bienTheSanPhams',
             'averageRating', // Truyền biến này sang view
-            'totalReviews' // Truyền biến này sang view
+            'totalReviews', // Truyền biến này sang view
+            'activeSaleEvent',
+            'activeSaleEvents'
         ));
     }
 }

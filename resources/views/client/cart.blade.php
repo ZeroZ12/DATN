@@ -21,6 +21,7 @@
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
           @php
+          // dd($item->bienTheSanPham);
             $ram = isset($item->bienTheSanPham->ram) && $item->bienTheSanPham->ram ? 'RAM: ' . $item->bienTheSanPham->ram->dung_luong : null;
             $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'SSD: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
           @endphp
@@ -39,10 +40,43 @@
           </div>
         </div>
         <div class="text-end">
-          <div class="cart-item-price">{{ number_format($item->bienTheSanPham->gia ?? $item->sanPham->gia) }}₫</div>
+          @php
+            $flashSalePrice = null;
+            $originalPrice = $item->bienTheSanPham->gia ?? $item->sanPham->gia; 
+
+            $now = now();
+            $flashSale = \App\Models\SuKienSanPham::with('SuKien')
+              ->where('hien_thi', true)
+              ->whereHas('suKien', function ($q) use ($now) {
+                  $q->where('ngay_bat_dau', '<=', $now)
+                    ->where('ngay_ket_thuc', '>=', $now);
+              })
+              ->where(function ($q) use ($item) {
+                  $q->where('id_san_pham', $item->sanPham->id);
+                  if (!empty($item->id_bien_the) || !empty($item->bienTheSanPham->id)) {
+                      // bạn có thể dùng $item->id_bien_the hoặc $item->bienTheSanPham->id tùy trường trong DB
+                      $q->orWhere('id_bien_the_san_pham', $item->id_bien_the ?? $item->bienTheSanPham->id);
+                  }
+              })
+              ->first();
+
+            if ($flashSale) {
+              $SLFlashSale = $gioHang->chiTietGioHangs
+                ->where('id_product', $item->id_product)
+                ->where('id_bien_the', $item->id_bien_the)
+                ->sum('so_luong');
+              $flashSalePrice = $SLFlashSale< $flashSale->so_luong_gioi_han ? $flashSale->gia_su_kien : null;
+            }
+            $price = $flashSalePrice ?? $originalPrice;
+          @endphp
+          <div class="cart-item-price">{{ number_format($price) }}₫</div>
+          @if($originalPrice > $price)
+            <div class="cart-item-old">{{ number_format($originalPrice) }}₫</div>
+          @endif
+          {{-- <div class="cart-item-price">{{ number_format($item->bienTheSanPham->gia ?? $item->sanPham->gia) }}₫</div>
           @if(($item->bienTheSanPham->gia_so_sanh ?? $item->sanPham->gia_so_sanh) > ($item->bienTheSanPham->gia ?? $item->sanPham->gia))
             <div class="cart-item-old">{{ number_format($item->bienTheSanPham->gia_so_sanh ?? $item->sanPham->gia_so_sanh) }}₫</div>
-          @endif
+          @endif --}}
         </div>
       </div>
       @endforeach

@@ -16,10 +16,60 @@ use App\Models\BienTheSanPham;
 use App\Models\ChiTietGioHang;
 use App\Models\DiaChiNguoiDung;
 use App\Models\DonHang;
+use App\Models\SuKienSanPham;
 use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
+    public function getprice($sanPhamId, $bienTheId = null) {
+        $gioHang = GioHang::where('id_user', Auth::id())
+            ->where('loai', 'chinh')
+            ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe.ram', 'chiTietGioHangs.bienThe.oCung', 'maGiamGia'])
+            ->first();
+
+        $now = now();
+
+        $flashSale = SuKienSanPham::with('suKien')
+            ->where('hien_thi', 1)
+            ->whereHas('suKien', function ($q) use ($now) {
+                $q->where('ngay_bat_dau', '<=', $now)
+                ->where('ngay_ket_thuc', '>=', $now);
+            })
+            ->where(function ($q) use ($sanPhamId, $bienTheId) {
+                $q->where('id_san_pham', $sanPhamId);
+                if (!empty($bienTheId)) {
+                    $q->orWhere('id_bien_the_san_pham', $bienTheId);
+                }
+            })
+            ->first();
+
+        $originalPrice = $bienTheId
+            ? (BienTheSanPham::find($bienTheId)->gia ?? 0)
+            : (SanPham::find($sanPhamId)->gia ?? 0);
+
+        if (! $flashSale) {
+            return $originalPrice;
+        }
+
+        // if ($flashSale) {
+            $SLFlashSale = ChiTietGioHang::where('id_product', $sanPhamId)
+                ->where('id_bien_the', $bienTheId)
+                ->where('id_gio_hang', $gioHang->id)
+                ->sum('so_luong');
+
+            if ($SLFlashSale >= ($flashSale->so_luong_gioi_han ?? 0)) {
+            // đã vượt hạn mức -> trả về giá gốc
+            return $originalPrice;
+        }
+
+        return $flashSale->gia_su_kien;
+
+        // }
+        // return $bienTheId 
+        //     ? BienTheSanPham::findOrFail($bienTheId)->gia 
+        //     : SanPham::findOrFail($sanPhamId)->gia ?? 0;
+    }
+
     public function index()
     {
         $gioHang = GioHang::where('id_user', Auth::id())
@@ -35,8 +85,34 @@ class CartController extends Controller
         }
 
         $total = 0;
+
         foreach ($gioHang->chiTietGioHangs as $item) {
-            $total += $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
+
+            $gia = null;
+
+            if ($item->bienThe && $item->bienThe->SuKienSanPham) {
+                $SuKien = $item->bienThe->SuKienSanPham->SuKien;
+                if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
+                    $gia = $item->bienThe->SuKienSanPham->gia_su_kien;
+                }
+            } else {
+                $gia = $this->getprice($item->id_product, $item->id_bien_the);
+            }
+
+            if ($item->sanPham && $item->sanPham->SuKienSanPham) {
+                $SuKien = $item->sanPham->SuKienSanPham->SuKien;
+                if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
+                    $gia = $item->sanPham ->SuKienSanPham->gia_su_kien;
+                }
+            } else {
+                $gia = $this->getprice($item->id_product, $item->id_san_pham);
+            }
+
+            if (!$gia) {
+                $gia = $item->bienThe->gia ?? $item->sanPham->gia;
+            }
+
+            $total += $item->so_luong * $gia;
         }
 
         $maGiamGias = MaGiamGia::where('hoat_dong', true)->get();
@@ -370,17 +446,46 @@ class CartController extends Controller
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống!');
         }
 
-        $chiTietGioHang = ChiTietGioHang::with(['sanPham', 'bienThe'])
-            ->where('id_gio_hang', $gioHang->id)
-            ->get();
+        $chiTietGioHang = ChiTietGioHang::with([
+            'sanPham.suKien',
+            'bienThe.suKien'
+        ])
+        ->where('id_gio_hang', $gioHang->id)
+        ->get();
 
         if ($chiTietGioHang->isEmpty()) {
             return redirect()->route('client.cart.index')->with('error', 'Giỏ hàng trống!');
         }
 
         // Tính tổng tiền gốc
-        $tongTienGoc = $chiTietGioHang->sum(function ($item) {
-            return $item->gia * $item->so_luong;
+        $now = now();
+        $tongTienGoc = $chiTietGioHang->sum(function ($item) use ($now) {
+            // Mặc định lấy giá gốc
+            $gia = null;
+
+            if ($item->bienThe && $item->bienThe->SuKienSanPham) {
+                $SuKien = $item->bienThe->SuKienSanPham->SuKien;
+                if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
+                    $gia = $item->bienThe->SuKienSanPham->gia_su_kien;
+                }
+            } else {
+                $gia = $this->getprice($item->id_product, $item->id_bien_the);
+            }
+
+            if ($item->sanPham && $item->sanPham->SuKienSanPham) {
+                $SuKien = $item->sanPham->SuKienSanPham->SuKien;
+                if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
+                    $gia = $item->sanPham ->SuKienSanPham->gia_su_kien;
+                }
+            } else {
+                $gia = $this->getprice($item->id_product, $item->id_san_pham);
+            }
+
+            if (!$gia) {
+                $gia = $item->bienThe->gia ?? $item->sanPham->gia;
+            }
+
+            return $gia * $item->so_luong;
         });
 
         // Tính toán giảm giá nếu có mã giảm giá
@@ -676,7 +781,24 @@ class CartController extends Controller
             // Get cart
             $gioHang = GioHang::where('id_user', Auth::id())
                 ->where('loai', 'chinh')
-                ->with(['chiTietGioHangs.sanPham', 'chiTietGioHangs.bienThe', 'maGiamGia'])
+                ->with([
+                    'chiTietGioHangs.sanPham.suKien' => function ($q) {
+                    $q->where('su_kien_san_phams.hien_thi', 1)
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->orderByDesc('ngay_bat_dau');
+                    },
+                    'chiTietGioHangs.bienThe.suKien' => function ($q) {
+                    $q->where('su_kien_san_phams.hien_thi', 1)
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->orderByDesc('ngay_bat_dau');
+                    },
+                // ,
+                //     'chiTietGioHangs.sanPham'
+                // ,
+                //     'chiTietGioHangs.bienThe'
+                
+                    'maGiamGia'
+                ])
                 ->first();
 
             if (!$gioHang || $gioHang->chiTietGioHangs->isEmpty()) {
@@ -704,7 +826,20 @@ class CartController extends Controller
 
             // Calculate total
             $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
-                return $item->gia * $item->so_luong;
+                $giaSuKien = null;
+                if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
+                    $suKien = $item->sanPham->suKien->first();
+                        if (
+                            $suKien->pivot &&
+                            $suKien->hien_thi &&
+                            $suKien->ngay_bat_dau <= now() &&
+                            $suKien->ngay_ket_thuc >= now()
+                        ) {
+                            $giaSuKien = $suKien->pivot->gia_su_kien;
+                        }
+                    }
+                $giaThucTe = $giaSuKien ?? $item->gia;
+                return $giaThucTe * $item->so_luong;
             })->sum();
 
             // Tính toán giảm giá nếu có mã giảm giá
@@ -739,13 +874,20 @@ class CartController extends Controller
 
             // Create order details
             foreach ($gioHang->chiTietGioHangs as $item) {
+                $giaSuKien = null;
+
+                if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
+                    $giaSuKien = $item->sanPham->suKien->first()->pivot->gia_su_kien;
+                }
+                $giaThucTe = $giaSuKien ?? $item->gia;
+
                 $donHang->chiTietDonHangs()->create([
                     'id_product' => $item->id_product,
                     'id_bien_the' => $item->id_bien_the,
                     'ten_hien_thi' => $item->sanPham->ten,
                     'ten_san_pham_tai_thoi_diem' => $item->sanPham->ten,
                     'so_luong' => $item->so_luong,
-                    'don_gia' => $item->gia,
+                    'don_gia' => $giaThucTe,
                     'bao_hanh_thang' => $item->sanPham->bao_hanh_thang
                 ]);
             }

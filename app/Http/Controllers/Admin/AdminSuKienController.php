@@ -177,7 +177,8 @@ class AdminSuKienController extends Controller
             'id_bien_the_san_pham.*' => 'exists:bien_the_san_phams,id', 
             'gia_su_kien' => 'required|array', 
             'gia_su_kien.*' => 'numeric|min:0', 
-            'ngay_bat_dau' => 'required|date|after_or_equal:today', 
+            // 'ngay_bat_dau' => 'required|date|after_or_equal:today', 
+            'ngay_bat_dau' => 'required|date', 
             'ngay_ket_thuc' => 'required|date|after:ngay_bat_dau', 
             'so_luong_gioi_han' => 'nullable|array', 
             'so_luong_gioi_han.*' => [
@@ -206,7 +207,7 @@ class AdminSuKienController extends Controller
             'ten_su_kien.max' => 'Tên sự kiện không được vượt quá 255 ký tự.',
             'ngay_bat_dau.required' => 'Ngày bắt đầu không được để trống.',
             'ngay_bat_dau.date' => 'Ngày bắt đầu phải là một ngày hợp lệ.',
-            'ngay_bat_dau.after_or_equal' => 'Ngày bắt đầu phải là ngày hôm nay hoặc sau đó.',
+            // 'ngay_bat_dau.after_or_equal' => 'Ngày bắt đầu phải là ngày hôm nay hoặc sau đó.',
             'ngay_ket_thuc.required' => 'Ngày kết thúc không được để trống.',
             'ngay_ket_thuc.date' => 'Ngày kết thúc phải là một ngày hợp lệ.',
             'ngay_ket_thuc.after' => 'Ngày kết thúc phải sau ngày bắt đầu.',

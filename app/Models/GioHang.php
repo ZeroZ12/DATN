@@ -26,13 +26,15 @@ class GioHang extends Model
     }
 
    public function chiTietGioHangs()
-{
-    return $this->hasMany(ChiTietGioHang::class, 'id_gio_hang');
-}
+    {
+        return $this->hasMany(ChiTietGioHang::class, 'id_gio_hang');
+    }
 
    public function maGiamGia()
-{
-    return $this->belongsTo(MaGiamGia::class, 'id_giam_gia');
-}
+    {
+        return $this->belongsTo(MaGiamGia::class, 'id_giam_gia');
+    }
+
+    
 
 }

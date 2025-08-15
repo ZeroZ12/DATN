@@ -17,9 +17,19 @@ class PaymentController extends Controller
                 'phuongThucThanhToan',
                 'maGiamGia',
                 'chiTietDonHangs.sanPham',
+                'chiTietDonHangs.sanPham.suKien' => function($q) {
+                    $q->where('su_kien_san_phams.hien_thi', 1)
+                    ->where('ngay_ket_thuc', '>=', now())
+                    ->orderByDesc('ngay_bat_dau');
+                },
                 'chiTietDonHangs.bienTheSanPham',
+                'chiTietDonHangs.bienTheSanPham.suKien' => function($q) {
+                    $q->where('su_kien_san_phams.hien_thi', 1)
+                    ->where('ngay_ket_thuc', '>=', now())
+                    ->orderByDesc('ngay_bat_dau');
+                },
                 'chiTietDonHangs.bienTheSanPham.ram',
-                'chiTietDonHangs.bienTheSanPham.oCung'
+                'chiTietDonHangs.bienTheSanPham.oCung',
             ])
             ->firstOrFail();
 

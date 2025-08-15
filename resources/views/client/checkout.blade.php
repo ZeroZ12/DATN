@@ -12,7 +12,7 @@
                 <div class="card-body">
                     @foreach($chiTietGioHang as $item)
                     <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                        <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}"
+                        <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}"
                              alt="{{ $item->sanPham->ten }}"
                              class="img-thumbnail"
                              style="width: 80px; height: 80px; object-fit: cover;"
@@ -20,9 +20,9 @@
                         <div class="ms-3 flex-grow-1">
                             <h6 class="mb-1">{{ $item->sanPham->ten }}</h6>
                             <p class="mb-1 text-muted small">
-                                @if($item->bienTheSanPham)
-                                    RAM: {{ $item->bienTheSanPham->ram->dung_luong ?? 'N/A' }} |
-                                    Ổ cứng: {{ $item->bienTheSanPham->oCung->dung_luong ?? 'N/A' }}
+                                @if($item->bienThe)
+                                    RAM: {{ $item->bienThe->ram->dung_luong ?? 'N/A' }} |
+                                    Ổ cứng: {{ $item->bienThe->oCung->dung_luong ?? 'N/A' }}
                                 @endif
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
@@ -31,7 +31,19 @@
                                 </div>
                                 <div class="text-end">
                                     <div class="text-danger fw-bold">{{ number_format($item->gia * $item->so_luong) }}₫</div>
-                                    <small class="text-muted">{{ number_format($item->gia) }}₫/sản phẩm</small>
+                                    @if($item->gia_hien_thi != ($item->gia ?? ($item->bienThe->gia ?? $item->sanPham->gia)))
+                                        <small class="text-success">
+                                            Giá Sale : {{ number_format($item->gia_hien_thi) }}₫
+                                        </small>
+                                        <br>
+                                        <small class="text-muted">
+                                            {{ number_format($item->gia ?? ($item->bienThe->gia ?? $item->sanPham->gia)) }}₫/sản phẩm
+                                        </small>
+                                    @else
+                                        <small class="text-muted">
+                                            {{ number_format($item->gia_hien_thi) }}₫/sản phẩm
+                                        </small>
+                                    @endif                                   
                                 </div>
                             </div>
                         </div>

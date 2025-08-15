@@ -66,7 +66,21 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $tongTienGoc = 0;
+                                        $tongTienThanhToan = 0;
+                                        $now = now();
+                                    @endphp
                                     @foreach($donHang->chiTietDonHangs as $item)
+                                    @php
+                                        $tongTienGoc += $item->don_gia * $item->so_luong;
+                                        $tongTienThanhToan += ($item->giaSuKien ? $item->giaSuKien : $item->don_gia) * $item->so_luong;
+                                        $giaSuKien = null;
+                                        if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
+                                            $giaSuKien = $item->sanPham->suKien->first()->pivot->gia_su_kien;
+                                        }
+                                        $giaHienThi = $giaSuKien ?? $item->don_gia;
+                                    @endphp
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -89,8 +103,25 @@
                                             </div>
                                         </td>
                                         <td class="text-center">{{ $item->so_luong }}</td>
-                                        <td class="text-end">{{ number_format($item->don_gia) }}₫</td>
-                                        <td class="text-end">{{ number_format($item->don_gia * $item->so_luong) }}₫</td>
+                                        <td class="text-end">
+                                            {{-- @php
+                                                $giaSuKien = null;
+                                                if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
+                                                    $giaSuKien = $item->sanPham->suKien->first()->pivot->gia_su_kien;
+                                                }
+                                                $giaHienThi = $giaSuKien ?? $item->don_gia;
+                                            @endphp --}}
+
+                                            @if($giaSuKien)
+                                                <small class="text-success">Giá KM: {{ number_format($giaSuKien) }}₫</small><br>
+                                                <small class="text-muted text-decoration-line-through">{{ number_format($item->don_gia) }}₫</small>
+                                            @else
+                                                {{ number_format($giaHienThi) }}₫
+                                            @endif
+                                        </td>
+                                        <td class="text-end">
+                                            {{ number_format(($giaSuKien ?? $item->don_gia) * $item->so_luong) }}₫
+                                        </td>                                    
                                     </tr>
                                     @endforeach
                                 </tbody>

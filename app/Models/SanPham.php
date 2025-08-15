@@ -100,8 +100,18 @@ class SanPham extends Model
 
     public function suKien()
     {
-        return $this->belongsToMany(SuKien::class, 'su_kien_san_pham', 'id_san_pham', 'id_su_kien')
-                    ->withPivot('gia_su_kien', 'gia_goc', 'quantity_limit')
+        return $this->belongsToMany(SuKien::class, 'su_kien_san_phams', 'id_san_pham', 'id_su_kien')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'so_luong_gioi_han', 'hien_thi')
                     ->withTimestamps();
     }
+
+    public function suKienDangHoatDong()
+    {
+        return $this->suKien()
+            ->where('su_kien_san_phams.hien_thi', true)
+            ->where('ngay_ket_thuc', '>=', now())
+            ->orderBy('ngay_bat_dau', 'desc')
+            ->first();
+    }
+
 }
