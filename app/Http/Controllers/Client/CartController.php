@@ -161,6 +161,31 @@ class CartController extends Controller
             // Kiểm tra tồn kho
             if ($request->bien_the_id) {
                 $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                $saleEvent = SuKienSanPham::where('id_bien_the_san_pham', $bienThe->id)
+                    ->where('hien_thi', 1)
+                    ->whereHas('suKien', function ($q) {
+                        $q->where('ngay_bat_dau', '<=', now())
+                        ->where('ngay_ket_thuc', '>=', now());
+                    })->first();
+
+                if ($saleEvent && $saleEvent->so_luong_gioi_han > 0) {
+                    $soLuongHienTaiDaBan = ChiTietGioHang::where('id_bien_the', $bienThe->id)
+                        ->whereHas('gioHang', function ($q) {
+                            $q->where('id_user', Auth::id())->where('loai', 'chinh');
+                        })->sum('so_luong');
+                    $soLuongConLaiFlashSale = $saleEvent->so_luong_gioi_han - $soLuongHienTaiDaBan;
+
+                    if ($tongSoLuongSauKhiThem > $soLuongConLaiFlashSale) {
+                        $message = 'Số lượng Flash Sale không đủ!';
+                        if ($request->ajax()) {
+                            return response()->json(['success' => false, 'message' => $message], 400);
+                        }
+                        return redirect()->back()->with('error', $message);
+                    }
+                    // Giảm số lượng Flash Sale
+                    $saleEvent->so_luong_gioi_han -= $soLuongMuonThem;
+                    $saleEvent->save();
+                }
                 if ($tongSoLuongSauKhiThem > $bienThe->ton_kho) {
                     $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
                     if ($request->ajax()) {
@@ -171,6 +196,9 @@ class CartController extends Controller
                     }
                     return redirect()->back()->with('error', $message);
                 }
+                // Giảm tồn kho
+                $bienThe->ton_kho -= $soLuongMuonThem;
+                $bienThe->save();
             } else {
                 $sanPham = SanPham::findOrFail($request->san_pham_id);
                 if ($tongSoLuongSauKhiThem > $sanPham->so_luong) {
@@ -183,6 +211,8 @@ class CartController extends Controller
                     }
                     return redirect()->back()->with('error', $message);
                 }
+                $sanPham->so_luong -= $soLuongMuonThem;
+                $sanPham->save();
             }
 
             // Nếu đủ tồn kho, tiến hành thêm vào giỏ và trừ tồn kho
@@ -224,7 +254,9 @@ class CartController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Đã thêm sản phẩm vào giỏ hàng',
-                    'cart_count' => $cartCount
+                    'cart_count' => $cartCount,
+                    'updated_stock' => $bienThe ? $bienThe->ton_kho : $sanPham->so_luong,
+                    'updated_sale_stock' => $saleEvent ? $saleEvent->so_luong_gioi_han : null
                 ]);
             }
 
@@ -703,8 +735,41 @@ class CartController extends Controller
             if ($request->bien_the_id) {
                 $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
                 $gia = $bienThe->gia;
+
+                // Kiểm tra và giảm số lượng Flash Sale nếu có
+                $saleEvent = SuKienSanPham::where('id_bien_the_san_pham', $bienThe->id)
+                    ->where('hien_thi', 1)
+                    ->whereHas('suKien', function ($q) {
+                        $q->where('ngay_bat_dau', '<=', now())
+                        ->where('ngay_ket_thuc', '>=', now());
+                    })->first();
+
+                    if ($saleEvent && $saleEvent->so_luong_gioi_han > 0) {
+                        $soLuongHienTaiDaBan = ChiTietGioHang::where('id_bien_the', $bienThe->id)
+                            ->whereHas('gioHang', function ($q) {
+                                $q->where('id_user', Auth::id())->where('loai', 'chinh');
+                            })->sum('so_luong');
+                        $soLuongConLaiFlashSale = $saleEvent->so_luong_gioi_han - $soLuongHienTaiDaBan;
+
+                        if ($soLuongMuonThem > $soLuongConLaiFlashSale) {
+                            $message = 'Số lượng Flash Sale không đủ!';
+                            if ($request->ajax()) {
+                                return response()->json(['success' => false, 'message' => $message], 400);
+                            }
+                            return redirect()->back()->with('error', $message);
+                        }
+                        // Giảm số lượng Flash Sale (cần cập nhật trong bảng SuKienSanPham hoặc cơ chế khác)
+                        $saleEvent->so_luong_gioi_han -= $soLuongMuonThem;
+                        $saleEvent->save();
+                    }
+
+                    // Giảm tồn kho
+                    $bienThe->ton_kho -= $soLuongMuonThem;
+                    $bienThe->save();
             } else {
                 $gia = $sanPham->gia ?? 0;
+                $sanPham->so_luong -= $soLuongMuonThem;
+                $sanPham->save();
             }
             ChiTietGioHang::create([
                 'id_gio_hang' => $gioHang->id,
