@@ -72,11 +72,9 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const tinhSelect = document.getElementById('tinh_thanh_pho');
-    // const huyenSelect = document.getElementById('quan_huyen');
     const xaSelect = document.getElementById('phuong_xa');
 
     let tinhData = {};
-    // let huyenData = {};
     let xaData = {};
 
     fetch('{{ asset('assets/data/tinh_tp.json') }}')
@@ -87,25 +85,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 tinhSelect.innerHTML += `<option value="${tinh.code}">${tinh.name}</option>`;
             });
         });
-
-    // tinhSelect.addEventListener('change', function() {
-    //     const tinhId = this.value;
-    //     huyenSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
-    //     xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
-
-    //     if (!tinhId) return;
-
-    //     fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/quan_huyen.json')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             huyenData = data;
-    //             Object.values(huyenData).forEach(huyen => {
-    //                 if (huyen.parent_code == tinhId) {
-    //                     huyenSelect.innerHTML += `<option value="${huyen.code}">${huyen.name_with_type}</option>`;
-    //                 }
-    //             });
-    //         });
-    // });
 
     tinhSelect.addEventListener('change', function() {
         const tinhId = this.value;

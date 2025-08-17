@@ -43,13 +43,6 @@
             </select>
         </div>
 
-        {{-- <div class="mb-3">
-            <label for="quan_huyen" class="form-label">Quận/Huyện:</label>
-            <select class="form-control" id="quan_huyen" name="quan_huyen" required>
-                <option value="">-- Chọn Quận/Huyện --</option>
-            </select>
-        </div> --}}
-
         <div class="mb-3">
             <label for="phuong_xa" class="form-label">Phường/Xã:</label>
             <select class="form-control" id="phuong_xa" name="phuong_xa" required>
@@ -73,15 +66,12 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const tinhSelect = document.getElementById('tinh_thanh_pho');
-    // const huyenSelect = document.getElementById('quan_huyen');
     const xaSelect = document.getElementById('phuong_xa');
 
     let tinhData = {};
-    // let huyenData = {};
     let xaData = {};
 
     const tinhOld = "{{ old('tinh_thanh_pho', $address->tinh_thanh_pho) }}";
-    // const huyenOld = "{{ old('quan_huyen', $address->quan_huyen) }}";
     const xaOld = "{{ old('phuong_xa', $address->phuong_xa) }}";
 
     fetch('{{ asset('assets/data/tinh_tp.json') }}')
@@ -99,31 +89,6 @@ document.addEventListener("DOMContentLoaded", function() {
     tinhSelect.addEventListener('change', function() {
         loadXa(this.value);
     });
-
-    // function loadHuyen(tinhId) {
-    //     huyenSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
-    //     xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
-
-    //     if (!tinhId) return;
-
-    //     fetch('{{ asset('assets/data/quan_huyen.json') }}')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             huyenData = data;
-    //             Object.values(huyenData).forEach(huyen => {
-    //                 if (huyen.parent_code == tinhId) {
-    //                     huyenSelect.innerHTML += `<option value="${huyen.code}" ${huyenOld == huyen.code ? 'selected' : ''}>${huyen.name_with_type}</option>`;
-    //                 }
-    //             });
-    //             if (huyenOld) {
-    //                 loadXa(huyenOld);
-    //             }
-    //         });
-    // }
-
-    // huyenSelect.addEventListener('change', function() {
-    //     loadXa(this.value);
-    // });
 
     function loadXa(tinhId) {
         xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';

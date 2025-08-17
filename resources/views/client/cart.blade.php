@@ -42,7 +42,7 @@
         <div class="text-end">
           @php
             $flashSalePrice = null;
-            $originalPrice = $item->bienTheSanPham->gia ?? $item->sanPham->gia; 
+            $originalPrice = $item->bienTheSanPham->gia ?? $item->sanPham->gia;
 
             $now = now();
             $flashSale = \App\Models\SuKienSanPham::with('SuKien')
@@ -164,7 +164,7 @@
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
 @endsection
 

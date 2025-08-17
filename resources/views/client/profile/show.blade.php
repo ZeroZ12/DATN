@@ -90,7 +90,7 @@
                                                     <div class="card-body">
                                                         <h6 class="card-text mb-1"><strong>Người Nhận: </strong>{{ $address->ten_nguoi_nhan }}</h6>
                                                         <p class="card-text mb-1"><strong>Số điện thoại:</strong> {{ $address->so_dien_thoai_nguoi_nhan }}</p>
-                                                        <p class="card-text mb-1"><strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa_name }}, {{ $address->quan_huyen_name }}, {{ $address->tinh_thanh_pho_name }}</p>
+                                                        <p class="card-text mb-1"><strong>Địa chỉ:</strong> {{ $address->dia_chi_day_du }}, {{ $address->phuong_xa_name }}, {{ $address->tinh_thanh_pho_name }}</p>
                                                         @if ($address->mac_dinh)
                                                             <span class="badge bg-success mt-2">Mặc định</span>
                                                         @endif
@@ -631,7 +631,7 @@
                     triggerEl = document.querySelector('#password-tab');
                 @endif
 
-                @if ($errors->hasAny(['ten_nguoi_nhan', 'so_dien_thoai_nguoi_nhan', 'dia_chi_day_du', 'tinh_thanh_pho', 'quan_huyen', 'phuong_xa']))
+                @if ($errors->hasAny(['ten_nguoi_nhan', 'so_dien_thoai_nguoi_nhan', 'dia_chi_day_du', 'tinh_thanh_pho', 'phuong_xa']))
                     triggerEl = document.querySelector('#addresses-tab');
                 @endif
 
