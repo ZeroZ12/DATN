@@ -43,13 +43,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="quan_huyen" class="form-label">Quận/Huyện:</label>
-            <select class="form-control" id="quan_huyen" name="quan_huyen" required>
-                <option value="">-- Chọn Quận/Huyện --</option>
-            </select>
-        </div>
-
-        <div class="mb-3">
             <label for="phuong_xa" class="form-label">Phường/Xã:</label>
             <select class="form-control" id="phuong_xa" name="phuong_xa" required>
                 <option value="">-- Chọn Phường/Xã --</option>
@@ -79,54 +72,54 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const tinhSelect = document.getElementById('tinh_thanh_pho');
-    const huyenSelect = document.getElementById('quan_huyen');
+    // const huyenSelect = document.getElementById('quan_huyen');
     const xaSelect = document.getElementById('phuong_xa');
 
     let tinhData = {};
-    let huyenData = {};
+    // let huyenData = {};
     let xaData = {};
 
-    fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/tinh_tp.json')
+    fetch('{{ asset('assets/data/tinh_tp.json') }}')
         .then(res => res.json())
         .then(data => {
             tinhData = data;
             Object.values(tinhData).forEach(tinh => {
-                tinhSelect.innerHTML += `<option value="${tinh.code}">${tinh.name_with_type}</option>`;
+                tinhSelect.innerHTML += `<option value="${tinh.code}">${tinh.name}</option>`;
             });
         });
 
+    // tinhSelect.addEventListener('change', function() {
+    //     const tinhId = this.value;
+    //     huyenSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+    //     xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+
+    //     if (!tinhId) return;
+
+    //     fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/quan_huyen.json')
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             huyenData = data;
+    //             Object.values(huyenData).forEach(huyen => {
+    //                 if (huyen.parent_code == tinhId) {
+    //                     huyenSelect.innerHTML += `<option value="${huyen.code}">${huyen.name_with_type}</option>`;
+    //                 }
+    //             });
+    //         });
+    // });
+
     tinhSelect.addEventListener('change', function() {
         const tinhId = this.value;
-        huyenSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
         xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
 
         if (!tinhId) return;
 
-        fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/quan_huyen.json')
-            .then(res => res.json())
-            .then(data => {
-                huyenData = data;
-                Object.values(huyenData).forEach(huyen => {
-                    if (huyen.parent_code == tinhId) {
-                        huyenSelect.innerHTML += `<option value="${huyen.code}">${huyen.name_with_type}</option>`;
-                    }
-                });
-            });
-    });
-
-    huyenSelect.addEventListener('change', function() {
-        const huyenId = this.value;
-        xaSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
-
-        if (!huyenId) return;
-
-        fetch('https://raw.githubusercontent.com/madnh/hanhchinhvn/master/dist/xa_phuong.json')
+        fetch('{{ asset('assets/data/xa_phuong.json') }}')
             .then(res => res.json())
             .then(data => {
                 xaData = data;
                 Object.values(xaData).forEach(xa => {
-                    if (xa.parent_code == huyenId) {
-                        xaSelect.innerHTML += `<option value="${xa.code}">${xa.name_with_type}</option>`;
+                    if (xa.parent_code == tinhId) {
+                        xaSelect.innerHTML += `<option value="${xa.code}">${xa.name}</option>`;
                     }
                 });
             });
