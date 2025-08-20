@@ -530,7 +530,7 @@
 
         .rating-stars .star {
             color: #ffd700;
-            transition: color 0.2s;
+            transition: color 0.2s;~
         }
 
         .rating-stars .star:hover,
