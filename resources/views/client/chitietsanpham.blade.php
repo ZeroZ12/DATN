@@ -571,7 +571,7 @@
             border-radius: 6px;
             margin-bottom: 10px;
         }
-        
+
         .flash-sale-badge {
             font-weight: bold;
             font-size: 1.2rem;
@@ -580,7 +580,7 @@
             padding: 0;
             margin-bottom: 0;
         }
-        
+
         .flash-sale-timer-box {
             display: flex;
             align-items: center;
@@ -588,7 +588,7 @@
             font-weight: 500;
             font-size: 1rem;
         }
-        
+
         .flash-sale-timer-box i {
             font-size: 1.2rem;
         }
@@ -748,11 +748,29 @@
                                 <input type="hidden" name="bien_the_id" id="selected_variant" required>
                             </div>
 
+                            <!-- FLASH SALE block for variants (hidden until variant with sale is selected) -->
+                            <div id="variant-flash-sale" class="flash-sale-container mb-3" style="display:none;">
+                                <div class="flash-sale-header">
+                                    <span class="flash-sale-badge">
+                                        <i class="fas fa-bolt"></i> FLASH SALE
+                                    </span>
+                                    <div class="flash-sale-timer-box">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>KẾT THÚC TRONG</span>
+                                        <div class="timer-digits">
+                                            <span id="countdown-timer"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flash-sale-prices">
+                                    <span id="variant-sale-price" class="current-price text-danger fw-bold"></span>
+                                    <span id="variant-old-price" class="old-price text-muted"></span>
+                                </div>
+                            </div>
+
                             <div id="bienthe-info" class="mb-3" style="display: none;">
                                 <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                                    <p><strong>Giá FLASH SALE:</strong> <span id="bienthe-sale-price" class="text-danger fw-bold"></span></p>
-                                @endif
+                                <p id="bienthe-sale-stock-line" style="display:none;"><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
                                 <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
                             </div>
 
@@ -1034,14 +1052,14 @@
                             }) ?? $sp->BienTheSanPhams->first();
                             $gia = $bienThe ? $bienThe->gia : 0;
                             $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
-                            $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
-                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
+                            $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
                         } else {
                             $bienThe = null;
                             $gia = $sp->gia;
                             $gia_so_sanh = $sp->gia_so_sanh;
                             $saleEvent = $activeSaleEvents->firstWhere('san_pham_id', $sp->id);
-                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
                         }
                     @endphp
 
@@ -1078,9 +1096,9 @@
                                 @endif
                                 <div class="current-price-wrapper">
                                     <div class="current-price">
-                                        @if ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                        @if ($gia_su_kien && $gia_su_kien < $gia)
                                             <span class="old-price">{{ number_format($gia) }}₫</span><br>
-                                            {{ number_format($gia_khuyen_mai) }}₫
+                                            {{ number_format($gia_su_kien) }}₫
                                         @else
                                             {{ number_format($gia) }}₫
                                         @endif
@@ -1089,9 +1107,9 @@
                                         <div class="discount-badge">
                                             -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
                                         </div>
-                                    @elseif ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                    @elseif ($gia_su_kien && $gia_su_kien < $gia)
                                         <div class="discount-badge">
-                                            -{{ round((100 * ($gia - $gia_khuyen_mai)) / $gia) }}%
+                                            -{{ round((100 * ($gia - $gia_su_kien)) / $gia) }}%
                                         </div>
                                     @endif
                                 </div>
@@ -1253,12 +1271,12 @@
                     ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
                     price: parseFloat('{{ $bienThe->gia ?? 0 }}'),
                     salePrice: parseFloat('@php
-                        $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
-                        echo $saleEvent ? $saleEvent->gia_khuyen_mai : $bienThe->gia;
+                        $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
+                        echo $saleEvent ? $saleEvent->gia_su_kien : $bienThe->gia;
                     @endphp' ?? 0),
                     stock: parseInt('{{ $bienThe->ton_kho ?? 0 }}'),
                     saleStock: parseInt('@php
-                        $saleEvent = $activeSaleEvents->firstWhere("bien_the_san_pham_id", $bienThe->id);
+                        $saleEvent = $activeSaleEvents->firstWhere("id_bien_the_san_pham", $bienThe->id);
                         echo $saleEvent ? $saleEvent->so_luong_gioi_han : 0;
                     @endphp' ?? 0)
         }@if (!$loop->last),@endif
@@ -1291,7 +1309,9 @@
                 const selectedVariantInput = document.getElementById('selected_variant');
                 const variantInfo = document.getElementById('bienthe-info');
                 const priceElement = document.getElementById('bienthe-price');
+                const saleLine = document.getElementById('bienthe-sale-line');
                 const salePriceElement = document.getElementById('bienthe-sale-price');
+                const saleStockLine = document.getElementById('bienthe-sale-stock-line');
                 const saleStockElement = document.getElementById('bienthe-sale-stock');
                 const stockElement = document.getElementById('bienthe-stock');
                 const addBtn = document.querySelector('.btn-outline-danger');
@@ -1304,20 +1324,25 @@
                             selectedVariantInput.value = variant.id;
                             document.getElementById('bienthe-info').style.display = 'block';
                             document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
-                            const salePriceElement = document.getElementById('bienthe-sale-price');
-                            if (salePriceElement && variant.salePrice < variant.price) {
-                                salePriceElement.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
-                                salePriceElement.parentElement.style.display = 'block';
+                            if (variant.salePrice < variant.price) {
+                                // Unified flash-sale UI like simple product
+                                const fsBlock = document.getElementById('variant-flash-sale');
+                                const fsPrice = document.getElementById('variant-sale-price');
+                                const fsOld = document.getElementById('variant-old-price');
+                                if (fsBlock && fsPrice && fsOld) {
+                                    fsBlock.style.display = 'block';
+                                    fsPrice.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                                    fsOld.textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
+                                }
+                                if (saleLine) saleLine.style.display = 'block';
+                                if (salePriceElement) salePriceElement.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                                if (saleStockLine) saleStockLine.style.display = 'block';
+                                if (saleStockElement) saleStockElement.textContent = (variant.saleStock || 0) + ' sản phẩm';
                             } else {
-                                if (salePriceElement) salePriceElement.parentElement.style.display = 'none';
-                            }
-                            // Hiển thị số lượng Flash Sale và số lượng còn lại
-                            const saleStockElement = document.getElementById('bienthe-sale-stock');
-                            if (saleStockElement && variant.salePrice > 0) {
-                                saleStockElement.textContent = (variant.saleStock || 0) + ' sản phẩm'; // Sử dụng saleStock
-                                saleStockElement.parentElement.style.display = 'block';
-                            } else {
-                                if (saleStockElement) saleStockElement.parentElement.style.display = 'none';
+                                const fsBlock = document.getElementById('variant-flash-sale');
+                                if (fsBlock) fsBlock.style.display = 'none';
+                                if (saleLine) saleLine.style.display = 'none';
+                                if (saleStockLine) saleStockLine.style.display = 'none';
                             }
                             document.getElementById('bienthe-stock').textContent = (variant.stock || 0) + ' sản phẩm'; // Số lượng còn lại
 
@@ -1707,7 +1732,7 @@
                                 throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
                             }
                         }
-                        
+
                     })
                     .catch(error => {
                         console.error('Error:', error);

@@ -82,39 +82,7 @@ class CartController extends Controller
         $total = 0;
 
         foreach ($gioHang->chiTietGioHangs as $item) {
-
-            $gia = null;
-
-            if ($item->bienThe) {
-                if ($item->bienThe->SuKienSanPham) {
-                    $SuKien = $item->bienThe->SuKienSanPham->SuKien;
-                    if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
-                        $gia = $item->bienThe->SuKienSanPham->gia_su_kien;
-                    } else {
-                        $gia = $this->getprice($item->id_product, $item->id_bien_the);
-                    }
-                } else {
-                    $gia = $this->getprice($item->id_product, $item->id_bien_the);
-                }
-            } else {
-                if ($item->sanPham) {
-                    if ($item->sanPham->SuKienSanPham) {
-                        $SuKien = $item->sanPham->SuKienSanPham->SuKien;
-                        if ($SuKien && $SuKien->hien_thi && $SuKien->ngay_bat_dau <= now() && $SuKien->ngay_ket_thuc >= now()) {
-                            $gia = $item->sanPham ->SuKienSanPham->gia_su_kien;
-                        } else {
-                            $gia = $this->getprice($item->id_product, $item->id_san_pham);
-                        }
-                    } else {
-                        $gia = $this->getprice($item->id_product, $item->id_san_pham);
-                    }
-                }
-            }
-
-            if (!$gia) {
-                $gia = $item->bienThe->gia ?? $item->sanPham->gia;
-            }
-
+            $gia = $item->gia_hien_thi ?? ($item->bienThe->gia ?? $item->sanPham->gia);
             $total += $item->so_luong * $gia;
         }
 
@@ -254,6 +222,7 @@ class CartController extends Controller
 
             if ($chiTietGioHang) {
                 $chiTietGioHang->so_luong = $tongSoLuongSauKhiThem;
+                $chiTietGioHang->gia = $gia; // cập nhật theo giá hiện tại (ưu tiên flash sale)
                 $chiTietGioHang->save();
             } else {
                 ChiTietGioHang::create([
@@ -352,7 +321,8 @@ class CartController extends Controller
             ->with(['sanPham', 'bienThe'])
             ->get()
             ->sum(function ($item) {
-                return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
+                $gia = $item->gia_hien_thi ?? ($item->bienThe->gia ?? $item->sanPham->gia);
+                return $item->so_luong * $gia;
             });
 
         return response()->json([
@@ -407,7 +377,8 @@ class CartController extends Controller
             ->with(['sanPham', 'bienThe'])
             ->get()
             ->sum(function ($item) {
-                return $item->so_luong * ($item->bienThe->gia ?? $item->sanPham->gia);
+                $gia = $item->gia_hien_thi ?? ($item->bienThe->gia ?? $item->sanPham->gia);
+                return $item->so_luong * $gia;
             });
 
         return response()->json([
