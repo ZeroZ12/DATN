@@ -13,7 +13,6 @@
                     <div class="col-md-6"><strong>Địa chỉ nhận hàng:</strong>
                         {{ $donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }},
                         {{ $donHang->diaChiNguoiDung->phuong_xa ?? '---' }},
-                        {{ $donHang->diaChiNguoiDung->quan_huyen ?? '---' }},
                         {{ $donHang->diaChiNguoiDung->tinh_thanh_pho ?? '---' }}
                     </div>
                     <div class="col-md-6"><strong>Phương thức thanh toán:</strong>

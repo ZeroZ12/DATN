@@ -26,7 +26,6 @@
                                 style="color: red">{{ number_format($hoanTra->donHang->tong_tien, 0) }}đ </span></p>
                         <p><strong>Địa chỉ giao hàng:</strong>{{ $hoanTra->donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }},
                             {{ $hoanTra->donHang->diaChiNguoiDung->phuong_xa ?? '---' }},
-                            {{ $hoanTra->donHang->diaChiNguoiDung->quan_huyen ?? '---' }},
                             {{ $hoanTra->donHang->diaChiNguoiDung->tinh_thanh_pho ?? '---' }}
                         </p>
                     </div>

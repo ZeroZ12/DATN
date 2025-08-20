@@ -51,7 +51,6 @@
                                 </p>
                                 <p class="mb-1">
                                     <strong>Phường/Xã:</strong> {{ $address->phuong_xa_name }} <br>
-                                    <strong>Quận/Huyện:</strong> {{ $address->quan_huyen_name }} <br>
                                     <strong>Tỉnh/Thành phố:</strong> {{ $address->tinh_thanh_pho_name }}
 
                                 </p>

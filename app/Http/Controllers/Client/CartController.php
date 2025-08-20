@@ -330,9 +330,9 @@ class CartController extends Controller
                     'message' => 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!'
                 ], 400);
             }
-            // Trừ hoặc cộng lại tồn kho
-            $bienThe->ton_kho -= $soLuongThayDoi;
-            $bienThe->save();
+            // // Trừ hoặc cộng lại tồn kho
+            // $bienThe->ton_kho -= $soLuongThayDoi;
+            // $bienThe->save();
         } else {
             $sanPham = SanPham::findOrFail($chiTietGioHang->id_product);
             if ($soLuongMoi > ($sanPham->so_luong + $chiTietGioHang->so_luong)) {
@@ -341,8 +341,8 @@ class CartController extends Controller
                     'message' => 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!'
                 ], 400);
             }
-            $sanPham->so_luong -= $soLuongThayDoi;
-            $sanPham->save();
+            // $sanPham->so_luong -= $soLuongThayDoi;
+            // $sanPham->save();
         }
 
         $chiTietGioHang->so_luong = $soLuongMoi;
@@ -602,13 +602,11 @@ class CartController extends Controller
         }
         // Load dữ liệu từ file JSON trong public/assets/data
         $tinhData = json_decode(file_get_contents(public_path('assets/data/tinh_tp.json')), true);
-        $huyenData = json_decode(file_get_contents(public_path('assets/data/quan_huyen.json')), true);
         $xaData = json_decode(file_get_contents(public_path('assets/data/xa_phuong.json')), true);
 
         // Nếu có địa chỉ thì gán tên địa phương
         if ($diaChi) {
             $diaChi->tinh_thanh_pho = $tinhData[$diaChi->tinh_thanh_pho]['name_with_type'] ?? $diaChi->tinh_thanh_pho;
-            $diaChi->quan_huyen = $huyenData[$diaChi->quan_huyen]['name_with_type'] ?? $diaChi->quan_huyen;
             $diaChi->phuong_xa = $xaData[$diaChi->phuong_xa]['name_with_type'] ?? $diaChi->phuong_xa;
         }
 
@@ -805,7 +803,7 @@ class CartController extends Controller
                 //     'chiTietGioHangs.sanPham'
                 // ,
                 //     'chiTietGioHangs.bienThe'
-                
+
                     'maGiamGia'
                 ])
                 ->first();

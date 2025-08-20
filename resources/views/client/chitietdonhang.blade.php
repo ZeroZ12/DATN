@@ -15,7 +15,7 @@
             <div class="col-md-6"><strong>Người mua hàng:</strong> {{ $donHang->user->ho_ten ?? '---' }}</div>
             <div class="col-md-6"><strong>Email:</strong> {{ $donHang->user->email ?? '---' }}</div>
             <div class="col-md-6"><strong>Số điện thoại:</strong> {{ $donHang->user->so_dien_thoai ?? '---' }}</div>
-            <div class="col-md-6"><strong>Địa chỉ giao hàng:</strong> {{ $donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }}, {{ $donHang->diaChiNguoiDung->phuong_xa ?? '---' }}, {{ $donHang->diaChiNguoiDung->quan_huyen ?? '---' }}, {{ $donHang->diaChiNguoiDung->tinh_thanh_pho ?? '---' }}</div>
+            <div class="col-md-6"><strong>Địa chỉ giao hàng:</strong> {{ $donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }}, {{ $donHang->diaChiNguoiDung->phuong_xa_name ?? '---' }}, {{ $donHang->diaChiNguoiDung->tinh_thanh_pho_name ?? '---' }}</div>
         </div>
 
         <hr>

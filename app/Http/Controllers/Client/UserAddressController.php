@@ -75,12 +75,10 @@ class UserAddressController extends Controller
         $validatedData = $request->validated();
 
         $tinhData = json_decode(file_get_contents(public_path('assets/data/tinh_tp.json')), true);
-        $huyenData = json_decode(file_get_contents(public_path('assets/data/quan_huyen.json')), true);
         $xaData = json_decode(file_get_contents(public_path('assets/data/xa_phuong.json')), true);
 
-        $validatedData['tinh_thanh_pho_name'] = $tinhData[$validatedData['tinh_thanh_pho']]['name_with_type'] ?? '';
-        $validatedData['quan_huyen_name'] = $huyenData[$validatedData['quan_huyen']]['name_with_type'] ?? '';
-        $validatedData['phuong_xa_name'] = $xaData[$validatedData['phuong_xa']]['name_with_type'] ?? '';
+        $validatedData['tinh_thanh_pho_name'] = $tinhData[$validatedData['tinh_thanh_pho']]['name'] ?? '';
+        $validatedData['phuong_xa_name'] = $xaData[$validatedData['phuong_xa']]['name'] ?? '';
 
 
         // Nếu là địa chỉ đầu tiên hoặc user chọn làm mặc định
@@ -121,12 +119,10 @@ class UserAddressController extends Controller
         $validatedData = $request->validated();
 
         $tinhData = json_decode(file_get_contents(public_path('assets/data/tinh_tp.json')), true);
-        $huyenData = json_decode(file_get_contents(public_path('assets/data/quan_huyen.json')), true);
         $xaData = json_decode(file_get_contents(public_path('assets/data/xa_phuong.json')), true);
 
-        $validatedData['tinh_thanh_pho_name'] = $tinhData[$validatedData['tinh_thanh_pho']]['name_with_type'] ?? '';
-        $validatedData['quan_huyen_name'] = $huyenData[$validatedData['quan_huyen']]['name_with_type'] ?? '';
-        $validatedData['phuong_xa_name'] = $xaData[$validatedData['phuong_xa']]['name_with_type'] ?? '';
+        $validatedData['tinh_thanh_pho_name'] = $tinhData[$validatedData['tinh_thanh_pho']]['name'] ?? '';
+        $validatedData['phuong_xa_name'] = $xaData[$validatedData['phuong_xa']]['name'] ?? '';
 
 
         if (isset($validatedData['mac_dinh']) && $validatedData['mac_dinh']) {

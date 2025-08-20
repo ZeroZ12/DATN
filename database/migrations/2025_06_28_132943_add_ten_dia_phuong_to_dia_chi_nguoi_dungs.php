@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('dia_chi_nguoi_dungs', function (Blueprint $table) {
             $table->string('tinh_thanh_pho_name')->nullable();
-            $table->string('quan_huyen_name')->nullable();
             $table->string('phuong_xa_name')->nullable();
         });
     }
