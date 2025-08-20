@@ -16,8 +16,6 @@ class DiaChiNguoiDung extends Model
         'dia_chi_day_du',
         'tinh_thanh_pho',
         'tinh_thanh_pho_name',
-        'quan_huyen',
-        'quan_huyen_name',
         'phuong_xa',
         'phuong_xa_name',
         'mac_dinh',

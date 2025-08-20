@@ -553,6 +553,91 @@
         span {
             font-size: 14px;
         }
+
+        .flash-sale-container {
+            background: #fff0f0; /* Màu nền đỏ nhạt */
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #f99; /* Viền đỏ nhạt hơn */
+        }
+
+        .flash-sale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ff5555; /* Màu nền đỏ đậm cho header */
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .flash-sale-badge {
+            font-weight: bold;
+            font-size: 1.2rem;
+            /* Loại bỏ các style cũ không cần thiết */
+            background: none;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .flash-sale-timer-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .flash-sale-timer-box i {
+            font-size: 1.2rem;
+        }
+
+        .timer-digits {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .digit-box {
+            background: black;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 4px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .flash-sale-prices {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flash-sale-prices .current-price {
+            font-size: 2.2rem; /* Giá to hơn */
+            font-weight: bold;
+            color: #dc3545; /* Màu đỏ */
+        }
+
+        .flash-sale-prices .old-price {
+            font-size: 1.2rem; /* Giá nhỏ hơn */
+            color: #888; /* Màu xám */
+            text-decoration: line-through; /* Gạch ngang */
+        }
+
+        /* Các style đã có có thể cần điều chỉnh để không xung đột */
+        .current-price.text-danger {
+            /* Đảm bảo style này không bị ghi đè bởi các quy tắc khác */
+            font-size: 1.5rem;
+        }
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 12px;
+    }
     </style>
     <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
         @if (session('success'))
@@ -623,17 +708,6 @@
                     </span></span>
                 </div>
 
-                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                    <div class="flash-sale-info mb-3">
-                        <span class="flash-sale-badge">
-                            <i class="fas fa-bolt"></i> FLASH SALE
-                        </span>
-                        <div class="flash-sale-timer" id="flash-sale-timer">
-                            Kết thúc sau: <span id="countdown-timer"></span>
-                        </div>
-                    </div>
-                @endif
-
                 <div class="d-md-flex gap-3">
                     <div class="flex-fill" style="min-width:0;">
                         @if ($sanpham->co_bien_the)
@@ -674,11 +748,29 @@
                                 <input type="hidden" name="bien_the_id" id="selected_variant" required>
                             </div>
 
+                            <!-- FLASH SALE block for variants (hidden until variant with sale is selected) -->
+                            <div id="variant-flash-sale" class="flash-sale-container mb-3" style="display:none;">
+                                <div class="flash-sale-header">
+                                    <span class="flash-sale-badge">
+                                        <i class="fas fa-bolt"></i> FLASH SALE
+                                    </span>
+                                    <div class="flash-sale-timer-box">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>KẾT THÚC TRONG</span>
+                                        <div class="timer-digits">
+                                            <span id="countdown-timer"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flash-sale-prices">
+                                    <span id="variant-sale-price" class="current-price text-danger fw-bold"></span>
+                                    <span id="variant-old-price" class="old-price text-muted"></span>
+                                </div>
+                            </div>
+
                             <div id="bienthe-info" class="mb-3" style="display: none;">
                                 <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                                    <p><strong>Giá FLASH SALE:</strong> <span id="bienthe-sale-price" class="text-danger fw-bold"></span></p>
-                                @endif
+                                <p id="bienthe-sale-stock-line" style="display:none;"><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
                                 <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
                             </div>
 
@@ -705,35 +797,48 @@
                         <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
                             @csrf
                             <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+
+                            {{-- Phần FLASH SALE mới --}}
+                            @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                            <div class="flash-sale-container mb-3">
+                                <div class="flash-sale-header">
+                                    <span class="flash-sale-badge">
+                                        <i class="fas fa-bolt"></i> FLASH SALE
+                                    </span>
+                                    <div class="flash-sale-timer-box">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>KẾT THÚC TRONG</span>
+                                        {{-- Cần thêm logic JS để hiển thị timer đếm ngược --}}
+                                        <div class="timer-digits">
+                                            <span id="countdown-timer"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flash-sale-prices">
+                                    <span class="current-price text-danger fw-bold">{{ number_format($activeSaleEvent->gia_su_kien) }}₫</span>
+                                    <span class="old-price text-muted">{{ number_format($sanpham->gia) }}₫</span>
+                                </div>
+                            </div>
+                            @else
+                            {{-- Phần hiển thị giá thông thường --}}
                             <div class="mb-3">
                                 <label class="form-label"><strong>Giá:</strong></label>
                                 <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">
-                                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                                        <span class="old-price">{{ number_format($sanpham->gia) }}₫</span><br>
-                                        <span>{{ number_format($activeSaleEvent->gia_su_kien) }}₫</span>
-                                    @else
-                                        {{ number_format($sanpham->gia) }}₫
-                                    @endif
+                                    <span>{{ number_format($sanpham->gia) }}₫</span>
                                 </div>
                             </div>
+                            @endif
+
                             <div class="mb-3">
                                 <div id="bienthe-info" class="mb-3" style="display: none;">
                                     <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                    @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                                        <p><strong>Giá FLASH SALE:</strong> <span id="bienthe-sale-price" class="text-danger fw-bold"></span></p>
-                                        <p><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
-                                    @endif
+                                    {{-- Thêm logic tương tự cho biến thể nếu cần --}}
                                     <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
                                 </div>
                                 @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
                                     <p><strong>Số lượng FLASH SALE:</strong> <span class="text-success fw-bold">{{ $activeSaleEvent->so_luong_gioi_han ?? $sanpham->so_luong }} sản phẩm</span></p>
                                 @endif
-                                {{-- @if ($activeSaleEvents->so_luong_gioi_han > 0) 
-                                   <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $activeSaleEvents->so_luong_gioi_han }} sản phẩm</span></p> 
-                                @else
-                                   <p><strong>Tồn kho:</strong> <span class="text-danger fw-bold">Hết hàng</span></p>
-                                @endif --}}
-                                    <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p> 
+                                <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label"><strong>Số lượng:</strong></label>
@@ -947,14 +1052,14 @@
                             }) ?? $sp->BienTheSanPhams->first();
                             $gia = $bienThe ? $bienThe->gia : 0;
                             $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
-                            $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
-                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
+                            $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
                         } else {
                             $bienThe = null;
                             $gia = $sp->gia;
                             $gia_so_sanh = $sp->gia_so_sanh;
                             $saleEvent = $activeSaleEvents->firstWhere('san_pham_id', $sp->id);
-                            $gia_khuyen_mai = $saleEvent ? $saleEvent->gia_khuyen_mai : null;
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
                         }
                     @endphp
 
@@ -991,9 +1096,9 @@
                                 @endif
                                 <div class="current-price-wrapper">
                                     <div class="current-price">
-                                        @if ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                        @if ($gia_su_kien && $gia_su_kien < $gia)
                                             <span class="old-price">{{ number_format($gia) }}₫</span><br>
-                                            {{ number_format($gia_khuyen_mai) }}₫
+                                            {{ number_format($gia_su_kien) }}₫
                                         @else
                                             {{ number_format($gia) }}₫
                                         @endif
@@ -1002,9 +1107,9 @@
                                         <div class="discount-badge">
                                             -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
                                         </div>
-                                    @elseif ($gia_khuyen_mai && $gia_khuyen_mai < $gia)
+                                    @elseif ($gia_su_kien && $gia_su_kien < $gia)
                                         <div class="discount-badge">
-                                            -{{ round((100 * ($gia - $gia_khuyen_mai)) / $gia) }}%
+                                            -{{ round((100 * ($gia - $gia_su_kien)) / $gia) }}%
                                         </div>
                                     @endif
                                 </div>
@@ -1166,10 +1271,14 @@
                     ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
                     price: parseFloat('{{ $bienThe->gia ?? 0 }}'),
                     salePrice: parseFloat('@php
-                        $saleEvent = $activeSaleEvents->firstWhere('bien_the_san_pham_id', $bienThe->id);
-                        echo $saleEvent ? $saleEvent->gia_khuyen_mai : $bienThe->gia;
+                        $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
+                        echo $saleEvent ? $saleEvent->gia_su_kien : $bienThe->gia;
                     @endphp' ?? 0),
-                    stock: parseInt('{{ $bienThe->ton_kho ?? 0 }}')
+                    stock: parseInt('{{ $bienThe->ton_kho ?? 0 }}'),
+                    saleStock: parseInt('@php
+                        $saleEvent = $activeSaleEvents->firstWhere("id_bien_the_san_pham", $bienThe->id);
+                        echo $saleEvent ? $saleEvent->so_luong_gioi_han : 0;
+                    @endphp' ?? 0)
         }@if (!$loop->last),@endif
             @endforeach
         ];
@@ -1197,29 +1306,45 @@
             });
 
             function updateVariantInfo() {
+                const selectedVariantInput = document.getElementById('selected_variant');
+                const variantInfo = document.getElementById('bienthe-info');
+                const priceElement = document.getElementById('bienthe-price');
+                const saleLine = document.getElementById('bienthe-sale-line');
+                const salePriceElement = document.getElementById('bienthe-sale-price');
+                const saleStockLine = document.getElementById('bienthe-sale-stock-line');
+                const saleStockElement = document.getElementById('bienthe-sale-stock');
+                const stockElement = document.getElementById('bienthe-stock');
+                const addBtn = document.querySelector('.btn-outline-danger');
+                const buyBtn = document.getElementById('buy-now-btn');
+                const tinhtrangSpan = document.getElementById('tinhtrang-span');
+
                     if (selectedRam && selectedSsd) {
                         const variant = bienThes.find(v => v.ram === selectedRam && v.ssd === selectedSsd);
                         if (variant) {
-                            document.getElementById('selected_variant').value = variant.id;
+                            selectedVariantInput.value = variant.id;
                             document.getElementById('bienthe-info').style.display = 'block';
                             document.getElementById('bienthe-price').textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
-                            const salePriceElement = document.getElementById('bienthe-sale-price');
-                            if (salePriceElement && variant.salePrice < variant.price) {
-                                salePriceElement.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
-                                salePriceElement.parentElement.style.display = 'block';
+                            if (variant.salePrice < variant.price) {
+                                // Unified flash-sale UI like simple product
+                                const fsBlock = document.getElementById('variant-flash-sale');
+                                const fsPrice = document.getElementById('variant-sale-price');
+                                const fsOld = document.getElementById('variant-old-price');
+                                if (fsBlock && fsPrice && fsOld) {
+                                    fsBlock.style.display = 'block';
+                                    fsPrice.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                                    fsOld.textContent = parseInt(variant.price).toLocaleString('vi-VN') + 'đ';
+                                }
+                                if (saleLine) saleLine.style.display = 'block';
+                                if (salePriceElement) salePriceElement.textContent = parseInt(variant.salePrice).toLocaleString('vi-VN') + 'đ';
+                                if (saleStockLine) saleStockLine.style.display = 'block';
+                                if (saleStockElement) saleStockElement.textContent = (variant.saleStock || 0) + ' sản phẩm';
                             } else {
-                                if (salePriceElement) salePriceElement.parentElement.style.display = 'none';
+                                const fsBlock = document.getElementById('variant-flash-sale');
+                                if (fsBlock) fsBlock.style.display = 'none';
+                                if (saleLine) saleLine.style.display = 'none';
+                                if (saleStockLine) saleStockLine.style.display = 'none';
                             }
-                            // Thêm số lượng Flash Sale (giả sử lấy từ salePrice hoặc dữ liệu khác)
-                            const saleStockElement = document.getElementById('bienthe-sale-stock');
-                            if (saleStockElement && variant.salePrice > 0) {
-                                // Giả sử số lượng Flash Sale được lấy từ một trường mới hoặc logic backend
-                                saleStockElement.textContent = variant.stock + ' sản phẩm'; // Thay bằng dữ liệu thực tế nếu có
-                                saleStockElement.parentElement.style.display = 'block';
-                            } else {
-                                if (saleStockElement) saleStockElement.parentElement.style.display = 'none';
-                            }
-                            document.getElementById('bienthe-stock').textContent = variant.stock + ' sản phẩm';
+                            document.getElementById('bienthe-stock').textContent = (variant.stock || 0) + ' sản phẩm'; // Số lượng còn lại
 
                             // Disable nút nếu hết hàng
                             const addBtn = document.querySelector('.btn-outline-danger');
@@ -1590,7 +1715,14 @@
                             'Accept': 'application/json'
                         }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.message || `Lỗi ${response.status}`);
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             const cartCount = document.querySelector('.cart-count');
@@ -1602,11 +1734,15 @@
                             showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
                         } else {
                             if (data.redirect) {
-                                window.location.href = data.redirect;
-                            } else {
-                                throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                                showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 1000);
+                                return;
                             }
+                            throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
                         }
+
                     })
                     .catch(error => {
                         console.error('Error:', error);

@@ -17,6 +17,12 @@
                     <span class="flex-grow-1">Dashboard</span>
                 </a>
             </li>
+             <li class="sidebar-list">
+                <a href="{{ route('admin.thongke') }}" class="sidebar-link d-flex align-items-center">
+                    <span class="me-2" style="width: 1.25em; display: inline-block;"></span>
+                    <span class="flex-grow-1">Thống kê</span>
+                </a>
+            </li>
             {{-- Quản lý chung --}}
             <li class="sidebar-list">
                 <a class="sidebar-link d-flex align-items-center" href="javascript:void(0)">

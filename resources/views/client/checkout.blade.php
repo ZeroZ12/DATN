@@ -43,7 +43,7 @@
                                         <small class="text-muted">
                                             {{ number_format($item->gia_hien_thi) }}₫/sản phẩm
                                         </small>
-                                    @endif                                   
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <div>
                                 <h6 class="mb-1">{{ $diaChi->ten_nguoi_nhan }}</h6>
                                 <p class="mb-1">{{ $diaChi->so_dien_thoai_nguoi_nhan }}</p>
-                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa }}, {{ $diaChi->quan_huyen }}, {{ $diaChi->tinh_thanh_pho }}</p>
+                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa }}, {{ $diaChi->tinh_thanh_pho }}</p>
                             </div>
                             <a href="{{ route('client.addresses.index') }}" class="btn btn-outline-primary btn-sm">Thay đổi</a>
                         </div>

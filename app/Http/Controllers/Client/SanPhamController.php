@@ -162,8 +162,8 @@ class SanPhamController extends Controller
         return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners'));
     }
     public function show($id)
-    {   
-        
+    {
+
         $sanpham = SanPham::with([
             'chip',
             'mainboard',
@@ -218,14 +218,14 @@ class SanPhamController extends Controller
             })
             ->first();
 
-        $activeSaleEvents = SuKienSanPham::with('sanPham', 'bienTheSanPham')
+        $activeSaleEvents = SuKienSanPham::with('sanPham', 'bienTheSanPham', 'suKien')
             ->whereHas('suKien', function ($query) {
                 $query->where('ngay_bat_dau', '<=', now())
                       ->where('ngay_ket_thuc', '>=', now())
                       ->where('hien_thi', 1);
             })
             ->get();
-            
+
         return view('client.chitietsanpham', compact(
             'sanPhamBanChay',
             'sanpham',

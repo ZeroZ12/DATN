@@ -74,12 +74,19 @@
                                     @foreach($donHang->chiTietDonHangs as $item)
                                     @php
                                         $tongTienGoc += $item->don_gia * $item->so_luong;
-                                        $tongTienThanhToan += ($item->giaSuKien ? $item->giaSuKien : $item->don_gia) * $item->so_luong;
+                                        $giaGoc = $item->bienTheSanPham->gia ?? $item->sanPham->gia;
+
                                         $giaSuKien = null;
                                         if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
                                             $giaSuKien = $item->sanPham->suKien->first()->pivot->gia_su_kien;
                                         }
+                                        if ($item->bienTheSanPham && $item->bienTheSanPham->suKien->isNotEmpty()) {
+                                            $giaSuKien = $item->bienTheSanPham->suKien->first()->pivot->gia_su_kien;
+                                        }
+                                        
                                         $giaHienThi = $giaSuKien ?? $item->don_gia;
+
+                                        $tongTienThanhToan += ($item->giaSuKien ? $item->giaSuKien : $item->don_gia) * $item->so_luong;
                                     @endphp
                                     <tr>
                                         <td>
@@ -104,17 +111,9 @@
                                         </td>
                                         <td class="text-center">{{ $item->so_luong }}</td>
                                         <td class="text-end">
-                                            {{-- @php
-                                                $giaSuKien = null;
-                                                if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
-                                                    $giaSuKien = $item->sanPham->suKien->first()->pivot->gia_su_kien;
-                                                }
-                                                $giaHienThi = $giaSuKien ?? $item->don_gia;
-                                            @endphp --}}
-
                                             @if($giaSuKien)
                                                 <small class="text-success">Giá KM: {{ number_format($giaSuKien) }}₫</small><br>
-                                                <small class="text-muted text-decoration-line-through">{{ number_format($item->don_gia) }}₫</small>
+                                                <small class="text-muted text-decoration-line-through">{{ number_format($giaGoc) }}₫</small>
                                             @else
                                                 {{ number_format($giaHienThi) }}₫
                                             @endif

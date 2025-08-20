@@ -14,13 +14,17 @@ class AdminSuKienController extends Controller
 {
     public function index()
     {
-        $saleEvents = SuKien::with('sanPhams')
+        $saleEvents = SuKien::with('sanPhams','bienTheSanPhams')
             ->orderBy('ngay_bat_dau', 'desc')
             ->paginate(10); // Phân trang để tối ưu
         foreach ($saleEvents as $event) {
-            $event->total = $event->sanPhams->sum(function ($sanPham) {
+            $totalSP = $event->sanPhams->sum(function ($sanPham) {
                 return $sanPham->pivot->so_luong_gioi_han ?? 0; // Tổng số lượng giới hạn của sản phẩm trong sự kiện
             });
+            $totalBienThe = $event->bienTheSanPhams->sum(function ($bienThe) {
+                return $bienThe->pivot->so_luong_gioi_han ?? 0; // Tổng số lượng giới hạn của biến thể trong sự kiện
+            });
+            $event->total = $totalSP + $totalBienThe; // Tổng số lượng giới hạn của cả sản phẩm và biến thể
         }
         return view('admin.sukien.index', compact('saleEvents'));
     }
