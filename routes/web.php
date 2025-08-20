@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\AdminSuKienController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\SearcherController;
+use App\Http\Controllers\ThongKeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Middleware\CheckUserStatus;
@@ -265,6 +266,10 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
     Route::post('/hoan-tra/{id}/cap-nhat-trang-thai', [AdminYCHT::class, 'capNhatTrangThai'])
         ->name('hoan-tra.cap-nhat-trang-thai');
+
+    Route::get('/admin/thong-ke', [ThongKeController::class, 'index'])->name('thongke');
+Route::post('/admin/thong-ke/filter', [ThongKeController::class, 'filter'])->name('thongke.filter');
+
 
 });
 
