@@ -119,22 +119,97 @@
                                 <th>Ngày cập nhật</th>
                             </tr>
                         </thead>
-                        <tbody id="ordersTableBody">
-                            @foreach($orders as $index => $order)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $order->ma_don }}</td>
-                                <td>{{ $order->khachHang->ho_ten ?? 'Khách vãng lai' }}</td>
-                                <td>{{ number_format($order->tong_tien) }}₫</td>
-                                <td>{{ App\Models\DonHang::getTenTrangThai($order->trang_thai) }}</td>
-                                <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
+                      <tbody id="ordersTableBody">
+    @foreach($orders as $index => $order)
+    <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.don-hang.show', $order->id) }}'">
+        <td>{{ $index + 1 }}</td>
+        <td>{{ $order->ma_don }}</td>
+        <td>{{ $order->khachHang->ho_ten ?? 'Khách vãng lai' }}</td>
+        <td>{{ number_format($order->tong_tien) }}₫</td>
+        <td>{{ App\Models\DonHang::getTenTrangThai($order->trang_thai) }}</td>
+        <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
+    </tr>
+    @endforeach
+</tbody>
+
                     </table>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="row mt-4">
+    {{-- Cột 1: Sản phẩm bán chạy --}}
+    <div class="col-md-6 mb-3 d-flex">
+        <div class="card flex-fill w-100">
+            <div class="card-header fw-bold">Sản Phẩm Bán Chạy</div>
+            <div class="card-body d-flex flex-column">
+                @forelse ($sanPhamBanChay as $sanPham)
+                    <div class="mb-3 d-flex flex-column">
+                        <div class="d-flex align-items-start mb-2">
+                            <img src="{{ asset('storage/'.$sanPham->anh_dai_dien) }}" alt="{{ $sanPham->ten }}" width="60" class="me-2 flex-shrink-0">
+                            <span class="fw-bold text-dark flex-grow-1">{{ $sanPham->ten }}</span>
+                        </div>
+                        <div class="small text-muted">Đã bán: {{ $sanPham->luot_mua }}</div>
+                        <a href="{{ route('sanpham.show', $sanPham->id) }}" class="btn btn-sm btn-primary mt-2 align-self-start">Xem sản phẩm</a>
+                    </div>
+                    @if (!$loop->last) <hr> @endif
+                @empty
+                    <p class="text-muted">Chưa có sản phẩm nào</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    {{-- Cột 2: Sản phẩm xem nhiều --}}
+    <div class="col-md-6 mb-3 d-flex">
+        <div class="card flex-fill w-100">
+            <div class="card-header fw-bold">Sản Phẩm Xem Nhiều</div>
+            <div class="card-body d-flex flex-column">
+                @forelse ($sanPhamXemNhieu as $sanPham)
+                    <div class="mb-3 d-flex flex-column">
+                        <div class="d-flex align-items-start mb-2">
+                            <img src="{{ asset('storage/'.$sanPham->anh_dai_dien) }}" alt="{{ $sanPham->ten }}" width="60" class="me-2 flex-shrink-0">
+                            <span class="fw-bold text-dark flex-grow-1">{{ $sanPham->ten }}</span>
+                        </div>
+                        <div class="small text-muted">Lượt xem: {{ $sanPham->luot_xem }}</div>
+                        <a href="{{ route('sanpham.show', $sanPham->id) }}" class="btn btn-sm btn-primary mt-2 align-self-start">Xem sản phẩm</a>
+                    </div>
+                    @if (!$loop->last) <hr> @endif
+                @empty
+                    <p class="text-muted">Chưa có sản phẩm nào</p>
+                @endforelse
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3">
+    <div class="card-header fw-bold">
+        📉 Sản phẩm sắp hết hàng
+        <span class="text-muted ms-2">(Tổng: {{ $sanPhamSapHetHang->count() }} sản phẩm)</span>
+    </div>
+
+    <div class="card-body">
+        <ul class="list-group">
+            @forelse ($sanPhamSapHetHang as $bienThe)
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="flex-grow-1 me-2">
+                        <div><strong>{{ $bienThe->sanPham->ten ?? '---' }}</strong></div>
+                        <div class="small text-muted">
+                            Mã biến thể: {{ $bienThe->ma_bien_the ?? '---' }} |
+                            @if ($bienThe->ram) RAM: {{ $bienThe->ram->dung_luong }} | @endif
+                            @if ($bienThe->oCung) Ổ cứng: {{ $bienThe->oCung->loai }} - {{ $bienThe->oCung->dung_luong }} | @endif
+                            <span class="text-danger">Còn lại: <strong>{{ $bienThe->ton_kho }}</strong> cái</span>
+                        </div>
+                    </div>
+                    <a href="{{ route('admin.sanpham.bienthe.edit', [$bienThe->id_product, $bienThe->id]) }}" class="btn btn-sm btn-warning mt-2 mt-md-0">
+                        Quản lý
+                    </a>
+                </li>
+            @empty
+                <li class="list-group-item text-muted">Không có sản phẩm nào gần hết hàng</li>
+            @endforelse
+        </ul>
     </div>
 </div>
 
