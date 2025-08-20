@@ -186,8 +186,8 @@ class CartController extends Controller
                         $saleEvent->so_luong_gioi_han -= $soLuongMuonThem;
                         $saleEvent->save();
                     } else {
-                        if ($tongSoLuongSauKhiThem <= $bienThe->ton_kho) {
-                            $gia = $bienThe->gia; 
+                        if ($soLuongMuonThem <= $bienThe->ton_kho) {
+                            $gia = $bienThe->gia;
                         } else {
                             $message = 'Sản phẩm đã hết hàng!';
                             return response()->json(['success' => false, 'message' => $message], 400);
@@ -198,7 +198,7 @@ class CartController extends Controller
                 }
 
                 // Kiểm tra tồn kho
-                if ($tongSoLuongSauKhiThem > $bienThe->ton_kho) {
+                if ($soLuongMuonThem > $bienThe->ton_kho) {
                     $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
                     return response()->json(['success' => false, 'message' => $message], 400);
                 }
@@ -227,7 +227,7 @@ class CartController extends Controller
                         $saleEvent->so_luong_gioi_han -= $soLuongMuonThem;
                         $saleEvent->save();
                     } else {
-                        if ($tongSoLuongSauKhiThem <= $sanPham->so_luong) {
+                        if ($soLuongMuonThem <= $sanPham->so_luong) {
                             $gia = $sanPham->gia; // Chuyển sang giá gốc
                         } else {
                             $message = 'Sản phẩm đã hết hàng!';
@@ -239,7 +239,7 @@ class CartController extends Controller
                 }
 
                 // Kiểm tra tồn kho
-                if ($tongSoLuongSauKhiThem > $sanPham->so_luong) {
+                if ($soLuongMuonThem > $sanPham->so_luong) {
                     $message = 'Số lượng sản phẩm trong kho không đủ hoặc đã hết hàng!';
                     return response()->json(['success' => false, 'message' => $message], 400);
                 }
@@ -370,7 +370,7 @@ class CartController extends Controller
         $chiTietGioHang = $gioHang->chiTietGioHangs()
             ->where('id', $id)
             ->firstOrFail();
-            
+
         if ($chiTietGioHang->id_bien_the) {
                 $bienThe = BienTheSanPham::findOrFail($chiTietGioHang->id_bien_the);
                 $saleEvent = SuKienSanPham::where('id_bien_the_san_pham', $bienThe->id)
