@@ -16,7 +16,7 @@
 
     @if($gioHang->chiTietGioHangs->count() > 0)
       @foreach($gioHang->chiTietGioHangs as $item)
-      <div class="cart-item" data-item-id="{{ $item->id }}" data-stock="{{ $item->bienTheSanPham->ton_kho ?? 0 }}">
+      <div class="cart-item" data-item-id="{{ $item->id }}" data-stock="{{ $item->bienTheSanPham->ton_kho ?? $item->sanPham->so_luong ?? 0 }}">
         <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
@@ -474,7 +474,14 @@ function updateQuantity(itemId, value, cartItem) {
     },
     body: JSON.stringify({ so_luong: value })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => {
+        throw new Error(err.message || `Lỗi ${response.status}`);
+      });
+    }
+    return response.json();
+  })
   .then(data => {
     if (data.success) {
       cartItem.querySelector('.cart-qty-input').value = value;
@@ -494,7 +501,8 @@ function updateQuantity(itemId, value, cartItem) {
     }
   })
   .catch(error => {
-    showToast('Có lỗi xảy ra khi cập nhật số lượng', 'error');
+    console.error('Error updating quantity:', error);
+    showToast(error.message || 'Có lỗi xảy ra khi cập nhật số lượng', 'error');
     cartItem.querySelector('.cart-qty-input').value = 1;
   });
 }
@@ -506,7 +514,14 @@ function removeItem(itemId, cartItem) {
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     }
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => {
+        throw new Error(err.message || `Lỗi ${response.status}`);
+      });
+    }
+    return response.json();
+  })
   .then(data => {
     if (data.success) {
       cartItem.remove();
@@ -530,7 +545,8 @@ function removeItem(itemId, cartItem) {
     confirmModal.hide();
   })
   .catch(error => {
-    showToast('Có lỗi xảy ra khi xóa sản phẩm', 'error');
+    console.error('Error removing item:', error);
+    showToast(error.message || 'Có lỗi xảy ra khi xóa sản phẩm', 'error');
     const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
     confirmModal.hide();
   });

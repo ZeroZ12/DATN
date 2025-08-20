@@ -1715,7 +1715,14 @@
                             'Accept': 'application/json'
                         }
                     })
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => {
+                                throw new Error(err.message || `Lỗi ${response.status}`);
+                            });
+                        }
+                        return response.json();
+                    })
                     .then(data => {
                         if (data.success) {
                             const cartCount = document.querySelector('.cart-count');
@@ -1727,10 +1734,13 @@
                             showToast(data.message || 'Đã thêm sản phẩm vào giỏ hàng!', 'success');
                         } else {
                             if (data.redirect) {
-                                window.location.href = data.redirect;
-                            } else {
-                                throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
+                                showToast('Đang chuyển đến trang đăng nhập...', 'info');
+                                setTimeout(() => {
+                                    window.location.href = data.redirect;
+                                }, 1000);
+                                return;
                             }
+                            throw new Error(data.message || 'Có lỗi xảy ra từ máy chủ');
                         }
 
                     })
