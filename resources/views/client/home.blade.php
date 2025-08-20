@@ -23,96 +23,97 @@
             </button>
             <div class="products-slider d-flex overflow-hidden">
                 @foreach ($activeSaleEvents as $saleEvent)
-                @if ($saleEvent->suKien->hien_thi)
-                    @php
-                        $sp = $saleEvent->sanPham;
-                        $bienThe = $saleEvent->bienTheSanPham;
-                        $gia = $bienThe ? $bienThe->gia : $sp->gia;
-                        $gia_so_sanh = $saleEvent->gia_goc_khi_bat_dau ?? $gia;
-                        $isOutOfStock = $bienThe ? $bienThe->ton_kho <= 0 : $sp->so_luong <= 0;
-                        $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
-                        $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
-                        $discountPercent = ($gia_so_sanh > 0 && $saleEvent->gia_su_kien < $gia_so_sanh) 
-                            ? number_format(($gia_so_sanh - $saleEvent->gia_su_kien) / $gia_so_sanh * 100, 0) 
-                            : 0;
-                    @endphp
-                    <div class="product-card col mx-2 shadow-sm rounded-3 position-relative" style="transition: transform 0.3s;">
-                        <div class="product-badges position-absolute top-0 start-0 p-2">
-                            @if ($discountPercent > 0)
-                                <span class="product-badge bg-danger text-white rounded-pill px-2 py-1">
-                                    Sale {{ $discountPercent }}%
-                                </span>
-                            @endif
-                            @if ($isOutOfStock)
-                                <span class="product-badge bg-secondary text-white rounded-pill px-2 py-1 mt-1">Hết hàng</span>
-                            @elseif ($sp->is_hot)
-                                <span class="product-badge bg-warning text-dark rounded-pill px-2 py-1 mt-1">
-                                    <i class="fas fa-gift"></i> Quà tặng HOT
-                                </span>
-                            @endif
-                        </div>
-                        <div class="product-image overflow-hidden rounded-top">
-                            <img src="{{ $sp->anh_dai_dien ? asset('storage/' . $sp->anh_dai_dien) : asset('images/no-image.png') }}"
-                                 alt="{{ $sp->ten }}"
-                                 class="img-fluid w-100"
-                                 style="height: 200px; object-fit: cover;"
-                                 onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
-                        </div>
-                        <div class="product-info p-3">
-                            <h3 class="product-title fs-6 fw-bold">{{ Str::limit($sp->ten, 50) }}</h3>
-                            <div class="product-price mb-2">
-                                @if ($gia_so_sanh > $saleEvent->gia_su_kien)
-                                    <div class="old-price text-muted text-decoration-line-through fs-6">
-                                        {{ number_format($gia_so_sanh) }}₫
-                                    </div>
+                    @if ($saleEvent->suKien->hien_thi)
+                        @php
+                            $sp = $saleEvent->sanPham ?? $saleEvent->bienTheSanPham->sanPham;
+                            $bienThe = $saleEvent->bienTheSanPham;
+    
+                            $gia = $bienThe ? $bienThe->gia : $sp->gia;
+                            $gia_so_sanh = $saleEvent->gia_goc_khi_bat_dau ?? $gia;
+                            $isOutOfStock = $bienThe ? $bienThe->ton_kho <= 0 : $sp->so_luong <= 0;
+                            $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                            $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                            $discountPercent = ($gia_so_sanh > 0 && $saleEvent->gia_su_kien < $gia_so_sanh) 
+                                ? number_format(($gia_so_sanh - $saleEvent->gia_su_kien) / $gia_so_sanh * 100, 0) 
+                                : 0;
+                        @endphp
+                        <div class="product-card col mx-2 shadow-sm rounded-3 position-relative" style="transition: transform 0.3s;">
+                            <div class="product-badges position-absolute top-0 start-0 p-2">
+                                @if ($discountPercent > 0)
+                                    <span class="product-badge bg-danger text-white rounded-pill px-2 py-1">
+                                        Sale {{ $discountPercent }}%
+                                    </span>
                                 @endif
-                                <div class="current-price-wrapper d-flex align-items-center gap-2">
-                                    <div class="current-price text-primary fw-bold fs-5">
-                                        {{ number_format($saleEvent->gia_su_kien) }}₫
-                                    </div>
+                                @if ($isOutOfStock)
+                                    <span class="product-badge bg-secondary text-white rounded-pill px-2 py-1 mt-1">Hết hàng</span>
+                                @elseif ($sp->is_hot)
+                                    <span class="product-badge bg-warning text-dark rounded-pill px-2 py-1 mt-1">
+                                        <i class="fas fa-gift"></i> Quà tặng HOT
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="product-image overflow-hidden rounded-top">
+                                <img src="{{ $sp->anh_dai_dien ? asset('storage/' .  $sp->anh_dai_dien) : asset('images/no-image.png') }}"
+                                    alt="{{ $sp->ten }}"
+                                    class="img-fluid w-100"
+                                    style="height: 200px; object-fit: cover;"
+                                    onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                            </div>
+                            <div class="product-info p-3">
+                                <h3 class="product-title fs-6 fw-bold">{{ Str::limit($sp->ten, 50) }}</h3>
+                                <div class="product-price mb-2">
                                     @if ($gia_so_sanh > $saleEvent->gia_su_kien)
-                                        <div class="discount-badge bg-danger text-white rounded-pill px-2 py-1 fs-6">
-                                            -{{ $discountPercent }}%
+                                        <div class="old-price text-muted text-decoration-line-through fs-6">
+                                            {{ number_format($gia_so_sanh) }}₫
                                         </div>
                                     @endif
+                                    <div class="current-price-wrapper d-flex align-items-center gap-2">
+                                        <div class="current-price text-primary fw-bold fs-5">
+                                            {{ number_format($saleEvent->gia_su_kien) }}₫
+                                        </div>
+                                        @if ($gia_so_sanh > $saleEvent->gia_su_kien)
+                                            <div class="discount-badge bg-danger text-white rounded-pill px-2 py-1 fs-6">
+                                                -{{ $discountPercent }}%
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="product-rating">
+                                    <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                    <i class="fas fa-star text-warning"></i>
+                                    <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
+                                </div>
+                                @if ($saleEvent->so_luong_gioi_han)
+                                    <p class="card-text text-warning fw-bold">
+                                        <i class="bi bi-lightning-fill"></i> Chỉ còn {{ $saleEvent->so_luong_gioi_han }} sản phẩm!
+                                    </p>
+                                @endif
+                                <div class="product-actions mt-2">
+                                    <form action="{{ route('client.cart.add') }}" method="POST"
+                                        class="add-to-cart-form" data-product-id="{{ $sp->id }}"
+                                        data-variant-id="{{ $bienThe->id ?? '' }}">
+                                        @csrf
+                                        <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                        <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                        <input type="hidden" name="so_luong" value="1">
+                                        <button type="submit" class="add-to-cart-btn btn w-100 py-2"
+                                                @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                            <i class="fas fa-shopping-cart me-2"></i>
+                                            <span>
+                                                @if ($isOutOfStock)
+                                                    HẾT HÀNG
+                                                @else
+                                                    Thêm vào giỏ
+                                                @endif
+                                            </span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="product-rating">
-                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
-                                <i class="fas fa-star text-warning"></i>
-                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
-                            </div>
-                            @if ($saleEvent->so_luong_gioi_han)
-                                <p class="card-text text-warning fw-bold">
-                                    <i class="bi bi-lightning-fill"></i> Chỉ còn {{ $saleEvent->so_luong_gioi_han }} sản phẩm!
-                                </p>
-                            @endif
-                            <div class="product-actions mt-2">
-                                <form action="{{ route('client.cart.add') }}" method="POST"
-                                      class="add-to-cart-form" data-product-id="{{ $sp->id }}"
-                                      data-variant-id="{{ $bienThe->id ?? '' }}">
-                                    @csrf
-                                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
-                                    <input type="hidden" name="so_luong" value="1">
-                                    <button type="submit" class="add-to-cart-btn btn w-100 py-2"
-                                            @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                        <i class="fas fa-shopping-cart me-2"></i>
-                                        <span>
-                                            @if ($isOutOfStock)
-                                                HẾT HÀNG
-                                            @else
-                                                Thêm vào giỏ
-                                            @endif
-                                        </span>
-                                    </button>
-                                </form>
-                            </div>
+                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                            class="product-link position-absolute top-0 start-0 w-100 h-100"></a>
                         </div>
-                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
-                           class="product-link position-absolute top-0 start-0 w-100 h-100"></a>
-                    </div>
-                @endif
+                    @endif
                 @endforeach
             </div>
             <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)">

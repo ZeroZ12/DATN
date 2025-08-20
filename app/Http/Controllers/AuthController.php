@@ -73,36 +73,36 @@ class AuthController extends Controller
         //     'password.min' => 'Mật khẩu phải trên 8 kí tự',
         // ]);
 
-$request->validate([
-    'ten_dang_nhap' => 'required|string|max:50|regex:/^[a-zA-Z0-9_]+$/|unique:users,ten_dang_nhap',
-    'ho_ten' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\'\p{L}]+$/u',
-    'email' => 'required|email|unique:users,email',
-    'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,so_dien_thoai',
-    'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/|confirmed',
-], [
-    'ten_dang_nhap.required' => 'Không được bỏ trống tên đăng nhập.',
-    'ten_dang_nhap.max' => 'Tên đăng nhập không được vượt quá 50 ký tự.',
-    'ten_dang_nhap.regex' => 'Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới.',
-    'ten_dang_nhap.unique' => 'Tên đăng nhập đã được sử dụng.',
+        $request->validate([
+            'ten_dang_nhap' => 'required|string|max:50|regex:/^[a-zA-Z0-9_]+$/|unique:users,ten_dang_nhap',
+            'ho_ten' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\'\p{L}]+$/u',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,so_dien_thoai',
+            'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/|confirmed',
+        ], [
+            'ten_dang_nhap.required' => 'Không được bỏ trống tên đăng nhập.',
+            'ten_dang_nhap.max' => 'Tên đăng nhập không được vượt quá 50 ký tự.',
+            'ten_dang_nhap.regex' => 'Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới.',
+            'ten_dang_nhap.unique' => 'Tên đăng nhập đã được sử dụng.',
 
-    'ho_ten.required' => 'Không được bỏ trống họ tên.',
-    'ho_ten.max' => 'Họ tên không được vượt quá 255 ký tự.',
-    'ho_ten.regex' => 'Họ tên chỉ được chứa chữ cái, khoảng trắng, dấu gạch ngang hoặc dấu nháy.',
+            'ho_ten.required' => 'Không được bỏ trống họ tên.',
+            'ho_ten.max' => 'Họ tên không được vượt quá 255 ký tự.',
+            'ho_ten.regex' => 'Họ tên chỉ được chứa chữ cái, khoảng trắng, dấu gạch ngang hoặc dấu nháy.',
 
-    'email.required' => 'Không được bỏ trống email.',
-    'email.email' => 'Email không đúng định dạng.',
-    'email.unique' => 'Email đã được sử dụng.',
+            'email.required' => 'Không được bỏ trống email.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.unique' => 'Email đã được sử dụng.',
 
-    'phone.required' => 'Không được bỏ trống số điện thoại.',
-    'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
-    'phone.regex' => 'Số điện thoại chỉ được chứa số, dấu +, -, hoặc ngoặc.',
-    'phone.unique' => 'Số điện thoại đã được sử dụng.',
+            'phone.required' => 'Không được bỏ trống số điện thoại.',
+            'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+            'phone.regex' => 'Số điện thoại chỉ được chứa số, dấu +, -, hoặc ngoặc.',
+            'phone.unique' => 'Số điện thoại đã được sử dụng.',
 
-    'password.required' => 'Không được bỏ trống mật khẩu.',
-    'password.min' => 'Mật khẩu phải trên 8 ký tự.',
-    'password.regex' => 'Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt(@$!%*?&_).',
-    'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
-]);
+            'password.required' => 'Không được bỏ trống mật khẩu.',
+            'password.min' => 'Mật khẩu phải trên 8 ký tự.',
+            'password.regex' => 'Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt(@$!%*?&_).',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+        ]);
 
         $user = User::create([
             'ten_dang_nhap'     => $request->ten_dang_nhap,

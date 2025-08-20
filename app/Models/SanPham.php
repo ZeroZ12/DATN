@@ -31,6 +31,7 @@ class SanPham extends Model
         'gia',
         'gia_so_sanh',
         'so_luong',
+        'co_bien_the',
         'sku',
         
     ];
