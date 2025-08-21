@@ -35,8 +35,8 @@ class OCungController extends Controller
         $data = $request->validate([
             'loai' => 'required|string|max:50',
             'dung_luong' => 'required|string|max:100',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            'gia'      => 'nullable|numeric|digits_between:1,12',
+            'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'loai.required' => 'Loại ổ cứng không được để trống.',
@@ -46,7 +46,9 @@ class OCungController extends Controller
             'dung_luong.string' => 'Dung lượng ổ cứng phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng ổ cứng không được vượt quá 100 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
+            'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',
+            'gia_sale.digits_between' => 'Giá sale không được vượt quá 12 chữ số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         OCung::create($data);
@@ -80,8 +82,8 @@ class OCungController extends Controller
         $data = $request->validate([
             'loai' => 'required|string|max:50',
             'dung_luong' => 'required|string|max:100',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            'gia'      => 'nullable|numeric|digits_between:1,12',
+            'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'loai.required' => 'Loại ổ cứng không được để trống.',
@@ -91,7 +93,9 @@ class OCungController extends Controller
             'dung_luong.string' => 'Dung lượng ổ cứng phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng ổ cứng không được vượt quá 100 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
+            'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',
+            'gia_sale.digits_between' => 'Giá sale không được vượt quá 12 chữ số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         $oCung->update($data);

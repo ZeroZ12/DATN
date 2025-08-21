@@ -33,15 +33,17 @@ class TanNhietController extends Controller
     {
         $data = $request->validate([
             'ten' => 'required|string|max:255',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            'gia'      => 'nullable|numeric|digits_between:1,12',
+            'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên tản nhiệt không được để trống.',
             'ten.string' => 'Tên tản nhiệt phải là chuỗi ký tự.',
             'ten.max' => 'Tên tản nhiệt không được vượt quá 255 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
+            'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',
+            'gia_sale.digits_between' => 'Giá sale không được vượt quá 12 chữ số.', 
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         TanNhiet::create($data);
@@ -74,15 +76,17 @@ class TanNhietController extends Controller
         $TanNhiet = TanNhiet::findOrFail($id);
         $data = $request->validate([
             'ten' => 'required|string|max:255',
-            'gia'      => 'nullable|numeric',
-            'gia_sale' => 'nullable|numeric',
+            'gia'      => 'nullable|numeric|digits_between:1,12',
+            'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'ten.required' => 'Tên tản nhiệt không được để trống.',
             'ten.string' => 'Tên tản nhiệt phải là chuỗi ký tự.',
             'ten.max' => 'Tên tản nhiệt không được vượt quá 255 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
+            'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',
+            'gia_sale.digits_between' => 'Giá sale không được vượt quá 12 chữ số.',
             'mo_ta.string' => 'Mô tả phải là chuỗi ký tự.',
         ]);
         $TanNhiet->update($data);

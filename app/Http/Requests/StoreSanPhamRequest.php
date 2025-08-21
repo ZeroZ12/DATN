@@ -43,16 +43,16 @@ class StoreSanPhamRequest extends FormRequest
             $rules['variants'] = 'required|array';
             $rules['variants.*.ram_id'] = 'required|exists:rams,id';
             $rules['variants.*.o_cung_id'] = 'required|exists:o_cungs,id';
-            $rules['variants.*.gia'] = 'required|numeric|min:0';
-            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0';
+            $rules['variants.*.gia'] = 'required|numeric|min:0|max:999999999999';
+            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0|max:999999999999';
             $rules['variants.*.ton_kho'] = 'required|integer|min:0';
             $rules['variants.*.anh_dai_dien'] = 'nullable|image|max:2048';
         } else {
             $rules['id_chip'] = 'nullable|exists:chips,id';
             $rules['id_mainboard'] = 'nullable|exists:mainboards,id';
             $rules['id_gpu'] = 'nullable|exists:gpus,id';
-            $rules['gia'] = 'required|numeric|min:0';
-            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|gt:gia';
+            $rules['gia'] = 'required|numeric|min:0|max:999999999999';
+            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|gt:gia|max:999999999999';
             $rules['so_luong'] = 'required|integer|min:0';
         }
 
@@ -96,8 +96,10 @@ class StoreSanPhamRequest extends FormRequest
             'variants.*.gia.required' => 'Giá biến thể là bắt buộc.',
             'variants.*.gia.numeric' => 'Giá biến thể phải là số.',
             'variants.*.gia.min' => 'Giá biến thể không được âm.',
+            'variants.*.gia.max' => 'Giá biến thể không được vượt quá 999.999.999.999 đ',
             'variants.*.gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
             'variants.*.gia_so_sanh.min' => 'Giá so sánh không được âm.',
+            'variants.*.gia_so_sanh.max' => 'Giá so sánh không được vượt quá 999.999.999.999 đ',
             'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
             'variants.*.ton_kho.integer' => 'Tồn kho biến thể phải là số nguyên.',
             'variants.*.ton_kho.min' => 'Tồn kho biến thể không được âm.',
