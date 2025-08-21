@@ -117,54 +117,85 @@
         </div>
 
         <!-- Tổng đơn hàng -->
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Tổng đơn hàng</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Tạm tính</span>
-                        <span>{{ number_format($tongTienGoc) }}₫</span>
-                    </div>
-                    @if($giamGia > 0)
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Giảm giá</span>
-                        <span class="text-success">-{{ number_format($giamGia) }}₫</span>
-                    </div>
-                    @endif
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Phí vận chuyển</span>
-                        <span>Miễn phí</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-3">
-                        <strong>Tổng cộng</strong>
-                        <strong class="text-danger">{{ number_format($tongTienSauGiam) }}₫</strong>
-                    </div>
-                    @if($giamGia > 0)
-                    <div class="alert alert-success small mb-3">
-                        <i class="fas fa-check-circle"></i>
-                        Đã áp dụng mã giảm giá: <strong>{{ $gioHang->maGiamGia->ma }}</strong>
-                        @if($gioHang->maGiamGia->loai == 'phan_tram')
-                            (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
-                        @else
-                            (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
-                        @endif
-                    </div>
-                    @endif
-                    @if(!$diaChi)
-                    <div class="alert alert-warning small mb-3">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng
-                    </div>
-                    @endif
-                    <button type="button" class="btn btn-primary w-100" onclick="placeOrder()" @if(!$diaChi) disabled @endif>
-                        @if(!$diaChi) Vui lòng thêm địa chỉ @else Đặt hàng @endif
-                    </button>
-                </div>
-            </div>
+     <div class="col-lg-4">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Tổng đơn hàng</h5>
         </div>
+        <div class="card-body">
+            {{-- Tạm tính --}}
+            <div class="d-flex justify-content-between mb-2">
+                <span>Tạm tính</span>
+                <span>{{ number_format($tongTienGoc) }}₫</span>
+            </div>
+
+            {{-- Giảm giá --}}
+            @if($giamGia > 0)
+            <div class="d-flex justify-content-between mb-2">
+                <span>Giảm giá</span>
+                <span class="text-success">-{{ number_format($giamGia) }}₫</span>
+            </div>
+            @endif
+
+            {{-- Phí vận chuyển --}}
+            <div class="d-flex justify-content-between mb-2">
+                <span>Phí vận chuyển</span>
+                <span>Miễn phí</span>
+            </div>
+
+            <hr>
+
+            {{-- Tổng cộng --}}
+            <div class="d-flex justify-content-between mb-3">
+                <strong>Tổng cộng</strong>
+                <strong class="text-danger">{{ number_format($tongTienSauGiam) }}₫</strong>
+            </div>
+
+            {{-- Mã giảm giá --}}
+            @if($giamGia > 0)
+            <div class="alert alert-success small mb-3">
+                <i class="fas fa-check-circle"></i>
+                Đã áp dụng mã giảm giá: <strong>{{ $gioHang->maGiamGia->ma }}</strong>
+                @if($gioHang->maGiamGia->loai == 'phan_tram')
+                    (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
+                @else
+                    (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
+                @endif
+            </div>
+            @endif
+
+            {{-- Thông báo địa chỉ --}}
+            @if(!$diaChi)
+            <div class="alert alert-warning small mb-3">
+                <i class="fas fa-exclamation-triangle"></i>
+                Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng
+            </div>
+            @endif
+
+            {{-- Chính sách giao hàng --}}
+            <div class="alert alert-info small mb-3">
+                <i class="fas fa-truck"></i>
+                Vui lòng đọc <a href="{{ route('client.policy') }}" class="text-primary text-decoration-underline">chi tiết chính sách</a> trước khi đặt hàng.
+            </div>
+
+       {{-- Checkbox đồng ý chính sách --}}
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" value="" id="agreePolicy">
+    <label class="form-check-label small" for="agreePolicy">
+        Tôi đã đọc và đồng ý với chính sách của shop
+    </label>
+</div>
+
+{{-- Nút đặt hàng --}}
+<button type="button" id="placeOrderBtn" class="btn btn-primary w-100" onclick="placeOrder()" disabled>
+    @if(!$diaChi) Vui lòng thêm địa chỉ @else Đặt hàng @endif
+</button>
+
+        </div>
+    </div>
+</div>
+
+
     </div>
 </div>
 @endsection
@@ -331,5 +362,25 @@ function showToast(message, type = 'success') {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('agreePolicy');
+    const button = document.getElementById('placeOrderBtn');
+    const hasAddress = {{ $diaChi ? 'true' : 'false' }};
+
+    // Khi checkbox thay đổi, kiểm tra
+    checkbox.addEventListener('change', function() {
+        if(!hasAddress){
+            button.disabled = true;
+        } else {
+            button.disabled = !checkbox.checked;
+        }
+    });
+
+    // Kiểm tra trạng thái lúc load
+    button.disabled = true;
+});
+
 </script>
 @endpush

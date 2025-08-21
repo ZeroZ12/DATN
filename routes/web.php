@@ -310,6 +310,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', [DashBoardCont
 
 //Route client
 Route::get('/', [HomeController::class, 'index'])->name('client.home');
+Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
 Route::get('/danhmuc/{id}/show', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.show');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
@@ -344,13 +345,8 @@ Route::middleware(['auth'])->group(function () {
     // Payment routes
     Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
     Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
-    Route::get('/payment-success/{id}', function ($id) {
-        return "Thanh toán thành công! Đơn hàng: #" . $id;
-    })->name('client.payment.success');
 
-    Route::get('/payment-fail/{id}', function ($id) {
-        return "Thanh toán thất bại hoặc bị hủy. Đơn hàng: #" . $id;
-    })->name('client.payment.fail');
+    Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('client.payment.fail');
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
