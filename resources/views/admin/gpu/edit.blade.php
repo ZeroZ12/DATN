@@ -22,7 +22,7 @@
 
                     <div class="mb-3">
                         <label for="gia" class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
-                        <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia') }}">
+                        <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia',$gpu->gia) }}">
                         @error('ten')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
@@ -31,7 +31,7 @@
                     <div class="mb-3">
                         <label for="gia_sale" class="form-label fw-semibold">Giá sale </label>
                         <input type="number" name="gia_sale" id="gia_sale" class="form-control"
-                            value="{{ old('gia_sale') }}">
+                            value="{{ old('gia_sale',$gpu->gia_sale) }}">
                         @error('ten')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
