@@ -32,13 +32,14 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:banners,title',
             'image_url' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Chỉ cho phép các định dạng hình ảnh
             'sale' => 'nullable|numeric|min:0|max:100', // Giảm giá theo phần trăm, phải là một số từ 0 đến 100
             'description' => 'nullable|string',
         ],
             [
                 'title.required' => 'Tiêu đề là bắt buộc.',
+                'title.unique' => 'Tiêu đề đã tồn tại.',
                 'image_url.required' => 'Ảnh banner là bắt buộc.',
                 'image_url.mimes' => 'Ảnh banner phải có định dạng jpeg, png, jpg hoặc gif.',
                 'image_url.max' => 'Ảnh banner không được vượt quá 2MB.',
@@ -91,13 +92,14 @@ class BannerController extends Controller
     {   
         $banner = Banner::findOrFail($id);
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:banners,title',
             'image_url' => 'required|mimes:jpeg,png,jpg,gif|max:2048', // Chỉ cho phép các định dạng hình ảnh
             'sale' => 'required|numeric|min:0|max:100', // Giảm giá theo phần trăm, phải là một số từ 0 đến 100
             'description' => 'nullable|string',
         ],
             [
                 'title.required' => 'Tiêu đề là bắt buộc.',
+                'title.unique' => 'Tiêu đề đã tồn tại.',
                 'image_url.required' => 'Ảnh banner là bắt buộc.',
                 'image_url.mimes' => 'Ảnh banner phải có định dạng jpeg, png, jpg hoặc gif.',
                 'image_url.max' => 'Ảnh banner không được vượt quá 2MB.',

@@ -33,7 +33,7 @@ class GpuController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ten' => 'required|string|max:255',
+            'ten' => 'required|string|max:255|unique:gpus,ten',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
@@ -41,6 +41,7 @@ class GpuController extends Controller
             'ten.required' => 'Tên GPU không được để trống.',
             'ten.string' => 'Tên GPU phải là chuỗi ký tự.',
             'ten.max' => 'Tên GPU không được vượt quá 255 ký tự.',
+            'ten.unique' => 'Tên GPU đã tồn tại.',
             'gia.numeric'    => 'Giá phải là số.',
             'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',
@@ -76,7 +77,7 @@ class GpuController extends Controller
     {
         $gpu = Gpu::findOrFail($id);
         $data = $request->validate([
-            'ten' => 'required|string|max:255',
+            'ten' => 'required|string|max:255|unique:gpus,ten',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
@@ -84,6 +85,7 @@ class GpuController extends Controller
             'ten.required' => 'Tên GPU không được để trống.',
             'ten.string' => 'Tên GPU phải là chuỗi ký tự.',
             'ten.max' => 'Tên GPU không được vượt quá 255 ký tự.',
+            'ten.unique' => 'Tên GPU đã tồn tại.',
             'gia.numeric'    => 'Giá phải là số.',
             'gia.digits_between' => 'Giá không được vượt quá 12 chữ số.',
             'gia_sale.numeric' => 'Giá sale phải là số.',

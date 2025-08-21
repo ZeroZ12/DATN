@@ -35,7 +35,7 @@ class DanhMucController extends Controller
     public function store(Request $request)
     {   
         $data = $request->validate([
-            'ten' => 'required|string|max:255',
+            'ten' => 'required|string|max:255|unique:danh_mucs,ten',
             'hinh_anh' => 'required|mimes:jpeg,png,jpg,gif,svg', // Thêm validation cho hình ảnh
         ]);
         // Xử lý upload hình ảnh nếu có
@@ -78,7 +78,7 @@ public function update(Request $request, string $id)
     $danhmuc = DanhMuc::findOrFail($id);
 
     $data = $request->validate([
-        'ten' => 'required|string|max:255',
+        'ten' => 'required|string|max:255|unique:danh_mucs,ten',
         'hinh_anh' => 'required|mimes:jpeg,png,jpg,gif,svg',
     ]);
 
