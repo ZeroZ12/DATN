@@ -1094,7 +1094,7 @@ class CartController extends Controller
                 $vnp_TmnCode = "3D6CARP9";
                 $vnp_HashSecret = "VZ4OJHBNFW0TL0DNSY6HFY7P23HKKSDG";
 
-                $vnp_TxnRef = $donHang->id;
+                $vnp_TxnRef = $donHang->ma_don;
                 $vnp_Amount = $donHang->tong_tien * 100;
                 $vnp_OrderInfo = "Thanh toán đơn hàng #" . $donHang->ma_don;
                 $vnp_OrderType = "pay";
@@ -1147,7 +1147,8 @@ class CartController extends Controller
                     'redirect_url' => route('client.payment', ['id' => $donHang->id])
                 ]);
             }
-        } catch (\Exception $e) {
+        }
+         catch (\Exception $e) {
             Log::error('Place order error: ' . $e->getMessage(), [
                 'request' => $request->all(),
                 'id_user' => Auth::id(),

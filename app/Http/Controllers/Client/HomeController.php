@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SanPham;    // Đảm bảo import Model SanPham
 
 class HomeController extends Controller
-{  
+{
     public function index(Request $request)
-    {   
+    {
         // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters
         if ($request->filled('san_pham_id') && $request->filled('so_luong')) {
             return $this->addToCart($request);
@@ -160,5 +160,9 @@ class HomeController extends Controller
 
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
         }
+    }
+    public function policy()
+    {
+        return view('client.policy');
     }
 }
