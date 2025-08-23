@@ -34,7 +34,7 @@ class OCungController extends Controller
     {
         $data = $request->validate([
             'loai' => 'required|string|max:50',
-            'dung_luong' => 'required|string|max:100',
+            'dung_luong' => 'required|string|max:100|unique:o_cungs,dung_luong',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
@@ -43,6 +43,7 @@ class OCungController extends Controller
             'loai.string' => 'Loại ổ cứng phải là chuỗi ký tự.',
             'loai.max' => 'Loại ổ cứng không được vượt quá 50 ký tự.',
             'dung_luong.required' => 'Dung lượng ổ cứng không được để trống.',
+            'dung_luong.unique' => 'Dung lượng ổ cứng đã tồn tại.',
             'dung_luong.string' => 'Dung lượng ổ cứng phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng ổ cứng không được vượt quá 100 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
@@ -81,13 +82,14 @@ class OCungController extends Controller
         $oCung = OCung::findOrFail($id);
         $data = $request->validate([
             'loai' => 'required|string|max:50',
-            'dung_luong' => 'required|string|max:100',
+            'dung_luong' => 'required|string|max:100|unique:o_cungs,dung_luong',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'loai.required' => 'Loại ổ cứng không được để trống.',
             'loai.string' => 'Loại ổ cứng phải là chuỗi ký tự.',
+            'dung_luong.unique' => 'Dung lượng ổ cứng đã tồn tại.',
             'loai.max' => 'Loại ổ cứng không được vượt quá 50 ký tự.',
             'dung_luong.required' => 'Dung lượng ổ cứng không được để trống.',
             'dung_luong.string' => 'Dung lượng ổ cứng phải là chuỗi ký tự.',

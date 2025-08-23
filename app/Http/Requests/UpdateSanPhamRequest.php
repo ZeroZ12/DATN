@@ -52,6 +52,9 @@ class UpdateSanPhamRequest extends FormRequest
             $rules['id_chip'] = 'required|exists:chips,id';
             $rules['id_mainboard'] = 'required|exists:mainboards,id';
             $rules['id_gpu'] = 'required|exists:gpus,id';
+            $rules['id_tannhiet'] = 'required|exists:tan_nhiets,id';
+            $rules['id_nguon'] = 'required|exists:nguons,id';
+            $rules['id_case'] = 'required|exists:cases,id';
             $rules['variants'] = 'array';
             $rules['variants.*.id'] = 'nullable|exists:bien_the_san_phams,id';
             $rules['variants.*.ram_id'] = 'required|exists:rams,id';
@@ -66,6 +69,9 @@ class UpdateSanPhamRequest extends FormRequest
             $rules['id_chip'] = 'nullable|exists:chips,id';
             $rules['id_mainboard'] = 'nullable|exists:mainboards,id';
             $rules['id_gpu'] = 'nullable|exists:gpus,id';
+            $rules['id_tannhiet'] = 'nullable|exists:tan_nhiets,id';
+            $rules['id_nguon'] = 'nullable|exists:nguons,id';
+            $rules['id_case'] = 'nullable|exists:cases,id';
             $rules['gia'] = 'required|numeric|min:0|max:999999999999';
             $rules['gia_so_sanh'] = 'nullable|numeric|min:0|max:999999999999';
             $rules['so_luong'] = 'required|integer|min:0';
@@ -92,6 +98,9 @@ class UpdateSanPhamRequest extends FormRequest
             'id_chip.exists' => 'Chip được chọn không hợp lệ.',
             'id_mainboard.exists' => 'Mainboard được chọn không hợp lệ.',
             'id_gpu.exists' => 'GPU được chọn không hợp lệ.',
+            'id_tannhiet.exists' => 'Tản nhiệt được chọn không hợp lệ.',
+            'id_nguon.exists' => 'Nguồn được chọn không hợp lệ.',
+            'id_case.exists' => 'Case được chọn không hợp lệ.',
             'bao_hanh_thang.integer' => 'Thời gian bảo hành phải là số nguyên.',
             'bao_hanh_thang.min' => 'Thời gian bảo hành không được âm.',
             'anh_dai_dien.image' => 'Ảnh đại diện phải là định dạng ảnh hợp lệ.',
@@ -111,12 +120,12 @@ class UpdateSanPhamRequest extends FormRequest
             'gia.numeric' => 'Giá biến thể phải là số.',
             'gia.min' => 'Giá biến thể không được âm.',
             'gia.max' => 'Giá biến thể không được vượt quá 999.999.999.999 đ',
-            'variants.*.gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
-            'variants.*.gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'variants.*.gia_so_sanh.max' => 'Giá so sánh không được vượt quá 999.999.999.999 đ',
-            'gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
-            'gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'gia_so_sanh.max' => 'Giá so sánh không được vượt quá 999.999.999.999 đ',
+            'variants.*.gia_so_sanh.numeric' => 'Giá gốc phải là số.',
+            'variants.*.gia_so_sanh.min' => 'Giá gốc không được âm.',
+            'variants.*.gia_so_sanh.max' => 'Giá gốc không được vượt quá 999.999.999.999 đ',
+            'gia_so_sanh.numeric' => 'Giá gốc phải là số.',
+            'gia_so_sanh.min' => 'Giá gốc không được âm.',
+            'gia_so_sanh.max' => 'Giá gốc không được vượt quá 999.999.999.999 đ',
             'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
             'variants.*.ton_kho.integer' => 'Tồn kho biến thể phải là số nguyên.',
             'variants.*.ton_kho.min' => 'Tồn kho biến thể không được âm.',
@@ -127,8 +136,8 @@ class UpdateSanPhamRequest extends FormRequest
     }
 
     /**
-     * Validate thủ công: Giá so sánh phải lớn hơn giá bán (giá_so_sanh > gia).
-     * Nếu giá so sánh nhỏ hơn hoặc bằng giá bán thì báo lỗi.
+     * Validate thủ công: Giá gốc phải lớn hơn giá bán (giá_so_sanh > gia).
+     * Nếu giá gốc nhỏ hơn hoặc bằng giá bán thì báo lỗi.
      */
     public function withValidator($validator)
     {
@@ -138,7 +147,7 @@ class UpdateSanPhamRequest extends FormRequest
                 $gia = isset($variant['gia']) ? floatval($variant['gia']) : 0;
                 $giaSoSanh = isset($variant['gia_so_sanh']) ? floatval($variant['gia_so_sanh']) : null;
                 if ($giaSoSanh !== null && $giaSoSanh <= $gia) {
-                    $validator->errors()->add("variants.$i.gia_so_sanh", "Giá so sánh phải lớn hơn giá bán.");
+                    $validator->errors()->add("variants.$i.gia_so_sanh", "Giá gốc phải lớn hơn giá bán.");
                 }
             }
         });

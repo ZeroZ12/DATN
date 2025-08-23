@@ -33,12 +33,13 @@ class RamController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'dung_luong' => 'required|string|max:100',
+            'dung_luong' => 'required|string|max:100|unique:rams,dung_luong',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'dung_luong.required' => 'Dung lượng RAM không được để trống.',
+            'dung_luong.unique' => 'Dung lượng RAM đã tồn tại.',
             'dung_luong.string' => 'Dung lượng RAM phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng RAM không được vượt quá 100 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',
@@ -76,12 +77,13 @@ class RamController extends Controller
     {
         $ram = Ram::findOrFail($id);
         $data = $request->validate([
-            'dung_luong' => 'required|string|max:100',
+            'dung_luong' => 'required|string|max:100|unique:rams,dung_luong',
             'gia'      => 'nullable|numeric|digits_between:1,12',
             'gia_sale' => 'nullable|numeric|digits_between:1,12',
             'mo_ta' => 'nullable|string',
         ], [
             'dung_luong.required' => 'Dung lượng RAM không được để trống.',
+            'dung_luong.unique' => 'Dung lượng RAM đã tồn tại.',
             'dung_luong.string' => 'Dung lượng RAM phải là chuỗi ký tự.',
             'dung_luong.max' => 'Dung lượng RAM không được vượt quá 100 ký tự.',
             'gia.numeric'    => 'Giá phải là số.',

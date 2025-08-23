@@ -97,7 +97,7 @@ class SanPhamController extends Controller
         $nguons = Nguon::all();
         $tannhiets = Tannhiet::all();
         $cases = Cases::all();
-
+        
         return view('admin.sanpham.edit', compact(
             'sanpham',
             'danhmucs',
