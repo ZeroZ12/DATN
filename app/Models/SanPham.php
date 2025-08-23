@@ -33,7 +33,7 @@ class SanPham extends Model
         'so_luong',
         'co_bien_the',
         'sku',
-        
+
     ];
 
     // Quan hệ với bảng Chip

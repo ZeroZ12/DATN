@@ -64,7 +64,8 @@ class HomeController extends Controller
                 }
             )
             ->orderByDesc('id')
-            ->paginate(10)
+            // ->get();
+            ->paginate(30)
             ->withQueryString();
 
         $thuongHieus = ThuongHieu::all();
@@ -92,6 +93,7 @@ class HomeController extends Controller
         ->pluck('id')
         ->toArray();
 
+        // dd($sanphams);
         return view('client.home', compact('activeSaleEvents','sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
     }
 
