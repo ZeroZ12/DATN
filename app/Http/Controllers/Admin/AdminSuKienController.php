@@ -33,7 +33,7 @@ class AdminSuKienController extends Controller
     {
         // Chỉ lấy các sản phẩm đang hoạt động (chưa bị xóa mềm).
         $sanphams = SanPham::whereNull('deleted_at')->get();
-        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->get();
+        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->whereHas('sanPham')->get();
         return view('admin.sukien.create', compact('sanphams', 'bienThes'));
     }
 
@@ -60,8 +60,13 @@ class AdminSuKienController extends Controller
                         $bienTheId = str_replace('bien_the_', '', $index);
                         $bienThe = BienTheSanPham::find($bienTheId);
                         if ($bienThe && $value > $bienThe->ton_kho) {
-                            $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$bienThe->so_luong}).");
+                            $max = $bienThe->ton_kho ?? 0;
+                            if ($value > $max) {
+                                $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$max}).");
+                            }
                         }
+                        //     $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$bienThe->ton_kho}).");
+                        // }
                     } else {
                         $sanPham = SanPham::find($index);
                         if ($sanPham && $value > $sanPham->so_luong) {
@@ -167,7 +172,7 @@ class AdminSuKienController extends Controller
         // Tìm sự kiện theo ID và tải các sản phẩm liên quan.
         $suKien = SuKien::with('sanPhams','bienTheSanPhams','ChiTietSuKien')->findOrFail($id);
         $sanphams = SanPham::whereNull('deleted_at')->get();
-        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->get();
+        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->whereHas('sanPham')->get();
         return view('admin.sukien.edit', compact('suKien', 'sanphams', 'bienThes'));
     }
 
@@ -195,7 +200,11 @@ class AdminSuKienController extends Controller
                         $bienTheId = str_replace('bien_the_', '', $index);
                         $bienThe = BienTheSanPham::find($bienTheId);
                         if ($bienThe && $value > $bienThe->ton_kho) {
-                            $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$bienThe->so_luong}).");
+                            $max = $bienThe->ton_kho ?? 0;
+                            if ($value > $max) {
+                                $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$max}).");
+                            }
+                            // $fail("Giới hạn số lượng của biến thể {$bienThe->ma_bien_the} không được vượt quá số lượng tồn kho ({$bienThe->ton_kho}).");
                         }
                     } else {
                         $sanPham = SanPham::find($index);

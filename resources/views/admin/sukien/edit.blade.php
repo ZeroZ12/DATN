@@ -65,7 +65,7 @@
             <select class="form-select select2-enable" id="id_bien_the_san_pham" name="id_bien_the_san_pham[]" multiple="multiple">
                 @foreach($bienThes as $bienThe)
                     <option value="{{ $bienThe->id }}" {{ in_array($bienThe->id, old('id_bien_the_san_pham', $suKien->bienTheSanPhams->pluck('id')->toArray())) ? 'selected' : '' }}>
-                        {{ $bienThe->sanPham->ten }} - {{ $bienThe->ma_bien_the }}
+                        {{ $bienThe->sanPham?->ten ?? '-' }} - {{ $bienThe->ma_bien_the }}
                     </option>
                 @endforeach
             </select>
@@ -144,6 +144,7 @@
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[sanPham.id] !== undefined
                         ? oldInput.gia_su_kien[sanPham.id]
                         : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].gia_su_kien : '');
+                        console.log(oldGiaSuKien);
                     const oldSoLuongGioiHan = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[sanPham.id] !== undefined
                         ? oldInput.so_luong_gioi_han[sanPham.id]
                         : (suKienData.san_phams[sanPham.id] ? suKienData.san_phams[sanPham.id].so_luong_gioi_han : '');

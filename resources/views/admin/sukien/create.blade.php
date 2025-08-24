@@ -62,7 +62,7 @@
                 <select class="form-select select2-enable" id="id_bien_the_san_pham" name="id_bien_the_san_pham[]" multiple="multiple">
                     @foreach($bienThes as $bienThe)
                         <option value="{{ $bienThe->id }}" {{ in_array($bienThe->id, old('id_bien_the_san_pham', [])) ? 'selected' : '' }}>
-                            {{ $bienThe->sanPham->ten }} - {{ $bienThe->ma_bien_the }}
+                            {{ $bienThe->sanPham?->ten }} - {{ $bienThe->ma_bien_the }}
                         </option>
                     @endforeach
                 </select>
@@ -164,7 +164,7 @@
                 if (bienThe) {
                     // Truy cập giá trị old từ đối tượng oldInput
                     const oldGiaSuKien = oldInput.gia_su_kien && oldInput.gia_su_kien[`bien_the_${bienThe.id}`] !== undefined ? oldInput.gia_su_kien[`bien_the_${bienThe.id}`] : '';
-                    const oldQuantityLimit = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] !== undefined ? oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] : '';
+                    const oldSoLuongGioiHan = oldInput.so_luong_gioi_han && oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] !== undefined ? oldInput.so_luong_gioi_han[`bien_the_${bienThe.id}`] : '';
 
                     productVariantPricesDiv.append(`
                         <div class="card mb-2">
