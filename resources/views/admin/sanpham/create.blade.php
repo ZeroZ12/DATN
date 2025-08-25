@@ -193,7 +193,6 @@
                 @error('anh_dai_dien')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-            </div>
 
             <div class="form-group mb-3">
                 <label for="anh_phu">Ảnh phụ</label>
@@ -236,7 +235,6 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-            </div>
 
             <div class="variant-section">
                 <hr>
@@ -340,7 +338,6 @@
             variantTableBody.innerHTML = '';
             const rams = Array.from(ramCheckboxes).filter(cb => cb.checked);
             const ocs = Array.from(ocungCheckboxes).filter(cb => cb.checked);
-
             let globalPrice = document.getElementById('global-price').value;
             if (!globalPrice || isNaN(globalPrice) || Number(globalPrice) === 0) {
                 let tongGia = document.getElementById('tong-gia-linh-kien').innerText.replace(/[^\d]/g, '');
@@ -366,7 +363,7 @@
             });
 
             document.querySelectorAll('.remove-variant').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     this.closest('tr').remove();
                 });
             });

@@ -568,98 +568,11 @@
             width: 100% !important;
             display: block;
             overflow-x: auto;
-        }
-=======
-
-        span {
+=========
+        span{
             font-size: 14px;
+>>>>>>>>> Temporary merge branch 2
         }
-
-        .flash-sale-container {
-            background: #fff0f0; /* Màu nền đỏ nhạt */
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid #f99; /* Viền đỏ nhạt hơn */
-        }
-
-        .flash-sale-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ff5555; /* Màu nền đỏ đậm cho header */
-            color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-        }
-
-        .flash-sale-badge {
-            font-weight: bold;
-            font-size: 1.2rem;
-            /* Loại bỏ các style cũ không cần thiết */
-            background: none;
-            padding: 0;
-            margin-bottom: 0;
-        }
-
-        .flash-sale-timer-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            font-size: 1rem;
-        }
-
-        .flash-sale-timer-box i {
-            font-size: 1.2rem;
-        }
-
-        .timer-digits {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .digit-box {
-            background: black;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 4px;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .flash-sale-prices {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .flash-sale-prices .current-price {
-            font-size: 2.2rem; /* Giá to hơn */
-            font-weight: bold;
-            color: #dc3545; /* Màu đỏ */
-        }
-
-        .flash-sale-prices .old-price {
-            font-size: 1.2rem; /* Giá nhỏ hơn */
-            color: #888; /* Màu xám */
-            text-decoration: line-through; /* Gạch ngang */
-        }
-
-        /* Các style đã có có thể cần điều chỉnh để không xung đột */
-        .current-price.text-danger {
-            /* Đảm bảo style này không bị ghi đè bởi các quy tắc khác */
-            font-size: 1.5rem;
-        }
-        .old-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 12px;
-    }
->>>>>>> main
     </style>
     <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
         @if (session('success'))
@@ -914,14 +827,11 @@
             <div class="col-md-8">
                 <div class="bg-light p-3 rounded mb-4 position-relative">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
                     <div class="product-description-content">{!! $sanpham->mo_ta !!}</div>
-=======
-                    <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
-                    <div class="text-end mt-2">
-                        <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
-                    </div>
->>>>>>> main
+=========
+                    <div>{!! $sanpham->mo_ta !!}</div>
+>>>>>>>>> Temporary merge branch 2
                 </div>
             </div>
 

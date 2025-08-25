@@ -146,6 +146,36 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="col">
+                    <label>Tản Nhiệt</label>
+                    <select name="id_gpu" class="form-select">
+                        @foreach ($tannhiets as $tannhiet)
+                            <option value="{{ $gpu->id }}" {{ $sanpham->id_tannhiet == $tannhiet->id ? 'selected' : '' }}>
+                                {{ $tannhiet->ten }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>Nguồn</label>
+                    <select name="id_gpu" class="form-select">
+                        @foreach ($nguons as $nguon)
+                            <option value="{{ $nguon->id }}" {{ $sanpham->id_nguon == $nguon->id ? 'selected' : '' }}>
+                                {{ $nguon->ten }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col">
+                    <label>Case</label>
+                    <select name="id_gpu" class="form-select">
+                        @foreach ($cases as $case)
+                            <option value="{{ $case->id }}" {{ $sanpham->id_gpu == $case->id ? 'selected' : '' }}>
+                                {{ $case->ten }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="row mb-3">

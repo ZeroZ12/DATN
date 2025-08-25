@@ -128,13 +128,14 @@
         @endif
     </section>
     <div class="container py-4">
+
+        <!-- Categories Section -->
         @foreach ($danhMucs as $danhMuc)
             @if ($sanphams->where('id_category', $danhMuc->id)->isNotEmpty())
             <div class="product-section mb-4">
-                <div class="row section-header align-items-center">
-                    <h2 class="col-7 section-title mb-0">{{ $danhMuc->ten }}</h2>
-                    <a class="col-5 dm text-end pe-5" href="{{ route('danhmuc.index', $danhMuc->id) }}">Xem Tất Cả</a>
-                    <form method="GET" action="{{ route('client.home') }}" class="filter-form"></form>
+                <div class="section-header">
+                    <h2 class="section-title">{{ $danhMuc->ten }}</h2>
+                    <form method="GET" action="{{ route('client.home') }}" class="filter-form">
                 </div>
                 <div class="products-slider-wrapper">
                     <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i class="fas fa-chevron-left"></i></button>
