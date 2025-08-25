@@ -25,10 +25,37 @@
                                         <td>Tổng tiền:</td>
                                         <td class="text-end text-danger fw-bold">{{ number_format($donHang->tong_tien) }}₫</td>
                                     </tr>
+                                    @if($donHang->giam_gia > 0)
+                                    <tr>
+                                        <td>Tổng tiền gốc:</td>
+                                        <td class="text-end text-muted text-decoration-line-through">{{ number_format($donHang->tong_tien_goc) }}₫</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Giảm giá:</td>
+                                        <td class="text-end text-success">-{{ number_format($donHang->giam_gia) }}₫</td>
+                                    </tr>
+                                    @endif
+                                    @if($donHang->maGiamGia)
+                                    <tr>
+                                        <td>Mã giảm giá:</td>
+                                        <td class="text-end text-success">
+                                            {{ $donHang->maGiamGia->ma }}
+                                            @if($donHang->maGiamGia->loai == 'phan_tram')
+                                                (Giảm {{ $donHang->maGiamGia->gia_tri }}%)
+                                            @else
+                                                (Giảm {{ number_format($donHang->maGiamGia->gia_tri) }}₫)
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endif
                                     <tr>
                                         <td>Phương thức thanh toán:</td>
                                         <td class="text-end">
-                                            {{ $donHang->phuongThucThanhToan->ten }}
+                                            @if($donHang->phuongThucThanhToan)
+                                                {{ $donHang->phuongThucThanhToan->ten }}
+                                            @else
+                                                <span class="text-muted">Không xác định</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 </tbody>
@@ -40,7 +67,7 @@
                             <i class="fas fa-home me-2"></i>
                             Về trang chủ
                         </a>
-                        <a href="#" class="btn btn-outline-primary">
+                        <a href="{{ route('client.orders.index', ['order_id' => $donHang->id]) }}" class="btn btn-outline-primary">
                             <i class="fas fa-list me-2"></i>
                             Xem đơn hàng
                         </a>

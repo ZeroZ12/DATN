@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('ma', 50)->unique();
             $table->enum('loai', ['phan_tram', 'tien_mat']);
             $table->decimal('gia_tri', 10, 2);
+            $table->decimal('gia_tri_toi_da',10,2)->default(0);
+            $table->decimal('dieu_kien', 10, 2)->default(0)->comment('Giá trị tối thiểu để áp dụng mã giảm giá');
             $table->timestamp('ngay_bat_dau')->nullable();
             $table->timestamp('ngay_ket_thuc')->nullable();
             $table->boolean('hoat_dong')->default(true);

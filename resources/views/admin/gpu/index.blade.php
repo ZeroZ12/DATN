@@ -40,11 +40,19 @@
                             <tr>
                                 <td>{{ $gpu->id }}</td>
                                 <td class="fw-semibold">{{ $gpu->ten }}</td>
+<<<<<<< HEAD
                                 @if (!empty($mainboard->gia_sale)&& $mainboard->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
                                     <td>{{ number_format($gpu->gia_sale, 0, ',', '.') }}đ</td>
                                 @else
                                     <td>{{ number_format($gpu->gia, 0, ',', '.') }}đ</td>
+=======
+                                @if (!empty($gpu->gia_sale)&& $gpu->gia_sale > 0 )
+                                    {{-- Kiểm tra nếu giá không rỗng --}}
+                                    <td>{{ number_format($gpu->gia_sale, 0, ',', '.') }} đ</td>
+                                @else
+                                    <td>{{ number_format($gpu->gia, 0, ',', '.') }} đ</td>
+>>>>>>> main
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($gpu->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">

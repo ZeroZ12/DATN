@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers\Client; // Lưu ý namespace có thể là App\Http\Controllers nếu bạn không dùng Client subfolder
 
-use App\Http\Controllers\Controller;
-use App\Models\Chip;
 use App\Models\Gpu;
-use App\Models\OCung;
 use App\Models\Ram;
-use App\Models\SanPham;    // Đảm bảo import Model SanPham
-use App\Models\ThuongHieu;
+use App\Models\Chip;
+use App\Models\OCung;
+use App\Models\Banner;
+use App\Models\SuKien;
 use App\Models\DanhMuc;
+use App\Models\GioHang;
+use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
+use App\Models\SuKienSanPham;
+use App\Models\BienTheSanPham;
+use App\Models\ChiTietGioHang;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\SanPham;    // Đảm bảo import Model SanPham
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters
+        if ($request->filled('san_pham_id') && $request->filled('so_luong')) {
+            return $this->addToCart($request);
+        }
+
         // Get all categories
         $danhMucs = DanhMuc::all();
 
@@ -28,12 +41,12 @@ class HomeController extends Controller
                 'BienTheSanPhams.ram',
                 'BienTheSanPhams.oCung',
             ])
-            // === THAY ĐỔI TẠI ĐÂY: Thêm withAvg để tính trung bình số sao ===
-            ->withAvg(['danhGiaSanPhams as average_rating' => function ($query) {
-                $query->where('danh_gia_san_phams.trang_thai', 'da_duyet');
+            ->withAvg(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
             }], 'so_sao')
-            // ===============================================================
-
+            ->withCount(['danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }])
             ->when($request->filled('id_brand'), fn($q) => $q->where('id_brand', $request->id_brand))
             ->when($request->filled('id_chip'), fn($q) => $q->where('id_chip', $request->id_chip))
             ->when($request->filled('id_gpu'), fn($q) => $q->where('id_gpu', $request->id_gpu))
@@ -51,7 +64,8 @@ class HomeController extends Controller
                 }
             )
             ->orderByDesc('id')
-            ->paginate(10)
+            // ->get();
+            ->paginate(30)
             ->withQueryString();
 
         $thuongHieus = ThuongHieu::all();
@@ -59,8 +73,98 @@ class HomeController extends Controller
         $gpus = GPU::all();
         $rams = Ram::all();
         $oCungs = OCung::all();
+        $banners = Banner::where('deleted_at', null) // Lọc các banner chưa bị xóa
+            ->orderBy('created_at', 'desc')
+            ->take(3) // Lấy 3 banner mới nhất
+            ->get();
+        $r_cates = DanhMuc::orderBy('id', 'desc')->paginate(3);
+        $b_cates = DanhMuc::orderBy('id','asc')->paginate(4);
+        // $suKien = SuKien::active()->with('sanphams')->get();
+        $activeSaleEvents = SuKienSanPham::with('sanPham','bienTheSanPham')
+        ->whereHas('suKien', function ($query) {
+            $query->where('ngay_bat_dau', '<=', now())
+                  ->where('ngay_ket_thuc', '>=', now())
+                  ->where('hien_thi', 1);
+        })
+        ->paginate(9);
 
+    $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+        ->limit(5)
+        ->pluck('id')
+        ->toArray();
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs'));
+        // dd($sanphams);
+        return view('client.home', compact('activeSaleEvents','sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
+    }
+
+    public function addToCart(Request $request)
+    {
+        try {
+            // Kiểm tra user đã đăng nhập chưa
+            if (!Auth::check()) {
+                return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+            }
+
+            $request->validate([
+                'san_pham_id' => 'required|exists:san_phams,id',
+                'bien_the_id' => 'nullable|exists:bien_the_san_phams,id',
+                'so_luong' => 'required|integer|min:1'
+            ]);
+
+            $user = Auth::user();
+            $gioHang = GioHang::firstOrCreate([
+                'id_user' => $user->id,
+                'loai' => 'chinh'
+            ]);
+
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            $chiTietGioHang = ChiTietGioHang::where('id_gio_hang', $gioHang->id)
+                ->where('id_product', $request->san_pham_id)
+                ->where('id_bien_the', $request->bien_the_id)
+                ->first();
+
+            if ($chiTietGioHang) {
+                // Nếu đã có thì tăng số lượng
+                $chiTietGioHang->so_luong += $request->so_luong;
+                $chiTietGioHang->save();
+            } else {
+                // Nếu chưa có thì tạo mới
+                $sanPham = SanPham::findOrFail($request->san_pham_id);
+
+                // Kiểm tra bien_the_id có tồn tại không
+                if ($request->bien_the_id) {
+                    $bienThe = BienTheSanPham::findOrFail($request->bien_the_id);
+                    $gia = $bienThe->gia;
+                } else {
+                    // Nếu không có biến thể, lấy giá từ sản phẩm chính
+                    $gia = $sanPham->gia ?? 0;
+                }
+
+                ChiTietGioHang::create([
+                    'id_gio_hang' => $gioHang->id,
+                    'id_product' => $request->san_pham_id,
+                    'id_bien_the' => $request->bien_the_id,
+                    'so_luong' => $request->so_luong,
+                    'gia' => $gia
+                ]);
+            }
+
+            return redirect()->route('client.home')->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Cart add error: ' . $e->getMessage(), [
+                'request' => $request->all(),
+                'id_user' => Auth::id(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+        }
+    }
+    public function policy()
+    {
+        return view('client.policy');
     }
 }

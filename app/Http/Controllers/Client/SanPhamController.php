@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Chip;
 use App\Models\Gpu;
 use App\Models\OCung;
@@ -13,7 +14,7 @@ use App\Models\ThuongHieu;
 use App\Models\DanhMuc;
 use Illuminate\Http\Request;
 use App\Models\DanhGiaSanPham;
-
+use App\Models\SuKienSanPham;
 
 class SanPhamController extends Controller
 {
@@ -40,12 +41,16 @@ class SanPhamController extends Controller
                     });
                 }
             )
-            ->withCount(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }])
-            ->withAvg(['danhGiaSanPhams' => function ($query) {
-                $query->where('trang_thai', 'da_duyet');
-            }], 'so_sao')
+            ->withCount([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ])
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
             ->orderByDesc('id')
             ->paginate(10)
             ->withQueryString();
@@ -56,7 +61,13 @@ class SanPhamController extends Controller
         $rams = Ram::all();
         $oCungs = OCung::all();
 
-        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs'));
+        // Add banners for the banner component
+        $banners = Banner::where('deleted_at', null)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('client.home', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners'));
     }
     public function danhmuc($id, Request $request)
     {
@@ -75,14 +86,25 @@ class SanPhamController extends Controller
                 foreach ($request->price as $priceRange) {
                     list($min, $max) = explode('-', $priceRange);
                     // Lọc trên giá của sản phẩm hoặc giá của biến thể
-                    $q->orWhereBetween('gia', [(int)$min, (int)$max])
-                      ->orWhereHas('bienTheSanPhams', function ($subQ) use ($min, $max) {
-                          $subQ->whereBetween('gia', [(int)$min, (int)$max]);
-                      });
+                    $q->orWhereBetween('gia', [(int) $min, (int) $max])
+                        ->orWhereHas('bienTheSanPhams', function ($subQ) use ($min, $max) {
+                            $subQ->whereBetween('gia', [(int) $min, (int) $max]);
+                        });
                 }
             });
         }
-
+        // Lọc theo Ram
+        if ($request->filled('ram')) {
+            $query->whereHas('BienTheSanPhams', function ($q) use ($request) {
+                $q->whereIn('id_ram', $request->ram);
+            });
+        }
+        // Lọc theo OCung
+        if ($request->filled('o_cung')) {
+            $query->whereHas('BienTheSanPhams', function ($q) use ($request) {
+                $q->whereIn('id_o_cung', $request->o_cung);
+            });
+        }
         // Sắp xếp sản phẩm
         if ($request->filled('sort')) {
             switch ($request->sort) {
@@ -105,15 +127,19 @@ class SanPhamController extends Controller
             }
         }
 
-        $sanphams = $query->withCount(['danhGiaSanPhams' => function ($query) {
-            $query->where('trang_thai', 'da_duyet');
-        }])
-        ->withAvg(['danhGiaSanPhams' => function ($query) {
-            $query->where('trang_thai', 'da_duyet');
-        }], 'so_sao')
-        ->orderByDesc('id')
-        ->paginate(10)
-        ->withQueryString();
+        $sanphams = $query->withCount([
+            'danhGiaSanPhams' => function ($query) {
+                $query->where('trang_thai', 'da_duyet');
+            }
+        ])
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString();
 
         // Lấy danh mục hiện tại
         $category = DanhMuc::findOrFail($id);
@@ -127,10 +153,17 @@ class SanPhamController extends Controller
         $rams = Ram::all();
         $oCungs = OCung::all();
 
-        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs'));
+        // Add banners for the banner component
+        $banners = Banner::where('deleted_at', null)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners'));
     }
     public function show($id)
     {
+
         $sanpham = SanPham::with([
             'chip',
             'mainboard',
@@ -146,6 +179,7 @@ class SanPhamController extends Controller
                     ->orderBy('created_at', 'desc'); // Sắp xếp đánh giá mới nhất lên trước
             },
         ])->findOrFail($id);
+        $sanpham->increment('luot_xem');
 
         $bienTheSanPhams = $sanpham->bienTheSanPhams;
 
@@ -156,16 +190,51 @@ class SanPhamController extends Controller
         $sanphamTuongTu = SanPham::where('id_category', $sanpham->id_category)
             ->where('id', '!=', $sanpham->id)
             ->where('hoat_dong', 1)
+            ->withAvg([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ], 'so_sao')
+            ->withCount([
+                'danhGiaSanPhams' => function ($query) {
+                    $query->where('trang_thai', 'da_duyet');
+                }
+            ])
             ->latest()
             ->take(10)
             ->get();
 
+        $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+            ->limit(5)
+            ->pluck('id')
+            ->toArray();
+
+        $activeSaleEvent = SuKienSanPham::with('suKien')
+            ->where('id_san_pham', $id)
+            ->whereHas('suKien', function ($query) {
+                $query->where('ngay_bat_dau', '<=', now())
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->where('hien_thi', 1);
+            })
+            ->first();
+
+        $activeSaleEvents = SuKienSanPham::with('sanPham', 'bienTheSanPham', 'suKien')
+            ->whereHas('suKien', function ($query) {
+                $query->where('ngay_bat_dau', '<=', now())
+                      ->where('ngay_ket_thuc', '>=', now())
+                      ->where('hien_thi', 1);
+            })
+            ->get();
+
         return view('client.chitietsanpham', compact(
+            'sanPhamBanChay',
             'sanpham',
             'sanphamTuongTu',
             'bienTheSanPhams',
             'averageRating', // Truyền biến này sang view
-            'totalReviews' // Truyền biến này sang view
+            'totalReviews', // Truyền biến này sang view
+            'activeSaleEvent',
+            'activeSaleEvents'
         ));
     }
 }

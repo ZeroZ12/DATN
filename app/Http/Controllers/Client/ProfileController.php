@@ -3,25 +3,40 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-// use App\Models\User; // Không cần import trực tiếp User nữa nếu chỉ dùng $request->user()
-use App\Http\Requests\Client\ProfileUpdateRequest; // <<< Import Form Request mới
+use App\Http\Requests\Client\ProfileUpdateRequest;
 use App\Http\Requests\Client\PasswordUpdateRequest;
-use Illuminate\Http\RedirectResponse; // <<< Thêm type hint cho RedirectResponse
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Models\DonHang;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect; // <<< Import Redirect facade
-use Illuminate\View\View; // <<< Thêm type hint cho View
-use Illuminate\Support\Facades\Hash; // Nếu bạn vẫn muốn dùng Hash::make() thủ công, thì giữ lại
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    // Giữ nguyên phương thức show()
-    public function show(): View
+
+    public function show(Request $request): View
     {
         $user = Auth::user();
-        return view('client.profile.show', compact('user'));
+
+        // Lấy danh sách đơn hàng của user hiện tại
+        $donHangs = DonHang::where('id_user', $user->id)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        // Nếu có yêu cầu hiển thị chi tiết đơn hàng
+        $selectedDonHang = null;
+        if ($request->has('order_id')) {
+            $selectedDonHang = DonHang::with('chiTietDonHangs.sanPham')
+                ->where('id_user', $user->id)
+                ->find($request->order_id);
+        }
+
+        return view('client.profile.show', compact('user', 'donHangs', 'selectedDonHang'));
     }
+
 
     /**
      * Xử lý yêu cầu cập nhật thông tin cá nhân.

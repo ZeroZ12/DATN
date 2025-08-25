@@ -28,8 +28,8 @@ class DiaChiNguoiDungRequest extends FormRequest
             'so_dien_thoai_nguoi_nhan' => ['required', 'string', 'max:20'], // Có thể thêm rule regex cho định dạng SĐT
             'dia_chi_day_du' => ['required', 'string', 'max:500'],
             'tinh_thanh_pho' => ['required', 'string', 'max:100'],
-            'quan_huyen' => ['required', 'string', 'max:100'],
             'phuong_xa' => ['required', 'string', 'max:100'],
+            'mac_dinh' => ['sometimes', 'boolean'], // Thêm validation cho mac_dinh
             // 'mac_dinh' => ['boolean'], // Mặc định sẽ được xử lý trong controller
         ];
     }
@@ -44,7 +44,6 @@ class DiaChiNguoiDungRequest extends FormRequest
             'so_dien_thoai_nguoi_nhan.required' => 'Số điện thoại người nhận không được để trống.',
             'dia_chi_day_du.required' => 'Địa chỉ đầy đủ không được để trống.',
             'tinh_thanh_pho.required' => 'Tỉnh/Thành phố không được để trống.',
-            'quan_huyen.required' => 'Quận/Huyện không được để trống.',
             'phuong_xa.required' => 'Phường/Xã không được để trống.',
             // ... thêm các thông báo lỗi khác nếu cần
         ];

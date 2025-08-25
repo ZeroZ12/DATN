@@ -20,11 +20,20 @@ class SanPham extends Model
         'id_chip',
         'id_mainboard',
         'id_gpu',
+        'id_case',
+        'id_tannhiet',
+        'id_nguon',
         'id_category',
         'id_brand',
         'bao_hanh_thang',
         'hoat_dong',
-        'anh_dai_dien'
+        'anh_dai_dien',
+        'gia',
+        'gia_so_sanh',
+        'so_luong',
+        'co_bien_the',
+        'sku',
+
     ];
 
     // Quan hệ với bảng Chip
@@ -43,6 +52,24 @@ class SanPham extends Model
     public function gpu()
     {
         return $this->belongsTo(Gpu::class, 'id_gpu');
+    }
+
+    // Quan hệ với bảng Case
+    public function case()
+    {
+        return $this->belongsTo(Cases::class, 'id_case');
+    }
+
+    // Quan hệ với bảng Tản Nhiệt
+    public function tanNhiet()
+    {
+        return $this->belongsTo(TanNhiet::class, 'id_tannhiet');
+    }
+
+    // Quan hệ với bảng Nguồn
+    public function nguon()
+    {
+        return $this->belongsTo(Nguon::class, 'id_nguon');
     }
 
     // Quan hệ với bảng Danh Mục
@@ -66,9 +93,26 @@ class SanPham extends Model
     {
         return $this->hasMany(AnhSanPham::class, 'id_product');
     }
-    
+
         public function danhGiaSanPhams()
     {
         return $this->hasMany(DanhGiaSanPham::class, 'id_product');
     }
+
+    public function suKien()
+    {
+        return $this->belongsToMany(SuKien::class, 'su_kien_san_phams', 'id_san_pham', 'id_su_kien')
+                    ->withPivot('gia_su_kien', 'gia_goc', 'so_luong_gioi_han', 'hien_thi')
+                    ->withTimestamps();
+    }
+
+    public function suKienDangHoatDong()
+    {
+        return $this->suKien()
+            ->where('su_kien_san_phams.hien_thi', true)
+            ->where('ngay_ket_thuc', '>=', now())
+            ->orderBy('ngay_bat_dau', 'desc')
+            ->first();
+    }
+
 }

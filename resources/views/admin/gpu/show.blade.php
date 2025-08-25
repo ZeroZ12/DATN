@@ -12,6 +12,8 @@
                 <ul class="list-unstyled mb-4">
                     <li><strong>ID:</strong> {{ $gpu->id }}</li>
                     <li><strong>Tên GPU:</strong> {{ $gpu->ten }}</li>
+                    <li><strong>Giá:</strong> {{ number_format($gpu->gia ?? '0') }} đ</li>
+                    <li><strong>Giá Sale:</strong> {{ number_format($gpu->gia_sale ?? '0') }} đ</li>
                     <li><strong>Mô tả:</strong> {!! $gpu->mo_ta ?? 'N/A' !!}</li>
                     <li><strong>Ngày tạo:</strong> {{ $gpu->created_at->format('d/m/Y H:i') }}</li>
                     <li><strong>Ngày cập nhật:</strong> {{ $gpu->updated_at->format('d/m/Y H:i') }}</li>

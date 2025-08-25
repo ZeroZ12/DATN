@@ -12,6 +12,14 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><strong>ID:</strong> {{ $danhmuc->id }}</li>
                     <li class="list-group-item"><strong>Tên danh mục:</strong> {{ $danhmuc->ten }}</li>
+                    <li class="list-group-item">
+                        <strong>Hình ảnh:</strong>
+                        @if($danhmuc->hinh_anh)
+                            <img src="{{ asset('storage/' . $danhmuc->hinh_anh) }}" alt="{{ $danhmuc->ten }}" class="img-thumbnail" style="width: 200px;height: auto;">
+                        @else
+                            <span class="text-muted">Chưa có hình ảnh</span>
+                        @endif
+                    </li>
                     <li class="list-group-item"><strong>Ngày tạo:</strong> {{ $danhmuc->created_at->format('d/m/Y H:i') }}
                     </li>
                     <li class="list-group-item"><strong>Ngày cập nhật:</strong>

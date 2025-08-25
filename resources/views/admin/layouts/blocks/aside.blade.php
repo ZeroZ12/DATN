@@ -10,7 +10,19 @@
         <ul class="sidebar-menu" id="simple-bar">
             <li class="pin-title sidebar-list p-0"></li>
             <li class="line pin-line"></li>
-
+            {{-- DashBoard --}}
+            <li class="sidebar-list">
+                <a href="{{ route('admin.index') }}" class="sidebar-link d-flex align-items-center">
+                    <span class="me-2" style="width: 1.25em; display: inline-block;"></span>
+                    <span class="flex-grow-1">Dashboard</span>
+                </a>
+            </li>
+             <li class="sidebar-list">
+                <a href="{{ route('admin.thongke') }}" class="sidebar-link d-flex align-items-center">
+                    <span class="me-2" style="width: 1.25em; display: inline-block;"></span>
+                    <span class="flex-grow-1">Thống kê</span>
+                </a>
+            </li>
             {{-- Quản lý chung --}}
             <li class="sidebar-list">
                 <a class="sidebar-link d-flex align-items-center" href="javascript:void(0)">
@@ -25,13 +37,35 @@
                     </svg>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    <li><a href="{{ route('admin.sanpham.index') }}"><i class="fa fa-cube me-2"></i>Sản phẩm</a></li>
-                    <li><a href="{{ route('admin.danhmuc.index') }}"><i class="fa fa-list me-2"></i>Danh mục</a></li>
-                    <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-users me-2"></i>Người dùng</a></li>
-                    {{-- Thêm Quản lý Đánh giá vào đây --}}
                     <li>
-                        <a href="{{ route('admin.danhgias.index') }}" class="{{ Request::routeIs('admin.danhgias.*') ? 'active' : '' }}">
-                            <i class="fas fa-star me-2"></i>Quản lý Đánh giá
+                        <a href="{{ route('admin.sanpham.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-cube me-2"></i>
+                            <span class="flex-grow-1">Sản phẩm</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.danhmuc.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-list me-2"></i>
+                            <span class="flex-grow-1">Danh mục</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.users.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-users me-2"></i>
+                            <span class="flex-grow-1">Người dùng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.banner.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-image me-2"></i>
+                            <span class="flex-grow-1">Banner</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.danhgias.index') }}"
+                            class="d-flex align-items-center {{ Request::routeIs('admin.danhgias.*') ? 'active' : '' }}">
+                            <i class="fa fa-star me-2"></i>
+                            <span class="flex-grow-1">Quản lý Đánh giá</span>
                         </a>
                     </li>
                 </ul>
@@ -51,12 +85,54 @@
                     </svg>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    <li><a href="{{ route('admin.chip.index') }}"><i class="fa fa-microchip me-2"></i>Chip</a></li>
-                    <li><a href="{{ route('admin.mainboard.index') }}"><i class="fa fa-server me-2"></i>Mainboard</a>
+                    <li>
+                        <a href="{{ route('admin.chip.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-microchip me-2"></i>
+                            <span class="flex-grow-1">Chip</span>
+                        </a>
                     </li>
-                    <li><a href="{{ route('admin.gpu.index') }}"><i class="fa fa-video me-2"></i>GPU</a></li>
-                    <li><a href="{{ route('admin.ram.index') }}"><i class="fa fa-memory me-2"></i>RAM</a></li>
-                    <li><a href="{{ route('admin.ocung.index') }}"><i class="fa fa-hdd me-2"></i>Ổ cứng</a></li>
+                    <li>
+                        <a href="{{ route('admin.mainboard.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-server me-2"></i>
+                            <span class="flex-grow-1">Mainboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.gpu.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-video me-2"></i>
+                            <span class="flex-grow-1">GPU</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.ram.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-memory me-2"></i>
+                            <span class="flex-grow-1">RAM</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.ocung.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-hdd me-2"></i>
+                            <span class="flex-grow-1">Ổ cứng</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.nguon.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-plug me-2"></i>
+                            <span class="flex-grow-1">Nguồn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.tannhiet.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-fan me-2"></i>
+                            <span class="flex-grow-1">Tản Nhiệt</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.case.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-desktop me-2"></i>
+                            <span class="flex-grow-1">Case</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -74,10 +150,25 @@
                     </svg>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    <li><a href="{{ route('admin.thuonghieu.index') }}"><i class="fa fa-star me-2"></i>Thương hiệu</a>
+                    <li>
+                        <a href="{{ route('admin.thuonghieu.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-star me-2"></i>
+                            <span class="flex-grow-1">Thương hiệu</span>
+                        </a>
                     </li>
-                    <li><a href="{{ route('admin.magiamgia.index') }}"><i class="fa fa-gift me-2"></i>Mã giảm giá</a>
+                    <li>
+                        <a href="{{ route('admin.sukien.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-bolt me-2"></i>
+                            <span class="flex-grow-1">Sự kiện</span>
+                        </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.magiamgia.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-gift me-2"></i>
+                            <span class="flex-grow-1">Mã giảm giá</span>
+                        </a>
+                    </li>
+
                 </ul>
             </li>
 
@@ -95,9 +186,22 @@
                     </svg>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
-                    <li><a href="{{ route('admin.phuongthucthanhtoan.index') }}"><i
-                                class="fa fa-credit-card me-2"></i>Phương thức thanh toán</a></li>
+                    <li>
+                        <a href="{{ route('admin.phuongthucthanhtoan.index') }}" class="d-flex align-items-center">
+                            <i class="fa fa-credit-card me-2"></i>
+                            <span class="flex-grow-1">Phương thức thanh toán</span>
+                        </a>
+                    </li>
                 </ul>
+            </li>
+
+            <li class="sidebar-list mt-3">
+                <a href="{{ route('admin.don-hang.index') }}" class="sidebar-link d-flex align-items-center">
+                    <svg class="stroke-icon me-2">
+                        <use href="https://admin.pixelstrap.net/edmin/assets/svg/iconly-sprite.svg#Home"></use>
+                    </svg>
+                    <span>Quản lý đơn hàng</span>
+                </a>
             </li>
 
             <li class="sidebar-list mt-3">

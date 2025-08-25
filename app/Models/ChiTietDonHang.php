@@ -32,7 +32,8 @@ class ChiTietDonHang extends Model
         'ten_hien_thi',
         'so_luong',
         'don_gia',
-        'bao_hanh_thang'
+        'bao_hanh_thang',
+        'ten_san_pham_tai_thoi_diem', // Thêm trường này nếu cần lưu tên sản phẩm tại thời điểm đặt hàng
     ];
 
     /**
@@ -61,7 +62,7 @@ class ChiTietDonHang extends Model
      */
     public function sanPham()
     {
-        return $this->belongsTo(SanPham::class, 'id_product');
+        return $this->belongsTo(SanPham::class, 'id_product')->withTrashed();
     }
 
     /**

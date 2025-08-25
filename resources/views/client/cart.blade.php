@@ -16,21 +16,37 @@
 
     @if($gioHang->chiTietGioHangs->count() > 0)
       @foreach($gioHang->chiTietGioHangs as $item)
-      <div class="cart-item" data-item-id="{{ $item->id }}">
-        <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}">
+      <div class="cart-item" data-item-id="{{ $item->id }}" data-stock="{{ $item->bienTheSanPham->ton_kho ?? $item->sanPham->so_luong ?? 0 }}">
+        <img src="{{ asset('storage/' . ($item->bienTheSanPham->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}" alt="{{ $item->sanPham->ten }}" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
+          @php
+          // dd($item->bienTheSanPham);
+            $ram = isset($item->bienTheSanPham->ram) && $item->bienTheSanPham->ram ? 'RAM: ' . $item->bienTheSanPham->ram->dung_luong : null;
+            $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'SSD: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
+          @endphp
+          @if($ram || $ssd)
+            <div class="text-muted small">
+              @if($ram) {{ $ram }} @endif
+              @if($ram && $ssd) <span class="mx-2">|</span> @endif
+              @if($ssd) {{ $ssd }} @endif
+            </div>
+          @endif
           <div class="cart-item-qty mt-2">
             <button class="cart-qty-btn decrease" type="button">-</button>
             <input type="text" class="cart-qty-input" value="{{ $item->so_luong }}" min="1" style="width:40px; text-align:center;" readonly>
             <button class="cart-qty-btn increase" type="button">+</button>
-            <span class="cart-item-remove">Xoá</span>
+            <span class="cart-item-remove" data-bs-toggle="modal" data-bs-target="#confirmModal" data-type="remove-item" data-id="{{ $item->id }}">Xoá</span>
           </div>
         </div>
         <div class="text-end">
-          <div class="cart-item-price">{{ number_format($item->bienThe->gia ?? $item->sanPham->gia) }}₫</div>
-          @if(($item->bienThe->gia_so_sanh ?? $item->sanPham->gia_so_sanh) > ($item->bienThe->gia ?? $item->sanPham->gia))
-            <div class="cart-item-old">{{ number_format($item->bienThe->gia_so_sanh ?? $item->sanPham->gia_so_sanh) }}₫</div>
+          @php
+            $originalPrice = $item->bienTheSanPham->gia ?? $item->sanPham->gia;
+            $displayPrice = $item->gia_hien_thi ?? $originalPrice;
+          @endphp
+          <div class="cart-item-price">{{ number_format($displayPrice) }}₫</div>
+          @if($originalPrice > $displayPrice)
+            <div class="cart-item-old">{{ number_format($originalPrice) }}₫</div>
           @endif
         </div>
       </div>
@@ -40,12 +56,57 @@
         <select class="form-select w-auto d-inline-block" id="ma-giam-gia-select">
           <option selected>Sử dụng mã giảm giá</option>
           @foreach($maGiamGias as $maGiamGia)
-            <option value="{{ $maGiamGia->ma }}">{{ $maGiamGia->ma }}</option>
+            <option value="{{ $maGiamGia->ma }}">
+              {{ $maGiamGia->ma }} -
+              @if($maGiamGia->loai == 'phan_tram')
+                Giảm {{ $maGiamGia->gia_tri }}% - tối đa {{ number_format($maGiamGia->gia_tri_toi_da) }} VND
+              @else
+                Giảm {{ number_format($maGiamGia->gia_tri) }}₫
+              @endif
+              @if($maGiamGia->dieu_kien > 0)
+                (ĐH tối thiểu {{ number_format($maGiamGia->dieu_kien) }}₫)
+              @endif
+            </option>
           @endforeach
         </select>
+        @if($gioHang->maGiamGia)
+          <div class="mt-2">
+            <small class="text-success">
+              <i class="fas fa-check-circle"></i>
+              Đã áp dụng mã: {{ $gioHang->maGiamGia->ma }}
+              @if($gioHang->maGiamGia->loai == 'phan_tram')
+                (Giảm {{ $gioHang->maGiamGia->gia_tri }}% - tối đa {{ number_format($gioHang->maGiamGia->gia_tri_toi_da) }} VND)
+              @else
+                (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
+              @endif
+              <button type="button" class="btn btn-sm btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#confirmModal" data-type="remove-coupon">Xóa</button>
+            </small>
+          </div>
+        @endif
       </div>
 
-      <div class="cart-total">Tổng tiền: {{ number_format($total) }}₫</div>
+      <div class="cart-total">
+        Tổng tiền: {{ number_format($total) }}₫
+        @if($gioHang->maGiamGia)
+          @php
+            $discount = $gioHang->maGiamGia->loai == 'phan_tram'
+              ? ($total * $gioHang->maGiamGia->gia_tri / 100)
+              : $gioHang->maGiamGia->gia_tri;
+            if (isset($gioHang->maGiamGia->gia_tri_toi_da) && $discount > $gioHang->maGiamGia->gia_tri_toi_da) {
+                $discount = min($discount, $gioHang->maGiamGia->gia_tri_toi_da);
+            }
+            $finalTotal = max(0, $total - $discount);
+          @endphp
+          <br>
+          <small class="text-success">
+            Giảm giá: -{{ number_format($discount) }}₫
+          </small>
+          <br>
+          <strong class="text-danger">
+            Thành tiền: {{ number_format($finalTotal) }}₫
+          </strong>
+        @endif
+      </div>
       <button class="btn btn-danger w-100 cart-checkout-btn" onclick="window.location.href='{{ route('client.cart.checkout') }}'">ĐẶT HÀNG NGAY</button>
     @else
       <div class="text-center py-5">
@@ -55,6 +116,25 @@
         <a href="{{ route('client.home') }}" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
       </div>
     @endif
+  </div>
+
+  <!-- Modal xác nhận -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">Xác nhận hành động</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="confirmMessage">Bạn có chắc muốn thực hiện hành động này?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          <button type="button" class="btn btn-danger" id="confirmActionBtn">Xác nhận</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @endsection
@@ -75,7 +155,7 @@
   margin-bottom: 30px;
 }
 
-.cart-step::before {
+/* .cart-step::before {
   content: '';
   position: absolute;
   top: 15px;
@@ -84,7 +164,7 @@
   height: 2px;
   background: #e9ecef;
   z-index: 1;
-}
+} */
 
 .step {
   position: relative;
@@ -207,6 +287,60 @@
   .cart-total { font-size: 18px; }
   .cart-checkout-btn { font-size: 16px; padding: 10px 0; }
 }
+
+/* Tùy chỉnh modal */
+#confirmModal .modal-content {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#confirmModal .modal-header {
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+
+#confirmModal .modal-title {
+  font-weight: 600;
+  color: #333;
+}
+
+#confirmModal .modal-body {
+  font-size: 16px;
+  color: #555;
+  padding: 20px;
+}
+
+#confirmModal .modal-footer {
+  border-top: 1px solid #eee;
+  padding: 15px;
+  justify-content: flex-end;
+}
+
+#confirmModal .btn {
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 500;
+}
+
+#confirmModal .btn-secondary {
+  background: #6c757d;
+  color: #fff;
+  border: none;
+}
+
+#confirmModal .btn-secondary:hover {
+  background: #5a6268;
+}
+
+#confirmModal .btn-danger {
+  background: #dc3545;
+  color: #fff;
+  border: none;
+}
+
+#confirmModal .btn-danger:hover {
+  background: #c82333;
+}
 </style>
 @endpush
 
@@ -224,18 +358,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const itemId = cartItem.dataset.itemId;
     const input = cartItem.querySelector('.cart-qty-input');
+    const stock = parseInt(cartItem.dataset.stock);
     let value = parseInt(input.value);
 
     if (target.classList.contains('decrease')) {
       if (value > 1) {
         value--;
-        updateQuantity(itemId, value);
+        updateQuantity(itemId, value, cartItem);
+      } else {
+        showToast('Số lượng tối thiểu là 1!', 'error');
       }
     } else if (target.classList.contains('increase')) {
-      value++;
-      updateQuantity(itemId, value);
+      if (value < stock) {
+        value++;
+        updateQuantity(itemId, value, cartItem);
+      } else {
+        showToast(`Số lượng không được vượt quá ${stock} sản phẩm!`, 'error');
+      }
     } else if (target.classList.contains('cart-item-remove')) {
-      removeItem(itemId, cartItem);
+      showConfirmModal('remove-item', itemId);
     }
   });
 
@@ -257,8 +398,18 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          document.querySelector('.cart-total').textContent = `Tổng tiền: ${data.finalTotal.toLocaleString()}₫`;
+          const cartTotalElement = document.querySelector('.cart-total');
+          if (data.discount > 0) {
+            cartTotalElement.innerHTML = `
+              Tổng tiền: ${data.originalTotal.toLocaleString()}₫<br>
+              <small class="text-success">Giảm giá: -${data.discount.toLocaleString()}₫</small><br>
+              <strong class="text-danger">Thành tiền: ${data.finalTotal.toLocaleString()}₫</strong>
+            `;
+          } else {
+            cartTotalElement.textContent = `Tổng tiền: ${data.finalTotal.toLocaleString()}₫`;
+          }
           showToast('Áp dụng mã giảm giá thành công!', 'success');
+          setTimeout(() => location.reload(), 1000);
         } else {
           showToast(data.message || 'Có lỗi xảy ra', 'error');
           this.value = 'Sử dụng mã giảm giá';
@@ -270,9 +421,51 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  // Xử lý modal xác nhận
+  const confirmModal = document.getElementById('confirmModal');
+  if (confirmModal) {
+    confirmModal.addEventListener('show.bs.modal', function(event) {
+      const button = event.relatedTarget;
+      const type = button.getAttribute('data-type');
+      const id = button.getAttribute('data-id');
+
+      const modalBody = confirmModal.querySelector('.modal-body #confirmMessage');
+      const confirmBtn = confirmModal.querySelector('#confirmActionBtn');
+
+      if (type === 'remove-item') {
+        modalBody.textContent = 'Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?';
+        confirmBtn.onclick = () => removeItem(id, document.querySelector(`.cart-item[data-item-id="${id}"]`));
+      } else if (type === 'remove-coupon') {
+        modalBody.textContent = 'Bạn có chắc muốn xóa mã giảm giá này?';
+        confirmBtn.onclick = removeCoupon;
+      }
+
+      confirmBtn.setAttribute('data-type', type);
+      confirmBtn.setAttribute('data-id', id || '');
+    });
+
+    confirmModal.addEventListener('hide.bs.modal', function() {
+      const confirmBtn = confirmModal.querySelector('#confirmActionBtn');
+      confirmBtn.onclick = null;
+      confirmBtn.removeAttribute('data-type');
+      confirmBtn.removeAttribute('data-id');
+    });
+  }
 });
 
-function updateQuantity(itemId, value) {
+function updateQuantity(itemId, value, cartItem) {
+  const stock = parseInt(cartItem.dataset.stock);
+  if (value > stock) {
+    cartItem.querySelector('.cart-qty-input').value = stock;
+    showToast(`Số lượng không được vượt quá ${stock} sản phẩm!`, 'error');
+    value = stock;
+  } else if (value < 1) {
+    cartItem.querySelector('.cart-qty-input').value = 1;
+    showToast('Số lượng tối thiểu là 1!', 'error');
+    value = 1;
+  }
+
   fetch(`/cart/update/${itemId}`, {
     method: 'PUT',
     headers: {
@@ -281,47 +474,107 @@ function updateQuantity(itemId, value) {
     },
     body: JSON.stringify({ so_luong: value })
   })
-  .then(response => response.json())
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => {
+        throw new Error(err.message || `Lỗi ${response.status}`);
+      });
+    }
+    return response.json();
+  })
   .then(data => {
     if (data.success) {
-      const cartItem = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
-      if (cartItem) {
-        cartItem.querySelector('.cart-qty-input').value = value;
+      cartItem.querySelector('.cart-qty-input').value = value;
+      const cartTotalElement = document.querySelector('.cart-total');
+      if (data.discount > 0) {
+        cartTotalElement.innerHTML = `
+          Tổng tiền: ${data.originalTotal.toLocaleString()}₫<br>
+          <small class="text-success">Giảm giá: -${data.discount.toLocaleString()}₫</small><br>
+          <strong class="text-danger">Thành tiền: ${data.finalTotal.toLocaleString()}₫</strong>
+        `;
+      } else {
+        cartTotalElement.textContent = `Tổng tiền: ${data.total.toLocaleString()}₫`;
       }
-      document.querySelector('.cart-total').textContent = `Tổng tiền: ${data.total.toLocaleString()}₫`;
     } else {
       showToast(data.message || 'Có lỗi xảy ra', 'error');
+      cartItem.querySelector('.cart-qty-input').value = data.currentQuantity || 1;
     }
   })
   .catch(error => {
-    showToast('Có lỗi xảy ra khi cập nhật số lượng', 'error');
+    console.error('Error updating quantity:', error);
+    showToast(error.message || 'Có lỗi xảy ra khi cập nhật số lượng', 'error');
+    cartItem.querySelector('.cart-qty-input').value = 1;
   });
 }
 
 function removeItem(itemId, cartItem) {
-  if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-    fetch(`/cart/remove/${itemId}`, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        cartItem.remove();
-        document.querySelector('.cart-total').textContent = `Tổng tiền: ${data.total.toLocaleString()}₫`;
-        if (data.cartEmpty) {
-          location.reload();
-        }
+  fetch(`/cart/remove/${itemId}`, {
+    method: 'DELETE',
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(err => {
+        throw new Error(err.message || `Lỗi ${response.status}`);
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+      cartItem.remove();
+      const cartTotalElement = document.querySelector('.cart-total');
+      if (data.discount > 0) {
+        cartTotalElement.innerHTML = `
+          Tổng tiền: ${data.originalTotal.toLocaleString()}₫<br>
+          <small class="text-success">Giảm giá: -${data.discount.toLocaleString()}₫</small><br>
+          <strong class="text-danger">Thành tiền: ${data.finalTotal.toLocaleString()}₫</strong>
+        `;
       } else {
-        showToast(data.message || 'Có lỗi xảy ra', 'error');
+        cartTotalElement.textContent = `Tổng tiền: ${data.total.toLocaleString()}₫`;
       }
-    })
-    .catch(error => {
-      showToast('Có lỗi xảy ra khi xóa sản phẩm', 'error');
-    });
-  }
+      if (data.cartEmpty) {
+        location.reload();
+      }
+    } else {
+      showToast(data.message || 'Có lỗi xảy ra', 'error');
+    }
+    const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+    confirmModal.hide();
+  })
+  .catch(error => {
+    console.error('Error removing item:', error);
+    showToast(error.message || 'Có lỗi xảy ra khi xóa sản phẩm', 'error');
+    const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+    confirmModal.hide();
+  });
+}
+
+function removeCoupon() {
+  fetch('/cart/remove-coupon', {
+    method: 'DELETE',
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showToast('Đã xóa mã giảm giá', 'success');
+      setTimeout(() => location.reload(), 1000);
+    } else {
+      showToast(data.message || 'Có lỗi xảy ra', 'error');
+    }
+    const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+    confirmModal.hide();
+  })
+  .catch(error => {
+    showToast('Có lỗi xảy ra khi xóa mã giảm giá', 'error');
+    const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+    confirmModal.hide();
+  });
 }
 
 function showToast(message, type = 'success') {

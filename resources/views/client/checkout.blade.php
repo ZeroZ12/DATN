@@ -15,7 +15,8 @@
                         <img src="{{ asset('storage/' . ($item->bienThe->anh_dai_dien ?? $item->sanPham->anh_dai_dien)) }}"
                              alt="{{ $item->sanPham->ten }}"
                              class="img-thumbnail"
-                             style="width: 80px; height: 80px; object-fit: cover;">
+                             style="width: 80px; height: 80px; object-fit: cover;"
+                             onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         <div class="ms-3 flex-grow-1">
                             <h6 class="mb-1">{{ $item->sanPham->ten }}</h6>
                             <p class="mb-1 text-muted small">
@@ -30,7 +31,19 @@
                                 </div>
                                 <div class="text-end">
                                     <div class="text-danger fw-bold">{{ number_format($item->gia * $item->so_luong) }}₫</div>
-                                    <small class="text-muted">{{ number_format($item->gia) }}₫/sản phẩm</small>
+                                    @if($item->gia_hien_thi != ($item->gia ?? ($item->bienThe->gia ?? $item->sanPham->gia)))
+                                        <small class="text-success">
+                                            Giá Sale : {{ number_format($item->gia_hien_thi) }}₫
+                                        </small>
+                                        <br>
+                                        <small class="text-muted">
+                                            {{ number_format($item->gia ?? ($item->bienThe->gia ?? $item->sanPham->gia)) }}₫/sản phẩm
+                                        </small>
+                                    @else
+                                        <small class="text-muted">
+                                            {{ number_format($item->gia_hien_thi) }}₫/sản phẩm
+                                        </small>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -49,9 +62,9 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="mb-1">{{ $diaChi->ho_ten }}</h6>
-                                <p class="mb-1">{{ $diaChi->so_dien_thoai }}</p>
-                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi }}</p>
+                                <h6 class="mb-1">{{ $diaChi->ten_nguoi_nhan }}</h6>
+                                <p class="mb-1">{{ $diaChi->so_dien_thoai_nguoi_nhan }}</p>
+                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa }}, {{ $diaChi->tinh_thanh_pho }}</p>
                             </div>
                             <a href="{{ route('client.addresses.index') }}" class="btn btn-outline-primary btn-sm">Thay đổi</a>
                         </div>
@@ -104,31 +117,85 @@
         </div>
 
         <!-- Tổng đơn hàng -->
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Tổng đơn hàng</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Tạm tính</span>
-                        <span>{{ number_format($tongTien) }}₫</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Phí vận chuyển</span>
-                        <span>Miễn phí</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-3">
-                        <strong>Tổng cộng</strong>
-                        <strong class="text-danger">{{ number_format($tongTien) }}₫</strong>
-                    </div>
-                    <button type="button" class="btn btn-primary w-100" onclick="placeOrder()">
-                        Đặt hàng
-                    </button>
-                </div>
-            </div>
+     <div class="col-lg-4">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h5 class="mb-0">Tổng đơn hàng</h5>
         </div>
+        <div class="card-body">
+            {{-- Tạm tính --}}
+            <div class="d-flex justify-content-between mb-2">
+                <span>Tạm tính</span>
+                <span>{{ number_format($tongTienGoc) }}₫</span>
+            </div>
+
+            {{-- Giảm giá --}}
+            @if($giamGia > 0)
+            <div class="d-flex justify-content-between mb-2">
+                <span>Giảm giá</span>
+                <span class="text-success">-{{ number_format($giamGia) }}₫</span>
+            </div>
+            @endif
+
+            {{-- Phí vận chuyển --}}
+            <div class="d-flex justify-content-between mb-2">
+                <span>Phí vận chuyển</span>
+                <span>Miễn phí</span>
+            </div>
+
+            <hr>
+
+            {{-- Tổng cộng --}}
+            <div class="d-flex justify-content-between mb-3">
+                <strong>Tổng cộng</strong>
+                <strong class="text-danger">{{ number_format($tongTienSauGiam) }}₫</strong>
+            </div>
+
+            {{-- Mã giảm giá --}}
+            @if($giamGia > 0)
+            <div class="alert alert-success small mb-3">
+                <i class="fas fa-check-circle"></i>
+                Đã áp dụng mã giảm giá: <strong>{{ $gioHang->maGiamGia->ma }}</strong>
+                @if($gioHang->maGiamGia->loai == 'phan_tram')
+                    (Giảm {{ $gioHang->maGiamGia->gia_tri }}%)
+                @else
+                    (Giảm {{ number_format($gioHang->maGiamGia->gia_tri) }}₫)
+                @endif
+            </div>
+            @endif
+
+            {{-- Thông báo địa chỉ --}}
+            @if(!$diaChi)
+            <div class="alert alert-warning small mb-3">
+                <i class="fas fa-exclamation-triangle"></i>
+                Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng
+            </div>
+            @endif
+
+            {{-- Chính sách giao hàng --}}
+            <div class="alert alert-info small mb-3">
+                <i class="fas fa-truck"></i>
+                Vui lòng đọc <a href="{{ route('client.policy') }}" class="text-primary text-decoration-underline">chi tiết chính sách</a> trước khi đặt hàng.
+            </div>
+
+       {{-- Checkbox đồng ý chính sách --}}
+<div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" value="" id="agreePolicy">
+    <label class="form-check-label small" for="agreePolicy">
+        Tôi đã đọc và đồng ý với chính sách của shop
+    </label>
+</div>
+
+{{-- Nút đặt hàng --}}
+<button type="button" id="placeOrderBtn" class="btn btn-primary w-100" onclick="placeOrder()" disabled>
+    @if(!$diaChi) Vui lòng thêm địa chỉ @else Đặt hàng @endif
+</button>
+
+        </div>
+    </div>
+</div>
+
+
     </div>
 </div>
 @endsection
@@ -162,17 +229,41 @@
 
 @push('js')
 <script>
+    function thanhToanVNPay() {
+    fetch('{{ url('/payment/hehe') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === '00' && data.data) {
+            // Redirect ngay sang trang thanh toán VNPay
+            window.location.href = data.data;
+        } else {
+            alert('Có lỗi xảy ra khi tạo link thanh toán!');
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Có lỗi xảy ra khi tạo đơn hàng!');
+    });
+}
 function placeOrder() {
-    // Hiển thị loading
+    @if(!$diaChi)
+    showToast('Vui lòng thêm địa chỉ giao hàng trước khi đặt hàng!', 'error');
+    return;
+    @endif
+
     const button = event.target;
     const originalText = button.innerHTML;
     button.disabled = true;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
 
-    // Lấy phương thức thanh toán
     const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
-    // Gửi request đặt hàng
     fetch('{{ route("client.cart.place-order") }}', {
         method: 'POST',
         headers: {
@@ -193,18 +284,21 @@ function placeOrder() {
     })
     .then(data => {
         if (data.success) {
-            // Chuyển hướng đến trang thanh toán
-            window.location.href = data.redirect_url;
+            if (data.vnpay_url) {
+                window.location.href = data.vnpay_url;
+            } else if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                showToast('Đặt hàng thành công!', 'success');
+                location.reload();
+            }
         } else {
             throw new Error(data.message || 'Có lỗi xảy ra');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        // Hiển thị lỗi
         showToast(error.message || 'Có lỗi xảy ra khi đặt hàng!', 'error');
-
-        // Reset button
         button.disabled = false;
         button.innerHTML = originalText;
     });
@@ -268,5 +362,25 @@ function showToast(message, type = 'success') {
         setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('agreePolicy');
+    const button = document.getElementById('placeOrderBtn');
+    const hasAddress = {{ $diaChi ? 'true' : 'false' }};
+
+    // Khi checkbox thay đổi, kiểm tra
+    checkbox.addEventListener('change', function() {
+        if(!hasAddress){
+            button.disabled = true;
+        } else {
+            button.disabled = !checkbox.checked;
+        }
+    });
+
+    // Kiểm tra trạng thái lúc load
+    button.disabled = true;
+});
+
 </script>
 @endpush

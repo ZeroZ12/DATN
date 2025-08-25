@@ -41,9 +41,15 @@
                                 <td class="fw-semibold">{{ $ram->dung_luong }}</td>
                                 @if (!empty($ram->gia_sale)&& $ram->gia_sale > 0 )
                                     {{-- Kiểm tra nếu giá không rỗng --}}
+<<<<<<< HEAD
                                     <td>{{ number_format($ram->gia_sale, 0, ',', '.') }}đ</td>
                                 @else
                                     <td>{{ number_format($ram->gia, 0, ',', '.') }}đ</td>
+=======
+                                    <td>{{ number_format($ram->gia_sale, 0, ',', '.') }} đ</td>
+                                @else
+                                    <td>{{ number_format($ram->gia, 0, ',', '.') }} đ</td>
+>>>>>>> main
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($ram->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">

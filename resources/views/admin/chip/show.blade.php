@@ -16,6 +16,12 @@
                         <strong>Tên chip:</strong> {{ $chip->ten }}
                     </li>
                     <li class="list-group-item">
+                        <strong>Giá:</strong> {{ number_format($chip->gia ?? '0') }} đ
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Giá Sale:</strong> {{ number_format($chip->gia_sale ?? '0') }} đ
+                    </li>
+                    <li class="list-group-item">
                         <strong>Mô tả:</strong> {!! $chip->mo_ta ?? '—' !!}
                     </li>
                     <li class="list-group-item">
@@ -34,3 +40,15 @@
         </div>
     </div>
 @endsection
+
+{{-- @section('scripts')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#editor').summernote({
+                height: 200
+            });
+        });
+    </script>
+@endsection --}}

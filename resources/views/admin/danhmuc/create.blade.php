@@ -8,7 +8,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('admin.danhmuc.store') }}" method="POST">
+                <form action="{{ route('admin.danhmuc.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
@@ -20,6 +20,15 @@
                         @enderror
                     </div>
 
+                    <div class="mb-3">
+                        <label for="hinh_anh" class="form-label">Hình ảnh</label>
+                        <input type="file" name="hinh_anh" id="hinh_anh" class="form-control" value="{{ old('hinh_anh') }}"
+                            accept="image/*">
+                          
+                        @error('hinh_anh')
+                            <div class="text-danger mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('admin.danhmuc.index') }}" class="btn btn-secondary">← Quay lại</a>
                         <button type="submit" class="btn btn-success">💾 Lưu</button>

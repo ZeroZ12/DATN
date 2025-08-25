@@ -35,11 +35,12 @@ class ThuongHieuController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'ten' => 'required|string|max:255',
+            'ten' => 'required|string|max:255|unique:thuong_hieus,ten',
         ], [
             'ten.required' => 'Tên thương hiệu không được để trống.',
             'ten.string' => 'Tên thương hiệu phải là chuỗi ký tự.',
             'ten.max' => 'Tên thương hiệu không được vượt quá 255 ký tự.',
+            'ten.unique' => 'Tên thương hiệu đã tồn tại.',
         ]);
         ThuongHieu::create($data);
         return redirect()->route('admin.thuonghieu.index')->with('message', 'Thương hiệu đã được tạo thành công.');
@@ -64,11 +65,12 @@ class ThuongHieuController extends Controller
     {
         $thuongHieu = ThuongHieu::withTrashed()->findOrFail($id);
         $data = $request->validate([
-            'ten' => 'required|string|max:255',
+            'ten' => 'required|string|max:255|unique:thuong_hieus,ten',
         ], [
             'ten.required' => 'Tên thương hiệu không được để trống.',
             'ten.string' => 'Tên thương hiệu phải là chuỗi ký tự.',
             'ten.max' => 'Tên thương hiệu không được vượt quá 255 ký tự.',
+            'ten.unique' => 'Tên thương hiệu đã tồn tại.',
         ]);
         $thuongHieu->update($data);
         return redirect()->route('admin.thuonghieu.index')->with('message', 'Thương hiệu đã được cập nhật thành công.');

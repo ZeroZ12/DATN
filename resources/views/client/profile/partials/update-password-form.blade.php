@@ -1,39 +1,29 @@
 {{-- resources/views/client/profile/partials/update-password-form.blade.php --}}
 
 <section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Cập nhật mật khẩu
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Đảm bảo tài khoản của bạn sử dụng mật khẩu dài, ngẫu nhiên để luôn an toàn.
-        </p>
-    </header>
-
     <form method="post" action="{{ route('client.password.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('put') {{-- Sử dụng phương thức PUT cho cập nhật mật khẩu --}}
 
         <div>
-            <label for="current_password" class="form-label">Mật khẩu hiện tại:</label>
-            <input id="current_password" name="current_password" type="password" class="form-control mt-1 block w-full" autocomplete="current-password">
+            <label for="current_password" class="form-label fw-bold">Mật khẩu hiện tại:</label>
+            <input id="current_password" name="current_password" type="password" class="form-control mb-3 mt-1 block w-full" autocomplete="current-password">
             @error('current_password')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
         </div>
 
         <div>
-            <label for="password" class="form-label">Mật khẩu mới:</label>
-            <input id="password" name="password" type="password" class="form-control mt-1 block w-full" autocomplete="new-password">
+            <label for="password" class="form-label fw-bold">Mật khẩu mới:</label>
+            <input id="password" name="password" type="password" class="form-control mb-3 mt-1 block w-full" autocomplete="new-password">
             @error('password')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror
         </div>
 
         <div>
-            <label for="password_confirmation" class="form-label">Xác nhận mật khẩu mới:</label>
-            <input id="password_confirmation" name="password_confirmation" type="password" class="form-control mt-1 block w-full" autocomplete="new-password">
+            <label for="password_confirmation" class="form-label fw-bold">Xác nhận mật khẩu mới:</label>
+            <input id="password_confirmation" name="password_confirmation" type="password" class="form-control mb-3 mt-1 block w-full" autocomplete="new-password">
             @error('password_confirmation')
                 <div class="text-danger mt-2">{{ $message }}</div>
             @enderror

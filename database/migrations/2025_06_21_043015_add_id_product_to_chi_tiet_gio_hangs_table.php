@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('chi_tiet_gio_hangs', function (Blueprint $table) {
-            $table->foreignId('id_product')->after('id_gio_hang')->constrained('san_phams')->onDelete('cascade');
+            if(!Schema::hasColumn('chi_tiet_gio_hangs', 'id_product')) {
+                $table->foreignId('id_product')->after('id_gio_hang')->constrained('san_phams')->onDelete('cascade');
+            }   
         });
     }
-
     /**
      * Reverse the migrations.
      */

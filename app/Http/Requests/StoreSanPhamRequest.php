@@ -25,25 +25,44 @@ class StoreSanPhamRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'ten' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
-            'id_chip' => 'required|exists:chips,id',
-            'id_mainboard' => 'required|exists:mainboards,id',
-            'id_gpu' => 'required|exists:gpus,id',
             'id_category' => 'required|exists:danh_mucs,id',
             'id_brand' => 'required|exists:thuong_hieus,id',
             'bao_hanh_thang' => 'nullable|integer|min:0',
-            'anh_dai_dien' => 'nullable|image|max:2048', // Quy tắc cho ảnh chính
-            'anh_phu.*' => 'nullable|image|max:2048',    // Quy tắc cho từng ảnh phụ trong mảng
-            'variants' => 'required|array', // variants là bắt buộc và phải là mảng
-            'variants.*.ram_id' => 'required|exists:rams,id',
-            'variants.*.o_cung_id' => 'required|exists:o_cungs,id',
-            'variants.*.gia' => 'required|numeric|min:0',
-            'variants.*.gia_so_sanh' => 'nullable|numeric|min:0|lte:variants.*.gia', // gia_so_sanh <= gia
-            'variants.*.ton_kho' => 'required|integer|min:0',
-            'variants.*.anh_dai_dien' => 'nullable|image|max:2048', // Ảnh cho từng biến thể
+            'anh_dai_dien' => 'nullable|image|max:2048',
+            'anh_phu.*' => 'nullable|image|max:2048',
+            'co_bien_the' => 'required|boolean',
         ];
+
+        if ($this->input('co_bien_the')) {
+            $rules['id_chip'] = 'required|exists:chips,id';
+            $rules['id_mainboard'] = 'required|exists:mainboards,id';
+            $rules['id_gpu'] = 'required|exists:gpus,id';
+            $rules['id_tannhiet'] = 'required|exists:tan_nhiets,id';
+            $rules['id_nguon'] = 'required|exists:nguons,id';
+            $rules['id_case'] = 'required|exists:cases,id';
+            $rules['variants'] = 'required|array';
+            $rules['variants.*.ram_id'] = 'required|exists:rams,id';
+            $rules['variants.*.o_cung_id'] = 'required|exists:o_cungs,id';
+            $rules['variants.*.gia'] = 'required|numeric|min:0|max:99999999';
+            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0|max:99999999';
+            $rules['variants.*.ton_kho'] = 'required|integer|min:0';
+            $rules['variants.*.anh_dai_dien'] = 'nullable|image|max:2048';
+        } else {
+            $rules['id_chip'] = 'nullable|exists:chips,id';
+            $rules['id_mainboard'] = 'nullable|exists:mainboards,id';
+            $rules['id_gpu'] = 'nullable|exists:gpus,id';
+            $rules['id_tannhiet'] = 'nullable|exists:tan_nhiets,id';
+            $rules['id_nguon'] = 'nullable|exists:nguons,id';
+            $rules['id_case'] = 'nullable|exists:cases,id';
+            $rules['gia'] = 'required|numeric|min:0|max:99999999';
+            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|gt:gia|max:99999999';
+            $rules['so_luong'] = 'required|integer|min:0';
+        }
+
+        return $rules;
     }
 
     /**
@@ -64,6 +83,12 @@ class StoreSanPhamRequest extends FormRequest
             'id_mainboard.exists' => 'Mainboard được chọn không hợp lệ.',
             'id_gpu.required' => 'Vui lòng chọn GPU.',
             'id_gpu.exists' => 'GPU được chọn không hợp lệ.',
+            'id_tannhiet.required' => 'Vui lòng chọn Tản nhiệt.',
+            'id_tannhiet.exists' => 'Tản nhiệt được chọn không hợp lệ.',
+            'id_nguon.required' => 'Vui lòng chọn Nguồn.',
+            'id_nguon.exists' => 'Nguồn được chọn không hợp lệ.',
+            'id_case.required' => 'Vui lòng chọn Case.',
+            'id_case.exists' => 'Case được chọn không hợp lệ.',
             'id_category.required' => 'Vui lòng chọn Danh mục.',
             'id_category.exists' => 'Danh mục được chọn không hợp lệ.',
             'id_brand.required' => 'Vui lòng chọn Thương hiệu.',
@@ -74,6 +99,9 @@ class StoreSanPhamRequest extends FormRequest
             'anh_dai_dien.max' => 'Ảnh đại diện không được vượt quá 2MB.',
             'anh_phu.*.image' => 'Ảnh phụ phải là định dạng ảnh hợp lệ.',
             'anh_phu.*.max' => 'Ảnh phụ không được vượt quá 2MB.',
+            'gia.numeric' => 'Giá biến thể phải là số.',
+            'gia.min' => 'Giá biến thể không được âm.',
+            'gia.max' => 'Giá biến thể không được vượt quá 99.999.999 đ',
             'variants.required' => 'Sản phẩm phải có ít nhất một biến thể.',
             'variants.array' => 'Dữ liệu biến thể không hợp lệ.',
             'variants.*.ram_id.required' => 'Biến thể phải có RAM.',
@@ -83,14 +111,36 @@ class StoreSanPhamRequest extends FormRequest
             'variants.*.gia.required' => 'Giá biến thể là bắt buộc.',
             'variants.*.gia.numeric' => 'Giá biến thể phải là số.',
             'variants.*.gia.min' => 'Giá biến thể không được âm.',
-            'variants.*.gia_so_sanh.numeric' => 'Giá so sánh phải là số.',
-            'variants.*.gia_so_sanh.min' => 'Giá so sánh không được âm.',
-            'variants.*.gia_so_sanh.lte' => 'Giá so sánh không được lớn hơn giá bán.',
+            'variants.*.gia.max' => 'Giá biến thể không được vượt quá 99.999.999 đ',
+            'variants.*.gia_so_sanh.numeric' => 'Giá gốc phải là số.',
+            'gia_so_sanh.numeric' => 'Giá gốc phải là số.',
+            'variants.*.gia_so_sanh.min' => 'Giá gốc không được âm.',
+            'gia_so_sanh.min' => 'Giá gốc không được âm.',
+            'variants.*.gia_so_sanh.max' => 'Giá gốc không được vượt quá 99.999.999 đ',
+            'gia_so_sanh.max' => 'Giá gốc không được vượt quá 99.999.999 đ',
+            'gia_so_sanh.gt' => 'Giá gốc phải lớn hơn giá bán.',
             'variants.*.ton_kho.required' => 'Tồn kho biến thể là bắt buộc.',
             'variants.*.ton_kho.integer' => 'Tồn kho biến thể phải là số nguyên.',
             'variants.*.ton_kho.min' => 'Tồn kho biến thể không được âm.',
             'variants.*.anh_dai_dien.image' => 'Ảnh biến thể phải là định dạng ảnh hợp lệ.',
             'variants.*.anh_dai_dien.max' => 'Ảnh biến thể không được vượt quá 2MB.',
         ];
+    }
+
+    /**
+     * Validate thủ công: Giá gốc phải lớn hơn giá bán (gia_so_sanh > gia).
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $variants = $this->input('variants', []);
+            foreach ($variants as $i => $variant) {
+                $gia = isset($variant['gia']) ? floatval($variant['gia']) : 0;
+                $giaSoSanh = isset($variant['gia_so_sanh']) ? floatval($variant['gia_so_sanh']) : null;
+                if ($giaSoSanh !== null && $giaSoSanh <= $gia) {
+                    $validator->errors()->add("variants.$i.gia_so_sanh", "Giá gốc phải lớn hơn giá bán.");
+                }
+            }
+        });
     }
 }

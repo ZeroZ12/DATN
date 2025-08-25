@@ -15,23 +15,35 @@
             <div class="mb-3">
                 <label class="form-label">Họ tên:</label>
                 <input type="text" name="ho_ten" value="{{ old('ho_ten', $user->ho_ten) }}" class="form-control">
+                @error('ho_ten')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Email:</label>
                 <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control">
+                @error('email')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Số điện thoại:</label>
                 <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai', $user->so_dien_thoai) }}"
                     class="form-control">
+                @error('so_dien_thoai')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Tên đăng nhập:</label>
                 <input type="text" name="ten_dang_nhap" value="{{ old('ten_dang_nhap', $user->ten_dang_nhap) }}"
                     class="form-control">
+                @error('ten_dang_nhap')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
@@ -41,13 +53,19 @@
                     <option value="vo_hieu" {{ $user->trang_thai == 'vo_hieu' ? 'selected' : '' }}>Vô hiệu</option>
                     <option value="an" {{ $user->trang_thai == 'an' ? 'selected' : '' }}>Ẩn</option>
                 </select>
+                @error('trang_thai')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
             @if (Auth::user()->vai_tro === 'quan_tri' && Auth::id() != $user->id)
                 <select name="vai_tro" class="form-select">
-                    <option value="quan_tri" {{ $user->vai_tro == 'quan_tri' ? 'selected' : '' }}>quan tri</option>
+                    <option value="quan_tri" {{ $user->vai_tro == 'quan_tri' ? 'selected' : '' }}>Quản trị</option>
                     <option value="khach_hang" {{ $user->vai_tro == 'khach_hang' ? 'selected' : '' }}>Khách hàng</option>
                 </select>
+                @error('vai_tro')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             @else
                 <input type="text" class="form-control" value="{{ $user->vai_tro }}" disabled>
             @endif

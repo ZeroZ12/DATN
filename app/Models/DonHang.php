@@ -27,9 +27,59 @@ class DonHang extends Model
         'id_user',
         'id_dia_chi_nguoi_dungs',
         'id_phuong_thuc_thanh_toan',
+        'id_ma_giam_gia',
         'tong_tien',
-        'trang_thai', // 'cho_xu_ly', 'dang_giao', 'hoan_thanh', 'huy'
+        'tong_tien_goc',
+        'giam_gia',
+        'trang_thai',
+         'huy_boi',
     ];
+
+    const TRANG_THAI = [
+        'cho_xac_nhan',
+        'cho_thanh_toan',
+        'da_xac_nhan',
+        'chuan_bi_hang',
+        'dang_giao_hang',
+        'giao_thanh_cong',
+        'giao_that_bai',
+        'hoan_thanh',
+        'da_huy',
+    ];
+    const TRANG_THAI_TEXT = [
+    'cho_xac_nhan'     => 'Chờ xác nhận',
+    'cho_thanh_toan'   => 'Chờ thanh toán',
+    'da_xac_nhan'      => 'Đã xác nhận',
+    'chuan_bi_hang'    => 'Chuẩn bị hàng',
+    'dang_giao_hang'   => 'Đang giao hàng',
+    'giao_thanh_cong'  => 'Giao thành công',
+    'giao_that_bai'    => 'Giao thất bại',
+    'hoan_thanh'       => 'Hoàn thành',
+    'da_huy'           => 'Đã hủy',
+];
+
+
+    /**
+     * Map trạng thái đơn hàng sang tiếng Việt.
+     */
+    public static function getTenTrangThai($trangThai)
+    {
+
+        $danhSach = [
+            'cho_xac_nhan' => 'Chờ xác nhận',
+            'cho_thanh_toan' => 'Chờ thanh toán',
+            'da_xac_nhan' => 'Đã xác nhận',
+            'chuan_bi_hang' => 'Chuẩn bị hàng',
+            'dang_giao_hang' => 'Đang giao hàng',
+            'giao_thanh_cong' => 'Giao thành công',
+            'giao_that_bai' => 'Giao thất bại',
+            'hoan_thanh' => 'Hoàn thành',
+            'da_huy' => 'Đã hủy',
+        ];
+
+        return $danhSach[$trangThai] ?? $trangThai;
+    }
+
 
     /**
      * The attributes that should be cast.
@@ -68,6 +118,14 @@ class DonHang extends Model
     }
 
     /**
+     * Get the discount code used for the order.
+     */
+    public function maGiamGia()
+    {
+        return $this->belongsTo(MaGiamGia::class, 'id_ma_giam_gia');
+    }
+
+    /**
      * Get the order details for the order.
      */
     public function chiTietDonHangs()
@@ -76,4 +134,12 @@ class DonHang extends Model
         // Có thể cần withTrashed() khi eager load nếu muốn lấy cả các chi tiết đã bị xóa mềm (nếu ChiTietDonHang cũng có soft deletes)
         return $this->hasMany(ChiTietDonHang::class, 'id_don_hang');
     }
+    /**
+     * Một đơn hàng có thể có một yêu cầu hoàn trả.
+     */
+    public function yeuCauHoanTra()
+    {
+        return $this->hasOne(YeuCauHoanTra::class, 'id_don_hang');
+    }
+
 }

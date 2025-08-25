@@ -5,13 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\DonHang;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +36,11 @@ class User extends Authenticatable
     public function diaChiNguoiDungs()
     {
         return $this->hasMany(DiaChiNguoiDung::class, 'id_user');
+    }
+
+    public function donHangs()
+    {
+        return $this->hasMany(DonHang::class, 'id_user');
     }
 
     public function danhGiaSanPhams()

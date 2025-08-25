@@ -51,6 +51,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+    @yield('css-custom')
+    @stack('css')
 </head>
 
 <body>
@@ -108,6 +111,8 @@
     <!-- custom script -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script> --}}
     <!-- CKEditor 5 -->
     @yield('js-custom')
 
@@ -120,5 +125,4 @@
 </style>
 
 @stack('scripts')
-
 </html>
