@@ -42,12 +42,12 @@
                             @method('PATCH')
                             <button class="btn btn-sm btn-success">Khôi phục</button>
                         </form>
-                        <form action="{{ route('admin.ocung.forceDelete', $oCung->id) }}" method="POST" class="d-inline"
+                        {{-- <form action="{{ route('admin.ocung.forceDelete', $oCung->id) }}" method="POST" class="d-inline"
                               onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Xóa vĩnh viễn</button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @empty

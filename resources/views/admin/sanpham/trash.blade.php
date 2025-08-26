@@ -55,14 +55,14 @@
                             </form>
 
                             {{-- Xóa vĩnh viễn --}}
-                            <form action="{{ route('admin.sanpham.forceDelete', $sanpham->id) }}" method="POST">
+                            {{-- <form action="{{ route('admin.sanpham.forceDelete', $sanpham->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Xóa vĩnh viễn"
                                     onclick="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này không?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
-                            </form>
+                            </form> --}}
                         </div>
                     </td>
                 </tr>

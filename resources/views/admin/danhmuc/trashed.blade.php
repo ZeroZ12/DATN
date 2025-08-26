@@ -58,12 +58,14 @@
                                     </form>
 
                                     {{-- Nút Xóa vĩnh viễn --}}
-                                    <form action="{{ route('admin.danhmuc.forceDelete', $dm->id) }}" method="POST"
+                                    
+                                    {{-- <form action="{{ route('admin.danhmuc.forceDelete', $dm->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn CÓ CHẮC chắn muốn XÓA VĨNH VIỄN danh mục này? Hành động này không thể hoàn tác và các sản phẩm liên quan cũng sẽ bị xóa vĩnh viễn!')">
                                         @csrf
-                                        @method('DELETE') {{-- ForceDelete là DELETE route --}}
+                                        @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">🔥 Xóa vĩnh viễn</button>
-                                    </form>
+                                    </form> --}}
+
                                 </td>
                             </tr>
                         @empty

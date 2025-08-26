@@ -32,7 +32,7 @@
             @forelse($nguons as $nguon)
                 <tr>
                     <td>{{ $nguon->id }}</td>
-                    <td>{{ $nguon->dung_luong }}</td>
+                    <td>{{ $nguon->ten }}</td>
                     <td>{{ $nguon->deleted_at->format('d/m/Y H:i') }}</td>
                     <td>
                         <form action="{{ route('admin.nguon.restore', $nguon->id) }}" method="POST" class="d-inline">
@@ -40,12 +40,12 @@
                             @method('PATCH')
                             <button class="btn btn-sm btn-success">Khôi phục</button>
                         </form>
-                        <form action="{{ route('admin.nguon.forceDelete', $nguon->id) }}" method="POST" class="d-inline"
+                        {{-- <form action="{{ route('admin.nguon.forceDelete', $nguon->id) }}" method="POST" class="d-inline"
                             onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Xóa vĩnh viễn</button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @empty
