@@ -28,6 +28,14 @@
             </div>
 
             <div class="mb-3">
+                <label for="so_luong" class="form-label">Số lượng <span class="text-danger">*</span></label>
+                <input type="number" name="so_luong" id="so_luong" class="form-control" value="{{ old('so_luong') }}"
+                step="0.01" min="0">
+                @error('so_luong')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <label for="gia_tri" class="form-label">Giá trị <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri" id="gia_tri" class="form-control" value="{{ old('gia_tri') }}"
                     step="0.01" min="0">
@@ -46,7 +54,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="dieu_kien" class="form-label">Điều kiện áp dụng (VNĐ)</label>
+                <label for="dieu_kien" class="form-label">Giá trị tối thiểu đơn hàng (VNĐ)</label>
                 <input type="number" name="dieu_kien" id="dieu_kien" class="form-control" value="{{ old('dieu_kien', 0) }}"
                     step="1000" min="0" placeholder="0 = không giới hạn">
                 <small class="form-text text-muted">Đơn hàng tối thiểu để áp dụng mã giảm giá. Để 0 nếu không giới hạn.</small>

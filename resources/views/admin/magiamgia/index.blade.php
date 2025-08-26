@@ -43,6 +43,7 @@
                                 <th>ID</th>
                                 <th>Mã</th>
                                 <th>Loại</th>
+                                <th>Số lượng</th>
                                 <th>Giá Trị</th>
                                 <th>Giá Trị Tối Đa</th>
                                 <th>Ngày Bắt Đầu</th>
@@ -58,6 +59,7 @@
                                     <td>{{ $maGiamGia->id }}</td>
                                     <td>{{ $maGiamGia->ma }}</td>
                                     <td>{{ $maGiamGia->loai == 'phan_tram' ? 'Phần trăm' : 'Tiền mặt' }}</td>
+                                    <td>{{ $maGiamGia->so_luong }}</td>
                                     <td>{{ $maGiamGia->gia_tri }}</td>
                                     <td>{{ $maGiamGia->gia_tri_toi_da ?? '' }}</td>
                                     <td>{{ $maGiamGia->ngay_bat_dau ? \Carbon\Carbon::parse($maGiamGia->ngay_bat_dau)->format('d/m/Y') : 'N/A' }}

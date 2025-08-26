@@ -87,7 +87,7 @@ class CartController extends Controller
             $total += $item->so_luong * $gia;
         }
 
-        $maGiamGias = MaGiamGia::where('hoat_dong', true)->get();
+        $maGiamGias = MaGiamGia::where('hoat_dong', true)->where('so_luong', '>', 0)->get();
 
         return view('client.cart', compact('gioHang', 'total', 'maGiamGias'));
     }
@@ -611,6 +611,7 @@ class CartController extends Controller
 
         $maGiamGia = MaGiamGia::where('ma', $request->ma_giam_gia)
             ->where('hoat_dong', true)
+            ->where('so_luong', '>', 0)
             ->first();
 
         if (!$maGiamGia) {
@@ -648,6 +649,7 @@ class CartController extends Controller
 
         // Cập nhật mã giảm giá cho giỏ hàng
         $gioHang->id_giam_gia = $maGiamGia->id;
+        
         $gioHang->save();
 
         // Tính toán giá sau khi áp dụng mã giảm giá

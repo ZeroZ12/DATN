@@ -1,7 +1,520 @@
 @extends('client.layouts.app')
 
 @section('content')
-    <style>
+    {{-- @php
+        dd(vars: Auth::user())
+    @endphp --}}
+    <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('client.home') }}">Trang chủ</a></li>
+                @if (isset($sanpham->danhMuc) && $sanpham->danhMuc)
+                    <li class="breadcrumb-item"><a
+                            href="{{ route('danhmuc.show', $sanpham->danhMuc->id) }}">{{ $sanpham->danhMuc->ten }}</a></li>
+                @else
+                    <li class="breadcrumb-item">Danh mục</li>
+                @endif
+                <li class="breadcrumb-item active" aria-current="page">{{ $sanpham->ten }}</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="main-img-box mb-3">
+                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}"
+                        onerror="this.onerror=null;this.src='{{ asset('images/default.png') }}';" alt="Ảnh đại diện"
+                        class="img-fluid rounded main-img current" id="main-image-1">
+                    <img src="" alt="Ảnh phụ" class="img-fluid rounded main-img next" id="main-image-2"
+                        style="display: none;">
+                </div>
+                <div class="thumb-list">
+                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}"
+                        onerror="this.onerror=null;this.src='{{ asset('images/default-thumbnail.png') }}';"
+                        alt="Ảnh đại diện" class="img-thumb active">
+                    @foreach ($sanpham->anhPhu as $anh)
+                        <img src="{{ asset('storage/' . $anh->duong_dan) }}"
+                            onerror="this.onerror=null;this.src='{{ asset('images/default-thumbnail.png') }}';"
+                            alt="Ảnh phụ" class="img-thumb">
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
+
+                <h5>Thương hiệu: {{ $sanpham->thuongHieu->ten }}</h5>
+
+                <div class="d-flex align-items-center mb-2">
+                    <span class="me-3">Tình trạng: <span id="tinhtrang-span">
+                        @php
+                            if ($sanpham->co_bien_the) {
+                                $allVariantsOut = $sanpham->bienTheSanPhams->count() > 0 && $sanpham->bienTheSanPhams->every(function($bt){ return $bt->ton_kho <= 0; });
+                                $isOutOfStock = $allVariantsOut;
+                            } else {
+                                $isOutOfStock = $sanpham->so_luong <= 0;
+                            }
+                        @endphp
+                        @if($isOutOfStock)
+                            <span class="fw-bold text-warning">Hết hàng</span>
+                        @else
+                            <span class="fw-bold text-success">Còn hàng</span>
+                        @endif
+                    </span></span>
+                </div>
+
+                <div class="d-md-flex gap-3">
+                    <div class="flex-fill" style="min-width:0;">
+                        @if ($sanpham->co_bien_the)
+                        <form id="variant-selection-area" action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
+                            @csrf
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Chọn cấu hình:</strong></label>
+                                <div class="mb-2"><strong>RAM:</strong>
+                                    <div id="ram-group" class="d-flex flex-wrap gap-2">
+                                        @php
+                                            $ramOptions = $sanpham->bienTheSanPhams
+                                                ->pluck('ram.dung_luong')
+                                                ->unique()
+                                                ->filter();
+                                        @endphp
+                                        @foreach ($ramOptions as $ram)
+                                            <button type="button" class="option-btn ram ram-btn btn"
+                                                data-ram="{{ $ram }}">{{ $ram }}</button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="mb-2"><strong>SSD:</strong>
+                                    <div id="ssd-group" class="d-flex flex-wrap gap-2">
+                                        @php
+                                            $ssdOptions = $sanpham->bienTheSanPhams
+                                                ->pluck('oCung.dung_luong')
+                                                ->unique()
+                                                ->filter();
+                                        @endphp
+                                        @foreach ($ssdOptions as $ssd)
+                                            <button type="button" class="option-btn ssd ssd-btn btn"
+                                                data-ssd="{{ $ssd }}">{{ $ssd }}</button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <input type="hidden" name="bien_the_id" id="selected_variant" required>
+                            </div>
+
+                            <!-- FLASH SALE block for variants (hidden until variant with sale is selected) -->
+                            <div id="variant-flash-sale" class="flash-sale-container mb-3" style="display:none;">
+                                <div class="flash-sale-header">
+                                    <span class="flash-sale-badge">
+                                        <i class="fas fa-bolt"></i> FLASH SALE
+                                    </span>
+                                    <div class="flash-sale-timer-box">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>KẾT THÚC TRONG</span>
+                                        <div class="timer-digits">
+                                            <span id="countdown-timer"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flash-sale-prices">
+                                    <span id="variant-sale-price" class="current-price text-danger fw-bold"></span>
+                                    <span id="variant-old-price" class="old-price text-muted"></span>
+                                </div>
+                            </div>
+
+                            <div id="bienthe-info" class="mb-3" style="display: none;">
+                                <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
+                                <p id="bienthe-sale-stock-line" style="display:none;"><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
+                                <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Số lượng:</strong></label>
+                                <div class="input-group" style="max-width: 160px;">
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
+                                    <input type="number" name="so_luong" id="so_luong" class="form-control text-center"
+                                        value="1" min="1" style="max-width: 60px;" >
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
+                                </div>
+                            </div>
+
+                             @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
+                                <div class="d-flex gap-2 mb-2">
+                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
+                                </button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
+                                </button>
+                            </div>
+                            @endif
+                        </form>
+                        @else
+                        <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
+                            @csrf
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+
+                            {{-- Phần FLASH SALE mới --}}
+                            @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                            <div class="flash-sale-container mb-3">
+                                <div class="flash-sale-header">
+                                    <span class="flash-sale-badge">
+                                        <i class="fas fa-bolt"></i> FLASH SALE
+                                    </span>
+                                    <div class="flash-sale-timer-box">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span>KẾT THÚC TRONG</span>
+                                        {{-- Cần thêm logic JS để hiển thị timer đếm ngược --}}
+                                        <div class="timer-digits">
+                                            <span id="countdown-timer"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flash-sale-prices">
+                                    <span class="current-price text-danger fw-bold">{{ number_format($activeSaleEvent->gia_su_kien) }}₫</span>
+                                    <span class="old-price text-muted">{{ number_format($sanpham->gia) }}₫</span>
+                                </div>
+                            </div>
+                            @else
+                            {{-- Phần hiển thị giá thông thường --}}
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Giá:</strong></label>
+                                <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">
+                                    <span>{{ number_format($sanpham->gia) }}₫</span>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="mb-3">
+                                <div id="bienthe-info" class="mb-3" style="display: none;">
+                                    <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
+                                    {{-- Thêm logic tương tự cho biến thể nếu cần --}}
+                                    <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
+                                </div>
+                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
+                                    <p><strong>Số lượng FLASH SALE:</strong> <span class="text-success fw-bold">{{ $activeSaleEvent->so_luong_gioi_han ?? $sanpham->so_luong }} sản phẩm</span></p>
+                                @endif
+                                <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Số lượng:</strong></label>
+                                <div class="input-group" style="max-width: 160px;">
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
+                                    <input type="number" name="so_luong" id="so_luong" class="form-control text-center" value="1" min="1" max="{{ $sanpham->so_luong }}" style="max-width: 60px;">
+                                    <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
+                                </div>
+                            </div>
+                             @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
+                                <div class="d-flex gap-2 mb-2">
+                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
+                                </button>
+                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
+                                </button>
+                            </div>
+                            @endif
+                        </form>
+                        @endif
+                        <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
+                            <input type="hidden" name="bien_the_id" id="buy-now-bien-the-id">
+                            <input type="hidden" name="so_luong" id="buy-now-so-luong">
+                        </form>
+                        <p class="mt-2 text-muted small">Giao tận nơi hoặc nhận tại cửa hàng</p>
+                    </div>
+                    <div style="min-width:220px;max-width:270px;">
+                        <div class="bg-white border rounded p-3 mb-3">
+                            <h6 class="fw-bold mb-3">Chính sách bán hàng</h6>
+                            <div class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Cam kết 100% chính
+                                hãng</div>
+                            <div class="mb-2"><i class="fa fa-headset text-primary me-2"></i>Hỗ trợ 24/7</div>
+                        </div>
+                        <div class="bg-white border rounded p-3">
+                            <h6 class="fw-bold mb-3">Thông tin thêm</h6>
+                            <div class="mb-2"><i class="fa fa-shield-alt text-info me-2"></i>Hoàn tiền 111% nếu hàng giả
+                            </div>
+                            <div class="mb-2"><i class="fa fa-box-open text-warning me-2"></i>Mở hộp kiểm tra nhận hàng
+                            </div>
+                            <div class="mb-2"><i class="fa fa-sync-alt text-secondary me-2"></i>Đổi trả trong 7 ngày
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <hr>
+
+        <div class="row mt-5">
+            <div class="col-md-8">
+                <div class="bg-light p-3 rounded mb-4 position-relative">
+                    <h5 class="fw-bold">Thông tin sản phẩm</h5>
+                    <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
+                    <div class="text-end mt-2">
+                        <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-light p-3 rounded">
+                    <h5 class="fw-bold">Cấu hình sản phẩm</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Tùy chọn' }}</li>
+                        <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Tùy chọn' }}</li>
+                        <li><strong>RAM:</strong> Tùy chọn</li>
+                        <li><strong>SSD:</strong> Tùy chọn</li>
+                        <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>Đánh giá sản phẩm</h3>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        Gửi đánh giá của bạn
+                    </div>
+                    <div class="card-body">
+                        @auth
+                            <form action="{{ route('client.reviews.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id_product" value="{{ $sanpham->id }}">
+
+                                <div class="mb-3">
+                                    <label class="form-label">Số sao:</label>
+                                    <div id="rating-stars-input" class="rating-stars">
+                                        <i class="far fa-star star-icon" data-value="1"></i>
+                                        <i class="far fa-star star-icon" data-value="2"></i>
+                                        <i class="far fa-star star-icon" data-value="3"></i>
+                                        <i class="far fa-star star-icon" data-value="4"></i>
+                                        <i class="far fa-star star-icon" data-value="5"></i>
+                                    </div>
+                                    <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
+                                        class="@error('so_sao') is-invalid @enderror">
+                                    @error('so_sao')
+                                        <div class="invalid-feedback d-block">{{ $errors->first('so_sao') }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="binh_luan" class="form-label">Bình luận:</label>
+                                    <textarea name="binh_luan" id="binh_luan" rows="4"
+                                        class="form-control @error('binh_luan') is-invalid @enderror">{{ old('binh_luan') }}</textarea>
+                                    @error('binh_luan')
+                                        <div class="invalid-feedback">{{ $errors->first('binh_luan') }}</div>
+                                    @enderror
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                            </form>
+                        @else
+                            <p class="text-muted">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để gửi đánh giá.</p>
+                        @endauth
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mb-3">Tất cả đánh giá ({{ $totalReviews }})</h6>
+                @if ($sanpham->danhGiaSanPhams->count() > 0)
+                    @foreach ($sanpham->danhGiaSanPhams as $danhGia)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $danhGia->user->ho_ten ?? 'Người dùng ẩn danh' }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    @for ($i = 0; $i < $danhGia->so_sao; $i++)
+                                        <i class="fas fa-star text-warning"></i>
+                                    @endfor
+                                    @for ($i = 0; $i < 5 - $danhGia->so_sao; $i++)
+                                        <i class="far fa-star text-warning"></i>
+                                    @endfor
+                                    ({{ $danhGia->so_sao }} sao)
+                                </h6>
+                                <p class="card-text" id="review-content-{{ $danhGia->id }}">{{ $danhGia->binh_luan }}
+                                </p>
+                                <small class="text-muted">Đăng vào:
+                                    {{ $danhGia->created_at->format('H:i d/m/Y') }}</small>
+
+                                @auth
+                                    @if (Auth::id() === $danhGia->id_user || Auth::user()->vai_tro === 'admin')
+                                        <div class="mt-2">
+                                            <button class="btn btn-sm btn-outline-info edit-review-btn"
+                                                data-review-id="{{ $danhGia->id }}" data-stars="{{ $danhGia->so_sao }}"
+                                                data-comment="{{ $danhGia->binh_luan }}">Sửa</button>
+
+                                            <form action="{{ route('client.reviews.destroy', $danhGia->id) }}" method="POST"
+                                                class="d-inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này không?');">Xóa</button>
+                                            </form>
+                                        </div>
+
+                                        <div id="edit-form-{{ $danhGia->id }}" style="display: none;"
+                                            class="mt-3 p-3 border rounded bg-light">
+                                            <h6>Chỉnh sửa đánh giá của bạn</h6>
+                                            <form action="{{ route('client.reviews.update', $danhGia->id) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+
+                                                <div class="mb-3">
+                                                    <label class="form-label">Số sao:</label>
+                                                    <div class="rating-stars" id="edit-stars-{{ $danhGia->id }}">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            <i class="far fa-star star-icon"
+                                                                data-value="{{ $i }}"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <input type="hidden" name="so_sao"
+                                                        id="edit-so_sao-{{ $danhGia->id }}" value="{{ $danhGia->so_sao }}">
+                                                </div>
+
+                                                <div class="mb-3">
+                                                    <label for="edit-binh_luan-{{ $danhGia->id }}" class="form-label">Bình
+                                                        luận:</label>
+                                                    <textarea name="binh_luan" id="edit-binh_luan-{{ $danhGia->id }}" rows="3" class="form-control">{{ $danhGia->binh_luan }}</textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-sm">Lưu</button>
+                                                <button type="button" class="btn btn-secondary btn-sm cancel-edit-btn"
+                                                    data-review-id="{{ $danhGia->id }}">Hủy</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endauth
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p>Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+                @endif
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="mt-5">
+            <h5 class="fw-bold mb-3">Sản phẩm tương tự</h5>
+            <div class="products-grid">
+                @foreach ($sanphamTuongTu as $sp)
+                    @php
+                        if ($sp->co_bien_the) {
+                            $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
+                                return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
+                                       (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
+                            }) ?? $sp->BienTheSanPhams->first();
+                            $gia = $bienThe ? $bienThe->gia : 0;
+                            $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                            $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
+                        } else {
+                            $bienThe = null;
+                            $gia = $sp->gia;
+                            $gia_so_sanh = $sp->gia_so_sanh;
+                            $saleEvent = $activeSaleEvents->firstWhere('san_pham_id', $sp->id);
+                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
+                        }
+                    @endphp
+
+                    <div class="product-card">
+                        <div class="product-badges">
+                            @if ($saleEvent && $saleEvent->suKien->ngay_ket_thuc >= now())
+                                <span class="flash-sale-badge">
+                                    <i class="fas fa-bolt"></i> FLASH SALE
+                                </span>
+                            @elseif ($sp->is_hot)
+                                <span class="product-badge hot-badge">
+                                    <i class="fas fa-gift"></i> Quà tặng HOT
+                                </span>
+                            @elseif(rand(1, 3) == 1)
+                                <span class="product-badge bestseller-badge">
+                                    <i class="fas fa-fire"></i> Bán chạy
+                                </span>
+                            @elseif(rand(1, 2) == 1)
+                                <span class="product-badge gift-badge">
+                                    <i class="fas fa-gift"></i> Quà tặng
+                                </span>
+                            @endif
+                        </div>
+                        <div class="product-image">
+                            <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
+                                alt="{{ $sp->ten }}"
+                                onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">{{ $sp->ten }}</h3>
+                            <div class="product-price">
+                                @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                    <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
+                                @endif
+                                <div class="current-price-wrapper">
+                                    <div class="current-price">
+                                        @if ($gia_su_kien && $gia_su_kien < $gia)
+                                            <span class="old-price">{{ number_format($gia) }}₫</span><br>
+                                            {{ number_format($gia_su_kien) }}₫
+                                        @else
+                                            {{ number_format($gia) }}₫
+                                        @endif
+                                    </div>
+                                    @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                        <div class="discount-badge">
+                                            -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
+                                        </div>
+                                    @elseif ($gia_su_kien && $gia_su_kien < $gia)
+                                        <div class="discount-badge">
+                                            -{{ round((100 * ($gia - $gia_su_kien)) / $gia) }}%
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="product-rating">
+                                @php
+                                    $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                                    $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                                @endphp
+                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
+                            </div>
+                            <div class="product-actions">
+                                <form action="{{ route('client.cart.add') }}" method="POST"
+                                    class="add-to-cart-form"
+                                    data-product-id="{{ $sp->id }}"
+                                    data-variant-id="{{ $bienThe->id ?? '' }}">
+                                    @csrf
+                                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                    <input type="hidden" name="so_luong" value="1">
+                                    <button type="submit" class="add-to-cart-btn">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <span>Thêm vào giỏ</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+<style>
         .option-btn {
             border-radius: 8px;
             border: 2px solid #ddd;
@@ -639,513 +1152,6 @@
             font-size: 12px;
     }
     </style>
-    <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('client.home') }}">Trang chủ</a></li>
-                @if (isset($sanpham->danhMuc) && $sanpham->danhMuc)
-                    <li class="breadcrumb-item"><a
-                            href="{{ route('danhmuc.show', $sanpham->danhMuc->id) }}">{{ $sanpham->danhMuc->ten }}</a></li>
-                @else
-                    <li class="breadcrumb-item">Danh mục</li>
-                @endif
-                <li class="breadcrumb-item active" aria-current="page">{{ $sanpham->ten }}</li>
-            </ol>
-        </nav>
-
-        <div class="row">
-            <div class="col-md-4">
-                <div class="main-img-box mb-3">
-                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}"
-                        onerror="this.onerror=null;this.src='{{ asset('images/default.png') }}';" alt="Ảnh đại diện"
-                        class="img-fluid rounded main-img current" id="main-image-1">
-                    <img src="" alt="Ảnh phụ" class="img-fluid rounded main-img next" id="main-image-2"
-                        style="display: none;">
-                </div>
-                <div class="thumb-list">
-                    <img src="{{ asset('storage/' . $sanpham->anh_dai_dien) }}"
-                        onerror="this.onerror=null;this.src='{{ asset('images/default-thumbnail.png') }}';"
-                        alt="Ảnh đại diện" class="img-thumb active">
-                    @foreach ($sanpham->anhPhu as $anh)
-                        <img src="{{ asset('storage/' . $anh->duong_dan) }}"
-                            onerror="this.onerror=null;this.src='{{ asset('images/default-thumbnail.png') }}';"
-                            alt="Ảnh phụ" class="img-thumb">
-                    @endforeach
-                </div>
-            </div>
-
-            <div class="col-md-8">
-                <h4 class="fw-bold mb-3">{{ $sanpham->ten }}</h4>
-
-                <h5>Thương hiệu: {{ $sanpham->thuongHieu->ten }}</h5>
-
-                <div class="d-flex align-items-center mb-2">
-                    <span class="me-3">Tình trạng: <span id="tinhtrang-span">
-                        @php
-                            if ($sanpham->co_bien_the) {
-                                $allVariantsOut = $sanpham->bienTheSanPhams->count() > 0 && $sanpham->bienTheSanPhams->every(function($bt){ return $bt->ton_kho <= 0; });
-                                $isOutOfStock = $allVariantsOut;
-                            } else {
-                                $isOutOfStock = $sanpham->so_luong <= 0;
-                            }
-                        @endphp
-                        @if($isOutOfStock)
-                            <span class="fw-bold text-warning">Hết hàng</span>
-                        @else
-                            <span class="fw-bold text-success">Còn hàng</span>
-                        @endif
-                    </span></span>
-                </div>
-
-                <div class="d-md-flex gap-3">
-                    <div class="flex-fill" style="min-width:0;">
-                        @if ($sanpham->co_bien_the)
-                        <form id="variant-selection-area" action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
-                            @csrf
-                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
-
-                            <div class="mb-3">
-                                <label class="form-label"><strong>Chọn cấu hình:</strong></label>
-                                <div class="mb-2"><strong>RAM:</strong>
-                                    <div id="ram-group" class="d-flex flex-wrap gap-2">
-                                        @php
-                                            $ramOptions = $sanpham->bienTheSanPhams
-                                                ->pluck('ram.dung_luong')
-                                                ->unique()
-                                                ->filter();
-                                        @endphp
-                                        @foreach ($ramOptions as $ram)
-                                            <button type="button" class="option-btn ram ram-btn btn"
-                                                data-ram="{{ $ram }}">{{ $ram }}</button>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="mb-2"><strong>SSD:</strong>
-                                    <div id="ssd-group" class="d-flex flex-wrap gap-2">
-                                        @php
-                                            $ssdOptions = $sanpham->bienTheSanPhams
-                                                ->pluck('oCung.dung_luong')
-                                                ->unique()
-                                                ->filter();
-                                        @endphp
-                                        @foreach ($ssdOptions as $ssd)
-                                            <button type="button" class="option-btn ssd ssd-btn btn"
-                                                data-ssd="{{ $ssd }}">{{ $ssd }}</button>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <input type="hidden" name="bien_the_id" id="selected_variant" required>
-                            </div>
-
-                            <!-- FLASH SALE block for variants (hidden until variant with sale is selected) -->
-                            <div id="variant-flash-sale" class="flash-sale-container mb-3" style="display:none;">
-                                <div class="flash-sale-header">
-                                    <span class="flash-sale-badge">
-                                        <i class="fas fa-bolt"></i> FLASH SALE
-                                    </span>
-                                    <div class="flash-sale-timer-box">
-                                        <i class="fa-regular fa-clock"></i>
-                                        <span>KẾT THÚC TRONG</span>
-                                        <div class="timer-digits">
-                                            <span id="countdown-timer"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flash-sale-prices">
-                                    <span id="variant-sale-price" class="current-price text-danger fw-bold"></span>
-                                    <span id="variant-old-price" class="old-price text-muted"></span>
-                                </div>
-                            </div>
-
-                            <div id="bienthe-info" class="mb-3" style="display: none;">
-                                <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                <p id="bienthe-sale-stock-line" style="display:none;"><strong>Số lượng FLASH SALE:</strong> <span id="bienthe-sale-stock" class="text-success fw-bold"></span></p>
-                                <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label"><strong>Số lượng:</strong></label>
-                                <div class="input-group" style="max-width: 160px;">
-                                    <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
-                                    <input type="number" name="so_luong" id="so_luong" class="form-control text-center"
-                                        value="1" min="1" style="max-width: 60px;" >
-                                    <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
-                                </div>
-                            </div>
-
-                            <div class="d-flex gap-2 mb-2">
-                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
-                                </button>
-                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
-                                </button>
-                            </div>
-                        </form>
-                        @else
-                        <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
-                            @csrf
-                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
-
-                            {{-- Phần FLASH SALE mới --}}
-                            @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                            <div class="flash-sale-container mb-3">
-                                <div class="flash-sale-header">
-                                    <span class="flash-sale-badge">
-                                        <i class="fas fa-bolt"></i> FLASH SALE
-                                    </span>
-                                    <div class="flash-sale-timer-box">
-                                        <i class="fa-regular fa-clock"></i>
-                                        <span>KẾT THÚC TRONG</span>
-                                        {{-- Cần thêm logic JS để hiển thị timer đếm ngược --}}
-                                        <div class="timer-digits">
-                                            <span id="countdown-timer"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flash-sale-prices">
-                                    <span class="current-price text-danger fw-bold">{{ number_format($activeSaleEvent->gia_su_kien) }}₫</span>
-                                    <span class="old-price text-muted">{{ number_format($sanpham->gia) }}₫</span>
-                                </div>
-                            </div>
-                            @else
-                            {{-- Phần hiển thị giá thông thường --}}
-                            <div class="mb-3">
-                                <label class="form-label"><strong>Giá:</strong></label>
-                                <div class="current-price text-danger fw-bold" style="font-size: 1.5rem;">
-                                    <span>{{ number_format($sanpham->gia) }}₫</span>
-                                </div>
-                            </div>
-                            @endif
-
-                            <div class="mb-3">
-                                <div id="bienthe-info" class="mb-3" style="display: none;">
-                                    <p><strong>Giá:</strong> <span id="bienthe-price" class="text-danger fw-bold"></span></p>
-                                    {{-- Thêm logic tương tự cho biến thể nếu cần --}}
-                                    <p><strong>Tồn kho:</strong> <span id="bienthe-stock" class="text-success fw-bold"></span></p>
-                                </div>
-                                @if ($activeSaleEvent && $activeSaleEvent->suKien->ngay_ket_thuc >= now())
-                                    <p><strong>Số lượng FLASH SALE:</strong> <span class="text-success fw-bold">{{ $activeSaleEvent->so_luong_gioi_han ?? $sanpham->so_luong }} sản phẩm</span></p>
-                                @endif
-                                <p><strong>Tồn kho:</strong> <span class="text-success fw-bold">{{ $sanpham->so_luong }} sản phẩm</span></p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label"><strong>Số lượng:</strong></label>
-                                <div class="input-group" style="max-width: 160px;">
-                                    <button type="button" class="btn btn-outline-secondary" id="qty-minus">-</button>
-                                    <input type="number" name="so_luong" id="so_luong" class="form-control text-center" value="1" min="1" max="{{ $sanpham->so_luong }}" style="max-width: 60px;">
-                                    <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-2 mb-2">
-                                <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                    @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
-                                </button>
-                                <button type="button" class="btn btn-danger btn-lg flex-fill" id="buy-now-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                    @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
-                                </button>
-                            </div>
-                        </form>
-                        @endif
-                        <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
-                            @csrf
-                            <input type="hidden" name="san_pham_id" value="{{ $sanpham->id }}">
-                            <input type="hidden" name="bien_the_id" id="buy-now-bien-the-id">
-                            <input type="hidden" name="so_luong" id="buy-now-so-luong">
-                        </form>
-                        <p class="mt-2 text-muted small">Giao tận nơi hoặc nhận tại cửa hàng</p>
-                    </div>
-                    <div style="min-width:220px;max-width:270px;">
-                        <div class="bg-white border rounded p-3 mb-3">
-                            <h6 class="fw-bold mb-3">Chính sách bán hàng</h6>
-                            <div class="mb-2"><i class="fa fa-check-circle text-success me-2"></i>Cam kết 100% chính
-                                hãng</div>
-                            <div class="mb-2"><i class="fa fa-headset text-primary me-2"></i>Hỗ trợ 24/7</div>
-                        </div>
-                        <div class="bg-white border rounded p-3">
-                            <h6 class="fw-bold mb-3">Thông tin thêm</h6>
-                            <div class="mb-2"><i class="fa fa-shield-alt text-info me-2"></i>Hoàn tiền 111% nếu hàng giả
-                            </div>
-                            <div class="mb-2"><i class="fa fa-box-open text-warning me-2"></i>Mở hộp kiểm tra nhận hàng
-                            </div>
-                            <div class="mb-2"><i class="fa fa-sync-alt text-secondary me-2"></i>Đổi trả trong 7 ngày
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <hr>
-
-        <div class="row mt-5">
-            <div class="col-md-8">
-                <div class="bg-light p-3 rounded mb-4 position-relative">
-                    <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
-                    <div class="text-end mt-2">
-                        <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="bg-light p-3 rounded">
-                    <h5 class="fw-bold">Cấu hình sản phẩm</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Tùy chọn' }}</li>
-                        <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Tùy chọn' }}</li>
-                        <li><strong>RAM:</strong> Tùy chọn</li>
-                        <li><strong>SSD:</strong> Tùy chọn</li>
-                        <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3>Đánh giá sản phẩm</h3>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        Gửi đánh giá của bạn
-                    </div>
-                    <div class="card-body">
-                        @auth
-                            <form action="{{ route('client.reviews.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="id_product" value="{{ $sanpham->id }}">
-
-                                <div class="mb-3">
-                                    <label class="form-label">Số sao:</label>
-                                    <div id="rating-stars-input" class="rating-stars">
-                                        <i class="far fa-star star-icon" data-value="1"></i>
-                                        <i class="far fa-star star-icon" data-value="2"></i>
-                                        <i class="far fa-star star-icon" data-value="3"></i>
-                                        <i class="far fa-star star-icon" data-value="4"></i>
-                                        <i class="far fa-star star-icon" data-value="5"></i>
-                                    </div>
-                                    <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
-                                        class="@error('so_sao') is-invalid @enderror">
-                                    @error('so_sao')
-                                        <div class="invalid-feedback d-block">{{ $errors->first('so_sao') }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="binh_luan" class="form-label">Bình luận:</label>
-                                    <textarea name="binh_luan" id="binh_luan" rows="4"
-                                        class="form-control @error('binh_luan') is-invalid @enderror">{{ old('binh_luan') }}</textarea>
-                                    @error('binh_luan')
-                                        <div class="invalid-feedback">{{ $errors->first('binh_luan') }}</div>
-                                    @enderror
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                            </form>
-                        @else
-                            <p class="text-muted">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để gửi đánh giá.</p>
-                        @endauth
-                    </div>
-                </div>
-
-                <h6 class="fw-bold mb-3">Tất cả đánh giá ({{ $totalReviews }})</h6>
-                @if ($sanpham->danhGiaSanPhams->count() > 0)
-                    @foreach ($sanpham->danhGiaSanPhams as $danhGia)
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $danhGia->user->ho_ten ?? 'Người dùng ẩn danh' }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    @for ($i = 0; $i < $danhGia->so_sao; $i++)
-                                        <i class="fas fa-star text-warning"></i>
-                                    @endfor
-                                    @for ($i = 0; $i < 5 - $danhGia->so_sao; $i++)
-                                        <i class="far fa-star text-warning"></i>
-                                    @endfor
-                                    ({{ $danhGia->so_sao }} sao)
-                                </h6>
-                                <p class="card-text" id="review-content-{{ $danhGia->id }}">{{ $danhGia->binh_luan }}
-                                </p>
-                                <small class="text-muted">Đăng vào:
-                                    {{ $danhGia->created_at->format('H:i d/m/Y') }}</small>
-
-                                @auth
-                                    @if (Auth::id() === $danhGia->id_user || Auth::user()->vai_tro === 'admin')
-                                        <div class="mt-2">
-                                            <button class="btn btn-sm btn-outline-info edit-review-btn"
-                                                data-review-id="{{ $danhGia->id }}" data-stars="{{ $danhGia->so_sao }}"
-                                                data-comment="{{ $danhGia->binh_luan }}">Sửa</button>
-
-                                            <form action="{{ route('client.reviews.destroy', $danhGia->id) }}" method="POST"
-                                                class="d-inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này không?');">Xóa</button>
-                                            </form>
-                                        </div>
-
-                                        <div id="edit-form-{{ $danhGia->id }}" style="display: none;"
-                                            class="mt-3 p-3 border rounded bg-light">
-                                            <h6>Chỉnh sửa đánh giá của bạn</h6>
-                                            <form action="{{ route('client.reviews.update', $danhGia->id) }}" method="POST">
-                                                @csrf
-                                                @method('PATCH')
-
-                                                <div class="mb-3">
-                                                    <label class="form-label">Số sao:</label>
-                                                    <div class="rating-stars" id="edit-stars-{{ $danhGia->id }}">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            <i class="far fa-star star-icon"
-                                                                data-value="{{ $i }}"></i>
-                                                        @endfor
-                                                    </div>
-                                                    <input type="hidden" name="so_sao"
-                                                        id="edit-so_sao-{{ $danhGia->id }}" value="{{ $danhGia->so_sao }}">
-                                                </div>
-
-                                                <div class="mb-3">
-                                                    <label for="edit-binh_luan-{{ $danhGia->id }}" class="form-label">Bình
-                                                        luận:</label>
-                                                    <textarea name="binh_luan" id="edit-binh_luan-{{ $danhGia->id }}" rows="3" class="form-control">{{ $danhGia->binh_luan }}</textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-success btn-sm">Lưu</button>
-                                                <button type="button" class="btn btn-secondary btn-sm cancel-edit-btn"
-                                                    data-review-id="{{ $danhGia->id }}">Hủy</button>
-                                            </form>
-                                        </div>
-                                    @endif
-                                @endauth
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <p>Hãy là người đầu tiên đánh giá sản phẩm này!</p>
-                @endif
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="mt-5">
-            <h5 class="fw-bold mb-3">Sản phẩm tương tự</h5>
-            <div class="products-grid">
-                @foreach ($sanphamTuongTu as $sp)
-                    @php
-                        if ($sp->co_bien_the) {
-                            $bienThe = $sp->BienTheSanPhams->firstWhere(function ($bt) {
-                                return (!request('id_ram') || $bt->id_ram == request('id_ram')) &&
-                                       (!request('id_o_cung') || $bt->id_o_cung == request('id_o_cung'));
-                            }) ?? $sp->BienTheSanPhams->first();
-                            $gia = $bienThe ? $bienThe->gia : 0;
-                            $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
-                            $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
-                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
-                        } else {
-                            $bienThe = null;
-                            $gia = $sp->gia;
-                            $gia_so_sanh = $sp->gia_so_sanh;
-                            $saleEvent = $activeSaleEvents->firstWhere('san_pham_id', $sp->id);
-                            $gia_su_kien = $saleEvent ? $saleEvent->gia_su_kien : null;
-                        }
-                    @endphp
-
-                    <div class="product-card">
-                        <div class="product-badges">
-                            @if ($saleEvent && $saleEvent->suKien->ngay_ket_thuc >= now())
-                                <span class="flash-sale-badge">
-                                    <i class="fas fa-bolt"></i> FLASH SALE
-                                </span>
-                            @elseif ($sp->is_hot)
-                                <span class="product-badge hot-badge">
-                                    <i class="fas fa-gift"></i> Quà tặng HOT
-                                </span>
-                            @elseif(rand(1, 3) == 1)
-                                <span class="product-badge bestseller-badge">
-                                    <i class="fas fa-fire"></i> Bán chạy
-                                </span>
-                            @elseif(rand(1, 2) == 1)
-                                <span class="product-badge gift-badge">
-                                    <i class="fas fa-gift"></i> Quà tặng
-                                </span>
-                            @endif
-                        </div>
-                        <div class="product-image">
-                            <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                                alt="{{ $sp->ten }}"
-                                onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">{{ $sp->ten }}</h3>
-                            <div class="product-price">
-                                @if ($gia_so_sanh && $gia_so_sanh > $gia)
-                                    <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
-                                @endif
-                                <div class="current-price-wrapper">
-                                    <div class="current-price">
-                                        @if ($gia_su_kien && $gia_su_kien < $gia)
-                                            <span class="old-price">{{ number_format($gia) }}₫</span><br>
-                                            {{ number_format($gia_su_kien) }}₫
-                                        @else
-                                            {{ number_format($gia) }}₫
-                                        @endif
-                                    </div>
-                                    @if ($gia_so_sanh && $gia_so_sanh > $gia)
-                                        <div class="discount-badge">
-                                            -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
-                                        </div>
-                                    @elseif ($gia_su_kien && $gia_su_kien < $gia)
-                                        <div class="discount-badge">
-                                            -{{ round((100 * ($gia - $gia_su_kien)) / $gia) }}%
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="product-rating">
-                                @php
-                                    $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
-                                    $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
-                                @endphp
-                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
-                                <i class="fas fa-star text-warning"></i>
-                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
-                            </div>
-                            <div class="product-actions">
-                                <form action="{{ route('client.cart.add') }}" method="POST"
-                                    class="add-to-cart-form"
-                                    data-product-id="{{ $sp->id }}"
-                                    data-variant-id="{{ $bienThe->id ?? '' }}">
-                                    @csrf
-                                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
-                                    <input type="hidden" name="so_luong" value="1">
-                                    <button type="submit" class="add-to-cart-btn">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        <span>Thêm vào giỏ</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
     <script>
         // Lấy phần tử chứa data hasVariants
         const product = document.getElementById('container');
