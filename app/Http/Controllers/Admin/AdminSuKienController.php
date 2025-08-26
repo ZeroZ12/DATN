@@ -172,7 +172,7 @@ class AdminSuKienController extends Controller
     {
         // Tìm sự kiện theo ID và tải các sản phẩm liên quan.
         $suKien = SuKien::with('sanPhams','bienTheSanPhams','ChiTietSuKien')->findOrFail($id);
-        $sanphams = SanPham::whereNull('deleted_at')->get();
+        $sanphams = SanPham::whereNull('deleted_at')->where('co_bien_the', 0)->get();
         $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->whereHas('sanPham')->get();
         return view('admin.sukien.edit', compact('suKien', 'sanphams', 'bienThes'));
     }
