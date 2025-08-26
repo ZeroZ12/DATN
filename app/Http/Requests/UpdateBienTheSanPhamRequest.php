@@ -40,7 +40,7 @@ class UpdateBienTheSanPhamRequest extends FormRequest
             // 'ma_bien_the' không cần validate unique ở đây vì nó không thay đổi khi update
             // Nếu bạn cho phép sửa mã biến thể, hãy thêm lại Rule::unique ở đây.
             'gia' => 'required|numeric|min:0|max:999999999999',
-           'gia_so_sanh' => 'nullable|numeric|min:0|gt:gia|max:999999999999',
+            'gia_so_sanh' => 'nullable|numeric|min:0|gt:gia|max:999999999999',
             'ton_kho' => 'required|integer|min:0',
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];

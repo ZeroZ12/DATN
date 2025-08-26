@@ -65,7 +65,7 @@ class HomeController extends Controller
             )
             ->orderByDesc('id')
             // ->get();
-            ->paginate(30)
+            ->paginate(40)
             ->withQueryString();
 
         $thuongHieus = ThuongHieu::all();

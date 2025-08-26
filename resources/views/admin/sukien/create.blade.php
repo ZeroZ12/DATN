@@ -89,18 +89,7 @@
 {{-- Thêm thư viện Select2 cho các dropdown đẹp hơn và có chức năng tìm kiếm --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
 <script>
-    // Khởi tạo TinyMCE (nếu bạn có trường 'mo_ta' - trong mã bạn đưa ra không có, nhưng tôi giữ lại)
-    tinymce.init({
-        selector: '#mo_ta', // Đảm bảo có một textarea với id="mo_ta" nếu bạn muốn dùng TinyMCE
-        height: 300,
-        plugins: 'image link table lists code',
-        toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist | image link table | code',
-        menubar: false
-    });
-
     $(document).ready(function() {
         // Khởi tạo Select2 cho các thẻ select
         $('.select2-enable').select2({

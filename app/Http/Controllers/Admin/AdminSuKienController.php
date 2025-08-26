@@ -32,8 +32,9 @@ class AdminSuKienController extends Controller
     public function create()
     {
         // Chỉ lấy các sản phẩm đang hoạt động (chưa bị xóa mềm).
-        $sanphams = SanPham::whereNull('deleted_at')->get();
-        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->whereHas('sanPham')->get();
+        $sanphams = SanPham::whereNull('deleted_at')->where('co_bien_the', 0)->get();
+        $bienThes = BienTheSanPham::with('sanPham')->whereNull('deleted_at')->whereHas('sanPham', function ($q) {
+        $q->where('co_bien_the', 1);})->get();
         return view('admin.sukien.create', compact('sanphams', 'bienThes'));
     }
 
