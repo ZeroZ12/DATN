@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Client\YeuCauHoanTraController as ClientYCHT;
 use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 use App\Http\Controllers\ProductSearchController;
+use App\Http\Controllers\ChatController;
 
 
 
@@ -304,6 +305,8 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
     // Route để xóa đánh giá (sử dụng DELETE)
     Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
+
+
 });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', [DashBoardController::class, 'index'])->name('admin.index');
@@ -352,7 +355,6 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
 Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');
 Route::get('/search', [SearcherController::class, 'search'])->name('searcher.search'); // Thêm route tìm kiếm
-
-use App\Http\Controllers\ChatController;
-
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
+    // Route thêm lịch sử chatbot vào database
+    Route::post('/chat/import-history', [ChatController::class,'importHistory'])->middleware('auth');
