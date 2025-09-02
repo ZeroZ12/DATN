@@ -2,11 +2,12 @@
 @section('content')
     <div class="container py-4">
         <div class="filter-area mb-4">
+            @if ($sanphams->isEmpty())
+                <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
+            @else
+                <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
+            @endif
             <form method="GET" action="{{ route('searcher.search') }}" class="filter-form d-flex align-items-center flex-wrap">
-                {{-- <div class="input-group me-3 mb-2">
-                    <input type="text" name="keyword" class="form-control" placeholder="Nhập từ khóa tìm kiếm..." value="{{ $keyword }}">
-                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                </div> --}}
 
                 {{-- Thêm các bộ lọc khác ở đây --}}
                 @isset($rams) {{-- Kiểm tra xem biến $rams có tồn tại không trước khi hiển thị --}}
@@ -42,101 +43,125 @@
         @if ($sanphams->isEmpty())
             <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
         @else
-            {{--
-                LƯU Ý: Mã gốc có bộ lọc where('id_category', $danhMuc->id) ở đây.
-            --}}
-            <div class="products-slider-wrapper">
-                <button type="button" class="slider-btn left" onclick="scrollProducts(this, -1)"><i
-                        class="fas fa-chevron-left"></i></button>
-                <div class="products-slider">
-                    {{-- Lặp qua TẤT CẢ $sanphams vì chúng đã được lọc bởi controller --}}
-                    @foreach ($sanphams as $sp)
-                        @php
-                            $bienThe = $sp->bienTheSanPhams->first() ?? $sp->BienTheSanPhams()->first(); // Sử dụng first() từ collection, fallback để truy vấn nếu cần (mặc dù eager loading sẽ bao gồm điều này)
+            <div class="products-grid">
+                {{-- Lặp qua TẤT CẢ $sanphams vì chúng đã được lọc bởi controller --}}
+                @foreach ($sanphams as $sp)
+                    @php
+                        $bienThe = $sp->bienTheSanPhams->first() ?? $sp->BienTheSanPhams()->first(); // Sử dụng first() từ collection, fallback để truy vấn nếu cần (mặc dù eager loading sẽ bao gồm điều này)
 
-                            if ($sp->co_bien_the) {
-                                $gia = $bienThe ? $bienThe->gia : 0;
-                                $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
-                                $isOutOfStock = !$bienThe || $bienThe->ton_kho <= 0;
-                            } else {
-                                $gia = $sp->gia;
-                                $gia_so_sanh = $sp->gia_so_sanh;
-                                $isOutOfStock = $sp->so_luong <= 0;
-                            }
-                        @endphp
+                        if ($sp->co_bien_the) {
+                            $gia = $bienThe ? $bienThe->gia : 0;
+                            $gia_so_sanh = $bienThe ? $bienThe->gia_so_sanh : null;
+                            $isOutOfStock = !$bienThe || $bienThe->ton_kho <= 0;
+                        } else {
+                            $gia = $sp->gia;
+                            $gia_so_sanh = $sp->gia_so_sanh;
+                            $isOutOfStock = $sp->so_luong <= 0;
+                        }
+                    @endphp
 
-                        <div class="product-card">
-                            <div class="product-badges">
-                                @if ($isOutOfStock)
-                                    <span class="product-badge" style="background:#6c757d">Hết hàng</span>
-                                @elseif ($sp->is_hot)
-                                    <span class="product-badge hot-badge">
-                                        <i class="fas fa-gift"></i> Quà tặng HOT
-                                    </span>
-                                @elseif(rand(1, 3) == 1)
-                                    <span class="product-badge bestseller-badge">
-                                        <i class="fas fa-fire"></i> Bán chạy
-                                    </span>
-                                @elseif(rand(1, 2) == 1)
-                                    <span class="product-badge gift-badge">
-                                        <i class="fas fa-gift"></i> Quà tặng
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="product-image">
-                                <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
-                                    alt="{{ $sp->ten }}"
-                                    onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-title">{{ $sp->ten }}</h3>
-                                <div class="product-price">
-                                    @if ($gia_so_sanh && $gia_so_sanh > $gia)
-                                        <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
-                                    @endif
-                                    <div class="current-price-wrapper">
-                                        <div class="current-price">{{ number_format($gia) }}₫</div>
-                                        @if ($gia_so_sanh && $gia_so_sanh > $gia)
-                                            <div class="discount-badge">
-                                                -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="product-rating">
-                                    @php
-                                        $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
-                                        $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
-                                    @endphp
-                                    <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
-                                    <i class="fas fa-star text-warning"></i>
-                                    <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
-                                </div>
-                                <div class="product-actions">
-                                    <form action="{{ route('client.cart.add') }}" method="POST"
-                                        class="add-to-cart-form"
-                                        data-product-id="{{ $sp->id }}"
-                                        data-variant-id="{{ $bienThe->id ?? '' }}"> {{-- Bây giờ nó sẽ đúng --}}
-                                        @csrf
-                                        <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                        <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> {{-- Bây giờ nó sẽ đúng --}}
-                                        <input type="hidden" name="so_luong" value="1">
-                                        <button type="submit" class="add-to-cart-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                            <i class="fas fa-shopping-cart"></i>
-                                            <span>@if($isOutOfStock) HẾT HÀNG @else Thêm vào giỏ @endif</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
+                    <div class="product-card">
+                        <div class="product-badges">
+                            @if ($isOutOfStock)
+                                <span class="product-badge" style="background:#6c757d">Hết hàng</span>
+                            @elseif ($sp->is_hot)
+                                <span class="product-badge hot-badge">
+                                    <i class="fas fa-gift"></i> Quà tặng HOT
+                                </span>
+                            @elseif(rand(1, 3) == 1)
+                                <span class="product-badge bestseller-badge">
+                                    <i class="fas fa-fire"></i> Bán chạy
+                                </span>
+                            @elseif(rand(1, 2) == 1)
+                                <span class="product-badge gift-badge">
+                                    <i class="fas fa-gift"></i> Quà tặng
+                                </span>
+                            @endif
                         </div>
-                    @endforeach
-                </div>
-                <button type="button" class="slider-btn right" onclick="scrollProducts(this, 1)"><i
-                        class="fas fa-chevron-right"></i></button>
+                        <div class="product-image">
+                            <img src="{{ asset('storage/' . ($bienThe->anh_dai_dien ?? $sp->anh_dai_dien)) }}"
+                                alt="{{ $sp->ten }}"
+                                onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">{{ $sp->ten }}</h3>
+                            <div class="product-price">
+                                @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                    <div class="old-price">{{ number_format($gia_so_sanh) }}₫</div>
+                                @endif
+                                <div class="current-price-wrapper">
+                                    <div class="current-price">{{ number_format($gia) }}₫</div>
+                                    @if ($gia_so_sanh && $gia_so_sanh > $gia)
+                                        <div class="discount-badge">
+                                            -{{ round((100 * ($gia_so_sanh - $gia)) / $gia_so_sanh) }}%
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="product-rating">
+                                @php
+                                    $avgRating = $sp->danh_gia_san_phams_avg_so_sao ?? 0;
+                                    $reviewCount = $sp->danh_gia_san_phams_count ?? 0;
+                                @endphp
+                                <span class="rating-score">{{ number_format($avgRating, 1) }}</span>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
+                            </div>
+                            <div class="product-actions">
+                                {{-- <form action="{{ route('client.cart.add') }}" method="POST"
+                                    class="add-to-cart-form"
+                                    data-product-id="{{ $sp->id }}"
+                                    data-variant-id="{{ $bienThe->id ?? '' }}"> 
+                                    @csrf
+                                    <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                    <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}"> 
+                                    <input type="hidden" name="so_luong" value="1">
+                                    <button type="submit" class="add-to-cart-btn" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <span>@if($isOutOfStock) HẾT HÀNG @else Thêm vào giỏ @endif</span>
+                                    </button>
+                                </form> --}}
+                                @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
+                                        <div class="product-actions mt-2">
+                                            <form action="{{ route('client.cart.add') }}" method="POST"
+                                                class="add-to-cart-form" data-product-id="{{ $sp->id }}"
+                                                data-variant-id="{{ $bienThe->id ?? '' }}">
+                                                @csrf
+                                                <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
+                                                <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
+                                                <input type="hidden" name="so_luong" value="1">
+                                                <button type="submit" class="add-to-cart-btn btn w-100 py-2"
+                                                    @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                                    <i class="fas fa-shopping-cart me-2"></i>
+                                                    <span>
+                                                        @if ($isOutOfStock)
+                                                            HẾT HÀNG
+                                                        @else
+                                                            Thêm vào giỏ
+                                                        @endif
+                                                    </span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <div class="product-actions mt-2">
+                                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                               class="add-to-cart-btn btn w-100 py-2">
+                                                <i class="fas fa-shopping-cart me-2"></i>
+                                                <span>Xem chi tiết</span>
+                                            </a>
+                                        </div>
+                                    @endif
+                            </div>
+                        </div>
+                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}" class="product-link"></a>
+                    </div>
+                @endforeach
             </div>
-            <div class="d-flex justify-content-center mt-4">
-                {{ $sanphams->appends(request()->except('page'))->links() }}
+            <div class="d-flex justify-content-center my-4">
+                    <nav aria-label="Page navigation example">
+                        {{ $sanphams->appends(request()->except('page'))->links() }}
+                    </nav>
             </div>
         @endif
     </div>
@@ -156,6 +181,94 @@
     </script>
     @push('css')
     <style>
+        .pagination {
+            --bs-pagination-padding-x: 1.1rem;
+            /* Tăng padding ngang một chút */
+            --bs-pagination-padding-y: 0.6rem;
+            /* Tăng padding dọc một chút */
+            --bs-pagination-font-size: 1.1rem;
+            /* Đặt font-size bằng biến CSS của Bootstrap */
+            --bs-pagination-border-radius: 0.75rem;
+            /* Tăng bo góc cho tổng thể pagination */
+            --bs-pagination-bg: #fff;
+            /* Nền trắng mặc định */
+            --bs-pagination-border-color: #dee2e6;
+            /* Màu viền mặc định */
+            --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            /* Shadow khi focus (màu đỏ) */
+
+            /* Hiệu ứng chuyển động mượt mà cho toàn bộ pagination */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Các mục riêng lẻ (page-item) */
+        .pagination .page-item {
+            margin: 0 0.25rem;
+            /* Khoảng cách giữa các nút */
+        }
+
+        /* Nút phân trang (page-link) */
+        .pagination .page-link {
+            color: #dc3545;
+            /* Màu chữ mặc định là đỏ của bạn */
+            border: 1px solid #dc3545;
+            /* Đặt viền cùng màu chữ */
+            border-radius: 0.5rem;
+            /* Bo góc cho từng nút riêng lẻ */
+            transition: all 0.2s ease-in-out;
+            /* Hiệu ứng chuyển động khi hover */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            /* Thêm shadow nhẹ cho mỗi nút */
+        }
+
+        /* Nút phân trang khi hover */
+        .pagination .page-link:hover {
+            background-color: #dc3545;
+            /* Nền đỏ */
+            color: #fff;
+            /* Chữ trắng */
+            border-color: #dc3545;
+            /* Viền đỏ */
+            transform: translateY(-2px);
+            /* Hiệu ứng nhấc nhẹ lên */
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+            /* Shadow mạnh hơn khi hover */
+        }
+
+        /* Nút phân trang khi focus (click) */
+        .pagination .page-link:focus {
+            box-shadow: var(--bs-pagination-focus-box-shadow);
+            /* Sử dụng biến Bootstrap */
+        }
+
+        /* Nút phân trang đang active */
+        .pagination .page-item.active .page-link {
+            background-color: #dc3545;
+            /* Nền đỏ */
+            border-color: #dc3545;
+            /* Viền đỏ */
+            color: #fff;
+            /* Chữ trắng */
+            box-shadow: 0 3px 6px rgba(220, 53, 69, 0.2);
+            /* Shadow cho nút active */
+        }
+
+        /* Nút disable (Previous/Next khi không có) */
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            /* Màu xám cho nút bị disable */
+            border-color: #dee2e6;
+            /* Viền xám nhạt */
+            background-color: #f8f9fa;
+            /* Nền xám rất nhạt */
+            cursor: not-allowed;
+            /* Con trỏ không được phép */
+            box-shadow: none;
+            /* Bỏ shadow */
+            transform: none;
+            /* Bỏ hiệu ứng nhấc */
+        }
+
         .product-section {
             background: white;
             border-radius: 12px;
@@ -276,26 +389,14 @@
             transform: translateY(-1px);
         }
 
-        .products-slider-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .products-slider {
-            display: flex;
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
             gap: 20px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding-bottom: 10px;
             width: 100%;
         }
 
         .product-card {
-            min-width: 270px;
-            max-width: 270px;
-            flex: 0 0 270px;
             position: relative;
             background: white;
             border-radius: 8px;
@@ -312,49 +413,16 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         }
 
-        .slider-btn {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 2;
-            font-size: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: background 0.2s;
-        }
-
-        .slider-btn.left {
-            margin-right: 10px;
-        }
-
-        .slider-btn.right {
-            margin-left: 10px;
-        }
-
-        .slider-btn:hover {
-            background: #f0f0f0;
-        }
-
         @media (max-width: 1200px) {
-            .product-card {
-                min-width: 220px;
-                max-width: 220px;
-                flex: 0 0 220px;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .product-card {
-                min-width: 180px;
-                max-width: 180px;
-                flex: 0 0 180px;
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             }
-
         }
 
         .product-badges {
@@ -781,10 +849,6 @@
                 min-width: auto;
             }
 
-            .products-slider-wrapper {
-                padding: 15px;
-            }
-
             .toast-container {
                 right: 10px;
                 left: 10px;
@@ -803,10 +867,6 @@
         }
 
         @media (max-width: 576px) {
-            .products-slider-wrapper {
-                padding: 10px;
-            }
-
             .filter-tab,
             .filter-tab-select,
             .filter-submit-btn,
@@ -1010,19 +1070,6 @@
             container.appendChild(toast);
             setTimeout(() => toast.classList.add('show'), 100);
             setTimeout(() => toast.remove(), 5000);
-        }
-
-        function scrollProducts(button, direction) {
-            const wrapper = button.closest('.products-slider-wrapper');
-            const slider = wrapper.querySelector('.products-slider');
-            const card = slider.querySelector('.product-card');
-            if (!card) return;
-
-            const scrollAmount = card.offsetWidth + 20; // 20 là gap
-            slider.scrollBy({
-                left: direction * scrollAmount * 2,
-                behavior: 'smooth'
-            });
         }
 
         function resetFilters() {

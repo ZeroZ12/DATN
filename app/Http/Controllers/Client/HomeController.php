@@ -65,7 +65,7 @@ class HomeController extends Controller
             )
             ->orderByDesc('id')
             // ->get();
-            ->paginate(40)
+            ->paginate(60)
             ->withQueryString();
 
         $thuongHieus = ThuongHieu::all();
@@ -86,7 +86,7 @@ class HomeController extends Controller
                   ->where('ngay_ket_thuc', '>=', now())
                   ->where('hien_thi', 1);
         })
-        ->paginate(9);
+        ->paginate(perPage: 9);
 
     $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
         ->limit(5)

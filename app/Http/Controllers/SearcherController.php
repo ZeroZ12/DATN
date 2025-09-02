@@ -6,6 +6,7 @@ use App\Models\BienTheSanPham;
 use App\Models\OCung;
 use App\Models\Ram;
 use App\Models\SanPham;
+use App\Models\ThuongHieu;
 use Illuminate\Http\Request;
 
 class SearcherController extends Controller
@@ -21,7 +22,7 @@ class SearcherController extends Controller
         // Tìm kiếm theo từ khóa
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
-                $q->where('ten', 'LIKE', '%' . $keyword . '%') // Giả sử tên cột là 'ten'
+                $q->where('ten', 'LIKE', '%' . $keyword . '%') 
                   ->orWhere('mo_ta', 'LIKE', '%' . $keyword . '%');
             });
         }
@@ -38,7 +39,7 @@ class SearcherController extends Controller
             $query->whereHas('bienTheSanPhams', function ($q) use ($idOCung) {
                 $q->where('id_o_cung', $idOCung);
             });
-        }
+        }    
         
         // Eager load các mối quan hệ cho giá và biến thể
         $sanphams = $query->with([
@@ -58,8 +59,9 @@ class SearcherController extends Controller
         // Lấy tất cả RAM và Ổ cứng để hiển thị trong dropdown
         $rams = Ram::all();
         $o_cungs = OCung::all();
+        $thuongHieus = ThuongHieu::all();
 
-        return view('client.search', compact('keyword', 'sanphams', 'rams', 'o_cungs'))
+        return view('client.search', compact('keyword', 'sanphams', 'rams', 'o_cungs', 'thuongHieus'))
             ->with('title', 'Kết quả tìm kiếm');
     }
 

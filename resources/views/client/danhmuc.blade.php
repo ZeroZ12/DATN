@@ -294,26 +294,37 @@
                                         </div>
 
                                         <div class="product-actions">
+                                            @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
+                                        <div class="product-actions mt-2">
                                             <form action="{{ route('client.cart.add') }}" method="POST"
-                                                class="add-to-cart-form">
+                                                class="add-to-cart-form" data-product-id="{{ $sp->id }}"
+                                                data-variant-id="{{ $bienThe->id ?? '' }}">
                                                 @csrf
                                                 <input type="hidden" name="san_pham_id" value="{{ $sp->id }}">
-                                                <input type="hidden" name="bien_the_id"
-                                                    value="{{ $bienThe->id ?? '' }}">
+                                                <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
                                                 <input type="hidden" name="so_luong" value="1">
-
-                                                <button type="submit" class="add-to-cart-btn"
+                                                <button type="submit" class="add-to-cart-btn btn w-100 py-2"
                                                     @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
-                                                    <i class="fas fa-shopping-cart"></i>
-                                                    <span>
-                                                        @if ($isOutOfStock)
-                                                            HẾT HÀNG
-                                                        @else
-                                                            Thêm vào giỏ
-                                                        @endif
-                                                    </span>
-                                                </button>
-                                            </form>
+                                                                    <i class="fas fa-shopping-cart me-2"></i>
+                                                                    <span>
+                                                                        @if ($isOutOfStock)
+                                                                            HẾT HÀNG
+                                                                        @else
+                                                                            Thêm vào giỏ
+                                                                        @endif
+                                                                    </span>
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    @else
+                                                        <div class="product-actions mt-2">
+                                                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                                            class="add-to-cart-btn btn w-100 py-2">
+                                                                <i class="fas fa-shopping-cart me-2"></i>
+                                                                <span>Xem chi tiết</span>
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                         </div>
                                     </div>
 
@@ -334,8 +345,10 @@
 
                         <!-- Phân trang -->
                         @if ($sanphams->hasPages())
-                            <div class="pagination-wrapper mt-4">
-                                {{ $sanphams->appends(request()->query())->links() }}
+                            <div class="d-flex justify-content-center my-4">
+                                <nav aria-label="Page navigation example">
+                                    {{ $sanphams->appends(request()->query())->links() }}
+                                </nav>
                             </div>
                         @endif
                     </div>
@@ -362,6 +375,94 @@
 
 @push('css')
     <style>
+        .pagination {
+            --bs-pagination-padding-x: 1.1rem;
+            /* Tăng padding ngang một chút */
+            --bs-pagination-padding-y: 0.6rem;
+            /* Tăng padding dọc một chút */
+            --bs-pagination-font-size: 1.1rem;
+            /* Đặt font-size bằng biến CSS của Bootstrap */
+            --bs-pagination-border-radius: 0.75rem;
+            /* Tăng bo góc cho tổng thể pagination */
+            --bs-pagination-bg: #fff;
+            /* Nền trắng mặc định */
+            --bs-pagination-border-color: #dee2e6;
+            /* Màu viền mặc định */
+            --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            /* Shadow khi focus (màu đỏ) */
+
+            /* Hiệu ứng chuyển động mượt mà cho toàn bộ pagination */
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Các mục riêng lẻ (page-item) */
+        .pagination .page-item {
+            margin: 0 0.25rem;
+            /* Khoảng cách giữa các nút */
+        }
+
+        /* Nút phân trang (page-link) */
+        .pagination .page-link {
+            color: #dc3545;
+            /* Màu chữ mặc định là đỏ của bạn */
+            border: 1px solid #dc3545;
+            /* Đặt viền cùng màu chữ */
+            border-radius: 0.5rem;
+            /* Bo góc cho từng nút riêng lẻ */
+            transition: all 0.2s ease-in-out;
+            /* Hiệu ứng chuyển động khi hover */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            /* Thêm shadow nhẹ cho mỗi nút */
+        }
+
+        /* Nút phân trang khi hover */
+        .pagination .page-link:hover {
+            background-color: #dc3545;
+            /* Nền đỏ */
+            color: #fff;
+            /* Chữ trắng */
+            border-color: #dc3545;
+            /* Viền đỏ */
+            transform: translateY(-2px);
+            /* Hiệu ứng nhấc nhẹ lên */
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+            /* Shadow mạnh hơn khi hover */
+        }
+
+        /* Nút phân trang khi focus (click) */
+        .pagination .page-link:focus {
+            box-shadow: var(--bs-pagination-focus-box-shadow);
+            /* Sử dụng biến Bootstrap */
+        }
+
+        /* Nút phân trang đang active */
+        .pagination .page-item.active .page-link {
+            background-color: #dc3545;
+            /* Nền đỏ */
+            border-color: #dc3545;
+            /* Viền đỏ */
+            color: #fff;
+            /* Chữ trắng */
+            box-shadow: 0 3px 6px rgba(220, 53, 69, 0.2);
+            /* Shadow cho nút active */
+        }
+
+        /* Nút disable (Previous/Next khi không có) */
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            /* Màu xám cho nút bị disable */
+            border-color: #dee2e6;
+            /* Viền xám nhạt */
+            background-color: #f8f9fa;
+            /* Nền xám rất nhạt */
+            cursor: not-allowed;
+            /* Con trỏ không được phép */
+            box-shadow: none;
+            /* Bỏ shadow */
+            transform: none;
+            /* Bỏ hiệu ứng nhấc */
+        }
+
         /* Container styling */
         .container-xxl {
             max-width: 1320px;
