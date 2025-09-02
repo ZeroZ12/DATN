@@ -230,16 +230,16 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             
                             @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
-                            <li>
-                                <a class="dropdown-item" href="{{ route('client.profile.show') }}">
-                                    <i class="fa-solid fa-id-card me-2"></i>Thông tin tài khoản
-                                </a>
-                            </li>
                                 <li>
-                                <a class="dropdown-item" href="{{ route('client.orders.index') }}">
-                                    <i class="fa-solid fa-box-open me-2"></i>Đơn hàng của tôi
-                                </a>
-                            </li>
+                                    <a class="dropdown-item" href="{{ route('client.profile.show') }}">
+                                        <i class="fa-solid fa-id-card me-2"></i>Thông tin tài khoản
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('client.orders.index') }}">
+                                        <i class="fa-solid fa-box-open me-2"></i>Đơn hàng của tôi
+                                    </a>
+                                </li>
 
                             @endif
                             <li><hr class="dropdown-divider"></li>
@@ -261,15 +261,15 @@
                         </li>
                     @endif 
                     
-                      <li class="nav-item">
-                    <a class="nav-link text-white position-relative" href="{{ route('client.cart.index') }}">
-                        <i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng
-                        <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark"
-                              style="font-size: 0.7em;">
-                            {{ $tongSoLuongGioHang ?? 0 }}
-                        </span>
-                    </a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white position-relative" href="{{ route('client.cart.index') }}">
+                            <i class="fa-solid fa-cart-shopping me-1"></i>Giỏ hàng
+                            <span class="cart-count position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark"
+                                style="font-size: 0.7em;">
+                                {{ $tongSoLuongGioHang ?? 0 }}
+                            </span>
+                        </a>
+                    </li>
                 @else
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('form') }}">
