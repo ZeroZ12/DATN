@@ -86,7 +86,7 @@ class HomeController extends Controller
                   ->where('ngay_ket_thuc', '>=', now())
                   ->where('hien_thi', 1);
         })
-        ->paginate(perPage: 9);
+        ->paginate( 9);
 
     $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
         ->limit(5)
