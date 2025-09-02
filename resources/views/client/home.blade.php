@@ -297,7 +297,7 @@
                 <div class="input-group">
                     <input id="message" type="text" name="message" class="form-control"
                         placeholder="Nhập yêu cầu của bạn..." required>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-danger">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -617,7 +617,7 @@
                 position: fixed;
                 bottom: 20px;
                 right: 20px;
-                background: #007bff;
+                background: #DC3545;
                 color: white;
                 border: none;
                 border-radius: 50%;
@@ -634,7 +634,7 @@
             }
 
             .chat-toggle-btn:hover {
-                background: #0056b3;
+                background: #8D0107;
                 transform: scale(1.1);
             }
 
@@ -658,7 +658,7 @@
             }
 
             .chat-header {
-                background: #007bff;
+                background: #DC3545;
                 color: white;
                 padding: 15px;
                 display: flex;
@@ -710,7 +710,7 @@
             }
 
             .user-message {
-                background: #007bff;
+                background: #DC3545;
                 color: white;
                 margin-left: 10px;
                 text-align: right;
@@ -1194,7 +1194,26 @@
                         showToast("{{ $error }}", 'error');
                     @endforeach
                 @endif
-
+                // chuyển lịch sử chatbot qua db sau khi đăng nhập
+                @if(Auth::check())
+                const chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+                if (chatHistory.length >0)
+                 {
+                    fetch('/chat/import-history',{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({history: chatHistory})
+                    }).then(res => res.json())
+                    .then(data => {
+                            if (data.success){
+                                localStorage.removeItem('chatHistory');
+                            }
+                    });
+                 }
+                 @endif
                 document.querySelectorAll('.add-to-cart-form').forEach(form => {
                     form.addEventListener('submit', function(event) {
                         event.preventDefault();
@@ -1267,6 +1286,20 @@
                                 botMessage.innerHTML = `<p>${data.message}</p>`;
                                 chatBody.appendChild(botMessage);
                                 chatBody.scrollTop = chatBody.scrollHeight;
+                                // Lưu lịch sử chat vào localStorage nếu chưa đăng nhập
+                                @if (!Auth::check())
+                                    let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+                                    chatHistory.push({
+                                        user: message,
+                                        bot: data.message,
+                                        time: new Date().toISOString()
+                                    });
+                                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                                @else
+                                
+                                    localStorage.removeItem('chatHistory');
+                                
+                                @endif
                             })
                             .catch(error => {
                                 // Remove loading message
