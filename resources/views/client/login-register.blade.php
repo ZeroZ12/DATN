@@ -53,7 +53,7 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <input type="email" name="email" class="form-control form-control-lg @error('email_register') is-invalid @enderror" placeholder="Email" value="{{ old('email_register') }}"> {{-- Đổi name email để phân biệt với login --}}
+                            <input type="email" name="email" class="form-control form-control-lg @error('email_register') is-invalid @enderror" placeholder="Email" value="{{ old('email') }}"> {{-- Đổi name email để phân biệt với login --}}
                             @error('email_register')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

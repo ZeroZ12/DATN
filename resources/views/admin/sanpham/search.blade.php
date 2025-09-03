@@ -18,33 +18,40 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        @if ($sanphams->isEmpty())
-            <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
+        {{-- @if ($sanphams->isEmpty())
+            <h2 class="section-title">Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</h2>
         @else
             <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
-        @endif
+        @endif --}}
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="card-title fw-bold">Bộ lọc loại sản phẩm</div>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm sản phẩm mới</a>
+                        {{-- <a href="{{ route('admin.sanpham.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm sản phẩm mới</a> --}}
                         <a href="{{ route('admin.sanpham.trash') }}" class="btn btn-outline-danger"><i class="fas fa-trash"></i> Thùng rác</a>
                     </div>
                 </div>
                 <div class="mt-3">
                     <form class="search-form mb-0" action="{{ route('admin.search') }}" method="GET">
-                            <div class="input-group">
-                                <input class="form-control pe-0" type="text" name="keyword" value="{{ $keyword }}" placeholder="Tìm kiếm ...">
-                                <button class="btn btn-light btn-sm ms-2" type="submit">
-                                <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                <form method="GET" class="mt-3">
+                        <div class="input-group">
+                            <input class="form-control pe-0" type="text" name="keyword" value="{{ $keyword }}" placeholder="Tìm kiếm ...">
+                            <button class="btn btn-light btn-sm ms-2" type="submit">
+                            <span class="input-group-text">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="mt-3">
+                    @if ($sanphams->isEmpty())
+                        <h2 class="section-title">Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</h2>
+                    @else
+                        <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
+                    @endif
+                </div>
+                {{-- <form method="GET" class="mt-3">
                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-outline-primary btn-toggle">
                             <input type="radio" name="filter_bienthe" value="" {{ request('filter_bienthe') === '' ? 'checked' : '' }} onchange="this.form.submit()">
@@ -60,7 +67,7 @@
                         </label>
                         
                     </div>
-                </form>
+                </form> --}}
             </div>
         </div>
 
