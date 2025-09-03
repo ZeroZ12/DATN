@@ -280,7 +280,6 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
         return view('client.tk.access');
     })->name('dashboard');
 
-
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
@@ -314,7 +313,6 @@ Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', [DashBoardCont
 
 //Route client
 Route::get('/', [HomeController::class, 'index'])->name('client.home');
-Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
 Route::get('/danhmuc/{id}/show', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.show');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
@@ -358,4 +356,7 @@ Route::get('/search', [SearcherController::class, 'search'])->name('searcher.sea
 
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
     // Route thêm lịch sử chatbot vào database
-    Route::post('/chat/import-history', [ChatController::class,'importHistory'])->middleware('auth');
+Route::post('/chat/import-history', [ChatController::class,'importHistory'])->middleware('auth');
+// Route chính sách và hướng dẫn mua hàng 
+Route::view('/huong-dan', 'client.huongdanmuahang')->name('client.huongdan');
+Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');

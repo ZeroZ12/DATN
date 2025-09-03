@@ -280,7 +280,7 @@
     <!-- Chat Box -->
     <div class="chat-box" id="chatBox">
         <div class="chat-header">
-            <h5>Chat với TopPC AI</h5>
+            <h5><i class="fa fa-message" aria-hidden="true"></i> Chat với TopPC AI</h5>
             <button class="chat-close-btn" onclick="toggleChatBox()">
                 <i class="fas fa-times"></i>
             </button>

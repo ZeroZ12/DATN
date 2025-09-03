@@ -21,7 +21,7 @@
           <h6>Thông tin</h6>
           <ul class="list-unstyled">
             <li>Hệ thống cửa hàng</li>
-            <li>Hướng dẫn mua hàng</li>
+            <li><a style="text-decoration: none;color:white;" href="{{ route('client.huongdan') }}">Hướng dẫn mua hàng</a></li>
             <li>Hướng dẫn thanh toán</li>
             <li>Hướng dẫn trả góp</li>
             <li>Tra cứu địa chỉ bảo hành</li>

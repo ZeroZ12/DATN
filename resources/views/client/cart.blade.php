@@ -55,11 +55,11 @@
       <div class="cart-coupon">
         <select class="form-select w-auto d-inline-block" id="ma-giam-gia-select">
           <option selected>Sử dụng mã giảm giá</option>
-          @foreach($maGiamGias as $maGiamGia)
+          @foreach($maGiamGias->where('so_luong', '>', 0) as $maGiamGia)
             <option value="{{ $maGiamGia->ma }}">
               {{ $maGiamGia->ma }} -
               @if($maGiamGia->loai == 'phan_tram')
-                Giảm {{ $maGiamGia->gia_tri }}% - tối đa {{ number_format($maGiamGia->gia_tri_toi_da) }} VND
+                Giảm {{ $maGiamGia->gia_tri }}% - tối đa {{ number_format($maGiamGia->gia_tri_toi_da) }} VND (còn {{ number_format($maGiamGia->so_luong) }})
               @else
                 Giảm {{ number_format($maGiamGia->gia_tri) }}₫
               @endif

@@ -1084,7 +1084,17 @@ class CartController extends Controller
             }
 
 
-            // Clear cart
+            // Trừ số lượng mã giảm giá
+            if ($gioHang->maGiamGia) 
+            {
+            $maGiamGia = $gioHang->maGiamGia;
+
+            if ($maGiamGia->so_luong > 0)
+            {
+            $maGiamGia->so_luong -= 1;
+            $maGiamGia->save();
+            }
+            }
             $gioHang->chiTietGioHangs()->delete();
             $gioHang->id_giam_gia = null;
             $gioHang->save();
@@ -1164,5 +1174,4 @@ class CartController extends Controller
         }
     }
 
-    // Hoàn trả số lượng tồn kho
 }

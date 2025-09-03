@@ -75,7 +75,7 @@ class OrderController extends Controller
     public function daNhanHang($id)
     {
         $donHang = DonHang::where('id', $id)
-            ->where('id_user', auth()->id())
+            ->where('id_user', Auth::id())
             ->where('trang_thai', 'giao_thanh_cong')
             ->firstOrFail();
 
@@ -100,7 +100,13 @@ class OrderController extends Controller
                 'trang_thai' => 'da_huy',
                 'huy_boi' => 'khach_hang',
             ]);
-
+        // Hoàn lại số lượng mã giảm giá nếu có
+        if ($order->maGiamGia)
+        {
+            $maGiamGia = $order->maGiamGia;
+            $maGiamGia->so_luong += 1;
+            $maGiamGia->save();
+        }
             return redirect()->route('client.orders.index')
                 ->with('success', 'Đơn hàng đã được hủy thành công.');
         }
