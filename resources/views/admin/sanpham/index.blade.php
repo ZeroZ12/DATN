@@ -31,7 +31,7 @@
                 <div class="mt-3">
                     <form class="search-form mb-0" action="{{ route('admin.search') }}" method="GET">
                             <div class="input-group">
-                                <input class="form-control pe-0" type="text" name="keyword" value="{{ $keyword }}" placeholder="Tìm kiếm ...">
+                                <input class="form-control pe-0" type="text" name="keyword" placeholder="Tìm kiếm ...">
                                 <button class="btn btn-light btn-sm ms-2" type="submit">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
