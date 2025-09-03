@@ -2,11 +2,6 @@
 @section('content')
     <div class="container py-4">
         <div class="filter-area mb-4">
-            @if ($sanphams->isEmpty())
-                <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
-            @else
-                <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
-            @endif
             <form method="GET" action="{{ route('searcher.search') }}" class="filter-form d-flex align-items-center flex-wrap">
 
                 {{-- Thêm các bộ lọc khác ở đây --}}
@@ -43,6 +38,7 @@
         @if ($sanphams->isEmpty())
             <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
         @else
+            <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
             <div class="products-grid">
                 {{-- Lặp qua TẤT CẢ $sanphams vì chúng đã được lọc bởi controller --}}
                 @foreach ($sanphams as $sp)

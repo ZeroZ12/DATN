@@ -18,7 +18,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-
+        @if ($sanphams->isEmpty())
+            <p>Không tìm thấy sản phẩm nào phù hợp với từ khóa "{{ $keyword }}".</p>
+        @else
+            <h2 class="section-title">Kết quả tìm kiếm cho "{{ $keyword }}"</h2>
+        @endif
         <div class="card shadow-sm mb-4">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
@@ -54,6 +58,7 @@
                             <input type="radio" name="filter_bienthe" value="0" {{ request('filter_bienthe') === '0' ? 'checked' : '' }} onchange="this.form.submit()">
                             <i class="fas fa-box"></i> Không có biến thể
                         </label>
+                        
                     </div>
                 </form>
             </div>

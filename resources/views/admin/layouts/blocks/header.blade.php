@@ -13,13 +13,13 @@
             </div>
             <div class="page-main-header col">
                 <div class="header-left d-lg-block d-none">
-                    <form class="search-form mb-0">
+                    {{-- <form class="search-form mb-0">
                         <div class="input-group">
                             <input class="form-control pe-0" type="text" placeholder="Tìm kiếm ...">
                             <span class="input-group-text">
                                 <i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
                 <div class="nav-right">
                     <ul class="header-right">

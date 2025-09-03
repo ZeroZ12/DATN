@@ -40,8 +40,7 @@ use App\Http\Controllers\Client\YeuCauHoanTraController as ClientYCHT;
 use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 use App\Http\Controllers\ProductSearchController;
 use App\Http\Controllers\ChatController;
-
-
+use App\Http\Controllers\Admin\SearcherADController; 
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,6 +49,8 @@ use App\Http\Controllers\ChatController;
 // });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('/search', [SearcherADController::class, 'search'])->name('search');
 
 
     Route::get('danhmuc/trash', [DanhMucController::class, 'trashed'])->name('danhmuc.trashed');
@@ -317,8 +318,6 @@ Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy
 Route::get('/danhmuc/{id}', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.index');
 Route::get('/danhmuc/{id}/show', [ClientSanPhamController::class, 'danhmuc'])->name('danhmuc.show');
 Route::get('/sanpham/{id}', [ClientSanPhamController::class, 'show'])->name('sanpham.show');
-// Route tìm kiếm sản phẩm
-Route::get('/search', [ClientSanPhamController::class, 'search'])->name('search');
 
 Route::get('/form', [AuthController::class, 'showForm'])->name('form');
 Route::get('/login', function () {
@@ -354,7 +353,9 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
 Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');
+
 Route::get('/search', [SearcherController::class, 'search'])->name('searcher.search'); // Thêm route tìm kiếm
+
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
     // Route thêm lịch sử chatbot vào database
     Route::post('/chat/import-history', [ChatController::class,'importHistory'])->middleware('auth');
