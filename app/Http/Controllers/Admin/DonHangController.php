@@ -85,6 +85,13 @@ public function capNhatTrangThai(Request $request, $id)
 
     // Cập nhật trạng thái
     if ($trangThaiMoi === 'da_huy') {
+         foreach ($donHang->chiTietDonHangs as $chiTiet) {
+            $bienThe = $chiTiet->bienTheSanPham;
+            if ($bienThe) {
+                $bienThe->ton_kho += $chiTiet->so_luong;
+                $bienThe->save();
+            }
+        }
         $donHang->update([
             'trang_thai' => 'da_huy',
             'huy_boi' => 'admin',
