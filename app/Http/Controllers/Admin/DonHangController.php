@@ -91,6 +91,12 @@ public function capNhatTrangThai(Request $request, $id)
                 $bienThe->ton_kho += $chiTiet->so_luong;
                 $bienThe->save();
             }
+                    else if ($chiTiet->sanPham) {
+            $sanPham = $chiTiet->sanPham;
+            $sanPham->so_luong += $chiTiet->so_luong;
+            $sanPham->save();
+        }
+
         }
         $donHang->update([
             'trang_thai' => 'da_huy',

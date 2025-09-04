@@ -113,6 +113,12 @@ class OrderController extends Controller
                 $bienThe->ton_kho += $chiTiet->so_luong;
                 $bienThe->save();
             }
+                    else if ($chiTiet->sanPham) {
+            $sanPham = $chiTiet->sanPham;
+            $sanPham->so_luong += $chiTiet->so_luong;
+            $sanPham->save();
+        }
+
         }
             return redirect()->route('client.orders.index')
                 ->with('success', 'Đơn hàng đã được hủy thành công.');
