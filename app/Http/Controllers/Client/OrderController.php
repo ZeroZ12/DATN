@@ -107,6 +107,13 @@ class OrderController extends Controller
             $maGiamGia->so_luong += 1;
             $maGiamGia->save();
         }
+        foreach ($order->chiTietDonHangs as $chiTiet) {
+            $bienThe = $chiTiet->bienTheSanPham; // hoặc $chiTiet->sanPham nếu bạn không dùng biến thể
+            if ($bienThe) {
+                $bienThe->ton_kho += $chiTiet->so_luong;
+                $bienThe->save();
+            }
+        }
             return redirect()->route('client.orders.index')
                 ->with('success', 'Đơn hàng đã được hủy thành công.');
         }

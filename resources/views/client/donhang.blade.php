@@ -163,13 +163,15 @@
                     </div>
 
                     <div class="btn-group">
-                        {{-- Hủy đơn --}}
-                        @if (in_array($trangThai, ['cho_xac_nhan', 'cho_thanh_toan']))
-                            <form action="{{ route('client.orders.cancel', $donHang->id) }}" method="POST" class="me-2">
-                                @csrf
-                                <button type="submit" class="btn btn-danger">Hủy Đơn</button>
-                            </form>
-                        @endif
+                      {{-- Hủy đơn --}}
+@if (in_array($trangThai, ['cho_xac_nhan', 'cho_thanh_toan']))
+    <form action="{{ route('client.orders.cancel', $donHang->id) }}" method="POST" class="me-2"
+          onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+        @csrf
+        <button type="submit" class="btn btn-danger">Hủy Đơn</button>
+    </form>
+@endif
+
 
 
 
