@@ -99,7 +99,11 @@ class YeuCauHoanTraController extends Controller
                     if ($bienThe) {
                         $bienThe->ton_kho += $chiTiet->so_luong;
                         $bienThe->save();
-                    }
+                    }else if ($chiTiet->sanPham) {
+            $sanPham = $chiTiet->sanPham;
+            $sanPham->so_luong += $chiTiet->so_luong;
+            $sanPham->save();
+        }
                     if ($sanPham && $sanPham->luot_mua >= $chiTiet->so_luong) {
                         $sanPham->luot_mua -= $chiTiet->so_luong;
                         $sanPham->save();
