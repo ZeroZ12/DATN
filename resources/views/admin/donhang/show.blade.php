@@ -12,8 +12,8 @@
                     <div class="col-md-6"><strong>Khách hàng:</strong> {{ $donHang->user->ho_ten ?? '---' }}</div>
                     <div class="col-md-6"><strong>Địa chỉ nhận hàng:</strong>
                         {{ $donHang->diaChiNguoiDung->dia_chi_day_du ?? '---' }},
-                        {{ $donHang->diaChiNguoiDung->phuong_xa ?? '---' }},
-                        {{ $donHang->diaChiNguoiDung->tinh_thanh_pho ?? '---' }}
+                        {{ $donHang->diaChiNguoiDung->phuong_xa_name ?? '---' }},
+                        {{ $donHang->diaChiNguoiDung->tinh_thanh_pho_name ?? '---' }}
                     </div>
                     <div class="col-md-6"><strong>Phương thức thanh toán:</strong>
                         {{ $donHang->phuongThucThanhToan->ten ?? '---' }}</div>

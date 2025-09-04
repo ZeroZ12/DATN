@@ -64,7 +64,7 @@
                             <div>
                                 <h6 class="mb-1">{{ $diaChi->ten_nguoi_nhan }}</h6>
                                 <p class="mb-1">{{ $diaChi->so_dien_thoai_nguoi_nhan }}</p>
-                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa }}, {{ $diaChi->tinh_thanh_pho }}</p>
+                                <p class="mb-0 text-muted">{{ $diaChi->dia_chi_day_du }}, {{ $diaChi->phuong_xa_name }}, {{ $diaChi->tinh_thanh_pho_name }}</p>
                             </div>
                             <a href="{{ route('client.addresses.index') }}" class="btn btn-outline-primary btn-sm">Thay đổi</a>
                         </div>
@@ -96,20 +96,6 @@
                         <label class="form-check-label" for="2">
                             <i class="fas fa-university me-2"></i>
                             Chuyển khoản ngân hàng
-                        </label>
-                    </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payment_method" id="3" value="3">
-                        <label class="form-check-label" for="3">
-                            <i class="fas fa-wallet me-2"></i>
-                            Ví MoMo
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="payment_method" id="4" value="4">
-                        <label class="form-check-label" for="4">
-                            <i class="fas fa-credit-card me-2"></i>
-                            Thẻ tín dụng
                         </label>
                     </div>
                 </div>
