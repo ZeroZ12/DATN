@@ -42,6 +42,7 @@ class ChatController extends Controller
                     // vnđ, đ → giữ nguyên
                     default:
                         $value = $value;
+                    
                 }
 
                 $numbers[] = (int)$value;

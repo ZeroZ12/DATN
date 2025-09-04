@@ -41,6 +41,9 @@ use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 use App\Http\Controllers\ProductSearchController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\SearcherADController; 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -327,6 +330,21 @@ Route::get('/register', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+// Hiển thị form nhập email để nhận link reset
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+// Gửi email reset
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Hiển thị form nhập mật khẩu mới
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Cập nhật mật khẩu
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
 
 // Cart routes
 Route::middleware(['auth'])->group(function () {
