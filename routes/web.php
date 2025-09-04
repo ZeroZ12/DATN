@@ -262,7 +262,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
     Route::get('don-hang/{id}', action: [DonHangController::class, 'show'])->name('don-hang.show');
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
-    Route::get('admin/don-hang/revenue-list', [\App\Http\Controllers\Admin\DonHangController::class, 'revenueList'])->name('don-hang.revenue-list');
+    Route::get('admin/don-hang/revenue-list', [DonHangController::class, 'revenueList'])->name('don-hang.revenue-list');
 
     Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('hoan-tra.index');
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
