@@ -32,10 +32,9 @@ class OpenRouterService
                 ->where('san_phams.hoat_dong', 1)
                 ->where('san_phams.so_luong','>', 0)
                 ->whereNull('danh_mucs.deleted_at')
-                ->where(function ($query) use ($userInput){
-
-                $query->whereRaw("MATCH(san_phams.ten) AGAINST(? IN BOOLEAN MODE)", [$userInput . '*'])  #Sử dụng FULLTEXT RESERT, phần bindings để là kiểu array vì yêu cầu của nó là phải đúng kiểu array 
-                ->orWhereRaw("MATCH(danh_mucs.ten) AGAINST(? IN BOOLEAN MODE)", [$userInput . '*']);
+                ->where(function ($query) use ($userInput) {
+                    $query->where('san_phams.ten', 'like', '%' . $userInput . '%')
+                        ->orWhere('danh_mucs.ten', 'like', '%' . $userInput . '%');
                 })
                     ->limit(5)
                     ->get()
