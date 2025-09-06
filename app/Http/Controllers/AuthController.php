@@ -62,7 +62,7 @@ class AuthController extends Controller
             'ten_dang_nhap' => 'required|string|max:50|regex:/^[a-zA-Z0-9_]+$/|unique:users,ten_dang_nhap',
             'ho_ten' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\'\p{L}]+$/u',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,so_dien_thoai',
+            'phone' => 'required|string|max:20|regex:/^0+[0-9]{9}$/|unique:users,so_dien_thoai',
             'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/|confirmed',
         ], [
             'ten_dang_nhap.required' => 'Không được bỏ trống tên đăng nhập.',
@@ -80,7 +80,7 @@ class AuthController extends Controller
 
             'phone.required' => 'Không được bỏ trống số điện thoại.',
             'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
-            'phone.regex' => 'Số điện thoại chỉ được chứa số, dấu +, -, hoặc ngoặc.',
+            'phone.regex' => 'Số điện thoại không đúng định dạng',
             'phone.unique' => 'Số điện thoại đã được sử dụng.',
 
             'password.required' => 'Không được bỏ trống mật khẩu.',

@@ -252,12 +252,8 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
     Route::get('danhgias', [DanhGiaController::class, 'index'])->name('danhgias.index');
     Route::get('danhgias/{danhGia}', [DanhGiaController::class, 'show'])->name('danhgias.show');
-    Route::get('danhgias/{danhGia}/edit', [DanhGiaController::class, 'edit'])->name('danhgias.edit');
-    Route::put('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
-    // Hoặc nếu bạn chỉ muốn dùng PATCH cho update: Route::patch('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
-
+ 
     // Xóa đánh giá (DELETE /admin/danhgias/{danhgia})
-    Route::delete('danhgias/{danhGia}', [DanhGiaController::class, 'destroy'])->name('danhgias.destroy');
     Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
     Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
 

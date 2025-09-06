@@ -71,8 +71,8 @@
                         <th>Lượt xem</th>
                         <th>Lượt mua</th>
                         <th>Ảnh đại diện</th>
-                        <th>Giá</th>
-                        <th>Số lượng</th>
+                        {{-- <th>Giá</th>
+                        <th>Số lượng</th> --}}
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -94,7 +94,7 @@
                                     <span class="text-muted">Không có ảnh</span>
                                 @endif
                             </td>
-                            <td>
+                            {{-- <td>
                                 @if (!$sanpham->co_bien_the)
                                     {{ number_format($sanpham->gia) }} đ
                                 @else
@@ -107,7 +107,7 @@
                                 @else
                                     <span class="text-muted">Xem biến thể</span>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>
                                 <div class="action-buttons d-flex gap-1 flex-wrap">
                                     <a href="{{ route('admin.sanpham.bienthe.index', $sanpham->id) }}"
