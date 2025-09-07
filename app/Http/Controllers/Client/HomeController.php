@@ -21,7 +21,47 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SanPham;    // Đảm bảo import Model SanPham
 
 class HomeController extends Controller
-{
+ {   
+//     public function index()
+//     {
+//           $variantProducts = SanPham::join('danh_mucs', 'san_phams.id_category', '=','danh_mucs.id')
+//             ->join('bien_the_san_phams','san_phams.id','=','bien_the_san_phams.id_product')
+//             ->where('san_phams.hoat_dong',1)
+//             ->whereNull('danh_mucs.deleted_at')
+//             ->where('bien_the_san_phams.ton_kho','>',0)
+//             ->select([
+//                 'san_phams.id as id',
+//                 'san_phams.ten',
+//                 'san_phams.gia',
+//                 'danh_mucs.ten as ten_danh_muc',
+//                 'bien_the_san_phams.id as bien_the_id',
+//                 'bien_the_san_phams.ma_bien_the as ma_bien_the',
+//                 'bien_the_san_phams.ton_kho as ton_kho'
+//             ]);
+//             // Lấy sản phẩm không có biến thể.
+//             $noVariantProducts = SanPham::join('danh_mucs','san_phams.id_category','=','danh_mucs.id')
+//             ->leftJoin('bien_the_san_phams','san_phams.id','=','bien_the_san_phams.id_product')
+//             ->where('san_phams.hoat_dong',1)
+//             ->whereNull('danh_mucs.deleted_at')
+//             ->whereNull('bien_the_san_phams.id')
+//             ->select([
+//                 'san_phams.id',
+//                 'san_phams.ten',
+//                 'san_phams.gia',
+//                 'danh_mucs.ten as ten_danh_muc',
+//                 DB::raw('NULL as bien_the_id'),
+//                 DB::raw('NULL as ma_bien_the'),
+//                 'san_phams.so_luong as ton_kho',
+//             ]);
+//             $unionAll = $variantProducts->unionAll($noVariantProducts); // gộp lệnh để lấy cả sản phẩm có và không có biến thể.
+//             $products = DB::query()
+//             ->fromSub($unionAll,'p') // dùng subquery tạo bảng tạm 
+//             ->orderBy('gia','desc')
+//             ->get()
+//             ->toArray();
+           
+//             dd($products);
+//     }
     public function index(Request $request)
     {
         // Xử lý thêm sản phẩm vào giỏ hàng nếu có parameters

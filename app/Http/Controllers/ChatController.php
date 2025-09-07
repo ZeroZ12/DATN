@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Auth;
 class ChatController extends Controller
 {
     public function search(Request $request)
-    {   
+    {
         $userInput = $request->input('message');
-    
+
         
         Log::info("Chat Input: $userInput");
         
@@ -46,4 +46,4 @@ class ChatController extends Controller
         }
         return response()->json(['success' => true]);
     }
-}
+}   

@@ -21,7 +21,7 @@
             
             <div class="mb-3">
                 <label for="gia" class="form-label fw-semibold">Giá <span class="text-danger">*</span></label>
-                <input type="number" name="gia" id="gia" class="form-control" value="{{ old('gia',$nguon->gia ?? '') }}">
+                <input type="number"  name="gia" id="gia" class="form-control" value="{{ old('gia',$nguon->gia ?? '') }}">
                 @error('gia')
                     <div class="text-danger small">{{ $message }}</div>
                 @enderror

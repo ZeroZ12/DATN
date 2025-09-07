@@ -65,10 +65,7 @@ class BannerController extends Controller
     public function show(Banner $banner, $id)
     {   
         $banner = Banner::withTrashed()->findOrFail($id);
-        // Kiểm tra xem banner có tồn tại không
-        if (!$banner) {
-            return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
-        }
+      
         return view('admin.banners.show', compact('banner', 'id'));
     }
 
@@ -78,10 +75,7 @@ class BannerController extends Controller
     public function edit(Banner $banner, $id)
     {
         $banner = Banner::withTrashed()->findOrFail($id);
-        // Kiểm tra xem banner có tồn tại không
-        if (!$banner) {
-            return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
-        }
+      
         return view('admin.banners.edit', compact('banner'));
     }
 
@@ -126,10 +120,7 @@ class BannerController extends Controller
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
-        // Kiểm tra xem banner có tồn tại không
-        if (!$banner) {
-            return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
-        }
+      
         // Xóa ảnh nếu có
         // if ($banner->image_url) {
         //     Storage::disk('public')->delete($banner->image_url);
@@ -155,10 +146,7 @@ class BannerController extends Controller
     public function restore($id)
     {
         $banner = Banner::withTrashed()->findOrFail($id);
-        // Kiểm tra xem banner có tồn tại không
-        if (!$banner) {
-            return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
-        }
+      
         
         $banner->restore();
         return redirect()->route('admin.banner.trashed')->with('success', 'Khôi phục banner thành công.');
@@ -170,10 +158,7 @@ class BannerController extends Controller
     public function forceDelete($id)
     {
         $banner = Banner::withTrashed()->findOrFail($id);
-        // Kiểm tra xem banner có tồn tại không
-        if (!$banner) {
-            return redirect()->route('admin.banner.index')->with('error', 'Banner không tồn tại.');
-        }
+      
         $banner->forceDelete();
         return redirect()->route('admin.banner.showall')->with('success', 'Xóa vĩnh viễn banner thành công.');
     }

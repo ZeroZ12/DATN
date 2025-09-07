@@ -1195,7 +1195,7 @@
                     @endforeach
                 @endif
                 // chuyển lịch sử chatbot qua db sau khi đăng nhập
-                @if(Auth::check())
+                @if(Auth::check() && Auth::user()->vai_tro !== 'quan_tri')
                 const chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
                 if (chatHistory.length >0)
                  {

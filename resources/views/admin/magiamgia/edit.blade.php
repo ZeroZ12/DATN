@@ -42,7 +42,7 @@
             <div class="mb-3">
                 <label for="gia_tri" class="form-label">Giá trị <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri" id="gia_tri" class="form-control"
-                    value="{{ old('gia_tri', $maGiamGia->gia_tri) }}" step="0.01" min="0">
+                    value="{{ old('gia_tri', (int) $maGiamGia->gia_tri) }}" step="0.01" min="0">
                 @error('gia_tri')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -52,7 +52,7 @@
                 <label for="gia_tri_toi_da" class="form-label">Giá trị tối đa (VNĐ)<span
                         class="text-danger">*</span></label>
                 <input type="number" name="gia_tri_toi_da" id="gia_tri_toi_da" class="form-control"
-                    value="{{ old('gia_tri_toi_da', $maGiamGia->gia_tri_toi_da) }}" step="1" min="0">
+                    value="{{ old('gia_tri_toi_da', (int) $maGiamGia->gia_tri_toi_da) }}">
                 @error('gia_tri_toi_da')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -61,7 +61,7 @@
             <div class="mb-3">
                 <label for="dieu_kien" class="form-label">Điều kiện áp dụng (VNĐ)</label>
                 <input type="number" name="dieu_kien" id="dieu_kien" class="form-control"
-                    value="{{ old('dieu_kien', $maGiamGia->dieu_kien ?? 0) }}" step="1000" min="0"
+                    value="{{ old('dieu_kien', (int) $maGiamGia->dieu_kien ?? 0) }}" step="1000"
                     placeholder="0 = không giới hạn">
                 <small class="form-text text-muted">Đơn hàng tối thiểu để áp dụng mã giảm giá. Để 0 nếu không giới
                     hạn.</small>
