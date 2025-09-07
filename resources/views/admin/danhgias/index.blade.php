@@ -73,9 +73,7 @@
                                         <a href="{{ route('admin.danhgias.show', $danhGia->id) }}" class="btn btn-info btn-sm mb-1" title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('admin.danhgias.edit', $danhGia->id) }}" class="btn btn-primary btn-sm mb-1" title="Sửa">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                
 
                                         @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'tu_choi')
                                             <form action="{{ route('admin.danhgias.approve', $danhGia->id) }}" method="POST" class="d-inline">
@@ -96,13 +94,6 @@
                                             </form>
                                         @endif
 
-                                        <form action="{{ route('admin.danhgias.destroy', $danhGia->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm mb-1" onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?')" title="Xóa">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                             @empty

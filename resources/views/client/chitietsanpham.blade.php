@@ -258,7 +258,7 @@
         <hr>
 
         <div class="row mt-5">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="bg-light p-3 rounded mb-4 position-relative">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
                     <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
@@ -268,7 +268,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            {{-- <div class="col-md-4">
                 <div class="bg-light p-3 rounded">
                     <h5 class="fw-bold">Cấu hình sản phẩm</h5>
                     <ul class="list-unstyled">
@@ -279,7 +279,7 @@
                         <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
                     </ul>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <hr>

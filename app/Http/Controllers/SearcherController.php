@@ -22,8 +22,8 @@ class SearcherController extends Controller
         // Tìm kiếm theo từ khóa
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
-                $q->where('ten', 'LIKE', '%' . $keyword . '%') 
-                  ->orWhere('mo_ta', 'LIKE', '%' . $keyword . '%');
+                $q->where('ten', 'LIKE', '%' . $keyword . '%') ;
+                //   ->orWhere('mo_ta', 'LIKE', '%' . $keyword . '%');
             });
         }
 

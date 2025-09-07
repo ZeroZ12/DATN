@@ -78,15 +78,7 @@
                     </div>
                 </div>
 
-                <div class="mt-4">
-                    <a href="{{ route('admin.danhgias.edit', $danhGia->id) }}" class="btn btn-primary">Sửa Đánh giá</a>
-                    <form action="{{ route('admin.danhgias.destroy', $danhGia->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger"
-                            onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này?')">Xóa Đánh giá</button>
-                    </form>
-                </div>
+                
             </div>
         </div>
     </div>

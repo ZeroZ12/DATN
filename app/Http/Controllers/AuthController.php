@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -55,29 +57,12 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // $request->validate([
-        //     'ten_dang_nhap' => 'required|string|max:50|unique:users,ten_dang_nhap',
-        //     'ho_ten'     => 'required|string|max:255',
-        //     'email'          => 'required|email|unique:users,email',
-        //     'phone'          => 'required|string|max:20|unique:users,so_dien_thoai',
-        //     'password'       => 'required|string|min:8|confirmed',
-        // ], [
-        //     'ten_dang_nhap' => 'Tên đăng nhập đã được sử dụng.',
-        //     'email.unique'   => 'Email đã được sử dụng.',
-        //     'phone.unique'   => 'Số điện thoại đã được sử dụng.',
-        //     'email.required' => 'Không được bỏ trống email',
-        //     'ho_ten.required' => 'Không được bỏ trống họ tên',
-        //     'phone.required' => 'Không được bỏ trống số điện thoại',
-        //     'password.required' => 'Không được bỏ trống mật khẩu',
-        //     'password.confirmed' => 'Mật khẩu xác nhận không khớp',
-        //     'password.min' => 'Mật khẩu phải trên 8 kí tự',
-        // ]);
 
         $request->validate([
             'ten_dang_nhap' => 'required|string|max:50|regex:/^[a-zA-Z0-9_]+$/|unique:users,ten_dang_nhap',
             'ho_ten' => 'required|string|max:255|regex:/^[a-zA-Z\s\-\'\p{L}]+$/u',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|max:20|regex:/^([0-9\s\-\+\(\)]*)$/|unique:users,so_dien_thoai',
+            'phone' => 'required|string|max:20|regex:/^0+[0-9]{9}$/|unique:users,so_dien_thoai',
             'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/|confirmed',
         ], [
             'ten_dang_nhap.required' => 'Không được bỏ trống tên đăng nhập.',
@@ -95,7 +80,7 @@ class AuthController extends Controller
 
             'phone.required' => 'Không được bỏ trống số điện thoại.',
             'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
-            'phone.regex' => 'Số điện thoại chỉ được chứa số, dấu +, -, hoặc ngoặc.',
+            'phone.regex' => 'Số điện thoại không đúng định dạng',
             'phone.unique' => 'Số điện thoại đã được sử dụng.',
 
             'password.required' => 'Không được bỏ trống mật khẩu.',
@@ -123,5 +108,62 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Đã đăng xuất!');
+    }
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.exists' => 'Email này chưa được đăng ký.',
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return back()->withErrors([
+            'email' => $status === Password::INVALID_USER
+                ? 'Không tìm thấy tài khoản với email này.'
+                : 'Đã xảy ra lỗi, vui lòng thử lại.'
+        ]);
+    }
+
+    // 🔹 Đặt lại mật khẩu
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email|exists:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]+$/'
+            ],
+        ], [
+            'token.required' => 'Mã token không hợp lệ.',
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không đúng định dạng.',
+            'email.exists' => 'Email chưa được đăng ký.',
+            'password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'password.min' => 'Mật khẩu phải tối thiểu 8 ký tự.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'password.regex' => 'Mật khẩu phải chứa chữ hoa, chữ thường, số và ký tự đặc biệt (@$!%*?&_).',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('success', 'Mật khẩu đã được cập nhật! Bạn có thể đăng nhập.')
+            : back()->withErrors(['email' => [__($status)]]);
     }
 }

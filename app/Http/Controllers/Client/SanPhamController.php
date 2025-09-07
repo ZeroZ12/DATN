@@ -138,7 +138,7 @@ class SanPhamController extends Controller
                 }
             ], 'so_sao')
             ->orderByDesc('id')
-            ->paginate(10)
+            ->paginate(12)
             ->withQueryString();
 
         // Lấy danh mục hiện tại

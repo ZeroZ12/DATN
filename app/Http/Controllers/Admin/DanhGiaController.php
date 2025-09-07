@@ -24,22 +24,6 @@ class DanhGiaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource. (Không cần cho admin)
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage. (Không cần cho admin)
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(DanhGiaSanPham $danhGia)
@@ -50,48 +34,6 @@ class DanhGiaController extends Controller
         $danhGia->loadMissing(['user', 'sanPham']); // Tải các mối quan hệ nếu chưa được tải
 
         return view('admin.danhgias.show', compact('danhGia'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DanhGiaSanPham $danhGia)
-    {
-        // Tương tự như show, đảm bảo các mối quan hệ được tải nếu cần hiển thị trong form edit.
-        $danhGia->loadMissing(['user', 'sanPham']); // Tải các mối quan hệ nếu chưa được tải
-
-        return view('admin.danhgias.edit', compact('danhGia'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DanhGiaSanPham $danhGia)
-    {
-        // Validation cơ bản cho việc cập nhật bởi admin
-        $request->validate([
-            'so_sao' => ['required', 'integer', 'min:1', 'max:5'],
-            'binh_luan' => ['nullable', 'string', 'max:1000'],
-            'trang_thai' => ['required', 'string', 'in:cho_duyet,da_duyet,tu_choi'],
-        ]);
-
-        $danhGia->update([
-            'so_sao' => $request->so_sao,
-            'binh_luan' => $request->binh_luan,
-            'trang_thai' => $request->trang_thai,
-        ]);
-
-        return redirect()->route('admin.danhgias.index')->with('success', 'Đánh giá đã được cập nhật thành công!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DanhGiaSanPham $danhGia)
-    {
-        $danhGia->delete(); // Sử dụng soft delete (do Model có SoftDeletes trait)
-
-        return redirect()->route('admin.danhgias.index')->with('success', 'Đánh giá đã được xóa thành công!');
     }
 
     /**

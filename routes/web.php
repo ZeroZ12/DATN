@@ -41,6 +41,9 @@ use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 use App\Http\Controllers\ProductSearchController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\SearcherADController; 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -249,12 +252,8 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
 
     Route::get('danhgias', [DanhGiaController::class, 'index'])->name('danhgias.index');
     Route::get('danhgias/{danhGia}', [DanhGiaController::class, 'show'])->name('danhgias.show');
-    Route::get('danhgias/{danhGia}/edit', [DanhGiaController::class, 'edit'])->name('danhgias.edit');
-    Route::put('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
-    // Hoặc nếu bạn chỉ muốn dùng PATCH cho update: Route::patch('danhgias/{danhGia}', [DanhGiaController::class, 'update'])->name('danhgias.update');
-
+ 
     // Xóa đánh giá (DELETE /admin/danhgias/{danhgia})
-    Route::delete('danhgias/{danhGia}', [DanhGiaController::class, 'destroy'])->name('danhgias.destroy');
     Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
     Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
 
@@ -262,7 +261,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
     Route::get('don-hang/{id}', action: [DonHangController::class, 'show'])->name('don-hang.show');
     Route::post('don-hang/{id}/cap-nhat-trang-thai', [DonHangController::class, 'capNhatTrangThai'])->name('don-hang.cap-nhat-trang-thai');
-    Route::get('admin/don-hang/revenue-list', [\App\Http\Controllers\Admin\DonHangController::class, 'revenueList'])->name('don-hang.revenue-list');
+    Route::get('admin/don-hang/revenue-list', [DonHangController::class, 'revenueList'])->name('don-hang.revenue-list');
 
     Route::get('/hoan-tra', [AdminYCHT::class, 'index'])->name('hoan-tra.index');
     Route::get('/hoan-tra/{id}', [AdminYCHT::class, 'show'])->name('hoan-tra.show');
@@ -327,6 +326,21 @@ Route::get('/register', function () {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+// Hiển thị form nhập email để nhận link reset
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+// Gửi email reset
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Hiển thị form nhập mật khẩu mới
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Cập nhật mật khẩu
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
 
 // Cart routes
 Route::middleware(['auth'])->group(function () {

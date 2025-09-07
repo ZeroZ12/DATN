@@ -105,7 +105,7 @@ class HomeController extends Controller
             )
             ->orderByDesc('id')
             // ->get();
-            ->paginate(60)
+            ->paginate(100)
             ->withQueryString();
 
         $thuongHieus = ThuongHieu::all();
@@ -128,10 +128,10 @@ class HomeController extends Controller
         })
         ->paginate( 9);
 
-    $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
-        ->limit(5)
-        ->pluck('id')
-        ->toArray();
+        $sanPhamBanChay = SanPham::orderByDesc('luot_mua')
+            ->limit(5)
+            ->pluck('id')
+            ->toArray();
 
         // dd($sanphams);
         return view('client.home', compact('activeSaleEvents','sanPhamBanChay','sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'danhMucs', 'banners','r_cates', 'b_cates'));
