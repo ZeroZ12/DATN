@@ -91,12 +91,12 @@
                                         <i class="fas fa-star text-warning"></i>
                                         <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
                                     </div>
-                                <!-- @if ($soLuongConLai > 0)
+                                {{-- @if ($soLuongConLai > 0)
                                         <p class="card-text text-warning fw-bold">
                                             <i class="bi bi-lightning-fill"></i> Chỉ còn
                                             {{ $soLuongConLai }} sản phẩm!
                                         </p>
-                                    @endif -->
+                                    @endif --}}
                                     @if ($saleEvent->so_luong_gioi_han)
                                         <p class="card-text text-warning fw-bold">
                                             <i class="bi bi-lightning-fill"></i> Chỉ còn
