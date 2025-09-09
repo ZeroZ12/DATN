@@ -16,6 +16,7 @@ use App\Models\BienTheSanPham;
 use App\Models\ChiTietGioHang;
 use App\Models\DiaChiNguoiDung;
 use App\Models\DonHang;
+use App\Models\MaGiamGiaUser;
 use App\Models\SuKienSanPham;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -87,8 +88,20 @@ class CartController extends Controller
             $total += $item->so_luong * $gia;
         }
 
-        $maGiamGias = MaGiamGia::where('hoat_dong', true)->where('so_luong', '>', 0)->get();
-
+        $maGiamGias = MaGiamGia::query()
+        ->leftJoin('ma_giam_gia_users as mgg_user', function($join)
+        {
+            $join->on('ma_giam_gias.id','=', 'mgg_user.ma_giam_gia_id') # Kiểm tra xem user đã từng sử dụng mã giảm giá nào chưa
+            ->where('mgg_user.user_id','=',Auth::id()); 
+        })
+        ->where(function ($query)
+        {
+            $query->whereNull('mgg_user.so_lan_su_dung')
+            ->orWhereColumn('mgg_user.so_lan_su_dung','<','ma_giam_gias.gioi_han_moi_user'); # Nếu như chưa từng dùng hoặc vẫn còn lượt thì lấy ra
+        })
+        ->where('hoat_dong', true)
+        ->where('ngay_ket_thuc','>', now())
+        ->where('so_luong', '>', 0)->get();
         return view('client.cart', compact('gioHang', 'total', 'maGiamGias'));
     }
 
@@ -1082,8 +1095,27 @@ class CartController extends Controller
                 $adminLink = route('admin.don-hang.show', $donHang->id);
                 Mail::to($admin->email)->send(new OrderSuccessMail($donHang, $admin, $adminLink, 'Xem đơn hàng'));
             }
+            // Lấy số lần mà người dùng đã sử dụng mã giảm giá này.
+            $da_su_dung = MaGiamGiaUser::query()
+            ->where('user_id',Auth::id())
+            ->where('ma_giam_gia_users.ma_giam_gia_id','=',$gioHang->id_giam_gia)
+            ->first();
+            if ($da_su_dung) // Nếu đã có thì cập nhật tăng thêm 1
+            {
+                $da_su_dung->increment('so_lan_su_dung');
+            }
+            else{
+                 // Chưa có thì tạo bản ghi mới
+             MaGiamGiaUser::create(
+                [   
+                    'ma_giam_gia_id' => $gioHang->id_giam_gia,
+                    'user_id' => Auth::id(),
+                    'so_lan_su_dung' => 1,
+                ]
+                );
 
-
+            }
+           
             // Trừ số lượng mã giảm giá
             if ($gioHang->maGiamGia) 
             {

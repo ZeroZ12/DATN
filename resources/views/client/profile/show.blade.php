@@ -54,14 +54,6 @@
                             id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab"
                             aria-controls="orders" aria-selected="false">Đơn hàng</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button type="submit" class="nav-link">
-                                Đăng xuất
-                            </button>
-                        </form>
-                    </li>
                 </ul>   
                 <!-- Tab điều hướng MOBILE -->
                 <ul class="nav nav-tabs mb-4 border-0 d-flex d-md-none w-100" id="profileTabsMobile" role="tablist"

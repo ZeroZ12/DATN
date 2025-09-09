@@ -35,8 +35,14 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="mb-3">
-                <label for="gia_tri" class="form-label">Giá trị <span class="text-danger">*</span></label>
+            <div class="mb-3">  
+                <label for="gia_tri" class="form-label">
+                      @if ($maGiamGia->loai == 'phan_tram')
+                        Giá trị (%)
+                    @elseif($maGiamGia->loai == 'tien_mat')
+                        Giá trị (VNĐ)
+                    @endif
+                    <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri" id="gia_tri" class="form-control" value="{{ old('gia_tri') }}"
                     step="0.01" min="0">
                 @error('gia_tri')
@@ -47,7 +53,7 @@
             <div class="mb-3">
                 <label for="gia_tri_toi_da" class="form-label">Giá trị tối đa <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri_toi_da" id="gia_tri_toi_da" class="form-control" value="{{ old('gia_tri_toi_da') }}"
-                    step="1000" min="0">
+                    step="0.01" min="0">
                 @error('gia_tri_toi_da')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -91,7 +97,13 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+            <div class="mb-3">
+                <label for="gioi_han_moi_user" class="form-label">Giới hạn trên mỗi người dùng  <span class="text-danger">*</span></label>
+                <input type="number" name="gioi_han_moi_user" id="gioi_han_moi_user" class="form-control" value="{{ old('gioi_han_moi_user') }}">
+                @error('gioi_han_moi_user')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
             <button type="submit" class="btn btn-success">Lưu</button>
             <a href="{{ route('admin.magiamgia.index') }}" class="btn btn-secondary">Quay lại</a>
         </form>

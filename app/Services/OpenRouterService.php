@@ -90,8 +90,9 @@ Yêu cầu:
 - Không yêu cầu trùng khớp chính xác 100%, có thể chọn các sản phẩm liên quan hoặc tương tự.
 - Mỗi sản phẩm phù hợp hãy hiển thị dưới dạng:
 <a href="/sanpham/{id}">{ten}</a> 
-- Ngắt cách sản phẩm với nhau bằng thẻ <br> ở cuối mỗi sản phẩm, dùng "*" để đánh đầu dòng của mỗi sản phẩm.
+- Ngắt cách sản phẩm với nhau bằng thẻ <br> ở cuối mỗi sản phẩm và ở đầu sản phẩm đầu tiên, dùng "*" để đánh đầu dòng của mỗi sản phẩm.
 Lưu ý:
+- gọi khách hàng là bạn.
 - Trong ngữ cảnh này chỉ có bạn trò chuyện với prompt của khách hàng (userInput)
 - Nếu khách hàng yêu cầu sản phẩm theo giá thì gửi link sản phẩm, 
 và yêu cầu khách truy cập link sản phẩm để xem thông tin chi tiết và lựa chọn mẫu sản phẩm phù hợp.

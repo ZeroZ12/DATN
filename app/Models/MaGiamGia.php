@@ -12,7 +12,7 @@ class MaGiamGia extends Model
 
     // Tên bảng trong cơ sở dữ liệu
     protected $table = 'ma_giam_gias';
-    protected $fillable = ['ma', 'loai', 'so_luong', 'gia_tri', 'gia_tri_toi_da', 'dieu_kien', 'ngay_bat_dau', 'ngay_ket_thuc', 'hoat_dong'];
+    protected $fillable = ['ma', 'loai', 'so_luong', 'gia_tri', 'gia_tri_toi_da', 'dieu_kien', 'ngay_bat_dau', 'ngay_ket_thuc', 'hoat_dong','gioi_han_moi_user'];
 
     /**
      * Get the orders that use this discount code.

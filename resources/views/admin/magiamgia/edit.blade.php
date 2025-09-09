@@ -40,7 +40,13 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="gia_tri" class="form-label">Giá trị <span class="text-danger">*</span></label>
+                <label for="gia_tri" class="form-label">
+                    @if ($maGiamGia->loai == 'phan_tram')
+                        Giá trị (%)
+                    @elseif($maGiamGia->loai == 'tien_mat')
+                        Giá trị (VNĐ)
+                    @endif
+                     <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri" id="gia_tri" class="form-control"
                     value="{{ old('gia_tri', (int) $maGiamGia->gia_tri) }}" step="0.01" min="0">
                 @error('gia_tri')
@@ -98,7 +104,13 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+            <div class="mb-3">
+                <label for="gioi_han_moi_user" class="form-label">Giới hạn trên mỗi người dùng <span class="text-danger">*</span></label>
+                <input type="number" name="gioi_han_moi_user" class="form-control" id="gioi_han_moi_user" value="{{ old('gioi_han_moi_user', (int) $maGiamGia->gioi_han_moi_user) }}">
+                @error('gioi_han_moi_user')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+                </div>
             <button type="submit" class="btn btn-primary">Cập nhật</button>
             <a href="{{ route('admin.magiamgia.index') }}" class="btn btn-secondary">Hủy</a>
         </form>

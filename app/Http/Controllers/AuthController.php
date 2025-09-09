@@ -107,7 +107,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login')->with('success', 'Đã đăng xuất!');
+        return redirect()->route('form')->with('success', 'Đã đăng xuất!');
     }
     public function sendResetLinkEmail(Request $request)
     {
