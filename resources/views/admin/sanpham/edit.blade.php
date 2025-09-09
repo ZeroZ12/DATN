@@ -281,7 +281,7 @@
                             <input type="checkbox" class="ocung-checkbox" value="{{ $oc->id }}"
                                 data-label="{{ $oc->dung_luong }}" data-price="{{ $oc->gia }}"
                                 {{ $sanpham->bienTheSanPhams->contains('id_o_cung', $oc->id) ? 'checked' : '' }}>
-                            {{ $oc->dung_luong }}
+                            {{ $oc->loai }}-{{ $oc->dung_luong }}
                         </label>
                     @endforeach
                 </div>

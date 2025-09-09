@@ -257,7 +257,7 @@
                         <label class="me-3">
                             <input type="checkbox" class="ocung-checkbox" value="{{ $oc->id }}"
                                 data-label="{{ $oc->dung_luong }}" data-price="{{ $oc->gia }}">
-                            {{ $oc->dung_luong }}
+                            {{ $oc->loai }}-{{ $oc->dung_luong }}
                         </label>
                     @endforeach
                 </div>
@@ -450,6 +450,7 @@
             transform: translateY(-2px);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        
     </style>
 @endpush
 

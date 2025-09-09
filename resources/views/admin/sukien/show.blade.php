@@ -35,7 +35,7 @@
                             <th>Biến thể</th>
                             <th>Giá sự kiện</th>
                             <th>Giá gốc</th>
-                            <th>Giới hạn số lượng</th>
+                            <th>Giới hạn số lượng bán ra</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +56,12 @@
                         @endforeach
                         @foreach($suKien->bienTheSanPhams as $bienThe)
                             <tr>
+                                <td>@if($bienThe->sanPham->anh_dai_dien)
+                                        <img src="{{ asset('storage/' . $bienThe->sanPham->anh_dai_dien) }}" alt="{{ $bienThe->sanPham->ten }}" class="img-thumbnail" style="width: 100px;height: 100px;">
+                                    @else
+                                        <span class="text-muted">Chưa có hình ảnh</span>
+                                    @endif
+                                </td>
                                 <td>{{ $bienThe->sanPham->ten }}</td>
                                 <td>{{ $bienThe->ma_bien_the }}</td>
                                 <td>{{ number_format($bienThe->pivot->gia_su_kien, 0, ',', '.') }} VNĐ</td>

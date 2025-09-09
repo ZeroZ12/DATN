@@ -44,7 +44,7 @@
                             <td>{{ $bienthe->sanPham->ten ?? 'Sản phẩm không xác định' }}</td>
                             <td>{{ $bienthe->ma_bien_the }}</td>
                             <td>{{ $bienthe->ram->dung_luong ?? 'N/A' }}</td>
-                            <td>{{ $bienthe->oCung->dung_luong ?? 'N/A' }}</td>
+                            <td>{{ $bienthe->oCung->loai }}-{{ $bienthe->oCung->dung_luong ?? 'N/A' }}</td>
                             <td>{{ number_format($bienthe->gia) }} VNĐ</td>
                             <td>{{ $bienthe->ton_kho }}</td>
                             <td>

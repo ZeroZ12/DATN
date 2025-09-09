@@ -48,7 +48,7 @@
                     <option value="">Chọn Ổ Cứng</option>
                     @foreach ($ocungs as $oc)
                         <option value="{{ $oc->id }}" {{ old('id_o_cung') == $oc->id ? 'selected' : '' }}>
-                            {{ $oc->dung_luong }}
+                            {{ $oc->loai }}-{{ $oc->dung_luong }}
                         </option>
                     @endforeach
                 </select>

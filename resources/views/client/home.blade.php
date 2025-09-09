@@ -27,6 +27,8 @@
                             @php
                                 $sp = $saleEvent->sanPham ?? $saleEvent->bienTheSanPham->sanPham;
                                 $bienThe = $saleEvent->bienTheSanPham;
+                                $soLuongConLai = $saleEvent->so_luong_gioi_han ?? ($bienThe->so_luong_gioi_han ?? $sp->so_luong_gioi_han);
+                                $isOutOfStockSale = $soLuongConLai <= 0;
 
                                 $gia = $bienThe ? $bienThe->gia : $sp->gia;
                                 $gia_so_sanh = $saleEvent->gia_goc_khi_bat_dau ?? $gia;
@@ -41,6 +43,7 @@
                                         )
                                         : 0;
                             @endphp
+
                             <div class="product-card col mx-2 shadow-sm rounded-3 position-relative"
                                 style="transition: transform 0.3s;">
                                 <div class="product-badges position-absolute top-0 start-0 p-2">
@@ -49,9 +52,8 @@
                                             Sale {{ $discountPercent }}%
                                         </span>
                                     @endif
-                                    @if ($isOutOfStock)
-                                        <span class="product-badge bg-secondary text-white rounded-pill px-2 py-1 mt-1">Hết
-                                            hàng</span>
+                                    @if ($isOutOfStockSale)
+                                        <span class="product-badge bg-secondary text-white rounded-pill px-2 py-1 mt-1">Hết hàng</span>
                                     @elseif ($sp->is_hot)
                                         <span class="product-badge bg-warning text-dark rounded-pill px-2 py-1 mt-1">
                                             <i class="fas fa-gift"></i> Quà tặng HOT
@@ -89,6 +91,12 @@
                                         <i class="fas fa-star text-warning"></i>
                                         <span class="rating-text">({{ $reviewCount }} đánh giá)</span>
                                     </div>
+                                {{-- @if ($soLuongConLai > 0)
+                                        <p class="card-text text-warning fw-bold">
+                                            <i class="bi bi-lightning-fill"></i> Chỉ còn
+                                            {{ $soLuongConLai }} sản phẩm!
+                                        </p>
+                                    @endif --}}
                                     @if ($saleEvent->so_luong_gioi_han)
                                         <p class="card-text text-warning fw-bold">
                                             <i class="bi bi-lightning-fill"></i> Chỉ còn
@@ -105,10 +113,10 @@
                                                 <input type="hidden" name="bien_the_id" value="{{ $bienThe->id ?? '' }}">
                                                 <input type="hidden" name="so_luong" value="1">
                                                 <button type="submit" class="add-to-cart-btn btn w-100 py-2"
-                                                    @if ($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
+                                                    @if ($isOutOfStockSale) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
                                                     <i class="fas fa-shopping-cart me-2"></i>
                                                     <span>
-                                                        @if ($isOutOfStock)
+                                                        @if ($isOutOfStockSale)
                                                             HẾT HÀNG
                                                         @else
                                                             Thêm vào giỏ
@@ -137,11 +145,11 @@
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            @if ($activeSaleEvents->hasPages())
+            {{-- @if ($activeSaleEvents->hasPages())
                 <div class="pagination-wrapper mt-5 d-flex justify-content-center">
                     {{ $activeSaleEvents->links('pagination::bootstrap-5') }}
                 </div>
-            @endif
+            @endif --}}
         @endif
     </section>
     <div class="container py-4">
