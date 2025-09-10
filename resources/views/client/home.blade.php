@@ -126,13 +126,24 @@
                                             </form>
                                         </div>
                                     @else
-                                        <div class="product-actions mt-2">
-                                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
-                                               class="add-to-cart-btn btn w-100 py-2">
-                                                <i class="fas fa-shopping-cart me-2"></i>
-                                                <span>Xem chi tiết</span>
-                                            </a>
-                                        </div>
+                                        @if ($isOutOfStockSale)
+                                            <div class="product-actions mt-2">
+                                                <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                                class="add-to-cart-btn btn w-100 py-2">
+                                                    <i class="fas fa-shopping-cart me-2"></i>
+                                                    <span>HẾT HÀNG</span>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="product-actions mt-2">
+                                                <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                                class="add-to-cart-btn btn w-100 py-2">
+                                                    <i class="fas fa-shopping-cart me-2"></i>
+                                                    <span>Xem chi tiết</span>
+                                                </a>
+                                            </div>
+                                        @endif
+                                        
                                     @endif
                                 </div>
                                 <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
@@ -257,13 +268,23 @@
                                                     </form>
                                                 </div>
                                             @else
-                                                  <div class="product-actions mt-2">
-                                            <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
-                                               class="add-to-cart-btn btn w-100 py-2">
-                                                <i class="fas fa-shopping-cart me-2"></i>
-                                                <span>Xem chi tiết</span>
-                                            </a>
-                                        </div>
+                                                {{-- @if ($isOutOfStock)
+                                                    <div class="product-actions mt-2">
+                                                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                                        class="add-to-cart-btn btn w-100 py-2">
+                                                            <i class="fas fa-shopping-cart me-2"></i>
+                                                            <span>HẾT HÀNG</span>
+                                                        </a>
+                                                    </div>
+                                                @else --}}
+                                                    <div class="product-actions mt-2">
+                                                        <a href="{{ route('sanpham.show', $sp->id) }}?variant={{ $bienThe->id ?? '' }}"
+                                                        class="add-to-cart-btn btn w-100 py-2">
+                                                            <i class="fas fa-shopping-cart me-2"></i>
+                                                            <span>Xem chi tiết</span>
+                                                        </a>
+                                                    </div>
+                                                {{-- @endif --}}
                                             @endif
                                         </div>      
                                     </div>
