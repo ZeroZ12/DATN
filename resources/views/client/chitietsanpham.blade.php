@@ -4,7 +4,7 @@
     {{-- @php
         dd(vars: Auth::user())
     @endphp --}}
-    <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
+    <div id="container" class="container mt-4" data-has-variants="{{ $sanpham->co_bien_the == 1 ? 'true' :'false' }}" data-price="{{ $sanpham->bienTheSanPhams->first()->gia ?? $sanpham->gia }}" data-stock="{{ $sanpham->co_bien_the ? 0 : $sanpham->so_luong }}">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -267,19 +267,6 @@
                     </div>
                 </div>
             </div>
-
-            {{-- <div class="col-md-4">
-                <div class="bg-light p-3 rounded">
-                    <h5 class="fw-bold">Cấu hình sản phẩm</h5>
-                    <ul class="list-unstyled">
-                        <li><strong>CPU:</strong> {{ $sanpham->chip->ten ?? 'Tùy chọn' }}</li>
-                        <li><strong>Mainboard:</strong> {{ $sanpham->mainboard->ten ?? 'Tùy chọn' }}</li>
-                        <li><strong>RAM:</strong> Tùy chọn</li>
-                        <li><strong>SSD:</strong> Tùy chọn</li>
-                        <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
-                    </ul>
-                </div>
-            </div> --}}
         </div>
 
         <hr>
@@ -287,49 +274,6 @@
         <div class="row mt-5">
             <div class="col-12">
                 <h3>Đánh giá sản phẩm</h3>
-
-                <div class="card mb-4">
-                    <div class="card-header">
-                        Gửi đánh giá của bạn
-                    </div>
-                    <div class="card-body">
-                        @auth
-                            <form action="{{ route('client.reviews.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="id_product" value="{{ $sanpham->id }}">
-
-                                <div class="mb-3">
-                                    <label class="form-label">Số sao:</label>
-                                    <div id="rating-stars-input" class="rating-stars">
-                                        <i class="far fa-star star-icon" data-value="1"></i>
-                                        <i class="far fa-star star-icon" data-value="2"></i>
-                                        <i class="far fa-star star-icon" data-value="3"></i>
-                                        <i class="far fa-star star-icon" data-value="4"></i>
-                                        <i class="far fa-star star-icon" data-value="5"></i>
-                                    </div>
-                                    <input type="hidden" name="so_sao" id="so_sao_input" value="{{ old('so_sao', 0) }}"
-                                        class="@error('so_sao') is-invalid @enderror">
-                                    @error('so_sao')
-                                        <div class="invalid-feedback d-block">{{ $errors->first('so_sao') }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="binh_luan" class="form-label">Bình luận:</label>
-                                    <textarea name="binh_luan" id="binh_luan" rows="4"
-                                        class="form-control @error('binh_luan') is-invalid @enderror">{{ old('binh_luan') }}</textarea>
-                                    @error('binh_luan')
-                                        <div class="invalid-feedback">{{ $errors->first('binh_luan') }}</div>
-                                    @enderror
-                                </div>
-
-                                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                            </form>
-                        @else
-                            <p class="text-muted">Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để gửi đánh giá.</p>
-                        @endauth
-                    </div>
-                </div>
 
                 <h6 class="fw-bold mb-3">Tất cả đánh giá ({{ $totalReviews }})</h6>
                 @if ($sanpham->danhGiaSanPhams->count() > 0)
@@ -357,14 +301,6 @@
                                             <button class="btn btn-sm btn-outline-info edit-review-btn"
                                                 data-review-id="{{ $danhGia->id }}" data-stars="{{ $danhGia->so_sao }}"
                                                 data-comment="{{ $danhGia->binh_luan }}">Sửa</button>
-
-                                            <form action="{{ route('client.reviews.destroy', $danhGia->id) }}" method="POST"
-                                                class="d-inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đánh giá này không?');">Xóa</button>
-                                            </form>
                                         </div>
 
                                         <div id="edit-form-{{ $danhGia->id }}" style="display: none;"
@@ -1567,30 +1503,6 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const newReviewStarsContainer = document.getElementById('rating-stars-input');
-            if (newReviewStarsContainer) {
-                const newReviewHiddenInput = document.getElementById('so_sao_input');
-                const newReviewStars = newReviewStarsContainer.querySelectorAll('.star-icon');
-
-                newReviewStars.forEach((star, index) => {
-                    star.addEventListener('click', () => {
-                        const rating = index + 1;
-                        newReviewHiddenInput.value = rating;
-                        updateStars(newReviewStars, rating);
-                    });
-                    star.addEventListener('mouseover', () => {
-                        highlightStars(newReviewStars, index + 1);
-                    });
-                    star.addEventListener('mouseout', () => {
-                        const currentRating = newReviewHiddenInput.value ? parseInt(
-                            newReviewHiddenInput.value) : 0;
-                        updateStars(newReviewStars, currentRating);
-                    });
-                });
-                const initialRating = newReviewHiddenInput.value ? parseInt(newReviewHiddenInput.value) : 0;
-                updateStars(newReviewStars, initialRating);
-            }
-
             const urlParams = new URLSearchParams(window.location.search);
             const variantId = urlParams.get('variant');
 
