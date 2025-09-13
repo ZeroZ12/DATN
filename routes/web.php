@@ -292,11 +292,19 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
 
     //hoàn trả
-    Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
-    Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
-    Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
-        ->name('hoan-tra.trahang');
+    // Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
+    // Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+    // Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
+    //     ->name('hoan-tra.trahang');
 
+           Route::get('orders/{id}/hoan-tien', [OrderController::class, 'requestRefundForm'])
+        ->name('hoan-tra.form');
+
+    // Xử lý submit yêu cầu hoàn tiền
+    Route::post('orders/{id}/hoan-tien', [OrderController::class, 'requestRefund'])
+        ->name('hoan-tra.submit');
+  Route::post('orders/{id}/tra-hang', [OrderController::class, 'xacNhanTrahang'])
+        ->name('hoan-tra.trahang');
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
@@ -368,7 +376,7 @@ Route::get('/search', [SearcherController::class, 'search'])->name('searcher.sea
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
 // Route thêm lịch sử chatbot vào database
 Route::post('/chat/import-history', [ChatController::class, 'importHistory'])->middleware('auth');
-// Route chính sách và hướng dẫn mua hàng 
+// Route chính sách và hướng dẫn mua hàng
 Route::view('/huong-dan', 'client.huongdanmuahang')->name('client.huongdan');
 Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');
 Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {

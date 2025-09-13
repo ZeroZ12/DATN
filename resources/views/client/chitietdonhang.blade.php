@@ -30,6 +30,8 @@
             </div>
             <div class="col-md-6"><strong>Phương thức thanh toán:</strong> {{ $donHang->phuongThucThanhToan->ten ?? '---' }}</div>
             <div class="col-md-6"><strong>Ngày đặt hàng:</strong> {{ $donHang->created_at->format('d/m/Y H:i') }}</div>
+            <div class="col-md-6"><strong>Mã giảm giá:</strong></div>
+
         </div>
 
         <hr>
@@ -73,108 +75,43 @@
     </div>
 </div>
 
-        {{-- Thông tin yêu cầu hoàn hàng --}}
-        @if ($donHang->yeuCauHoanTra)
-            @php
-                $hoanTra = $donHang->yeuCauHoanTra;
-                $tenPhuongThuc = match ($hoanTra->phuong_thuc_hoan_tien) {
-                    'momo' => 'Ví điện tử Momo',
-                    'bank_transfer' => 'Chuyển khoản ngân hàng',
-                    default => 'Không xác định',
-                };
-                $canShowTime = in_array($hoanTra->trang_thai, ['da_phe_duyet', 'dang_van_chuyen_tra_hang', 'da_nhan_hang', 'da_hoan_tien']);
-                $anhKhach = $hoanTra->anhMinhChung->where('loai', 'nguoi_dung');
-                $anhAdmin = $hoanTra->anhMinhChung->where('loai', 'admin');
-            @endphp
+   @php
+    $showRefundInfo =$donHang->trang_thai == 'da_phe_duyet'||$donHang->trang_thai == 'dang_tra_hang'||$donHang->trang_thai == 'shop_da_nhan_hang'|| $donHang->trang_thai == 'cho_phe_duyet'||$donHang->trang_thai == 'yeu_cau_hoan_tra'||$donHang->trang_thai == 'hoan_thanh' || $donHang->trang_thai == 'da_hoan_tien' || $donHang->tu_choi_hoan;
+@endphp
 
-            <div class="card shadow-sm mb-4 border-warning">
-                <div class="card-header bg-warning fw-bold">🔁 Yêu cầu hoàn hàng</div>
-                <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-md-6"><strong>Mã yêu cầu:</strong> {{ $hoanTra->ma_hoan_tra }}</div>
-                        <div class="col-md-6"><strong>Phương thức hoàn tiền:</strong> {{ $tenPhuongThuc }}</div>
-                    </div>
+@if($showRefundInfo)
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-warning fw-bold">💰 Thông tin hoàn trả</div>
+    <div class="card-body">
+        <div class="row g-3">
 
-                    @if ($hoanTra->phuong_thuc_hoan_tien === 'bank_transfer')
-                        <div class="row mb-2">
-                            <div class="col-md-6"><strong>Ngân hàng:</strong> {{ $hoanTra->ten_ngan_hang }}</div>
-                            <div class="col-md-6"><strong>Số tài khoản:</strong> {{ $hoanTra->so_tai_khoan }}</div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6"><strong>Chủ tài khoản:</strong> {{ $hoanTra->ten_chu_tai_khoan }}</div>
-                        </div>
-                    @elseif ($hoanTra->phuong_thuc_hoan_tien === 'momo')
-                        <div class="row mb-2">
-                            <div class="col-md-6"><strong>SĐT Momo:</strong> {{ $hoanTra->so_tai_khoan }}</div>
-                            <div class="col-md-6"><strong>Chủ tài khoản:</strong> {{ $hoanTra->ten_chu_tai_khoan }}</div>
-                        </div>
-                    @endif
+                @if($donHang->tu_choi_hoan==1)
+                  <div class="col-md-6"><strong>Trạng thái hoàn trả:</strong>  <span class="badge bg-danger">❌ Yêu cầu hoàn trả bị từ chối</span>
+                @elseif($donHang->trang_thai == 'da_hoan_tien')
+                    <span class="badge bg-success">✅ Hoàn tiền thành công</span>
+                @else
 
-                    <div class="mb-3">
-                        <strong>Lý do hoàn hàng:</strong>
-                        <div class="border rounded p-2 bg-light">{{ $hoanTra->ly_do }}</div>
-                    </div>
-
-                    @if ($canShowTime)
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <strong>Thời gian trả hàng:</strong><br>
-                                @if ($hoanTra->thoi_gian_tra_hang)
-                                    {{ \Carbon\Carbon::parse($hoanTra->thoi_gian_tra_hang)->format('d/m/Y H:i') }}
-                                @else
-                                    <span class="text-danger">❌ Chưa trả hàng</span>
-                                @endif
-                            </div>
-                            <div class="col-md-6">
-                                <strong>Thời gian nhận tiền:</strong><br>
-                                @if ($hoanTra->thoi_gian_nhan_tien)
-                                    {{ \Carbon\Carbon::parse($hoanTra->thoi_gian_nhan_tien)->format('d/m/Y H:i') }}
-                                @else
-                                    <span class="text-danger">❌ Chưa hoàn tiền</span>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
-
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <strong>Trạng thái hoàn hàng:</strong><br>
-                            <span class="badge bg-info">{{ \App\Models\YeuCauHoanTra::getTenTrangThai($hoanTra->trang_thai) }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Thời gian yêu cầu:</strong><br>
-                            {{ $hoanTra->created_at->format('d/m/Y H:i') }}
-                        </div>
-                    </div>
-
-                    @if ($anhKhach->count() || $anhAdmin->count())
-                        <div class="mt-3">
-                            <strong>Ảnh minh chứng:</strong>
-                            @if ($anhKhach->count())
-                                <div class="mt-2 mb-2">
-                                    <div class="fw-semibold text-muted">📤 Từ khách hàng:</div>
-                                    <div class="d-flex flex-wrap gap-2 mt-1">
-                                        @foreach ($anhKhach as $anh)
-                                            <img src="{{ asset($anh->duong_dan) }}" alt="Ảnh KH" width="140" class="rounded border">
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                            @if ($anhAdmin->count())
-                                <div class="mt-3 mb-2">
-                                    <div class="fw-semibold text-muted">🛠️ Bill hoàn tiền (Admin):</div>
-                                    <div class="d-flex flex-wrap gap-2 mt-1">
-                                        @foreach ($anhAdmin as $anh)
-                                            <img src="{{ asset('storage/' . $anh->duong_dan) }}" alt="Ảnh Admin" width="140" class="rounded border border-primary">
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                    @endif
-                </div>
+                @endif
             </div>
-        @endif
+
+            <div class="col-md-6"><strong>Lý do:</strong> {{ $donHang->ly_do ?? '---' }}</div>
+
+            @if($donHang->phuong_thuc_hoan_tien)
+                <div class="col-md-6"><strong>Phương thức hoàn tiền:</strong>
+                    {{ $donHang->phuong_thuc_hoan_tien == 'momo' ? 'Momo' : 'Chuyển khoản ngân hàng' }}
+                </div>
+
+                @if($donHang->phuong_thuc_hoan_tien !== 'momo')
+                    <div class="col-md-6"><strong>Ngân hàng:</strong> {{ $donHang->ten_ngan_hang ?? '---' }}</div>
+                @endif
+
+                <div class="col-md-6"><strong>Số tài khoản/Momo:</strong> {{ $donHang->so_tai_khoan ?? '---' }}</div>
+            @endif
+        </div>
+    </div>
+</div>
+@endif
+
        <div class="d-flex justify-content-end mb-3">
     <a href="{{ route('client.orders.index') }}" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left"></i> Quay lại
