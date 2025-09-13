@@ -33,20 +33,20 @@ class OrderController extends Controller
         $query = DonHang::with([
             'chiTietDonHangs.sanPham',
             'chiTietDonHangs.bienTheSanPham',
-            'yeuCauHoanTra' // để load luôn nếu có
+            // 'yeuCauHoanTra' // để load luôn nếu có
         ])->where('id_user', $userId)
           ->orderByDesc('created_at');
 
         // Lọc theo trạng thái
-        if ($request->filled('trang_thai')) {
-            if ($request->trang_thai === 'hoan_tra') {
-                // Trả hàng / Hoàn tiền → whereHas yêuCauHoanTra
-                $query->whereHas('yeuCauHoanTra');
-            } else {
-                // Các trạng thái bình thường
-                $query->where('trang_thai', $request->trang_thai);
-            }
-        }
+        // if ($request->filled('trang_thai')) {
+        //     if ($request->trang_thai === 'hoan_tra') {
+        //         // Trả hàng / Hoàn tiền → whereHas yêuCauHoanTra
+        //         $query->whereHas('yeuCauHoanTra');
+        //     } else {
+        //         // Các trạng thái bình thường
+        //         $query->where('trang_thai', $request->trang_thai);
+        //     }
+        // }
 
         $donHangs = $query->get();
 
@@ -60,7 +60,7 @@ class OrderController extends Controller
             'diaChiNguoiDung',
             'phuongThucThanhToan',
             'chiTietDonHangs.bienTheSanPham.sanPham',
-            'yeuCauHoanTra.anhMinhChung'
+            // 'yeuCauHoanTra.anhMinhChung'
         ])->where('id', $id)
           ->first();
 
@@ -127,4 +127,77 @@ class OrderController extends Controller
         return redirect()->route('client.orders.index')
             ->with('error', 'Không thể hủy đơn hàng ở trạng thái hiện tại.');
     }
+
+    public function requestRefundForm($id)
+{
+    $donHang = DonHang::where('id', $id)
+        ->where('id_user', Auth::id())
+        ->whereIn('trang_thai', ['giao_thanh_cong'])//chỉ giao thành công mới đc hoàn
+        ->firstOrFail();
+
+    return view('client.hoantien', compact('donHang'));
+}
+public function requestRefund(Request $request, $id)
+{
+    $donHang = DonHang::where('id', $id)
+        ->where('id_user', Auth::id())
+        ->whereIn('trang_thai', ['giao_thanh_cong'])
+        ->firstOrFail();
+
+    // Validate form
+$request->validate([
+    'phuong_thuc_hoan_tien' => ['required', 'string'],
+    'ten_ngan_hang' => ['required_if:phuong_thuc_hoan_tien,chuyen_khoan', 'string', 'max:100', 'nullable'],
+    'so_tai_khoan' => ['required', 'regex:/^[0-9]{6,55}$/'], // chỉ số, dài 6-55 ký tự
+    'ly_do' => ['required', 'string', 'max:500'],
+], [
+    'phuong_thuc_hoan_tien.required' => 'Vui lòng chọn phương thức hoàn tiền.',
+    'ten_ngan_hang.required_if' => 'Vui lòng chọn ngân hàng khi chọn chuyển khoản.',
+    'ten_ngan_hang.string' => 'Ngân hàng không hợp lệ.',
+    'ten_ngan_hang.max' => 'Tên ngân hàng không được vượt quá 100 ký tự.',
+    'so_tai_khoan.required' => 'Vui lòng nhập số tài khoản/Momo.',
+    'so_tai_khoan.regex' => 'Số tài khoản/Momo phải gồm 6–55 chữ số, không chứa chữ hay ký tự đặc biệt.',
+    'ly_do.required' => 'Vui lòng nhập lý do hoàn tiền.',
+    'ly_do.string' => 'Lý do không hợp lệ.',
+    'ly_do.max' => 'Lý do không được vượt quá 500 ký tự.',
+]);
+
+
+
+$lyDo = $request->ly_do;
+
+$donHang->update([
+    'trang_thai' => 'yeu_cau_hoan_tra',
+    'phuong_thuc_hoan_tien' => $request->phuong_thuc_hoan_tien,
+    'ten_ngan_hang' => $request->phuong_thuc_hoan_tien === 'chuyen_khoan' ? $request->ten_ngan_hang : null,
+    'so_tai_khoan' => $request->so_tai_khoan,
+    'ly_do' => $lyDo,
+]);
+
+    return redirect()->route('client.orders.show', $donHang->id)
+        ->with('success', 'Yêu cầu hoàn trả đã được gửi thành công.');
+}
+public function xacNhanTraHang($id)
+{
+    // Lấy đơn hàng của user hiện tại
+    $donHang = DonHang::where('id', $id)
+        ->where('id_user', auth()->id())
+        ->firstOrFail();
+
+    // Chỉ xử lý nếu trạng thái hiện tại là "da_phe_duyet" (đã phê duyệt trả hàng)
+    if ($donHang->trang_thai === 'da_phe_duyet') {
+        $donHang->update([
+            'trang_thai' => 'dang_tra_hang', // cập nhật sang trạng thái đang trả hàng
+            'thoi_gian_khach_tra' => now(),   // lưu thời gian xác nhận trả hàng;
+            'trang_thai_vc_hoan'=>'dang_tra'
+        ]);
+
+        return redirect()->route('client.orders.index')
+            ->with('success', 'Bạn đã xác nhận gửi trả hàng.');
+    }
+
+    return redirect()->route('client.orders.index')
+        ->with('error', 'Không thể xác nhận trả hàng với trạng thái hiện tại.');
+}
+
 }

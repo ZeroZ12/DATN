@@ -83,38 +83,42 @@ public function capNhatTrangThai(Request $request, $id)
     $trangThaiCu  = $donHang->trang_thai;
     $trangThaiMoi = $request->trang_thai;
 
-    // Cập nhật trạng thái
+    // Xử lý trạng thái hủy
     if ($trangThaiMoi === 'da_huy') {
-         foreach ($donHang->chiTietDonHangs as $chiTiet) {
+        foreach ($donHang->chiTietDonHangs as $chiTiet) {
             $bienThe = $chiTiet->bienTheSanPham;
             if ($bienThe) {
                 $bienThe->ton_kho += $chiTiet->so_luong;
                 $bienThe->save();
+            } elseif ($chiTiet->sanPham) {
+                $sanPham = $chiTiet->sanPham;
+                $sanPham->so_luong += $chiTiet->so_luong;
+                $sanPham->save();
             }
-                    else if ($chiTiet->sanPham) {
-            $sanPham = $chiTiet->sanPham;
-            $sanPham->so_luong += $chiTiet->so_luong;
-            $sanPham->save();
-        }
-
         }
         $donHang->update([
             'trang_thai' => 'da_huy',
             'huy_boi' => 'admin',
         ]);
     } else {
-        $donHang->update([
-            'trang_thai' => $trangThaiMoi,
+        // Cập nhật trạng thái chính
+        $donHang->update(['trang_thai' => $trangThaiMoi]);
+
+        // Cập nhật trạng thái vận chuyển (vc)
+        if ($trangThaiMoi === 'dang_giao_hang') {
+            $donHang->update(['trang_thai_vc_giao_hang' => 'dang_giao']);
+        } elseif ($trangThaiMoi === 'giao_thanh_cong') {
+            $donHang->update(['trang_thai_vc_giao_hang' => 'da_giao']);
+        } elseif ($trangThaiMoi === 'shop_da_nhan_hang') {
+            $donHang->update(['trang_thai_vc_hoan_hang' => 'da_giao',
+            'thoi_gian_shop_nhan'=>now()
         ]);
+
+        }
     }
 
-    // ✅ Chỉ cộng luot_mua nếu trạng thái mới là giao_thanh_cong
-    // Và trạng thái cũ chưa phải là giao_thanh_cong hoặc hoan_thanh
-    if (
-        $trangThaiMoi === 'giao_thanh_cong' &&
-        !in_array($trangThaiCu, ['giao_thanh_cong', 'hoan_thanh'])
-    ) {
-        // Nếu không có yêu cầu hoàn trả
+    // Cộng lượt mua nếu trạng thái mới là giao_thanh_cong và chưa cộng trước đó
+    if ($trangThaiMoi === 'giao_thanh_cong' && !in_array($trangThaiCu, ['giao_thanh_cong', 'hoan_thanh'])) {
         $coYeuCauHoanTra = YeuCauHoanTra::where('id_don_hang', $donHang->id)->exists();
 
         if (!$coYeuCauHoanTra) {
@@ -127,9 +131,19 @@ public function capNhatTrangThai(Request $request, $id)
             }
         }
     }
+    if ($trangThaiMoi === 'tu_choi_hoan') {
+    // Khi admin từ chối hoàn trả/hoàn tiền
+    $donHang->update([
+        'trang_thai' => 'hoan_thanh', // đơn kết thúc
+        'tu_choi_hoan'=>1
+    ]);
+
+
+}
 
     return redirect()->back()->with('success', 'Cập nhật trạng thái thành công.');
 }
+
 
 
     public function revenueList(Request $request)
