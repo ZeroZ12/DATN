@@ -1211,7 +1211,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 @if (session('success'))
-                    showToast("{{ session('success') }}", 'success');
+                    showToast("{{ session(key: 'success') }}", 'success');
                 @endif
 
                 @if (session('error'))
@@ -1225,6 +1225,7 @@
                 @endif
                 // chuyển lịch sử chatbot qua db sau khi đăng nhập
                 @if(Auth::check() && Auth::user()->vai_tro !== 'quan_tri')
+                // la
                 const chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
                 if (chatHistory.length >0)
                  {
@@ -1250,7 +1251,7 @@
                         try {
                             addToCart(this);
                         } catch (e) {
-                            console.error('A critical error occurred while trying to call addToCart:',
+                            console.error('Xảy ra lỗi nghiêm trọng khi gọi addToCart:',
                                 e);
                             showToast('Lỗi nghiêm trọng. Vui lòng kiểm tra Console.', 'error');
                         }

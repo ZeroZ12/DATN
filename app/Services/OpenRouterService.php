@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Http;
 
 class OpenRouterService
 {
-    protected $apiKey;
-    protected $apiUrl = 'https://openrouter.ai/api/v1/chat/completions';
+    protected $apiKey; # openrouter api key
+    protected $apiUrl = 'https://openrouter.ai/api/v1/chat/completions'; # api url để gửi request
 
-    public function __construct()
+    public function __construct() # khai báo biến thành viên của class để sử dụng cho các function phía dưới
     {
         $this->apiKey = env('OPENROUTER_API_KEY');
         if (empty($this->apiKey)) {
@@ -20,9 +20,10 @@ class OpenRouterService
         }
     }
 
-        public function searchProducts($userInput)
+    public function searchProducts($userInput)
         {
             // Lọc dữ liệu sản phẩm từ DB
+
             //lấy sản phẩm có biến thể
             $variantProducts = SanPham::join('danh_mucs', 'san_phams.id_category', '=','danh_mucs.id')
             ->join('bien_the_san_phams','san_phams.id','=','bien_the_san_phams.id_product')
@@ -33,6 +34,7 @@ class OpenRouterService
                 'san_phams.id as id',
                 'san_phams.ten',
                 'san_phams.gia',
+                'san_phams.anh_dai_dien',
                 'danh_mucs.ten as ten_danh_muc',
                 'bien_the_san_phams.id as bien_the_id',
                 'bien_the_san_phams.ton_kho as ton_kho'
@@ -48,6 +50,7 @@ class OpenRouterService
                 'san_phams.id',
                 'san_phams.ten',
                 'san_phams.gia',
+                'san_phams.anh_dai_dien',
                 'danh_mucs.ten as ten_danh_muc',
                 DB::raw('NULL as bien_the_id'),
                 'san_phams.so_luong as ton_kho',
@@ -59,7 +62,7 @@ class OpenRouterService
             ->limit(20)
             ->get()
             ->toArray();
-           
+            #log lại thông tin trò chuyện của user và chatbot
             Log::info('User Input: ' . $userInput);
             Log::info('Products: ' . json_encode($products, JSON_UNESCAPED_UNICODE));
 
@@ -79,32 +82,50 @@ Dưới đây là danh sách sản phẩm hiện có (bao gồm tên sản phẩ
 $productList .(productList - lưu ý đây là nội dung cung cấp riêng cho bạn)
 Khách hàng yêu cầu (userInput - là yêu cầu từ khách hàng mỗi lần hỏi): "$userInput"
 Ghi chú:
-- Mỗi sản phẩm có cấu trúc (ứng với chú thích như ở productList đã cung cấp) :
-- Tên sản phẩm: {ten}
-- Danh mục: {ten_danh_muc}
+- Mỗi sản phẩm có cấu trúc (ứng với chú thích như ở productList đã cung cấp)
 Yêu cầu:
 - userInput chỉ cần có từ khóa giống tên của sản phẩm hoặc danh mục là đủ, không yêu cầu gửi toàn bộ thông tin sản phẩm
-- Phân tích yêu cầu của khách hàng (userInput) ứng với data đã cung cấp từ productList, tìm ra các sản phẩm phù hợp.
-- Nếu yêu cầu có chứa từ khóa gần giống tên "Danh mục {ten_danh_muc} " hoặc "Tên sản phẩm {ten} ", hãy lọc và hiển thị các sản phẩm đó.
-- Không phân biệt chữ hoa hay thường ở nội dung người dùng tìm kiếm với tên của danh mục hoặc sản phẩm
-- Không yêu cầu trùng khớp chính xác 100%, có thể chọn các sản phẩm liên quan hoặc tương tự.
-- Mỗi sản phẩm phù hợp hãy hiển thị dưới dạng:
-<a href="/sanpham/{id}">{ten}</a> 
-- Ngắt cách sản phẩm với nhau bằng thẻ <br> ở cuối mỗi sản phẩm và ở đầu sản phẩm đầu tiên, dùng "*" để đánh đầu dòng của mỗi sản phẩm.
+- Phân tích yêu cầu của khách hàng (userInput) ứng với data đã cung cấp từ productList, tìm ra các sản phẩm chính xác.
+- Danh sách sản phẩm chính xác hãy hiển thị dưới dạng:
+<div class="product-list">
+  <div class="product-card border rounded p-3 mb-3 shadow-sm bg-white">
+    <div class="d-flex align-items-center">
+      <!-- Ảnh sản phẩm -->
+      <div class="flex-shrink-0 me-3">
+        <img src="http://datn.com:8080/storage/images/{anh_dai_dien}" 
+             class="rounded" 
+             style="width: 120px; height: auto; object-fit: cover;" 
+             alt="{ten}">
+      </div>
+      <!-- Nội dung -->
+      <div class="flex-grow-1">
+        <p class="fw-semibold mb-2 text-dark">
+          {ten}
+        </p>
+        <!-- Nút -->
+        <a href="/sanpham/{id}" class="btn btn-danger btn-sm rounded-pill px-3">
+          Xem chi tiết
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 Lưu ý:
 - gọi khách hàng là bạn.
 - Trong ngữ cảnh này chỉ có bạn trò chuyện với prompt của khách hàng (userInput)
-- Nếu khách hàng yêu cầu sản phẩm theo giá thì gửi link sản phẩm, 
-và yêu cầu khách truy cập link sản phẩm để xem thông tin chi tiết và lựa chọn mẫu sản phẩm phù hợp.
+- Yêu cầu khách truy cập link sản  phẩm để xem thông tin chi tiết và lựa chọn mẫu sản phẩm phù hợp.
 - Tuyệt đối không được cung cấp thông tin ngoài lề, nhớ rõ bạn là chat bot của TOP PC.
 - Tuyệt đối không hiển thị sản phẩm không liên quan đến yêu cầu.
+- Nếu không tìm thấy sản phẩm có {ten} phù hợp với yêu cầu: "$userInput" thì chỉ trả lời.
+"Không tìm thấy sản phẩm phù hợp. Bạn có muốn thử các yêu cầu khác không?".
 - Ưu tiên tìm theo danh mục nếu khách hàng nêu tên danh mục.
 PROMP_LIST;
 
 
-
+            # log prompt
             Log::info('Prompt: ' . $prompt);
-
+            # gửi prompt đến api của openrouter, model meta-llama
             $response = Http::timeout(60)->withHeaders([
                 'Authorization' => "Bearer {$this->apiKey}",
                 'Content-Type' => 'application/json',
@@ -117,18 +138,20 @@ PROMP_LIST;
                     ],
                 ],
             ]);
-
+            # Http được built trên Guzzle 
+            # Trả về body() nội dung dạng string
             Log::info('Guzzle Response: ' . $response->body());
             if ($response->successful()) {
                 $result = $response->json();
                 if (isset($result['choices'][0]['message']['content'])) {
                     return $result['choices'][0]['message']['content'];
                 } else {
-                    Log::error('No content in API response: ' . json_encode($result));
+                    # log lại nguyên nhân gây lỗi 
+                    Log::error('Không nhận được nội dung trả về từ API: ' . json_encode($result));
                     return "Không nhận được nội dung từ API.";
                 }
             }
-
+            # log lại thông tin và mã lỗi.
             Log::error('Guzzle Error: ' . $response->body());
             Log::error('Mã lỗi:' . $response->status());
         }

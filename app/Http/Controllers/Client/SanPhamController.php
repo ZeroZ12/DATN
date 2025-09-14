@@ -159,7 +159,7 @@ class SanPhamController extends Controller
             ->take(3)
             ->get();
 
-        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners'));
+        return view('client.danhmuc', compact('sanphams', 'thuongHieus', 'chips', 'gpus', 'rams', 'oCungs', 'category', 'danhmucs', 'banners','id'));
     }
     public function show($id)
     {

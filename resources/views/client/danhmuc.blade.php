@@ -51,7 +51,7 @@
                                     <button class="accordion-button py-2 px-3 fw-bold collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseBrand" aria-expanded="false"
                                         aria-controls="collapseBrand">
-                                        <i class="fas fa-tags me-2 text-success"></i> Thương hiệu
+                                        <i class="fas fa-tags me-2 text-primary"></i> Thương hiệu
                                     </button>
                                 </h2>
                                 <div id="collapseBrand" class="accordion-collapse collapse" aria-labelledby="headingBrand"
@@ -78,7 +78,7 @@
                                     <button class="accordion-button py-2 px-3 fw-bold collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false"
                                         aria-controls="collapsePrice">
-                                        <i class="fas fa-money-bill-wave me-2 text-warning"></i> Lọc giá
+                                        <i class="fas fa-money-bill-wave me-2 text-primary"></i> Lọc giá
                                     </button>
                                 </h2>
                                 <div id="collapsePrice" class="accordion-collapse collapse" aria-labelledby="headingPrice"
@@ -86,28 +86,28 @@
                                     <div class="accordion-body py-2 px-3">
                                         <div class="form-check mb-1">
                                             <input class="form-check-input form-check-input-sm filter-checkbox"
-                                                type="checkbox" id="price1" name="price[]" value="0-5000000">
+                                                type="radio" id="price1" name="price[]" value="0-5000000">
                                             <label class="form-check-label small" for="price1">
                                                 < 5tr</label>
                                         </div>
                                         <div class="form-check mb-1">
                                             <input class="form-check-input form-check-input-sm filter-checkbox"
-                                                type="checkbox" id="price2" name="price[]" value="5000000-10000000">
+                                                type="radio" id="price2" name="price[]" value="5000000-10000000">
                                             <label class="form-check-label small" for="price2">5tr - 10tr</label>
                                         </div>
                                         <div class="form-check mb-1">
                                             <input class="form-check-input form-check-input-sm filter-checkbox"
-                                                type="checkbox" id="price3" name="price[]" value="10000000-15000000">
+                                                type="radio" id="price3" name="price[]" value="10000000-15000000">
                                             <label class="form-check-label small" for="price3">10tr - 15tr</label>
                                         </div>
                                         <div class="form-check mb-1">
                                             <input class="form-check-input form-check-input-sm filter-checkbox"
-                                                type="checkbox" id="price4" name="price[]" value="15000000-20000000">
+                                                type="radio" id="price4" name="price[]" value="15000000-20000000">
                                             <label class="form-check-label small" for="price4">15tr - 20tr</label>
                                         </div>
                                         <div class="form-check mb-1">
                                             <input class="form-check-input form-check-input-sm filter-checkbox"
-                                                type="checkbox" id="price5" name="price[]"
+                                                type="radio" id="price5" name="price[]"
                                                 value="20000000-999999999">
                                             <label class="form-check-label small" for="price5">> 20tr</label>
                                         </div>
@@ -120,7 +120,7 @@
                                     <button class="accordion-button py-2 px-3 fw-bold collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseRam" aria-expanded="false"
                                         aria-controls="collapseRam">
-                                        <i class="fas fa-memory me-2 text-info"></i> RAM
+                                        <i class="fas fa-memory me-2 text-primary"></i> RAM
                                     </button>
                                 </h2>
                                 <div id="collapseRam" class="accordion-collapse collapse" aria-labelledby="headingRam"
@@ -147,7 +147,7 @@
                                     <button class="accordion-button py-2 px-3 fw-bold collapsed" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#collapseOCung" aria-expanded="false"
                                         aria-controls="collapseOCung">
-                                        <i class="fas fa-hdd me-2 text-secondary"></i> Ổ cứng
+                                        <i class="fas fa-hdd me-2 text-primary"></i> Ổ cứng
                                     </button>
                                 </h2>
                                 <div id="collapseOCung" class="accordion-collapse collapse"
@@ -173,12 +173,15 @@
                         </div>
                         <!-- Nút áp dụng bộ lọc -->
                         <div class="d-grid gap-2 p-3 border-top">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="applyFilters()">
+                            <button type="button" class="btn btn-primary  btn-sm" onclick="applyFilters()">
                                 <i class="fas fa-filter"></i> Áp dụng lọc
                             </button>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetFilters()">
+                            <form action="{{ route('danhmuc.index',$id) }}" method="get">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm w-100">
                                 <i class="fas fa-times"></i> Xóa bộ lọc
                             </button>
+                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -347,7 +350,9 @@
                                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
                                         <h5 class="text-muted">Không tìm thấy sản phẩm nào</h5>
                                         <p class="text-muted">Hãy thử điều chỉnh bộ lọc hoặc tìm kiếm với từ khóa khác</p>
-                                        <button class="btn btn-primary" onclick="resetFilters()">Xóa bộ lọc</button>
+                                        <form action="{{ route('danhmuc.index',$id) }}" method="get">
+                                            <button class="btn btn-primary" type="submit">Xóa bộ lọc</button>
+                                        </form>
                                     </div>
                                 </div>
                             @endforelse
@@ -1242,25 +1247,6 @@
             }
             // Chuyển hướng
             window.location.href = url + (params.toString() ? '?' + params.toString() : '');
-        }
-
-        function resetFilters() {
-            // Lấy URL hiện tại
-            let url = new URL(window.location.href);
-            // Xóa tất cả các tham số filter
-            url.searchParams.delete('brand');
-            url.searchParams.delete('price');
-            url.searchParams.delete('sort');
-            url.searchParams.delete('ram');
-            url.searchParams.delete('o_cung');
-            // Bỏ chọn tất cả checkbox
-            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = false;
-            });
-            // Reset select box về giá trị mặc định
-            document.querySelector('select[name="sort"]').value = '';
-            // Chuyển hướng đến URL mới
-            window.location.href = url.toString();
         }
 
         function sortProducts(value) {

@@ -274,7 +274,7 @@ Route::post('/admin/thong-ke/filter', [ThongKeController::class, 'filter'])->nam
 
 });
 
-Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
+Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', function () {
         return view('client.tk.access');
     })->name('dashboard');
@@ -285,7 +285,26 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
     Route::resource('addresses', UserAddressController::class)->except(['show']); // Không cần show riêng lẻ, index sẽ list
     Route::post('addresses/{address}/set-default', [UserAddressController::class, 'setDefault'])->name('addresses.setDefault');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update'); // <<< Route mới cho cập nhật mật khẩu
+    // Cart routes
+    Route::prefix('cart')->name('cart.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Client\CartController::class, 'index'])->name('index');
+        Route::post('/add', [App\Http\Controllers\Client\CartController::class, 'add'])->name('add');
+        Route::post('/buy-now', [App\Http\Controllers\Client\CartController::class, 'buyNow'])->name('buy-now');
+        Route::put('/update/{id}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('update');
+        Route::delete('/remove/{id}', [App\Http\Controllers\Client\CartController::class, 'remove'])->name('remove');
+        Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
+        Route::get('/checkout', [App\Http\Controllers\Client\CartController::class, 'checkout'])->name('checkout');
+        Route::post('/place-order', [App\Http\Controllers\Client\CartController::class, 'placeOrder'])->name('place-order');
+    });
 
+    // Payment routes
+    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
+    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
+
+    Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('client.payment.fail');
+    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
+
+    //Đơn hàng
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
@@ -342,27 +361,7 @@ Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
     ->name('password.update');
 
-// Cart routes
-Route::middleware(['auth'])->group(function () {
-    // Cart routes
-    Route::prefix('cart')->name('client.cart.')->group(function () {
-        Route::get('/', [App\Http\Controllers\Client\CartController::class, 'index'])->name('index');
-        Route::post('/add', [App\Http\Controllers\Client\CartController::class, 'add'])->name('add');
-        Route::post('/buy-now', [App\Http\Controllers\Client\CartController::class, 'buyNow'])->name('buy-now');
-        Route::put('/update/{id}', [App\Http\Controllers\Client\CartController::class, 'update'])->name('update');
-        Route::delete('/remove/{id}', [App\Http\Controllers\Client\CartController::class, 'remove'])->name('remove');
-        Route::get('/count', [App\Http\Controllers\Client\CartController::class, 'count'])->name('count');
-        Route::get('/checkout', [App\Http\Controllers\Client\CartController::class, 'checkout'])->name('checkout');
-        Route::post('/place-order', [App\Http\Controllers\Client\CartController::class, 'placeOrder'])->name('place-order');
-    });
 
-    // Payment routes
-    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
-    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
-
-    Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('client.payment.fail');
-    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
-});
 Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->middleware('auth');
 Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->middleware('auth');
 

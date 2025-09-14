@@ -149,7 +149,6 @@
                                 </div>
                             </div>
 
-                             @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
                                 <div class="d-flex gap-2 mb-2">
                                 <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
                                     @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
@@ -158,7 +157,6 @@
                                     @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
                                 </button>
                             </div>
-                            @endif
                         </form>
                         @else
                         <form action="{{ route('client.cart.add') }}" method="POST" class="mt-4">
@@ -215,7 +213,6 @@
                                     <button type="button" class="btn btn-outline-secondary" id="qty-plus">+</button>
                                 </div>
                             </div>
-                             @if (Auth::check() && Auth::user()->vai_tro != 'quan_tri' )
                                 <div class="d-flex gap-2 mb-2">
                                 <button type="submit" class="btn btn-outline-danger btn-lg flex-fill" @if($isOutOfStock) disabled style="background:#e9ecef;color:#888;cursor:not-allowed" @endif>
                                     @if($isOutOfStock) HẾT HÀNG @else THÊM VÀO GIỎ @endif
@@ -224,7 +221,6 @@
                                     @if($isOutOfStock) HẾT HÀNG @else MUA NGAY @endif
                                 </button>
                             </div>
-                            @endif
                         </form>
                         @endif
                         <form id="buy-now-form" action="{{ route('client.cart.buy-now') }}" method="POST" style="display: none;">
@@ -268,7 +264,7 @@
                 </div>
             </div>
 
-            {{-- <div class="col-md-4">
+            <div class="col-md-4">
                 <div class="bg-light p-3 rounded">
                     <h5 class="fw-bold">Cấu hình sản phẩm</h5>
                     <ul class="list-unstyled">
@@ -279,7 +275,7 @@
                         <li><strong>GPU:</strong> {{ $sanpham->gpu->ten ?? 'Tùy chọn' }}</li>
                     </ul>
                 </div>
-            </div> --}}
+            </div>
         </div>
 
         <hr>
