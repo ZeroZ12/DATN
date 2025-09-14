@@ -40,7 +40,7 @@ use App\Http\Controllers\Client\YeuCauHoanTraController as ClientYCHT;
 use App\Http\Controllers\Admin\YeuCauHoanTraController as AdminYCHT;
 use App\Http\Controllers\ProductSearchController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\Admin\SearcherADController; 
+use App\Http\Controllers\Admin\SearcherADController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
@@ -250,12 +250,13 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/hide', [UserController::class, 'hide'])->name('users.hide');
 
-    Route::get('danhgias', [DanhGiaController::class, 'index'])->name('danhgias.index');
-    Route::get('danhgias/{danhGia}', [DanhGiaController::class, 'show'])->name('danhgias.show');
- 
-    // Xóa đánh giá (DELETE /admin/danhgias/{danhgia})
-    Route::patch('danhgias/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('danhgias.approve');
-    Route::patch('danhgias/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('danhgias.reject');
+    // Nhóm route cho DanhGia trong admin
+    Route::prefix('danhgias')->name('danhgias.')->group(function () {
+        Route::get('/', [DanhGiaController::class, 'index'])->name('index');
+        Route::get('/{danhGia}', [DanhGiaController::class, 'show'])->name('show');
+        Route::patch('/{danhGia}/approve', [DanhGiaController::class, 'approve'])->name('approve');
+        Route::patch('/{danhGia}/reject', [DanhGiaController::class, 'reject'])->name('reject');
+    });
 
     //Đơn hàng
     Route::get('don-hang', [DonHangController::class, 'index'])->name('don-hang.index');
@@ -269,9 +270,7 @@ Route::middleware(['auth', 'check.role:quan_tri'])->prefix('admin')->name('admin
         ->name('hoan-tra.cap-nhat-trang-thai');
 
     Route::get('/admin/thong-ke', [ThongKeController::class, 'index'])->name('thongke');
-Route::post('/admin/thong-ke/filter', [ThongKeController::class, 'filter'])->name('thongke.filter');
-
-
+    Route::post('/admin/thong-ke/filter', [ThongKeController::class, 'filter'])->name('thongke.filter');
 });
 
 Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->prefix('client')->name('client.')->group(function () {
@@ -312,19 +311,25 @@ Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->pre
     Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
 
     //hoàn trả
-    Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
-    Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
-    Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
-        ->name('hoan-tra.trahang');
+    // Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
+    // Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+    // Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
+    //     ->name('hoan-tra.trahang');
 
+           Route::get('orders/{id}/hoan-tien', [OrderController::class, 'requestRefundForm'])
+        ->name('hoan-tra.form');
+
+    // Xử lý submit yêu cầu hoàn tiền
+    Route::post('orders/{id}/hoan-tien', [OrderController::class, 'requestRefund'])
+        ->name('hoan-tra.submit');
+  Route::post('orders/{id}/tra-hang', [OrderController::class, 'xacNhanTrahang'])
+        ->name('hoan-tra.trahang');
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
     Route::patch('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('reviews.update');
     // Route để xóa đánh giá (sử dụng DELETE)
     Route::delete('/reviews/{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('reviews.destroy');
-
-
 });
 
 Route::middleware(['auth', 'check.role:quan_tri'])->get('/admin', [DashBoardController::class, 'index'])->name('admin.index');
@@ -368,8 +373,16 @@ Route::delete('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->m
 Route::get('/search', [SearcherController::class, 'search'])->name('searcher.search'); // Thêm route tìm kiếm
 
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
-    // Route thêm lịch sử chatbot vào database
-Route::post('/chat/import-history', [ChatController::class,'importHistory'])->middleware('auth');
-// Route chính sách và hướng dẫn mua hàng 
+// Route thêm lịch sử chatbot vào database
+Route::post('/chat/import-history', [ChatController::class, 'importHistory'])->middleware('auth');
+// Route chính sách và hướng dẫn mua hàng
 Route::view('/huong-dan', 'client.huongdanmuahang')->name('client.huongdan');
 Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');
+Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('client.')->group(function () {
+    Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::get('create/{productId}', [DanhGiaSanPhamController::class, 'create'])->name('create');
+        Route::post('/', [DanhGiaSanPhamController::class, 'store'])->name('store');
+        Route::patch('{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'update'])->name('update');
+        Route::delete('{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('destroy');
+    });
+});

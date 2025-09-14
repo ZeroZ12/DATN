@@ -41,8 +41,8 @@ class StoreBienTheSanPhamRequest extends FormRequest
             'id_o_cung' => 'required|exists:o_cungs,id',
             // 'id_product' không cần validate ở đây vì nó được lấy từ route model binding
             // 'ma_bien_the' sẽ được sinh tự động trong controller
-            'gia' => 'required|numeric|min:0|max:999999999999',
-            'gia_so_sanh' => 'nullable|numeric|min:0|lte:gia|max:999999999999', // Add lte rule: giá so sánh không lớn hơn giá bán
+            'gia' => 'required|numeric|min:0|max:9999999999999.99',
+            'gia_so_sanh' => 'nullable|numeric|min:0|lte:gia|max:9999999999999.99', // Add lte rule: giá so sánh không lớn hơn giá bán
             'ton_kho' => 'required|integer|min:0',
             'anh_dai_dien' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];

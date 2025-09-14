@@ -59,8 +59,8 @@ class UpdateSanPhamRequest extends FormRequest
             $rules['variants.*.id'] = 'nullable|exists:bien_the_san_phams,id';
             $rules['variants.*.ram_id'] = 'required|exists:rams,id';
             $rules['variants.*.o_cung_id'] = 'required|exists:o_cungs,id';
-            $rules['variants.*.gia'] = 'required|numeric|min:0|max:999999999999';
-            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0|max:999999999999';
+            $rules['variants.*.gia'] = 'required|numeric|min:0|max:9999999999999.99';
+            $rules['variants.*.gia_so_sanh'] = 'nullable|numeric|min:0|max:9999999999999.99';
             $rules['variants.*.ton_kho'] = 'required|integer|min:0';
             $rules['variants.*.anh_dai_dien'] = 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
             $rules['xoa_bien_the'] = 'nullable|array';
@@ -72,8 +72,8 @@ class UpdateSanPhamRequest extends FormRequest
             $rules['id_tannhiet'] = 'nullable|exists:tan_nhiets,id';
             $rules['id_nguon'] = 'nullable|exists:nguons,id';
             $rules['id_case'] = 'nullable|exists:cases,id';
-            $rules['gia'] = 'required|numeric|min:0|max:999999999999';
-            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|max:999999999999';
+            $rules['gia'] = 'required|numeric|min:0|max:9999999999999.99';
+            $rules['gia_so_sanh'] = 'nullable|numeric|min:0|max:9999999999999.99';
             $rules['so_luong'] = 'required|integer|min:0';
         }
 
