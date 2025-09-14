@@ -26,14 +26,6 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="sale" class="form-label">Giảm giá</label>
-                                <input type="text" class="form-control" id="sale" name="sale"
-                                    value="{{ old('sale') }}">
-                                @error('sale')
-                                    <div class="text-danger mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
                                 <label for="image_url" class="form-label">Ảnh banner</label>
                                 <input class="form-control" type="file" id="image_url" name="image_url" accept="image/*"
                                     onchange="previewBanner(event)">

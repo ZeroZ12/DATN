@@ -29,11 +29,6 @@
                                     value="{{ old('title', $banner->title) }}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="sale" class="form-label">Giảm giá</label>
-                                <input type="text" class="form-control" id="sale" name="sale"
-                                    value="{{ old('sale', $banner->sale) }}">
-                            </div>
-                            <div class="mb-3">
                                 <label for="image_url" class="form-label">Ảnh banner (chọn để thay đổi)</label>
                                 <input class="form-control" type="file" id="image_url" name="image_url" accept="image/*">
                             </div>

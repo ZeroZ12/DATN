@@ -37,11 +37,7 @@
             </div>
             <div class="mb-3">  
                 <label for="gia_tri" class="form-label">
-                      @if ($maGiamGia->loai == 'phan_tram')
-                        Giá trị (%)
-                    @elseif($maGiamGia->loai == 'tien_mat')
-                        Giá trị (VNĐ)
-                    @endif
+                    Giá trị
                     <span class="text-danger">*</span></label>
                 <input type="number" name="gia_tri" id="gia_tri" class="form-control" value="{{ old('gia_tri') }}"
                     step="0.01" min="0">

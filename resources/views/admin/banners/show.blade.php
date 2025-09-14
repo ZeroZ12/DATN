@@ -29,10 +29,6 @@
                                 <td>{{ $banner->title }}</td>
                             </tr>
                             <tr>
-                                <th>Giảm giá:</th>
-                                <td>{{ $banner->sale }}</td>
-                            </tr>
-                            <tr>
                                 <th>Trạng thái:</th>
                                 <td>
                                     @if ($banner->deleted_at)

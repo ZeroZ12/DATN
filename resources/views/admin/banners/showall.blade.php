@@ -18,7 +18,6 @@
                             <th style="width: 60px;">ID</th>
                             <th style="min-width: 180px;">Tên banner</th>
                             <th style="width: 120px;">Ảnh</th>
-                            <th style="width: 100px;">Giảm giá</th>
                             <th style="width: 100px;">Trạng thái</th>
                             <th style="width: 160px;">Hành động</th>
                         </tr>
@@ -36,7 +35,6 @@
                                         <span class="text-muted">Không có ảnh</span>
                                     @endif
                                 </td>
-                                <td class="text-center">{{ $banner->sale }}</td>
                                 <td class="text-center">
                                     @if ($banner->deleted_at)
                                         <span class="badge bg-warning text-dark">Vô hiệu</span>
