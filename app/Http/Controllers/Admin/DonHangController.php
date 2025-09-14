@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AnhMinhChung;
 use App\Models\DonHang;
 use App\Models\YeuCauHoanTra;
 use Illuminate\Http\Request;
@@ -66,15 +67,33 @@ class DonHangController extends Controller
 
     // }
 
-
 public function capNhatTrangThai(Request $request, $id)
 {
-    $request->validate([
-        'trang_thai' => 'required|in:' . implode(',', DonHang::TRANG_THAI),
-        'trang_thai_hien_tai' => 'required|string',
-    ]);
-
     $donHang = DonHang::with('chiTietDonHangs.sanPham')->findOrFail($id);
+
+    // Nếu là hoàn tiền thì validate ảnh
+    if ($request->trang_thai === 'da_hoan_tien') {
+        $request->validate([
+            'anh_minh_chung'   => 'required|array|min:1',
+            'anh_minh_chung.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ], [
+            'anh_minh_chung.required' => 'Vui lòng chọn ít nhất 1 ảnh minh chứng.',
+            'anh_minh_chung.array'    => 'Ảnh minh chứng không hợp lệ.',
+            'anh_minh_chung.min'      => 'Phải tải lên ít nhất 1 ảnh minh chứng.',
+            'anh_minh_chung.*.image'  => 'Tệp tải lên phải là hình ảnh.',
+            'anh_minh_chung.*.mimes'  => 'Ảnh minh chứng phải có định dạng: jpg, jpeg, png, gif, webp.',
+            'anh_minh_chung.*.max'    => 'Kích thước ảnh tối đa 2MB.',
+        ]);
+    }
+
+    $request->validate([
+        'trang_thai'          => 'required|in:' . implode(',', DonHang::TRANG_THAI),
+        'trang_thai_hien_tai' => 'required|string',
+    ], [
+        'trang_thai.required'          => 'Trạng thái đơn hàng là bắt buộc.',
+        'trang_thai.in'                => 'Trạng thái đơn hàng không hợp lệ.',
+        'trang_thai_hien_tai.required' => 'Thiếu trạng thái hiện tại của đơn hàng.',
+    ]);
 
     if ($donHang->trang_thai !== $request->trang_thai_hien_tai) {
         return redirect()->back()->with('error', 'Trạng thái đơn hàng đã thay đổi. Vui lòng tải lại trang.');
@@ -83,7 +102,7 @@ public function capNhatTrangThai(Request $request, $id)
     $trangThaiCu  = $donHang->trang_thai;
     $trangThaiMoi = $request->trang_thai;
 
-    // Xử lý trạng thái hủy
+    // ✅ Hủy đơn
     if ($trangThaiMoi === 'da_huy') {
         foreach ($donHang->chiTietDonHangs as $chiTiet) {
             $bienThe = $chiTiet->bienTheSanPham;
@@ -91,55 +110,71 @@ public function capNhatTrangThai(Request $request, $id)
                 $bienThe->ton_kho += $chiTiet->so_luong;
                 $bienThe->save();
             } elseif ($chiTiet->sanPham) {
-                $sanPham = $chiTiet->sanPham;
-                $sanPham->so_luong += $chiTiet->so_luong;
-                $sanPham->save();
+                $chiTiet->sanPham->increment('so_luong', $chiTiet->so_luong);
             }
         }
         $donHang->update([
             'trang_thai' => 'da_huy',
-            'huy_boi' => 'admin',
+            'huy_boi'    => 'admin',
         ]);
-    } else {
-        // Cập nhật trạng thái chính
+    }
+
+    // ✅ Các trạng thái khác
+    else {
         $donHang->update(['trang_thai' => $trangThaiMoi]);
 
-        // Cập nhật trạng thái vận chuyển (vc)
         if ($trangThaiMoi === 'dang_giao_hang') {
             $donHang->update(['trang_thai_vc_giao_hang' => 'dang_giao']);
         } elseif ($trangThaiMoi === 'giao_thanh_cong') {
             $donHang->update(['trang_thai_vc_giao_hang' => 'da_giao']);
         } elseif ($trangThaiMoi === 'shop_da_nhan_hang') {
-            $donHang->update(['trang_thai_vc_hoan_hang' => 'da_giao',
-            'thoi_gian_shop_nhan'=>now()
-        ]);
-
+            $donHang->update([
+                'trang_thai_vc_hoan'  => 'da_giao',
+                'thoi_gian_shop_nhan' => now(),
+            ]);
         }
     }
 
-    // Cộng lượt mua nếu trạng thái mới là giao_thanh_cong và chưa cộng trước đó
+    // ✅ Cộng lượt mua
     if ($trangThaiMoi === 'giao_thanh_cong' && !in_array($trangThaiCu, ['giao_thanh_cong', 'hoan_thanh'])) {
         $coYeuCauHoanTra = YeuCauHoanTra::where('id_don_hang', $donHang->id)->exists();
-
         if (!$coYeuCauHoanTra) {
             foreach ($donHang->chiTietDonHangs as $chiTiet) {
-                $sanPham = $chiTiet->sanPham;
-                if ($sanPham) {
-                    $sanPham->luot_mua += $chiTiet->so_luong;
-                    $sanPham->save();
+                if ($chiTiet->sanPham) {
+                    $chiTiet->sanPham->increment('luot_mua', $chiTiet->so_luong);
                 }
             }
         }
     }
+
+    // ✅ Từ chối hoàn
     if ($trangThaiMoi === 'tu_choi_hoan') {
-    // Khi admin từ chối hoàn trả/hoàn tiền
-    $donHang->update([
-        'trang_thai' => 'hoan_thanh', // đơn kết thúc
-        'tu_choi_hoan'=>1
-    ]);
+        $donHang->update([
+            'trang_thai'    => 'hoan_thanh',
+            'tu_choi_hoan'  => 1,
+        ]);
+    }
 
+    // ✅ Hoàn tiền (Admin)
+    if ($trangThaiMoi === 'da_hoan_tien') {
+        if ($request->hasFile('anh_minh_chung')) {
+            foreach ($request->file('anh_minh_chung') as $file) {
+                $path = $file->store('refunds', 'public');
+                AnhMinhChung::create([
+                    'id_don_hang' => $donHang->id,
+                    'duong_dan'   => $path,
+                    'loai'        => 'admin',
+                ]);
+            }
+        }
 
-}
+        $donHang->update([
+            'trang_thai'          => 'da_huy',
+            'huy_boi'             => 'he_thong',
+            'id_nguoi_hoan_tien'  => auth()->id(),
+            'thoi_gian_hoan_tien' => now(),
+        ]);
+    }
 
     return redirect()->back()->with('success', 'Cập nhật trạng thái thành công.');
 }

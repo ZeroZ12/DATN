@@ -85,19 +85,26 @@
     <div class="card-body">
         <div class="row g-3">
 
-                @if($donHang->tu_choi_hoan==1)
-                  <div class="col-md-6"><strong>Trạng thái hoàn trả:</strong>  <span class="badge bg-danger">❌ Yêu cầu hoàn trả bị từ chối</span>
-                @elseif($donHang->trang_thai == 'da_hoan_tien')
+            {{-- Trạng thái --}}
+            @if($donHang->tu_choi_hoan==1)
+                <div class="col-md-6">
+                    <strong>Trạng thái hoàn trả:</strong>
+                    <span class="badge bg-danger">❌ Yêu cầu hoàn trả bị từ chối</span>
+                </div>
+            @elseif($donHang->trang_thai == 'da_hoan_tien')
+                <div class="col-md-6">
+                    <strong>Trạng thái hoàn trả:</strong>
                     <span class="badge bg-success">✅ Hoàn tiền thành công</span>
-                @else
+                </div>
+            @endif
 
-                @endif
-            </div>
-
+            {{-- Lý do --}}
             <div class="col-md-6"><strong>Lý do:</strong> {{ $donHang->ly_do ?? '---' }}</div>
 
+            {{-- Thông tin hoàn tiền --}}
             @if($donHang->phuong_thuc_hoan_tien)
-                <div class="col-md-6"><strong>Phương thức hoàn tiền:</strong>
+                <div class="col-md-6">
+                    <strong>Phương thức hoàn tiền:</strong>
                     {{ $donHang->phuong_thuc_hoan_tien == 'momo' ? 'Momo' : 'Chuyển khoản ngân hàng' }}
                 </div>
 
@@ -107,10 +114,65 @@
 
                 <div class="col-md-6"><strong>Số tài khoản/Momo:</strong> {{ $donHang->so_tai_khoan ?? '---' }}</div>
             @endif
+
+            {{-- Ảnh minh chứng --}}
+            <div class="col-12 mt-3">
+                <strong>Ảnh minh chứng:</strong>
+                <div class="row g-2 mt-2">
+
+                    @if($donHang->trang_thai == 'da_huy')
+                        {{-- Người dùng --}}
+                        <div class="col-12">
+                            <span class="fw-bold text-info">📷 Người dùng:</span>
+                            <div class="d-flex flex-wrap gap-2 mt-1">
+                                @forelse($donHang->anhMinhChungs->where('loai', 'nguoi_dung') as $anh)
+                                    <a href="{{ asset('storage/' . $anh->duong_dan) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $anh->duong_dan) }}"
+                                             class="img-thumbnail" style="max-height: 120px;">
+                                    </a>
+                                @empty
+                                    <span class="text-muted">Không có ảnh.</span>
+                                @endforelse
+                            </div>
+                        </div>
+
+                        {{-- Shop --}}
+                        <div class="col-12 mt-3">
+                            <span class="fw-bold text-success">📷 Ảnh minh chứng shop hoàn tiền:</span>
+                            <div class="d-flex flex-wrap gap-2 mt-1">
+                                @forelse($donHang->anhMinhChungs->where('loai', 'shop') as $anh)
+                                    <a href="{{ asset('storage/' . $anh->duong_dan) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $anh->duong_dan) }}"
+                                             class="img-thumbnail" style="max-height: 120px;">
+                                    </a>
+                                @empty
+                                    <span class="text-muted">Không có ảnh.</span>
+                                @endforelse
+                            </div>
+                        </div>
+
+                    @else
+                        {{-- Chỉ hiện ảnh người dùng --}}
+                        <div class="d-flex flex-wrap gap-2 mt-1">
+                            @forelse($donHang->anhMinhChungs->where('loai', 'nguoi_dung') as $anh)
+                                <a href="{{ asset('storage/' . $anh->duong_dan) }}" target="_blank">
+                                    <img src="{{ asset('storage/' . $anh->duong_dan) }}"
+                                         class="img-thumbnail" style="max-height: 120px;">
+                                </a>
+                            @empty
+                                <span class="text-muted">Chưa có ảnh minh chứng.</span>
+                            @endforelse
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 @endif
+
 
        <div class="d-flex justify-content-end mb-3">
     <a href="{{ route('client.orders.index') }}" class="btn btn-outline-secondary">

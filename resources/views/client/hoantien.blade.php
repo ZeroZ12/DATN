@@ -69,6 +69,25 @@
             @enderror
         </div>
 
+        {{-- Ảnh minh chứng (bắt buộc) --}}
+<div class="mb-3">
+    <label for="anh_minh_chung" class="form-label">Ảnh minh chứng <span class="text-danger">*</span></label>
+    <input type="file"
+           name="anh_minh_chung[]"
+           id="anh_minh_chung"
+           class="form-control @error('anh_minh_chung.*') is-invalid @enderror"
+           multiple
+           accept="image/*"
+           required>
+    @error('anh_minh_chung')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+    @error('anh_minh_chung.*')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
         {{-- Ảnh minh chứng (nếu muốn) --}}
         <!-- <div class="mb-3">
             <label for="anh_minh_chung" class="form-label">Ảnh minh chứng (có thể chọn nhiều)</label>
