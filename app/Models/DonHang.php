@@ -41,6 +41,8 @@ class DonHang extends Model
         'thoi_gian_khach_tra',
         'thoi_gian_shop_nhan',
         'ly_do',
+        'id_nguoi_hoan_tien',
+        'thoi_gian_hoan_tien'
     ];
 
     const TRANG_THAI = [
@@ -195,5 +197,10 @@ public static function getTenTrangThaiVCHoanHang($trangThai)
     {
         return $this->hasOne(YeuCauHoanTra::class, 'id_don_hang');
     }
+
+    public function anhMinhChungs()
+{
+    return $this->hasMany(AnhMinhChung::class, 'id_don_hang');
+}
 
 }
