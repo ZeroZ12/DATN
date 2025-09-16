@@ -297,11 +297,11 @@ Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->pre
     });
 
     // Payment routes
-    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('client.payment');
-    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('client.vnpay.return');
+    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('payment');
+    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 
-    Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('client.payment.fail');
-    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('client.order.success');
+    Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('payment.fail');
+    Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('order.success');
 
     //Đơn hàng
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

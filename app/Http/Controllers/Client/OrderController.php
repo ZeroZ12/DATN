@@ -192,7 +192,7 @@ public function xacNhanTraHang($id)
 {
     // Lấy đơn hàng của user hiện tại
     $donHang = DonHang::where('id', $id)
-        ->where('id_user', auth()->id())
+        ->where('id_user', Auth::id())
         ->firstOrFail();
 
     // Chỉ xử lý nếu trạng thái hiện tại là "da_phe_duyet" (đã phê duyệt trả hàng)
