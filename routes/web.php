@@ -299,6 +299,8 @@ Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->pre
     // Payment routes
     Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('payment');
     Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
+    Route::get('/payment/{id}', [App\Http\Controllers\Client\PaymentController::class, 'index'])->name('payment');
+    Route::get('/vnpay-return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 
     Route::get('/payment-fail/{id}', [PaymentController::class, 'paymentFail'])->name('payment.fail');
     Route::get('/order/success/{id}', [App\Http\Controllers\Client\OrderController::class, 'success'])->name('order.success');
@@ -306,7 +308,7 @@ Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->pre
     //Đơn hàng
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-    Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('orders.success');
+    Route::get('/orders/success/{id}', [OrderController::class, 'success'])->name('order.success');
     Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
 
