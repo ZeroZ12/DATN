@@ -32,17 +32,8 @@ class DonHang extends Model
         'tong_tien_goc',
         'giam_gia',
         'trang_thai',
-        'huy_boi',
-        'phuong_thuc_hoan_tien',
-        'trang_thai_vc_giao_hang',
-        'trang_thai_vc_hoan',
-        'ten_ngan_hang',
-        'so_tai_khoan',
-        'thoi_gian_khach_tra',
-        'thoi_gian_shop_nhan',
-        'ly_do',
-        'id_nguoi_hoan_tien',
-        'thoi_gian_hoan_tien'
+         'huy_boi',
+        'trang_thai_vc_giao_hang'
     ];
 
     const TRANG_THAI = [
@@ -55,34 +46,19 @@ class DonHang extends Model
         'giao_that_bai',
         'hoan_thanh',
         'da_huy',
-        // Trạng thái hoàn trả
-        'yeu_cau_hoan_tra',
-        'da_phe_duyet',
-        'dang_tra_hang',
-        'shop_da_nhan_hang',
-        'da_hoan_tien',
-        'tu_choi_hoan',
     ];
 
     const TRANG_THAI_TEXT = [
-        'cho_xac_nhan' => 'Chờ xác nhận',
-        'cho_thanh_toan' => 'Chờ thanh toán',
-        'da_xac_nhan' => 'Đã xác nhận',
-        'chuan_bi_hang' => 'Chuẩn bị hàng',
-        'dang_giao_hang' => 'Đang giao hàng',
-        'giao_thanh_cong' => 'Giao thành công',
-        'giao_that_bai' => 'Giao thất bại',
-        'hoan_thanh' => 'Hoàn thành',
-        'da_huy' => 'Đã hủy',
-        // Trạng thái hoàn trả
-        'yeu_cau_hoan_tra' => 'Yêu cầu hoàn trả',
-        'da_phe_duyet' => 'Đã phê duyệt',
-        'dang_tra_hang' => 'Đang trả hàng',
-        'shop_da_nhan_hang' => 'Shop đã nhận hàng',
-        'da_hoan_tien' => 'Đã hoàn tiền',
-        'tu_choi_hoan' => 'Từ chối hoàn tiền',
-    ];
-
+    'cho_xac_nhan'     => 'Chờ xác nhận',
+    'cho_thanh_toan'   => 'Chờ thanh toán',
+    'da_xac_nhan'      => 'Đã xác nhận',
+    'chuan_bi_hang'    => 'Chuẩn bị hàng',
+    'dang_giao_hang'   => 'Đang giao hàng',
+    'giao_thanh_cong'  => 'Giao thành công',
+    'giao_that_bai'    => 'Giao thất bại',
+    'hoan_thanh'       => 'Hoàn thành',
+    'da_huy'           => 'Đã hủy',
+];
 
     /**
      * Map trạng thái đơn hàng sang tiếng Việt.
@@ -100,41 +76,10 @@ class DonHang extends Model
             'giao_that_bai' => 'Giao thất bại',
             'hoan_thanh' => 'Hoàn thành',
             'da_huy' => 'Đã hủy',
-            'yeu_cau_hoan_tra' => 'Yêu cầu hoàn trả',
-            'da_phe_duyet' => 'Đã phê duyệt',
-            'dang_tra_hang' => 'Đang trả hàng',
-            'shop_da_nhan_hang' => 'Shop đã nhận hàng',
-            'da_hoan_tien' => 'Đã hoàn tiền',
-            'tu_choi_hoan_tien' => 'Từ chối hoàn tiền',
         ];
 
         return $danhSach[$trangThai] ?? $trangThai;
     }
-
-  const TRANG_THAI_VC_GIAO_HANG = [
-    'chua_giao'      => 'Chưa giao',
-    'dang_giao'      => 'Đang giao',
-    'da_giao'        => 'Đã giao',
-    'giao_that_bai'  => 'Giao thất bại',
-];
-
-const TRANG_THAI_VC_HOAN_HANG = [
-    'cho_khach_gui'  => 'Chờ khách gửi',
-    'dang_tra'  => 'Đang trả hàng',
-    'da_giao'        => 'Đã giao',
-    'giao_that_bai'  => 'Giao thất bại',
-];
-
-public static function getTenTrangThaiVCGiaoHang($trangThai)
-{
-    return self::TRANG_THAI_VC_GIAO_HANG[$trangThai] ?? 'Không xác định';
-}
-
-public static function getTenTrangThaiVCHoanHang($trangThai)
-{
-    return self::TRANG_THAI_VC_HOAN_HANG[$trangThai] ?? 'Không xác định';
-}
-
 
 
     /**
@@ -193,14 +138,20 @@ public static function getTenTrangThaiVCHoanHang($trangThai)
     /**
      * Một đơn hàng có thể có một yêu cầu hoàn trả.
      */
+
+        public static function getTenTrangThaiVcGiao($status)
+    {
+        return [
+            'cho_lay_hang'    => 'Chưa lấy hàng',
+            'dang_giao_hang'    => 'Đang giao',
+            'giao_thanh_cong'      => 'Đã giao',
+            'giao_that_bai'=> 'Giao thất bại',
+        ][$status] ?? $status;
+    }
+
     public function yeuCauHoanTra()
     {
         return $this->hasOne(YeuCauHoanTra::class, 'id_don_hang');
     }
-
-    public function anhMinhChungs()
-{
-    return $this->hasMany(AnhMinhChung::class, 'id_don_hang');
-}
 
 }
