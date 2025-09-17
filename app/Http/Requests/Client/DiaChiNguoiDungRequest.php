@@ -25,7 +25,7 @@ class DiaChiNguoiDungRequest extends FormRequest
     {
         return [
             'ten_nguoi_nhan' => ['required', 'string', 'max:255'],
-            'so_dien_thoai_nguoi_nhan' => ['required', 'string', 'max:20'], // Có thể thêm rule regex cho định dạng SĐT
+            'so_dien_thoai_nguoi_nhan' => ['required', 'string', 'max:10','regex:/^0+[0-9]{9}$/'], // Có thể thêm rule regex cho định dạng SĐT
             'dia_chi_day_du' => ['required', 'string', 'max:500'],
             'tinh_thanh_pho' => ['required', 'string', 'max:100'],
             'phuong_xa' => ['required', 'string', 'max:100'],
@@ -42,9 +42,11 @@ class DiaChiNguoiDungRequest extends FormRequest
         return [
             'ten_nguoi_nhan.required' => 'Tên người nhận không được để trống.',
             'so_dien_thoai_nguoi_nhan.required' => 'Số điện thoại người nhận không được để trống.',
+            'so_dien_thoai_nguoi_nhan.max' => 'Số điện thoại người nhận không được vượt quá 10 số.',
             'dia_chi_day_du.required' => 'Địa chỉ đầy đủ không được để trống.',
             'tinh_thanh_pho.required' => 'Tỉnh/Thành phố không được để trống.',
             'phuong_xa.required' => 'Phường/Xã không được để trống.',
+            'so_dien_thoai_nguoi_nhan.regex' => 'Số điện thoại không đúng định dạng. Vui lòng nhập số điện thoại bắt đầu bằng "0" và có 10 chữ số.',
             // ... thêm các thông báo lỗi khác nếu cần
         ];
     }
