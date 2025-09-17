@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\DonHang;
+use Illuminate\Http\Request;
 use App\Models\YeuCauHoanTra;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class DonHangController extends Controller
 {
-    public function index(Request $request)
+public function index(Request $request)
     {
         $query = DonHang::with(['user', 'diaChiNguoiDung'])->orderByDesc('created_at');
 
