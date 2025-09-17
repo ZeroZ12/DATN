@@ -61,8 +61,18 @@ class YeuCauHoanTraController extends Controller
         $hoanTra->trang_thai = $moi;
         $hoanTra->admin_hoan_tra = $admin->ten_dang_nhap ?? 'admin';
 
+        if ($moi === 'da_phe_duyet') {
+            $donHang = $hoanTra->donHang;
+        if ($donHang) {
+        $donHang->update([
+            'trang_thai' => 'da_huy',
+            'huy_boi'=>'he_thong'
+        ]);
+    }
+
         if ($moi === 'da_nhan_hang') {
             $hoanTra->thoi_gian_nhan_hang = now();
+            $hoanTra->trang_thai_vc_hoan_hang = 'giao_thanh_cong'; // ✅ update trạng thái VC hoàn hàng
         }
 
         if ($moi === 'da_hoan_tien') {
@@ -110,6 +120,11 @@ class YeuCauHoanTraController extends Controller
                     }
                 }
             }
+            $donHang = $hoanTra->donHang;
+    if ($donHang) {
+        $donHang->trang_thai = 'da_huy';
+        $donHang->save();
+    }
         }
 
         $hoanTra->save();
@@ -117,4 +132,5 @@ class YeuCauHoanTraController extends Controller
         return back()->with('success', 'Đã cập nhật trạng thái');
     }
 
+}
 }

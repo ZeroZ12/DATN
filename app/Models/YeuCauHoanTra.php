@@ -25,6 +25,7 @@ class YeuCauHoanTra extends Model
     'thoi_gian_nhan_hang',
     'thoi_gian_hoan_tien',
     'id_nguoi_hoan_tien',
+    'trang_thai_vc_hoan_hang'
 ];
 
 
@@ -64,6 +65,17 @@ public static function getTenTrangThai($trangThai)
 
     return $danhSach[$trangThai] ?? $trangThai;
 }
+
+    public static function getTenTrangVcThaiHoan($status)
+    {
+        return [
+            'cho_lay_hang' => 'Chờ khách gửi hàng',
+            'dang_giao_hang' => 'Đang trả hàng',
+            'giao_thanh_cong'       => 'Đã giao',
+            'giao_that_bai' => 'Giao thất bại',
+        ][$status] ?? $status;
+    }
+
 
 
     /**

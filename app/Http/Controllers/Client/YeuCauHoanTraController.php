@@ -32,9 +32,7 @@ class YeuCauHoanTraController extends Controller
             return back()->with('error', 'Đơn hàng này đã có yêu cầu hoàn trả.');
         }
 
-        if ($donHang->trang_thai === 'hoan_thanh' && $donHang->id_phuong_thuc_thanh_toan != 2 && $donHang->updated_at->diffInDays(now()) > 3) {
-            return redirect()->route('client.orders.index')->with('error', 'Chỉ hoàn trả trong 3 ngày sau khi đơn hoàn thành.');
-        }
+
 
         return view('client.hoantra', compact('donHang'));
     }
@@ -112,6 +110,7 @@ class YeuCauHoanTraController extends Controller
         $ycht->update([
             'trang_thai' => 'dang_van_chuyen_tra_hang',
             'thoi_gian_tra_hang' => now(),
+            'trang_thai_vc_hoan_hang'=> 'dang_giao_hang' // ✅ update trạng thái VC hoàn hàng
         ]);
     }
 

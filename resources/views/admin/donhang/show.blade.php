@@ -85,7 +85,7 @@
         </div>
 
         {{-- Thông tin hoàn trả (nếu có) --}}
-        @if(in_array($donHang->trang_thai, ['yeu_cau_hoan_tra','da_phe_duyet','dang_tra_hang','shop_da_nhan_hang','da_huy']))
+        @if(in_array($donHang->trang_thai, ['yeu_cau_hoan_tra','da_phe_duyet','dang_tra_hang','shop_da_nhan_hang']) || $donHang->tu_choi_hoan==1)
             <div class="card mb-4 mt-4">
                 <div class="card-header bg-warning fw-bold">💰 Thông tin hoàn trả</div>
                 <div class="card-body">
