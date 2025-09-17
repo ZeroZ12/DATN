@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\AnhMinhChung;
 use App\Models\DonHang;
-use App\Models\YeuCauHoanTra;
+use App\Models\AnhMinhChung;
 use Illuminate\Http\Request;
+use App\Models\YeuCauHoanTra;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DonHangController extends Controller
 {
@@ -171,7 +172,7 @@ public function capNhatTrangThai(Request $request, $id)
         $donHang->update([
             'trang_thai'          => 'da_huy',
             'huy_boi'             => 'he_thong',
-            'id_nguoi_hoan_tien'  => auth()->id(),
+            'id_nguoi_hoan_tien'  => Auth::id(),
             'thoi_gian_hoan_tien' => now(),
         ]);
     }

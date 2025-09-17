@@ -377,6 +377,8 @@ Route::get('/search', [SearcherController::class, 'search'])->name('searcher.sea
 Route::post('/chat/search', [ChatController::class, 'search'])->name('chat.search');
 // Route thêm lịch sử chatbot vào database
 Route::post('/chat/import-history', [ChatController::class, 'importHistory'])->middleware('auth');
+// Route lấy lịch sử chatbot từ database
+Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->get('/chat/get-history',[ChatController::class,'getHistory'])->name('chat.get');
 // Route chính sách và hướng dẫn mua hàng
 Route::view('/huong-dan', 'client.huongdanmuahang')->name('client.huongdan');
 Route::get('/chinhsach', [HomeController::class, 'policy'])->name('client.policy');

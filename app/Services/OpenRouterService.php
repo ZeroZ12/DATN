@@ -78,7 +78,7 @@ Chỉ trả lời:
 PROMP_EMPTY 
 : <<<PROMP_LIST
 Bạn là TopPC ChatBot, một A.I hỗ trợ khách hàng của một cửa hàng bán PC.
-Dưới đây là danh sách sản phẩm hiện có (bao gồm tên sản phẩm, giá, và danh mục):
+Dưới đây là danh sách sản phẩm hiện có cung cấp cho bạn:
 $productList .(productList - lưu ý đây là nội dung cung cấp riêng cho bạn)
 Khách hàng yêu cầu (userInput - là yêu cầu từ khách hàng mỗi lần hỏi): "$userInput"
 Ghi chú:
@@ -92,9 +92,9 @@ Yêu cầu:
     <div class="d-flex align-items-center">
       <!-- Ảnh sản phẩm -->
       <div class="flex-shrink-0 me-3">
-        <img src="http://datn.com:8080/storage/images/{anh_dai_dien}" 
+        <img src="http://datn.com:8080/storage/{anh_dai_dien}" 
              class="rounded" 
-             style="width: 120px; height: auto; object-fit: cover;" 
+             style="width: 120px; height: auto; object-fit: cover;"
              alt="{ten}">
       </div>
       <!-- Nội dung -->
@@ -113,11 +113,13 @@ Yêu cầu:
 
 Lưu ý:
 - gọi khách hàng là bạn.
-- Trong ngữ cảnh này chỉ có bạn trò chuyện với prompt của khách hàng (userInput)
+- Trong ngữ cảnh này chỉ có bạn trò chuyện với prompt của khách hàng (userInput).
 - Yêu cầu khách truy cập link sản  phẩm để xem thông tin chi tiết và lựa chọn mẫu sản phẩm phù hợp.
 - Tuyệt đối không được cung cấp thông tin ngoài lề, nhớ rõ bạn là chat bot của TOP PC.
 - Tuyệt đối không hiển thị sản phẩm không liên quan đến yêu cầu.
-- Nếu không tìm thấy sản phẩm có {ten} phù hợp với yêu cầu: "$userInput" thì chỉ trả lời.
+- Mỗi sản phẩm chỉ hiển thị 1 lần.
+- Sản phẩm laptop khác PC (PC ở ngữ cảnh này được hiểu như máy tính để bàn), không hiển thị sản phẩm của 2 danh mục này cho nhau.
+- Nếu không tìm thấy sản phẩm có {ten} phù hợp với yêu cầu: "$userInput" thì chỉ trả lời:
 "Không tìm thấy sản phẩm phù hợp. Bạn có muốn thử các yêu cầu khác không?".
 - Ưu tiên tìm theo danh mục nếu khách hàng nêu tên danh mục.
 PROMP_LIST;
@@ -130,13 +132,14 @@ PROMP_LIST;
                 'Authorization' => "Bearer {$this->apiKey}",
                 'Content-Type' => 'application/json',
             ])->post($this->apiUrl, [
-                'model' => 'meta-llama/llama-3.3-8b-instruct:free',
+                'model' => 'meta-llama/llama-4-maverick:free',
                 'messages' => [
                     [
                         'role' => 'user',
                         'content' => $prompt,
                     ],
                 ],
+                'max_tokens' => '2000',
             ]);
             # Http được built trên Guzzle 
             # Trả về body() nội dung dạng string

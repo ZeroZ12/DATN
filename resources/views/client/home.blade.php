@@ -744,7 +744,6 @@
                 margin-left: 10px;
                 text-align: right;
             }
-
             .chat-footer {
                 padding: 10px;
                 background: white;
@@ -1223,6 +1222,62 @@
                         showToast("{{ $error }}", 'error');
                     @endforeach
                 @endif
+                const chatBody = document.getElementById('chatBody');
+                // Lấy lích sử chat từ db nếu đã đăng nhập
+                @if(Auth::check() && Auth::user()->vai_tro !== 'quan_tri')
+                
+                    fetch('/chat/get-history',
+                        {
+                            method: 'GET',
+                            headers: {
+                                'X-Request-With' : 'XMLHttpRequest',
+                                'Accept' : 'application/json',  
+                            }
+                        }
+                    ).then(res => res.json())
+                    .then(data => {
+                        if(Array.isArray(data))
+                    {
+                        data.forEach(item => {
+                            const msgDiv = document.createElement('div');
+                            msgDiv.className = item.sender === 'user' ? 'chat-message user-message' : 'chat-message bot-message';
+                            msgDiv.innerHTML = `<p>${item.message}</p>`;
+                            chatBody.appendChild(msgDiv);
+                        });
+                        chatBody.scrollTop = chatBody.scrollHeight;
+                    }
+                    }).catch(err => console.error('Lỗi khi tải lịch sử chatbot:', err));
+                
+                @else
+                    // Nếu chưa đăng nhập thì lấy từ localStorage, chỉ lấy dữ liệu <= 7 ngày
+                    let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+                    // Xóa dữ liệu sau 7 ngày
+                    const aWeekHistory = 7 * 24 * 60 * 60 * 1000; // 7 ngày tính bằng mili giây.
+                    const now = new Date().getTime(); // thời gian hiện tại.
+                    // Lấy những mục 7 ngày mới nhất
+                    chatHistory = chatHistory.filter(item => {
+                        const itemTime  = new Date(item.time).getTime();
+                        return now - itemTime <= aWeekHistory; // Giữ lại nhưng đoạn chat <= 7 ngày.
+                    });
+                    // Cập nhật localStorage
+                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                    // 
+                    chatHistory.forEach(item =>{
+                        // Tin nhắn của user.
+                        const userMsg = document.createElement('div');
+                        userMsg.className = 'chat-message user-message';
+                        userMsg.innerHTML = `<p>${item.user}</p>`;
+                        chatBody.appendChild(userMsg);
+
+                        // Tin nhắn của chatbot.
+                        const botMsg = document.createElement('div');
+                        botMsg.className = 'chat-message bot-message';
+                        botMsg.innerHTML = `<p>${item.bot}</p>`;
+                        chatBody.appendChild(botMsg);
+                    });
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                    @endif  
+                
                 // chuyển lịch sử chatbot qua db sau khi đăng nhập
                 @if(Auth::check() && Auth::user()->vai_tro !== 'quan_tri')
                 // la
@@ -1258,7 +1313,7 @@
                     });
                 });
 
-                // Handle chat form submission
+                // Xử lý logic trò chuyện chatbot
                 const chatForm = document.getElementById('chatForm');
                 if (chatForm) {
                     chatForm.addEventListener('submit', function(event) {
@@ -1267,7 +1322,7 @@
                         const message = messageInput.value.trim();
                         if (!message) return;
 
-                        // Add user message to chat
+                        // Thêm tin nhắn của user vào đoạn chat
                         const chatBody = document.getElementById('chatBody');
                         const userMessage = document.createElement('div');
                         userMessage.className = 'chat-message user-message';
@@ -1277,7 +1332,7 @@
 
 
 
-                        // Show loading
+                        // Tin nhắn loading...
                         const loadingMessage = document.createElement('div');
                         loadingMessage.className = 'chat-message bot-message';
                         loadingMessage.innerHTML =
@@ -1285,7 +1340,7 @@
                         chatBody.appendChild(loadingMessage);
                         chatBody.scrollTop = chatBody.scrollHeight;
 
-                        // Send AJAX request
+                        // Send AJAX request đến ChatController
                         const formData = new FormData(chatForm);
 
                         fetch(chatForm.action, {
@@ -1307,10 +1362,10 @@
                                 return response.json();
                             })
                             .then(data => {
-                                // Remove loading message
+                                // xóa tin nhắn loading...
                                 loadingMessage.remove();
 
-                                // Add bot response
+                                // Thêm tin nhắn của chatbot
                                 const botMessage = document.createElement('div');
                                 botMessage.className = 'chat-message bot-message';
                                 botMessage.innerHTML = `<p>${data.message}</p>`;
@@ -1332,17 +1387,17 @@
                                 @endif
                             })
                             .catch(error => {
-                                // Remove loading message
+                                // xóa tin nhắn  loading...
                                 loadingMessage.remove();
 
-                                // Show error
+                                // Hiển thị lỗi để xử lý debug.
                                 const errorMessage = document.createElement('div');
                                 errorMessage.className = 'chat-message bot-message';
                                 errorMessage.innerHTML = `<p>Lỗi: ${error.message}</p>`;
                                 chatBody.appendChild(errorMessage);
                                 chatBody.scrollTop = chatBody.scrollHeight;
                             });
-                        // Clear input
+                        // Xóa text trong input nhập liệu.
                         messageInput.value = '';
                     });
                 }
