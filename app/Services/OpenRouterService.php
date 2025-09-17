@@ -153,10 +153,13 @@ PROMP_LIST;
                     Log::error('Không nhận được nội dung trả về từ API: ' . json_encode($result));
                     return "Không nhận được nội dung từ API.";
                 }
+            }else{
+                 # log lại thông tin và mã lỗi.
+                Log::error('Guzzle Error: ' . $response->body());
+                Log::error('Mã lỗi:' . $response->status());
+                return "Hệ thống đang bận, vui lòng thử lại sau ít phút.";
             }
-            # log lại thông tin và mã lỗi.
-            Log::error('Guzzle Error: ' . $response->body());
-            Log::error('Mã lỗi:' . $response->status());
+           
         }
     }
     
