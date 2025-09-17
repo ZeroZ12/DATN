@@ -313,19 +313,19 @@ Route::middleware(['auth', CheckUserStatus::class,'check.role:khach_hang'])->pre
     Route::post('/don-hang/{id}/da-nhan', [OrderController::class, 'daNhanHang'])->name('orders.daNhanHang');
 
     //hoàn trả
-    // Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
-    // Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
-    // Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
-    //     ->name('hoan-tra.trahang');
+    Route::get('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'create'])->name('hoan-tra.create');
+    Route::post('/don-hang/{id}/hoan-tra', [ClientYCHT::class, 'store'])->name('hoan-tra.store');
+    Route::post('/don-hang/{id}/tra-hang', [ClientYCHT::class, 'traHang'])
+        ->name('hoan-tra.trahang');
 
            Route::get('orders/{id}/hoan-tien', [OrderController::class, 'requestRefundForm'])
         ->name('hoan-tra.form');
 
     // Xử lý submit yêu cầu hoàn tiền
-    Route::post('orders/{id}/hoan-tien', [OrderController::class, 'requestRefund'])
-        ->name('hoan-tra.submit');
-  Route::post('orders/{id}/tra-hang', [OrderController::class, 'xacNhanTrahang'])
-        ->name('hoan-tra.trahang');
+//     Route::post('orders/{id}/hoan-tien', [OrderController::class, 'requestRefund'])
+//         ->name('hoan-tra.submit');
+//   Route::post('orders/{id}/tra-hang', [OrderController::class, 'xacNhanTrahang'])
+//         ->name('hoan-tra.trahang');
 
     // Route để cập nhật đánh giá (sử dụng PATCH/PUT)
     Route::post('/reviews', [DanhGiaSanPhamController::class, 'store'])->name('reviews.store');
