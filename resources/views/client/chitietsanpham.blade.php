@@ -257,7 +257,8 @@
             <div class="col-md-12">
                 <div class="bg-light p-3 rounded mb-4 position-relative">
                     <h5 class="fw-bold">Thông tin sản phẩm</h5>
-                    <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div>
+                    {{-- <div id="moTaSanPham" class="collapsed-mo-ta">{!! $sanpham->mo_ta !!}</div> --}}
+                    <div id="moTaSanPham" class="collapsed-mo-ta"><?php if (isset($sanpham->mo_ta)) { echo $sanpham->mo_ta; } else { echo "Không có mô tả"; } ?></div>
                     <div class="text-end mt-2">
                         <button class="btn btn-sm btn-outline-primary" id="btnToggleMoTa">Xem thêm</button>
                     </div>
@@ -849,19 +850,19 @@
             max-height: 7.2em;
         }
 
-        .collapsed-mo-ta {
+        /* .collapsed-mo-ta {
             display: -webkit-box;
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
             overflow: hidden;
             position: relative;
             max-height: 7.2em;
-        }
+        } */
 
-        .expanded-mo-ta {
+        /* .expanded-mo-ta {
             display: block;
             max-height: none;
-        }
+        } */
         .expanded-mo-ta {
             display: block;
             max-height: none;
@@ -1185,19 +1186,21 @@
         });
 
         // Xử lý nút "Xem thêm" cho mô tả sản phẩm
-        document.getElementById('btnToggleMoTa').addEventListener('click', function() {
-            const moTa = document.getElementById('moTaSanPham');
-            const isCollapsed = moTa.classList.contains('collapsed-mo-ta');
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('btnToggleMoTa').addEventListener('click', function() {
+                const moTa = document.getElementById('moTaSanPham');
+                const isCollapsed = moTa.classList.contains('collapsed-mo-ta');
 
-            if (isCollapsed) {
-                moTa.classList.remove('collapsed-mo-ta');
-                moTa.classList.add('expanded-mo-ta');
-                this.textContent = 'Thu gọn';
-            } else {
-                moTa.classList.remove('expanded-mo-ta');
-                moTa.classList.add('collapsed-mo-ta');
-                this.textContent = 'Xem thêm';
-            }
+                if (isCollapsed) {
+                    moTa.classList.remove('collapsed-mo-ta');
+                    moTa.classList.add('expanded-mo-ta');
+                    this.textContent = 'Thu gọn';
+                } else {
+                    moTa.classList.remove('expanded-mo-ta');
+                    moTa.classList.add('collapsed-mo-ta');
+                    this.textContent = 'Xem thêm';
+                }
+            });
         });
 
         // Danh sách biến thể lưu trong JS (mảng các object)
@@ -1675,20 +1678,20 @@
             });
         });
 
-        document.getElementById('btnToggleMoTa').addEventListener('click', function() {
-            const moTa = document.getElementById('moTaSanPham');
-            const btn = this;
+        // document.getElementById('btnToggleMoTa').addEventListener('click', function() {
+        //     const moTa = document.getElementById('moTaSanPham');
+        //     const btn = this;
 
-            if (moTa.classList.contains('collapsed-mo-ta')) {
-                moTa.classList.remove('collapsed-mo-ta');
-                moTa.classList.add('expanded-mo-ta');
-                btn.textContent = 'Thu gọn';
-            } else {
-                moTa.classList.remove('expanded-mo-ta');
-                moTa.classList.add('collapsed-mo-ta');
-                btn.textContent = 'Xem thêm';
-            }
-        });
+        //     if (moTa.classList.contains('collapsed-mo-ta')) {
+        //         moTa.classList.remove('collapsed-mo-ta');
+        //         moTa.classList.add('expanded-mo-ta');
+        //         btn.textContent = 'Thu gọn';
+        //     } else {
+        //         moTa.classList.remove('expanded-mo-ta');
+        //         moTa.classList.add('collapsed-mo-ta');
+        //         btn.textContent = 'Xem thêm';
+        //     }
+        // });
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
