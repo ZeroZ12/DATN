@@ -14,10 +14,21 @@
         </div>
     @endif
 
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    @endif
+
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="d-flex mb-3">
-                <img src="{{ asset('storage/' . $sanPham->anh_dai_dien) }}" 
+                <img src="{{ asset('storage/' . $sanPham->anh_dai_dien) }}"
                      alt="Ảnh sản phẩm" width="100" class="me-3 rounded border">
                 <div>
                     <h5 class="mb-1">{{ $sanPham->ten }}</h5>
@@ -32,12 +43,12 @@
 
                 <div class="mb-3">
                     <label class="form-label">Chọn số sao:</label>
-                    <div class="star-rating" id="starRating">
-                        <span class="star" data-value="1">☆</span>
-                        <span class="star" data-value="2">☆</span>
-                        <span class="star" data-value="3">☆</span>
-                        <span class="star" data-value="4">☆</span>
-                        <span class="star" data-value="5">☆</span>
+                    <div class="star-rating" id="starRating" role="radiogroup" aria-label="Chọn số sao">
+                        <button type="button" class="star" data-value="1" aria-label="1 sao">☆</button>
+                        <button type="button" class="star" data-value="2" aria-label="2 sao">☆</button>
+                        <button type="button" class="star" data-value="3" aria-label="3 sao">☆</button>
+                        <button type="button" class="star" data-value="4" aria-label="4 sao">☆</button>
+                        <button type="button" class="star" data-value="5" aria-label="5 sao">☆</button>
                     </div>
                 </div>
 
@@ -46,7 +57,7 @@
                     <textarea name="binh_luan" rows="3" class="form-control" placeholder="Viết cảm nhận của bạn..."></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                <button type="submit" class="btn btn-primary" onclick="return validateReview()">Gửi đánh giá</button>
                 <a href="{{ route('client.orders.index') }}" class="btn btn-secondary">Quay lại</a>
             </form>
         </div>
@@ -54,7 +65,7 @@
 </div>
 @endsection
 
-@push('styles')
+@push('css')
     <style>
         .star-rating {
             font-size: 2rem;
@@ -66,6 +77,11 @@
 
         .star {
             transition: color 0.2s ease;
+            background: transparent;
+            border: none;
+            padding: 0 4px;
+            line-height: 1;
+            cursor: pointer;
         }
 
         .star:hover,
@@ -88,7 +104,7 @@
     </style>
 @endpush
 
-@push('scripts')
+@push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const stars = document.querySelectorAll('.star');
@@ -123,5 +139,14 @@
                 });
             }
         });
+
+        function validateReview() {
+            const value = parseInt(document.getElementById('starRatingInput').value || '0');
+            if (value < 1 || value > 5) {
+                alert('Vui lòng chọn số sao từ 1 đến 5.');
+                return false;
+            }
+            return true;
+        }
     </script>
 @endpush

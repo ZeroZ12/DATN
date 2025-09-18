@@ -186,12 +186,12 @@
 
                             @foreach ($donHang->chiTietDonHangs as $ct)
                                 @php
-                                    $daDanhGia = \App\Models\DanhGiaSanPham::where('id_product', $ct->san_pham_id)
+                                    $daDanhGia = \App\Models\DanhGiaSanPham::where('id_product', $ct->id_product ?? $ct->san_pham_id ?? $ct->sanPham->id)
                                         ->where('id_user', Auth::id())
                                         ->exists();
                                 @endphp
                                 @if ($trangThai === 'hoan_thanh' && !$daDanhGia)
-                                    <a href="{{ route('client.reviews.create', ['productId' => $ct->sanPham->id]) }}"
+                                    <a href="{{ route('client.reviews.create', ['productId' => ($ct->san_pham_id ?? $ct->id_product ?? $ct->sanPham->id)]) }}"
                                         class="btn btn-primary btn-sm me-2 custom-btn review-btn"
                                         data-product-name="{{ $ct->sanPham->ten }}">
                                         Viết đánh giá
