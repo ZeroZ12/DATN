@@ -143,118 +143,110 @@
                 </a>
 
                 {{-- Footer --}}
-                <div class="d-flex justify-content-between align-items-center border-top pt-3">
-                    <div>
-                        Hình thức thanh toán: {{ $donHang->phuongThucThanhToan->ten }} <br> Trạng thái thanh toán: {{ $donHang->tt_thanh_toan ? 'Đã thanh toán' : 'Chưa thanh toán' }}
-                    </div>
+ <div class="d-flex justify-content-between align-items-center border-top pt-3">
+    <div>
+        Hình thức thanh toán: {{ $donHang->phuongThucThanhToan->ten }} <br>
+        Trạng thái thanh toán: {{ $donHang->tt_thanh_toan ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+    </div>
 
-                    <div class="text-end">
-                        <div class="mb-2">
-                            @if ($donHang->giam_gia > 0)
-                                <div>
-                                    Giảm giá: <span
-                                        class="text-success">-{{ number_format($donHang->giam_gia, 0, ',', '.') }}₫</span>
-                                </div>
-                            @endif
-                            Thành tiền: <span
-                                class="text-danger fw-bold">{{ number_format($donHang->tong_tien, 0, ',', '.') }}₫</span>
-                        </div>
-
-                        <div class="btn-group">
-                            {{-- Hủy đơn --}}
-                            @if (in_array($trangThai, ['cho_xac_nhan', 'cho_thanh_toan']))
-                                <form action="{{ route('client.orders.cancel', $donHang->id) }}" method="POST"
-                                    class="me-2"
-                                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">Hủy Đơn</button>
-                                </form>
-                            @endif
-
-                            {{-- Nút xác nhận đã nhận hàng --}}
-                            @if ($trangThai === 'giao_thanh_cong' && !$ycht)
-                                <form action="{{ route('client.orders.daNhanHang', $donHang->id) }}" method="POST"
-                                    class="me-2">
-                                    @csrf
-                                    <button type="submit" class="btn btn-success btn-sm">Đã Nhận Hàng</button>
-                                </form>
-                            @endif
-
-                            @foreach ($donHang->chiTietDonHangs as $ct)
-                                @php
-                                    $daDanhGia = \App\Models\DanhGiaSanPham::where('id_product', $ct->san_pham_id)
-                                        ->where('id_user', Auth::id())
-                                        ->exists();
-                                @endphp
-                                @if ($trangThai === 'hoan_thanh' && !$daDanhGia)
-                                    <a href="{{ route('client.reviews.create', ['productId' => $ct->sanPham->id]) }}"
-                                        class="btn btn-primary btn-sm me-2 custom-btn review-btn"
-                                        data-product-name="{{ $ct->sanPham->ten }}">
-                                        Viết đánh giá
-                                    </a>
-                                @elseif ($trangThai === 'hoan_thanh' && $daDanhGia)
-                                    <small class="text-muted">Đã gửi đánh giá</small>
-                                @endif
-                            @endforeach
-
-                            {{-- Nút trả hàng / hoàn tiền --}}
-                            @php
-                                $coTheHoanTra = false;
-                                $isOnline = $donHang->id_phuong_thuc_thanh_toan == 2;
-
-                                // Nếu đơn đã giao thành công hoặc hoàn thành và chưa quá 3 ngày
-                                if ($trangThai ==='giao_thanh_cong' && !$daQua3Ngay) {
-                                    $coTheHoanTra = true;
-                                }
-                               if ($trangThai === 'da_huy' && $ycht && in_array($ycht->trang_thai, ['da_phe_duyet'])) {
-        $coTheHoanTra = true;
-    }
-
-                                // Nếu đơn hủy bởi admin và thanh toán online (không giới hạn thời gian)
-                                if ($trangThai === 'da_huy' && $donHang->huy_boi === 'admin' && $isOnline) {
-                                    $coTheHoanTra = true;
-                                }
-                            @endphp
-
-                            @if ($coTheHoanTra)
-                                @if ($ycht)
-                                    @if ($ycht->trang_thai === 'da_phe_duyet')
-                                        <form action="{{ route('client.hoan-tra.trahang', $ycht->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-warning btn-sm custom-btn">
-                                                <i class="fa-solid fa-box-open me-1"></i> Tôi đã gửi trả hàng
-                                            </button>
-                                        </form>
-                                    @else
-                                        <div class="small text-muted">
-                                            Hoàn trả:
-                                            <span class="badge bg-info text-dark">
-                                                {{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}
-                                            </span>
-
-                                            @if ($ycht->trang_thai === 'da_hoan_tien' && $ycht->thoi_gian_hoan_tien)
-                                                <div class="mt-1">
-                                                    <i class="bi bi-clock"></i>
-                                                    Hoàn tiền lúc:
-                                                    {{ \Carbon\Carbon::parse($ycht->thoi_gian_hoan_tien)->format('H:i d/m/Y') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    @endif
-                                @else
-                                    <a href="{{ route('client.hoan-tra.create', $donHang->id) }}"
-                                        class="btn btn-warning btn-sm custom-btn">
-                                        Trả Hàng / Hoàn Tiền
-                                    </a>
-                                @endif
-                            @elseif (in_array($trangThai, ['giao_thanh_cong', 'hoan_thanh']) && $daQua3Ngay)
-                                <div class="small text-muted fst-italic">
-                                    (Đã quá hạn yêu cầu hoàn trả)
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+    <div class="text-end">
+        <div class="mb-2">
+            @if ($donHang->giam_gia > 0)
+                <div>
+                    Giảm giá:
+                    <span class="text-success">-{{ number_format($donHang->giam_gia, 0, ',', '.') }}₫</span>
                 </div>
+            @endif
+            Thành tiền:
+            <span class="text-danger fw-bold">{{ number_format($donHang->tong_tien, 0, ',', '.') }}₫</span>
+
+            {{-- Trạng thái hoàn trả (nếu có) --}}
+            @if ($ycht)
+                <div class="mt-1 small">
+                    Hoàn trả:
+                    <span class="badge bg-info text-dark">
+                        {{ \App\Models\YeuCauHoanTra::getTenTrangThai($ycht->trang_thai) }}
+                    </span>
+
+                    @if ($ycht->trang_thai === 'da_hoan_tien' && $ycht->thoi_gian_hoan_tien)
+                        <div class="small text-muted">
+                            <i class="bi bi-clock"></i>
+                            Hoàn tiền lúc:
+                            {{ \Carbon\Carbon::parse($ycht->thoi_gian_hoan_tien)->format('H:i d/m/Y') }}
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </div>
+
+        <div class="btn-group">
+            {{-- Hủy đơn --}}
+            @if (in_array($trangThai, ['cho_xac_nhan', 'cho_thanh_toan']))
+                <form action="{{ route('client.orders.cancel', $donHang->id) }}" method="POST"
+                    class="me-2"
+                    onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                    @csrf
+                    <button type="submit" class="btn btn-danger btn-sm">Hủy Đơn</button>
+                </form>
+            @endif
+
+            {{-- Nút xác nhận đã nhận hàng --}}
+            @if ($trangThai === 'giao_thanh_cong' && !$ycht)
+                <form action="{{ route('client.orders.daNhanHang', $donHang->id) }}" method="POST"
+                    class="me-2">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm">Đã Nhận Hàng</button>
+                </form>
+            @endif
+
+            {{-- Nút viết đánh giá --}}
+            @foreach ($donHang->chiTietDonHangs as $ct)
+                @php
+                    $daDanhGia = \App\Models\DanhGiaSanPham::where('id_product', $ct->san_pham_id)
+                        ->where('id_user', Auth::id())
+                        ->exists();
+                @endphp
+                @if ($trangThai === 'hoan_thanh' && !$daDanhGia)
+                    <a href="{{ route('client.reviews.create', ['productId' => $ct->sanPham->id]) }}"
+                        class="btn btn-primary btn-sm me-2 custom-btn review-btn"
+                        data-product-name="{{ $ct->sanPham->ten }}">
+                        Viết đánh giá
+                    </a>
+                @elseif ($trangThai === 'hoan_thanh' && $daDanhGia)
+                    <small class="text-muted">Đã gửi đánh giá</small>
+                @endif
+            @endforeach
+
+    @php
+    $laNgoaiLe = $trangThai === 'da_huy'
+        && $donHang->huy_boi === 'admin'
+        && $donHang->id_phuong_thuc_thanh_toan == 2
+        && $donHang->tt_thanh_toan == 1;
+@endphp
+
+{{-- Nút "Tôi đã gửi trả hàng" --}}
+@if ($ycht && $ycht->trang_thai === 'da_phe_duyet' && !$laNgoaiLe)
+    <form action="{{ route('client.hoan-tra.trahang', $ycht->id) }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-warning btn-sm custom-btn">
+            <i class="fa-solid fa-box-open me-1"></i> Tôi đã gửi trả hàng
+        </button>
+    </form>
+@endif
+
+{{-- Nút tạo yêu cầu hoàn trả / hoàn tiền --}}
+@if (!$ycht && ($trangThai === 'giao_thanh_cong' || $laNgoaiLe))
+    <a href="{{ route('client.hoan-tra.create', $donHang->id) }}" class="btn btn-warning btn-sm custom-btn">
+        Trả Hàng / Hoàn Tiền
+    </a>
+@endif
+
+
+
+        </div>
+    </div>
+</div>
+
             </div>
         @empty
             <div class="text-center text-muted">Không có đơn hàng nào.</div>

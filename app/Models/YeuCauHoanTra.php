@@ -45,7 +45,7 @@ class YeuCauHoanTra extends Model
     //trang thai cap nhat
     const TRANG_THAI_FLOW = [
     'cho_phe_duyet' => ['da_phe_duyet', 'tu_choi'],
-    'da_phe_duyet' => ['dang_van_chuyen_tra_hang'],
+    'da_phe_duyet' => ['dang_van_chuyen_tra_hang','da_hoan_tien'],
     'dang_van_chuyen_tra_hang' => ['da_nhan_hang'],
     'da_nhan_hang' => ['da_hoan_tien'],
 ];
