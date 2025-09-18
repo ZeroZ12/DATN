@@ -45,7 +45,7 @@ class YeuCauHoanTra extends Model
     //trang thai cap nhat
     const TRANG_THAI_FLOW = [
     'cho_phe_duyet' => ['da_phe_duyet', 'tu_choi'],
-    'da_phe_duyet' => ['dang_van_chuyen_tra_hang'],
+    'da_phe_duyet' => ['dang_van_chuyen_tra_hang','da_hoan_tien'],
     'dang_van_chuyen_tra_hang' => ['da_nhan_hang'],
     'da_nhan_hang' => ['da_hoan_tien'],
 ];
@@ -69,9 +69,9 @@ public static function getTenTrangThai($trangThai)
     public static function getTenTrangVcThaiHoan($status)
     {
         return [
-            'cho_lay_hang' => 'Chờ khách gửi hàng',
+            'chua_giao' => 'Chưa giao',
             'dang_giao_hang' => 'Đang trả hàng',
-            'giao_thanh_cong'       => 'Đã giao',
+            'giao_thanh_cong' => 'Đã giao',
             'giao_that_bai' => 'Giao thất bại',
         ][$status] ?? $status;
     }

@@ -33,6 +33,10 @@
             <div class="col-md-6">
     <strong>Mã giảm giá:</strong> {{ $donHang->maGiamGia?->ma ?? 'Chưa áp dụng' }}
 </div>
+<div class="col-md-6">
+    <strong>Trạng thái thanh toán:</strong>     {{ $donHang->tt_thanh_toan ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+
+</div>
 
 
 

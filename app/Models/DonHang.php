@@ -32,8 +32,9 @@ class DonHang extends Model
         'tong_tien_goc',
         'giam_gia',
         'trang_thai',
-         'huy_boi',
-        'trang_thai_vc_giao_hang'
+        'huy_boi',
+        'trang_thai_vc_giao_hang',
+        'tt_thanh_toan'
     ];
 
     const TRANG_THAI = [
@@ -142,7 +143,7 @@ class DonHang extends Model
         public static function getTenTrangThaiVcGiao($status)
     {
         return [
-            'cho_lay_hang'    => 'Chưa lấy hàng',
+            'cho_giao' => 'Chưa giao',
             'dang_giao_hang'    => 'Đang giao',
             'giao_thanh_cong'      => 'Đã giao',
             'giao_that_bai'=> 'Giao thất bại',
