@@ -15,6 +15,8 @@ class DanhGiaSanPhamController extends Controller
     public function create($productId)
     {
         $sanPham = SanPham::findOrFail($productId);
+
+        // Kiểm tra đã đánh giá chưa
         $daDanhGia = DanhGiaSanPham::where('id_product', $productId)
             ->where('id_user', Auth::id())
             ->exists();
@@ -23,11 +25,35 @@ class DanhGiaSanPhamController extends Controller
             return redirect()->route('client.orders.index')->with('error', 'Bạn đã đánh giá sản phẩm này rồi.');
         }
 
+        // Chỉ cho phép tạo đánh giá nếu người dùng có đơn hàng hoàn thành với sản phẩm này
+        $daMuaHang = \App\Models\DonHang::where('id_user', Auth::id())
+            ->where('trang_thai', 'hoan_thanh')
+            ->whereHas('chiTietDonHangs', function ($q) use ($productId) {
+                $q->where('id_product', $productId);
+            })
+            ->exists();
+
+        if (!$daMuaHang) {
+            return redirect()->route('client.orders.index')->with('error', 'Bạn chỉ có thể đánh giá sản phẩm đã mua và hoàn thành.');
+        }
+
         return view('client.reviews.create', compact('sanPham'));
     }
 
     public function store(StoreDanhGiaSanPhamRequest $request)
     {
+        // Bảo vệ phía server: chỉ cho phép nếu đã mua và hoàn thành
+        $daMuaHang = \App\Models\DonHang::where('id_user', Auth::id())
+            ->where('trang_thai', 'hoan_thanh')
+            ->whereHas('chiTietDonHangs', function ($q) use ($request) {
+                $q->where('id_product', $request->id_product);
+            })
+            ->exists();
+
+        if (!$daMuaHang) {
+            return back()->with('error', 'Bạn chỉ có thể đánh giá sản phẩm đã mua và hoàn thành.');
+        }
+
         $existingReview = DanhGiaSanPham::where('id_product', $request->id_product)
             ->where('id_user', Auth::id())
             ->first();

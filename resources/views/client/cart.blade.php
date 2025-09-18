@@ -21,7 +21,6 @@
         <div class="flex-grow-1">
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
           @php
-          // dd($item->bienTheSanPham);
             $ram = isset($item->bienTheSanPham->ram) && $item->bienTheSanPham->ram ? 'RAM: ' . $item->bienTheSanPham->ram->dung_luong : null;
             $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'SSD: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
           @endphp
@@ -466,10 +465,11 @@ function updateQuantity(itemId, value, cartItem) {
     value = 1;
   }
 
-  fetch(`/cart/update/${itemId}`, {
+  fetch(`/client/cart/update/${itemId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     },
     body: JSON.stringify({ so_luong: value })
@@ -508,9 +508,10 @@ function updateQuantity(itemId, value, cartItem) {
 }
 
 function removeItem(itemId, cartItem) {
-  fetch(`/cart/remove/${itemId}`, {
+  fetch(`/client/cart/remove/${itemId}`, {
     method: 'DELETE',
     headers: {
+      'Accept': 'application/json',
       'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     }
   })
