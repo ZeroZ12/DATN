@@ -92,7 +92,7 @@ class CartController extends Controller
         ->leftJoin('ma_giam_gia_users as mgg_user', function($join)
         {
             $join->on('ma_giam_gias.id','=', 'mgg_user.ma_giam_gia_id') # Kiểm tra xem user đã từng sử dụng mã giảm giá nào chưa
-            ->where('mgg_user.user_id','=',Auth::id()); 
+            ->where('mgg_user.user_id','=',Auth::id());
         })
         ->where(function ($query)
         {
@@ -662,7 +662,7 @@ class CartController extends Controller
 
         // Cập nhật mã giảm giá cho giỏ hàng
         $gioHang->id_giam_gia = $maGiamGia->id;
-        
+
         $gioHang->save();
 
         // Tính toán giá sau khi áp dụng mã giảm giá
@@ -1017,7 +1017,7 @@ class CartController extends Controller
                     ], 400);
                 }
 
-                // Tính tổng tiền   
+                // Tính tổng tiền
                 $tongTienGoc = $gioHang->chiTietGioHangs->map(function ($item) {
                     $giaSuKien = null;
                     if ($item->sanPham && $item->sanPham->suKien->isNotEmpty()) {
@@ -1069,7 +1069,7 @@ class CartController extends Controller
                     $da_su_dung = MaGiamGiaUser::where('user_id',Auth::id())
                     ->where('ma_giam_gia_id',$maGiamGia->id)
                     ->first();
-                    
+
                     if($da_su_dung)
                     {
                         $da_su_dung->increment('so_lan_su_dung');
@@ -1083,7 +1083,7 @@ class CartController extends Controller
                     ]);
                 }
                 }
-                
+
                 // Tạo đơn hàng.
                 $donHang = DonHang::create([
                     'ma_don' => 'DH' . time(),
@@ -1126,7 +1126,7 @@ class CartController extends Controller
                     $adminLink = route('admin.don-hang.show', $donHang->id);
                     Mail::to($admin->email)->send(new OrderSuccessMail($donHang, $admin, $adminLink, 'Xem đơn hàng'));
                 }
-                // Reset giỏ hàng.  
+                // Reset giỏ hàng.
                 $gioHang->chiTietGioHangs()->delete();
                 $gioHang->id_giam_gia = null;
                 $gioHang->save();

@@ -69,9 +69,9 @@ public static function getTenTrangThai($trangThai)
     public static function getTenTrangVcThaiHoan($status)
     {
         return [
-            'cho_lay_hang' => 'Chờ khách gửi hàng',
+            'chua_giao' => 'Chưa giao',
             'dang_giao_hang' => 'Đang trả hàng',
-            'giao_thanh_cong'       => 'Đã giao',
+            'giao_thanh_cong' => 'Đã giao',
             'giao_that_bai' => 'Giao thất bại',
         ][$status] ?? $status;
     }

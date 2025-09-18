@@ -145,13 +145,7 @@
                 {{-- Footer --}}
                 <div class="d-flex justify-content-between align-items-center border-top pt-3">
                     <div>
-                        Hình thức thanh toán: {{ $donHang->phuongThucThanhToan->ten }}
-                        @if ($trangThai === 'hoan_thanh')
-                            <div class="text-muted small">
-                                Yêu cầu hoàn trả trước:
-                                <strong>{{ \Carbon\Carbon::parse($donHang->updated_at)->addDays(3)->format('d-m-Y') }}</strong>
-                            </div>
-                        @endif
+                        Hình thức thanh toán: {{ $donHang->phuongThucThanhToan->ten }} <br> Trạng thái thanh toán: {{ $donHang->tt_thanh_toan ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                     </div>
 
                     <div class="text-end">

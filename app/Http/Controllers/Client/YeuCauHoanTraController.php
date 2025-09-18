@@ -65,15 +65,27 @@ class YeuCauHoanTraController extends Controller
         }
 
         // Validate dữ liệu
-        $data = $request->validate([
-            'sdt_lien_he' => 'required|max:20',
-            'phuong_thuc_hoan_tien' => 'required|in:momo,bank_transfer',
-            'ten_ngan_hang' => 'nullable|max:100',
-            'so_tai_khoan' => 'nullable|max:50',
-            'ten_chu_tai_khoan' => 'nullable|max:100',
-            'ly_do' => 'nullable|string|max:1000',
-            'anh_minh_chung.*' => 'nullable|image|max:2048',
-        ]);
+      $data = $request->validate([
+    'sdt_lien_he' => 'required|regex:/^0+[0-9]{9}$/',
+    'phuong_thuc_hoan_tien' => 'required|in:momo,bank_transfer',
+    'ten_ngan_hang' => 'nullable|max:100',
+    'so_tai_khoan' => 'nullable|max:50',
+    'ten_chu_tai_khoan' => 'nullable|max:100',
+    'ly_do' => 'nullable|string|max:1000',
+    'anh_minh_chung.*' => 'nullable|image|max:2048',
+], [
+    'sdt_lien_he.required' => 'Số điện thoại liên hệ không được để trống.',
+    'sdt_lien_he.regex' => 'Số điện thoại không hợp lệ. Phải bắt đầu bằng 0 và có 10 số.',
+    'phuong_thuc_hoan_tien.required' => 'Vui lòng chọn phương thức hoàn tiền.',
+    'phuong_thuc_hoan_tien.in' => 'Phương thức hoàn tiền không hợp lệ.',
+    'ten_ngan_hang.max' => 'Tên ngân hàng tối đa 100 ký tự.',
+    'so_tai_khoan.max' => 'Số tài khoản tối đa 50 ký tự.',
+    'ten_chu_tai_khoan.max' => 'Tên chủ tài khoản tối đa 100 ký tự.',
+    'ly_do.max' => 'Lý do tối đa 1000 ký tự.',
+    'anh_minh_chung.*.image' => 'Tệp phải là ảnh.',
+    'anh_minh_chung.*.max' => 'Ảnh không được vượt quá 2MB.',
+]);
+
 
         // Lưu yêu cầu hoàn trả
         $data['id_don_hang'] = $donHang->id;
