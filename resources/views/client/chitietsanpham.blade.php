@@ -96,13 +96,15 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="mb-2"><strong>SSD:</strong>
+                                <div class="mb-2"><strong>Ổ cứng:</strong>
                                     <div id="ssd-group" class="d-flex flex-wrap gap-2">
                                         @php
                                             $ssdOptions = $sanpham->bienTheSanPhams
-                                                ->pluck('oCung.dung_luong')
+                                                ->pluck('oCung.loai', 'oCung.dung_luong')
+                                                ->map(fn($loai, $dung_luong) => "$loai - $dung_luong")
                                                 ->unique()
-                                                ->filter();
+                                                ->filter()
+                                                ->values();
                                         @endphp
                                         @foreach ($ssdOptions as $ssd)
                                             <button type="button" class="option-btn ssd ssd-btn btn"

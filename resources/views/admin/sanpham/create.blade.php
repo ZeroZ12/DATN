@@ -256,8 +256,8 @@
                     @foreach ($o_cungs as $oc)
                         <label class="me-3">
                             <input type="checkbox" class="ocung-checkbox" value="{{ $oc->id }}"
-                                data-label="{{ $oc->dung_luong }}" data-price="{{ $oc->gia }}">
-                            {{ $oc->loai }}-{{ $oc->dung_luong }}
+                                data-label="{{ $oc->loai }} - {{ $oc->dung_luong }}" data-price="{{ $oc->gia }}">
+                            {{ $oc->loai }} - {{ $oc->dung_luong }}
                         </label>
                     @endforeach
                 </div>
@@ -280,7 +280,7 @@
                         <tr>
                             <th>RAM</th>
                             <th>Ổ Cứng</th>
-                            <th>Giá</th>
+                            <th>Giá Giảm</th>
                             <th>Giá Gốc</th>
                             <th>Tồn Kho</th>
                             <th>Xóa</th>
@@ -450,7 +450,7 @@
             transform: translateY(-2px);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        
+
     </style>
 @endpush
 

@@ -1,5 +1,5 @@
 
-@extends('admin.layouts.app') 
+@extends('admin.layouts.app')
 
 @section('title', 'Quản lý Đánh giá sản phẩm')
 
@@ -33,9 +33,9 @@
                                 <th>Sản phẩm</th>
                                 <th>Người đánh giá</th>
                                 <th>Số sao</th>
-                                <th>Bình luận</th>
+                                <th>Đánh giá</th>
                                 <th>Trạng thái</th>
-                                <th>Ngày tạo</th>
+                                <th>Ngày viết</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -73,9 +73,10 @@
                                         <a href="{{ route('admin.danhgias.show', $danhGia->id) }}" class="btn btn-info btn-sm mb-1" title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                
 
-                                        @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'tu_choi')
+
+                                        {{-- @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'tu_choi') --}}
+                                        @if ($danhGia->trang_thai == 'cho_duyet')
                                             <form action="{{ route('admin.danhgias.approve', $danhGia->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')
@@ -84,7 +85,8 @@
                                                 </button>
                                             </form>
                                         @endif
-                                        @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'da_duyet')
+                                        {{-- @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'da_duyet') --}}
+                                        @if ($danhGia->trang_thai == 'cho_duyet')
                                             <form action="{{ route('admin.danhgias.reject', $danhGia->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')

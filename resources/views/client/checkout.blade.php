@@ -22,7 +22,7 @@
                             <p class="mb-1 text-muted small">
                                 @if($item->bienThe)
                                     RAM: {{ $item->bienThe->ram->dung_luong ?? 'N/A' }} |
-                                    Ổ cứng: {{ $item->bienThe->oCung->dung_luong ?? 'N/A' }}
+                                    Ổ cứng: {{ $item->bienThe->oCung->loai ?? 'N/A' }} - {{ $item->bienThe->oCung->dung_luong ?? 'N/A' }}
                                 @endif
                             </p>
                             <div class="d-flex justify-content-between align-items-center">

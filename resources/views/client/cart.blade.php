@@ -22,7 +22,7 @@
           <div class="cart-item-title">{{ $item->sanPham->ten }}</div>
           @php
             $ram = isset($item->bienTheSanPham->ram) && $item->bienTheSanPham->ram ? 'RAM: ' . $item->bienTheSanPham->ram->dung_luong : null;
-            $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'SSD: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
+            $ssd = isset($item->bienTheSanPham->oCung) && $item->bienTheSanPham->oCung ? 'Ổ cứng: ' . $item->bienTheSanPham->oCung->loai . ' ' . $item->bienTheSanPham->oCung->dung_luong : null;
           @endphp
           @if($ram || $ssd)
             <div class="text-muted small">
