@@ -141,7 +141,7 @@
                             @forelse ($sanpham->bienTheSanPhams as $variant)
                                 <tr>
                                     <td>{{ $variant->ram->dung_luong ?? 'N/A' }}</td>
-                                    <td>{{ $variant->oCung->loai }}-{{ $variant->oCung->dung_luong ?? 'N/A' }}</td>
+                                    <td>{{ $variant->oCung->loai }} - {{ $variant->oCung->dung_luong ?? 'N/A' }}</td>
                                     <td>{{ number_format($variant->gia) }} đ</td>
                                     <td>{{ $variant->gia_so_sanh ? number_format($variant->gia_so_sanh) . ' đ' : 'N/A' }}
                                     </td>

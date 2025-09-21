@@ -279,9 +279,9 @@
                     @foreach ($o_cungs as $oc)
                         <label class="me-3">
                             <input type="checkbox" class="ocung-checkbox" value="{{ $oc->id }}"
-                                data-label="{{ $oc->dung_luong }}" data-price="{{ $oc->gia }}"
+                                data-label="{{ $oc->loai }} - {{ $oc->dung_luong }}" data-price="{{ $oc->gia }}"
                                 {{ $sanpham->bienTheSanPhams->contains('id_o_cung', $oc->id) ? 'checked' : '' }}>
-                            {{ $oc->loai }}-{{ $oc->dung_luong }}
+                            {{ $oc->loai }} - {{ $oc->dung_luong }}
                         </label>
                     @endforeach
                 </div>
@@ -304,7 +304,7 @@
                         <tr>
                             <th>RAM</th>
                             <th>Ổ Cứng</th>
-                            <th>Giá</th>
+                            <th>Giá giảm</th>
                             <th>Giá Gốc</th>
                             <th>Tồn Kho</th>
                             <th>Xóa</th>
@@ -317,7 +317,7 @@
                                         name="variants[{{ $i }}][id]" value="{{ $variant->id }}"><input
                                         type="hidden" name="variants[{{ $i }}][ram_id]"
                                         value="{{ $variant->id_ram }}"></td>
-                                <td>{{ $variant->oCung->dung_luong }}<input type="hidden"
+                                <td>{{ $variant->oCung->loai }} - {{ $variant->oCung->dung_luong }}<input type="hidden"
                                         name="variants[{{ $i }}][o_cung_id]"
                                         value="{{ $variant->id_o_cung }}"></td>
                                 <td><input type="number" step="0.01" name="variants[{{ $i }}][gia]"

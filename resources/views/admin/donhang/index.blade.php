@@ -45,17 +45,15 @@
     </div>
 </div>
 
-
-
         <h5 class="total-count mb-1">Tổng: {{ $donHangs->total() }} Đơn hàng</h5>
 
         {{-- Tiêu đề cột --}}
-        <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;">
-            <div>Sản phẩm</div>
-            <div>Tổng đơn hàng</div>
-            <div>Trạng thái</div>
-            <div>Trạng thái vận chuyển giao hàng</div>
-            <div>Trạng thái vận chuyển hoàn hàng</div>
+        <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;text-align: center;">
+            <div style="border-right: 1px solid #ccc;">Sản phẩm</div>
+            <div style="border-right: 1px solid #ccc;">Tổng đơn hàng</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái vận chuyển giao hàng</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái vận chuyển hoàn hàng</div>
             <div>Thao tác</div>
         </div>
 

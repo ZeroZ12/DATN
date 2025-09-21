@@ -40,7 +40,7 @@
                 <div class="table-responsive">
                     <table class="table table-bordered mb-0">
                         <thead class="table-light">
-                            <tr>
+                            <tr style="text-align: center;">
                                 <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Số lượng</th>
@@ -50,7 +50,7 @@
                         </thead>
                         <tbody>
                             @foreach ($donHang->chiTietDonHangs as $ct)
-                                <tr>
+                                <tr style="text-align: center;">
                                     <td>
                                         @php
                                             $anh = $ct->bienTheSanPham
