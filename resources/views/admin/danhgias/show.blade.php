@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-3"><strong>Bình luận:</strong></div>
+                    <div class="col-md-3"><strong>Đánh giá:</strong></div>
                     <div class="col-md-9">{{ $danhGia->binh_luan ?? 'Không có bình luận' }}</div>
                 </div>
                 <div class="row mb-3">
@@ -64,21 +64,20 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-3"><strong>Ngày tạo:</strong></div>
+                    <div class="col-md-3"><strong>Ngày viết:</strong></div>
                     {{-- <div class="col-md-9">{{ $danhGia->created_at->format('d/m/Y H:i:s') }}</div> --}}
                     <div class="col-md-9">
                         {{ $danhGia->created_at ? $danhGia->created_at->format('d/m/Y H:i:s') : 'N/A' }}
                     </div>
                 </div>
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <div class="col-md-3"><strong>Cập nhật cuối:</strong></div>
-                    {{-- <div class="col-md-9">{{ $danhGia->updated_at->format('d/m/Y H:i:s') }}</div> --}}
                     <div class="col-md-9">
                         {{ $danhGia->updated_at ? $danhGia->updated_at->format('d/m/Y H:i:s') : 'N/A' }}
                     </div>
-                </div>
+                </div> --}}
 
-                
+
             </div>
         </div>
     </div>

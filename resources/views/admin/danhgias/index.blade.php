@@ -73,9 +73,9 @@
                                    value="{{ request('den_ngay') }}">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="binh_luan" class="form-label">Nội dung bình luận</label>
+                            <label for="binh_luan" class="form-label">Nội dung đánh giá</label>
                             <input type="text" name="binh_luan" id="binh_luan" class="form-control"
-                                   value="{{ request('binh_luan') }}" placeholder="Tìm trong bình luận...">
+                                   value="{{ request('binh_luan') }}" placeholder="Tìm trong đánh giá...">
                         </div>
                         <div class="col-md-2 mb-3 d-flex align-items-end">
                             <div class="btn-group w-100" role="group">
@@ -115,7 +115,7 @@
                                 <th>Sản phẩm</th>
                                 <th>Người đánh giá</th>
                                 <th>Số sao</th>
-                                <th>Bình luận</th>
+                                <th>Đánh giá</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày tạo</th>
                                 <th>Hành động</th>
