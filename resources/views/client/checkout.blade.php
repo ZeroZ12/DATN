@@ -85,19 +85,27 @@
                 </div>
                 <div class="card-body">
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payment_method" id="1" value="1" checked>
+                        <input class="form-check-input" type="radio" name="payment_method" id="1" value="1" @if(($tongTienSauGiam ?? 0) > 10000000) disabled @else checked @endif>
                         <label class="form-check-label" for="1">
                             <i class="fas fa-money-bill-wave me-2"></i>
                             Thanh toán khi nhận hàng (COD)
+                            @if(($tongTienSauGiam ?? 0) > 10000000)
+                                <span class="text-danger small">(Không khả dụng cho đơn > 10.000.000₫)</span>
+                            @endif
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payment_method" id="2" value="2">
+                        <input class="form-check-input" type="radio" name="payment_method" id="2" value="2" @if(($tongTienSauGiam ?? 0) > 10000000) checked @endif>
                         <label class="form-check-label" for="2">
                             <i class="fas fa-university me-2"></i>
                             Chuyển khoản ngân hàng
                         </label>
                     </div>
+                    @if(($tongTienSauGiam ?? 0) > 10000000)
+                    <div class="alert alert-warning small">
+                        Đơn hàng trên 10.000.000₫ chỉ hỗ trợ thanh toán chuyển khoản ngân hàng.
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

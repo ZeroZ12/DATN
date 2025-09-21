@@ -163,7 +163,7 @@
         @endif
     </div>
 
-    <script>
+    {{-- <script>
         function resetSearchFilters() {
             const url = new URL(window.location.href);
             // Xóa tất cả các tham số lọc trừ 'keyword'
@@ -175,7 +175,8 @@
             url.searchParams.set('keyword', ''); // Xóa luôn từ khóa khi reset
             window.location.href = url.toString();
         }
-    </script>
+    </script> --}}
+    @endsection
     @push('css')
     <style>
         .pagination {
@@ -925,6 +926,18 @@
 
 @push('js')
     <script>
+        function resetSearchFilters() {
+            const url = new URL(window.location.href);
+            // Xóa tất cả các tham số lọc trừ 'keyword'
+            url.searchParams.forEach((value, key) => {
+                if (key !== 'keyword' && key !== 'page') { // Giữ 'keyword' và loại bỏ 'page'
+                    url.searchParams.delete(key);
+                }
+            });
+            // url.searchParams.set('keyword', ''); // Xóa luôn từ khóa khi reset
+            window.location.href = url.toString();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Hiển thị toast nếu có session message
             @if (session('success'))
@@ -1087,4 +1100,4 @@
         }
     </script>
 @endpush
-@endsection
+{{-- @endsection --}}

@@ -92,8 +92,8 @@ Yêu cầu:
     <div class="d-flex align-items-center">
       <!-- Ảnh sản phẩm -->
       <div class="flex-shrink-0 me-3">
-        <img src="http://localhost:8000/storage/images/{anh_dai_dien}"
-             class="rounded"
+        <img src="http://localhost:8000/storage/images/{anh_dai_dien}" 
+             class="rounded" 
              style="width: 120px; height: auto; object-fit: cover;"
              alt="{ten}">
       </div>

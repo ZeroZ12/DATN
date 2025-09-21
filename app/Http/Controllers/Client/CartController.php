@@ -1084,6 +1084,14 @@ class CartController extends Controller
                 }
                 }
 
+                // Nếu tổng tiền sau giảm > 10,000,000 thì bắt buộc phải thanh toán chuyển khoản (id = 2)
+                if ($tongTienSauGiam > 10000000 && (int)$request->payment_method !== 2) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Đơn hàng trên 10.000.000₫ chỉ hỗ trợ thanh toán chuyển khoản ngân hàng.'
+                    ], 422);
+                }
+
                 // Tạo đơn hàng.
                 $donHang = DonHang::create([
                     'ma_don' => 'DH' . time(),
