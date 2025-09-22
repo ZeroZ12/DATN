@@ -112,6 +112,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th>STT</th>
+                                <th>ID</th>
                                 <th>Mã đơn</th>
                                 <th>Khách hàng</th>
                                 <th>Tổng tiền</th>
@@ -120,16 +121,23 @@
                             </tr>
                         </thead>
                       <tbody id="ordersTableBody">
-    @foreach($orders as $index => $order)
-    <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.don-hang.show', $order->id) }}'">
-        <td>{{ $index + 1 }}</td>
-        <td>{{ $order->ma_don }}</td>
-        <td>{{ $order->khachHang->ho_ten ?? 'Khách vãng lai' }}</td>
-        <td>{{ number_format($order->tong_tien) }}₫</td>
-        <td>{{ App\Models\DonHang::getTenTrangThai($order->trang_thai) }}</td>
-        <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
-    </tr>
-    @endforeach
+     @forelse($orders as $index => $order)
+        <tr style="cursor:pointer;" onclick="window.location='{{ route('admin.don-hang.show', $order->id) }}'">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ $order->id }}</td>
+            <td>{{ $order->ma_don }}</td>
+            <td>{{ $order->khachHang->ho_ten ?? 'Khách vãng lai' }}</td>
+            <td>{{ number_format($order->tong_tien) }}₫</td>
+            <td>{{ App\Models\DonHang::getTenTrangThai($order->trang_thai) }}</td>
+            <td>{{ $order->updated_at->format('d/m/Y H:i') }}</td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="7" class="text-center text-muted">
+                Không có đơn hàng nào
+            </td>
+        </tr>
+    @endforelse
 </tbody>
 
                     </table>

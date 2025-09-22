@@ -123,7 +123,7 @@ class ThongKeController extends Controller
             $ordersQuery = $ordersQuery->orderBy('updated_at','desc')->limit(10);
         }
 
-        $orders = $ordersQuery->orderBy('updated_at','desc')->get();
+        $orders = $ordersQuery->where('trang_thai','hoan_thanh')->orderBy('updated_at','desc')->get();
 
         if($request->ajax()){
             return response()->json([
