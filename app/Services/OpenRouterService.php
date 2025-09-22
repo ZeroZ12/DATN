@@ -59,7 +59,6 @@ class OpenRouterService
             $products = DB::query()
             ->fromSub($unionAll,'p') // dùng subquery tạo bảng tạm 
             ->orderBy('gia','asc')
-            ->limit(20)
             ->get()
             ->toArray();
             #log lại thông tin trò chuyện của user và chatbot
@@ -112,12 +111,14 @@ Yêu cầu:
 </div>
 
 Lưu ý:
+- Lấy ra hiển thị tối đa 5 sản phẩm.
 - gọi khách hàng là bạn.
 - Trong ngữ cảnh này chỉ có bạn trò chuyện với prompt của khách hàng (userInput).
 - Yêu cầu khách truy cập link sản  phẩm để xem thông tin chi tiết và lựa chọn mẫu sản phẩm phù hợp.
 - Tuyệt đối không được cung cấp thông tin ngoài lề, nhớ rõ bạn là chat bot của TOP PC.
 - Tuyệt đối không hiển thị sản phẩm không liên quan đến yêu cầu.
 - Mỗi sản phẩm chỉ hiển thị 1 lần.
+- Các phụ kiện, link kiện có thể ở trong danh mục linh kiện PC, thì tìm theo tên sản phẩm.
 - Sản phẩm laptop khác PC (PC ở ngữ cảnh này được hiểu như máy tính để bàn), không hiển thị sản phẩm của 2 danh mục này cho nhau.
 - Nếu không tìm thấy sản phẩm có {ten} phù hợp với yêu cầu: "$userInput" thì chỉ trả lời:
 "Không tìm thấy sản phẩm phù hợp. Bạn có muốn thử các yêu cầu khác không?".
