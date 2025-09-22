@@ -47,7 +47,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'ho_ten.required' => 'Họ tên không được để trống.',
             'so_dien_thoai.regex' => 'Số điện thoại không đúng định dạng. Vui lòng nhập số điện thoại bắt đầu bằng "0" và có 10 chữ số.',
-            'so_dien_thoai.max' => 'Số điện thoại không được vượt quá 10 số.',
+            'so_dien_thoai.max' => 'Số điện thoại người nhận không đúng định dạng.',
             'email.required' => 'Email không được để trống.',
             'email.email' => 'Email không đúng định dạng.',
             'email.unique' => 'Email đã được sử dụng.',

@@ -45,17 +45,15 @@
     </div>
 </div>
 
-
-
         <h5 class="total-count mb-1">Tổng: {{ $donHangs->total() }} Đơn hàng</h5>
 
         {{-- Tiêu đề cột --}}
-        <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;">
-            <div>Sản phẩm</div>
-            <div>Tổng đơn hàng</div>
-            <div>Trạng thái</div>
-            <div>Trạng thái vận chuyển giao hàng</div>
-            <div>Trạng thái vận chuyển hoàn hàng</div>
+        <div class="order-table-header" style="grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr;text-align: center;">
+            <div style="border-right: 1px solid #ccc;">Sản phẩm</div>
+            <div style="border-right: 1px solid #ccc;">Tổng đơn hàng</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái vận chuyển giao hàng</div>
+            <div style="border-right: 1px solid #ccc;">Trạng thái vận chuyển hoàn hàng</div>
             <div>Thao tác</div>
         </div>
 
@@ -197,89 +195,88 @@
 
 
                 {{-- Thao tác --}}
-                <div class="order-actions">
-                    @if ($don->yeuCauHoanTra)
-        <a href="{{ route('admin.hoan-tra.show', $don->yeuCauHoanTra->id) }}"
-           class="btn btn-sm btn-info mb-1">
-            Hoàn Hàng
-        </a>
-    @endif
-                    <a href="{{ route('admin.don-hang.show', $don->id) }}" class="btn-view mb-1">Xem</a>
-                    <div class="btn-group-action">
-                        @if ($trangThai === 'cho_xac_nhan')
-                            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                                @csrf
-                                <input type="hidden" name="trang_thai" value="da_xac_nhan">
-                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                                <button class="btn btn-sm btn-success">Xác nhận</button>
-                            </form>
-                           <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
-      onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-    @csrf
-    <input type="hidden" name="trang_thai" value="da_huy">
-    <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-    <button class="btn btn-sm btn-danger">Hủy</button>
-</form>
+                {{-- Thao tác --}}
+<div class="order-actions">
+   @if ($don->yeuCauHoanTra)
+    <a href="{{ route('admin.hoan-tra.show', $don->yeuCauHoanTra->id) }}"
+       class="btn btn-sm btn-info mb-1">
+        Xem Hoàn Hàng
+    </a>
+@endif
 
 
-                        @elseif ($trangThai === 'da_xac_nhan')
-                            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                                @csrf
-                                <input type="hidden" name="trang_thai" value="chuan_bi_hang">
-                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                                <button class="btn btn-sm btn-success">Chuẩn bị</button>
-                            </form>
-                          <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
-      onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-    @csrf
-    <input type="hidden" name="trang_thai" value="da_huy">
-    <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-    <button class="btn btn-sm btn-danger">Hủy</button>
-</form>
+    <a href="{{ route('admin.don-hang.show', $don->id) }}" class="btn-view mb-1">Xem</a>
 
+    <div class="btn-group-action">
+        @if ($trangThai === 'cho_xac_nhan')
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="da_xac_nhan">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-success">Xác nhận</button>
+            </form>
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
+                  onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                @csrf
+                <input type="hidden" name="trang_thai" value="da_huy">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-danger">Hủy</button>
+            </form>
+        @elseif ($trangThai === 'da_xac_nhan')
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="chuan_bi_hang">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-success">Chuẩn bị</button>
+            </form>
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
+                  onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                @csrf
+                <input type="hidden" name="trang_thai" value="da_huy">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-danger">Hủy</button>
+            </form>
+        @elseif ($trangThai === 'chuan_bi_hang')
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="dang_giao_hang">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-success">Giao hàng</button>
+            </form>
+        @elseif ($trangThai === 'dang_giao_hang')
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="giao_thanh_cong">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-success">Đã giao</button>
+            </form>
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="giao_that_bai">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-danger">Thất bại</button>
+            </form>
+        @elseif ($trangThai === 'giao_that_bai')
+            {{-- Giao tiếp --}}
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
+                @csrf
+                <input type="hidden" name="trang_thai" value="dang_giao_hang">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-warning">Giao tiếp</button>
+            </form>
 
-                        @elseif ($trangThai === 'chuan_bi_hang')
-                            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                                @csrf
-                                <input type="hidden" name="trang_thai" value="dang_giao_hang">
-                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                                <button class="btn btn-sm btn-success">Giao hàng</button>
-                            </form>
+            {{-- Hủy --}}
+            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
+                  onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
+                @csrf
+                <input type="hidden" name="trang_thai" value="da_huy">
+                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
+                <button class="btn btn-sm btn-danger">Hủy</button>
+            </form>
+        @endif
+    </div>
+</div>
 
-                        @elseif ($trangThai === 'dang_giao_hang')
-                            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                                @csrf
-                                <input type="hidden" name="trang_thai" value="giao_thanh_cong">
-                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                                <button class="btn btn-sm btn-success">Đã giao</button>
-                            </form>
-                            <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-                                @csrf
-                                <input type="hidden" name="trang_thai" value="giao_that_bai">
-                                <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                                <button class="btn btn-sm btn-danger">Thất bại</button>
-                            </form>
-                       @elseif ($trangThai === 'giao_that_bai')
-    {{-- Giao tiếp --}}
-    <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
-        @csrf
-        <input type="hidden" name="trang_thai" value="dang_giao_hang">
-        <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-        <button class="btn btn-sm btn-warning">Giao tiếp</button>
-    </form>
-
-    {{-- Hủy --}}
-   <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}"
-      onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
-    @csrf
-    <input type="hidden" name="trang_thai" value="da_huy">
-    <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-    <button class="btn btn-sm btn-danger">Hủy</button>
-</form>
-                        @endif
-
-                    </div>
-                </div>
             </div>
         @empty
             <div class="alert alert-warning text-center">Không có đơn hàng nào.</div>

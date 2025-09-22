@@ -74,6 +74,7 @@ class PaymentController extends Controller
         // Xử lý trạng thái
         if ($request->vnp_ResponseCode == '00') {
             $donHang->trang_thai = 'da_xac_nhan'; // thanh toán thành công
+            $donHang->tt_thanh_toan= 1;
             $donHang->save();
 
             return redirect()->route('client.payment', ['id' => $donHang->id]);

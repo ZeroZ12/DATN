@@ -112,6 +112,7 @@ public function capNhatTrangThai(Request $request, $id)
             'giao_that_bai'=>'giao_that_bai',
             default => $donHang->trang_thai_vc_giao_hang,
         },
+         'tt_thanh_toan' => $trangThaiMoi === 'giao_thanh_cong' ? 1 : $donHang->tt_thanh_toan,
         ]);
 
 
@@ -122,6 +123,7 @@ public function capNhatTrangThai(Request $request, $id)
     if (
         $trangThaiMoi === 'giao_thanh_cong' &&
         !in_array($trangThaiCu, ['giao_thanh_cong', 'hoan_thanh'])
+
     ) {
         // Nếu không có yêu cầu hoàn trả
         $coYeuCauHoanTra = YeuCauHoanTra::where('id_don_hang', $donHang->id)->exists();

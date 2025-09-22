@@ -279,9 +279,9 @@
                     @foreach ($o_cungs as $oc)
                         <label class="me-3">
                             <input type="checkbox" class="ocung-checkbox" value="{{ $oc->id }}"
-                                data-label="{{ $oc->dung_luong }}" data-price="{{ $oc->gia }}"
+                                data-label="{{ $oc->loai }} - {{ $oc->dung_luong }}" data-price="{{ $oc->gia }}"
                                 {{ $sanpham->bienTheSanPhams->contains('id_o_cung', $oc->id) ? 'checked' : '' }}>
-                            {{ $oc->loai }}-{{ $oc->dung_luong }}
+                            {{ $oc->loai }} - {{ $oc->dung_luong }}
                         </label>
                     @endforeach
                 </div>
@@ -304,7 +304,7 @@
                         <tr>
                             <th>RAM</th>
                             <th>Ổ Cứng</th>
-                            <th>Giá</th>
+                            <th>Giá giảm</th>
                             <th>Giá Gốc</th>
                             <th>Tồn Kho</th>
                             <th>Xóa</th>
@@ -317,7 +317,7 @@
                                         name="variants[{{ $i }}][id]" value="{{ $variant->id }}"><input
                                         type="hidden" name="variants[{{ $i }}][ram_id]"
                                         value="{{ $variant->id_ram }}"></td>
-                                <td>{{ $variant->oCung->dung_luong }}<input type="hidden"
+                                <td>{{ $variant->oCung->loai }} - {{ $variant->oCung->dung_luong }}<input type="hidden"
                                         name="variants[{{ $i }}][o_cung_id]"
                                         value="{{ $variant->id_o_cung }}"></td>
                                 <td><input type="number" step="0.01" name="variants[{{ $i }}][gia]"
@@ -405,8 +405,8 @@
                         row.innerHTML = `
                             <td>${ram.dataset.label}<input type="hidden" name="variants[${index}][ram_id]" value="${ram.value}"></td>
                             <td>${oc.dataset.label}<input type="hidden" name="variants[${index}][o_cung_id]" value="${oc.value}"></td>
-                            <td><input type="number" step="0.01" name="variants[${index}][gia]" class="form-control" value="${globalPrice}" required></td>
-                            <td><input type="number" step="0.01" name="variants[${index}][gia_so_sanh]" class="form-control" value="${globalPriceCompare}"></td>
+                            <td><input type="number" step="0.01" name="variants[${index}][gia]" class="form-control" value="${globalPriceCompare}" required></td>
+                            <td><input type="number" step="0.01" name="variants[${index}][gia_so_sanh]" class="form-control" value="${globalPrice}"></td>
                             <td><input type="number" name="variants[${index}][ton_kho]" class="form-control" required></td>
                             <td><button type="button" class="btn btn-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
                         `;

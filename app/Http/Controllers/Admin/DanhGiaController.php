@@ -11,16 +11,71 @@ class DanhGiaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Lấy tất cả đánh giá, eager load mối quan hệ user và sanPham
-        // Sắp xếp để đánh giá mới nhất hoặc "chờ duyệt" lên đầu
-        $danhGias = DanhGiaSanPham::with(['user', 'sanPham'])
-            ->orderByRaw("CASE WHEN trang_thai = 'cho_duyet' THEN 0 ELSE 1 END") // Ưu tiên chờ duyệt
-            ->orderByDesc('created_at')
-            ->paginate(10); // Phân trang
+        $query = DanhGiaSanPham::with(['user', 'sanPham']);
 
-        return view('admin.danhgias.index', compact('danhGias'));
+        // Filter by status
+        if ($request->filled('trang_thai')) {
+            $query->where('trang_thai', $request->trang_thai);
+        }
+
+        // Filter by star rating
+        if ($request->filled('so_sao')) {
+            $query->where('so_sao', $request->so_sao);
+        }
+
+        // Filter by product
+        if ($request->filled('san_pham')) {
+            $query->whereHas('sanPham', function ($q) use ($request) {
+                $q->where('ten', 'like', '%' . $request->san_pham . '%');
+            });
+        }
+
+        // Filter by user
+        if ($request->filled('nguoi_dung')) {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('ho_ten', 'like', '%' . $request->nguoi_dung . '%')
+                  ->orWhere('email', 'like', '%' . $request->nguoi_dung . '%');
+            });
+        }
+
+        // Filter by date range
+        if ($request->filled('tu_ngay')) {
+            $query->whereDate('created_at', '>=', $request->tu_ngay);
+        }
+        if ($request->filled('den_ngay')) {
+            $query->whereDate('created_at', '<=', $request->den_ngay);
+        }
+
+        // Filter by comment content
+        if ($request->filled('binh_luan')) {
+            $query->where('binh_luan', 'like', '%' . $request->binh_luan . '%');
+        }
+
+        // Sort by priority: pending reviews first, then by creation date
+        $query->orderByRaw("CASE WHEN trang_thai = 'cho_duyet' THEN 0 ELSE 1 END")
+              ->orderByDesc('created_at');
+
+        // Paginate results
+        $danhGias = $query->paginate(10)->withQueryString();
+
+        // Get filter options for dropdowns
+        $trangThaiOptions = [
+            'cho_duyet' => 'Chờ duyệt',
+            'da_duyet' => 'Đã duyệt',
+            'tu_choi' => 'Từ chối'
+        ];
+
+        $soSaoOptions = [
+            1 => '1 sao',
+            2 => '2 sao',
+            3 => '3 sao',
+            4 => '4 sao',
+            5 => '5 sao'
+        ];
+
+        return view('admin.danhgias.index', compact('danhGias', 'trangThaiOptions', 'soSaoOptions'));
     }
 
     /**

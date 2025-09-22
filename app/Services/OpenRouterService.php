@@ -57,7 +57,7 @@ class OpenRouterService
             ]);
             $unionAll = $variantProducts->unionAll($noVariantProducts); // gộp lệnh để lấy cả sản phẩm có và không có biến thể.
             $products = DB::query()
-            ->fromSub($unionAll,'p') // dùng subquery tạo bảng tạm 
+            ->fromSub($unionAll,'p') // dùng subquery tạo bảng tạm
             ->orderBy('gia','asc')
             ->get()
             ->toArray();
@@ -72,9 +72,9 @@ class OpenRouterService
         $prompt = (empty($products)) ? <<<PROMP_EMPTY
 Bạn là TopPC ChatBot, một A.I hỗ trợ khách hàng của một cửa hàng TOP PC bán PC.
 Không tìm thấy sản phẩm phù hợp với yêu cầu: "$userInput".
-Chỉ trả lời: 
+Chỉ trả lời:
 "Không tìm thấy sản phẩm phù hợp. Bạn có muốn thử các yêu cầu khác không?"
-PROMP_EMPTY 
+PROMP_EMPTY
 : <<<PROMP_LIST
 Bạn là TopPC ChatBot, một A.I hỗ trợ khách hàng của một cửa hàng bán PC.
 Dưới đây là danh sách sản phẩm hiện có cung cấp cho bạn:
@@ -91,7 +91,7 @@ Yêu cầu:
     <div class="d-flex align-items-center">
       <!-- Ảnh sản phẩm -->
       <div class="flex-shrink-0 me-3">
-        <img src="http://datn.com:8080/storage/{anh_dai_dien}" 
+        <img src="http://localhost:8000/storage/images/{anh_dai_dien}" 
              class="rounded" 
              style="width: 120px; height: auto; object-fit: cover;"
              alt="{ten}">
@@ -142,7 +142,7 @@ PROMP_LIST;
                 ],
                 'max_tokens' => '2000',
             ]);
-            # Http được built trên Guzzle 
+            # Http được built trên Guzzle
             # Trả về body() nội dung dạng string
             Log::info('Guzzle Response: ' . $response->body());
             if ($response->successful()) {
@@ -150,7 +150,7 @@ PROMP_LIST;
                 if (isset($result['choices'][0]['message']['content'])) {
                     return $result['choices'][0]['message']['content'];
                 } else {
-                    # log lại nguyên nhân gây lỗi 
+                    # log lại nguyên nhân gây lỗi
                     Log::error('Không nhận được nội dung trả về từ API: ' . json_encode($result));
                     return "Không nhận được nội dung từ API.";
                 }
@@ -160,7 +160,6 @@ PROMP_LIST;
                 Log::error('Mã lỗi:' . $response->status());
                 return "Hệ thống đang bận, vui lòng thử lại sau ít phút.";
             }
-           
+
         }
     }
-    

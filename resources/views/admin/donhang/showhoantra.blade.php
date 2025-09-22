@@ -245,6 +245,17 @@
         data-bs-target="#modal-hoan-tien-{{ $hoanTra->id }}">
         Hoàn tiền
     </button>
+
+{{-- ✅ Nút hoàn tiền cho đơn bị hủy bởi admin nhưng đã thanh toán --}}
+@elseif ($hoanTra->donHang->trang_thai === 'da_huy'
+    && $hoanTra->donHang->huy_boi === 'admin'
+    && $hoanTra->donHang->tt_thanh_toan == 1
+    && $trangThai !== 'da_hoan_tien')
+    <button type="button" class="btn btn-sm btn-warning"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-hoan-tien-{{ $hoanTra->id }}">
+        Hoàn tiền đơn hủy
+    </button>
 @endif
 
 <div class="modal fade" id="modal-hoan-tien-{{ $hoanTra->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $hoanTra->id }}" aria-hidden="true">

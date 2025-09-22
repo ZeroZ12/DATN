@@ -96,13 +96,15 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <div class="mb-2"><strong>SSD:</strong>
+                                <div class="mb-2"><strong>Ổ cứng:</strong>
                                     <div id="ssd-group" class="d-flex flex-wrap gap-2">
                                         @php
                                             $ssdOptions = $sanpham->bienTheSanPhams
-                                                ->pluck('oCung.dung_luong')
+                                                ->pluck('oCung.loai', 'oCung.dung_luong')
+                                                ->map(fn($loai, $dung_luong) => "$loai - $dung_luong")
                                                 ->unique()
-                                                ->filter();
+                                                ->filter()
+                                                ->values();
                                         @endphp
                                         @foreach ($ssdOptions as $ssd)
                                             <button type="button" class="option-btn ssd ssd-btn btn"
@@ -1209,7 +1211,7 @@
                 {
                     id: '{{ $bienThe->id }}',
                     ram: '{{ $bienThe->ram->dung_luong ?? '' }}',
-                    ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
+                    ssd: '{{ $bienThe->oCung->loai . " - " . $bienThe->oCung->dung_luong ?? '' }}',
                     price: parseFloat('{{ $bienThe->gia ?? 0 }}'),
                     salePrice: parseFloat('@php
                         $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
@@ -1695,4 +1697,5 @@
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    </div>
 @endsection

@@ -42,7 +42,7 @@ class DiaChiNguoiDungRequest extends FormRequest
         return [
             'ten_nguoi_nhan.required' => 'Tên người nhận không được để trống.',
             'so_dien_thoai_nguoi_nhan.required' => 'Số điện thoại người nhận không được để trống.',
-            'so_dien_thoai_nguoi_nhan.max' => 'Số điện thoại người nhận không được vượt quá 10 số.',
+            'so_dien_thoai_nguoi_nhan.max' => 'Số điện thoại người nhận không đúng định dạng.',
             'dia_chi_day_du.required' => 'Địa chỉ đầy đủ không được để trống.',
             'tinh_thanh_pho.required' => 'Tỉnh/Thành phố không được để trống.',
             'phuong_xa.required' => 'Phường/Xã không được để trống.',
