@@ -1211,7 +1211,7 @@
                 {
                     id: '{{ $bienThe->id }}',
                     ram: '{{ $bienThe->ram->dung_luong ?? '' }}',
-                    ssd: '{{ $bienThe->oCung->dung_luong ?? '' }}',
+                    ssd: '{{ $bienThe->oCung->loai . " - " . $bienThe->oCung->dung_luong ?? '' }}',
                     price: parseFloat('{{ $bienThe->gia ?? 0 }}'),
                     salePrice: parseFloat('@php
                         $saleEvent = $activeSaleEvents->firstWhere('id_bien_the_san_pham', $bienThe->id);
