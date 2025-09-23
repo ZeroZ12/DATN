@@ -70,12 +70,12 @@
                         {{ $danhGia->created_at ? $danhGia->created_at->format('d/m/Y H:i:s') : 'N/A' }}
                     </div>
                 </div>
-                {{-- <div class="row mb-3">
+                <div class="row mb-3">
                     <div class="col-md-3"><strong>Cập nhật cuối:</strong></div>
                     <div class="col-md-9">
                         {{ $danhGia->updated_at ? $danhGia->updated_at->format('d/m/Y H:i:s') : 'N/A' }}
                     </div>
-                </div> --}}
+                </div>
 
 
             </div>
