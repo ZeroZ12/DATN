@@ -157,7 +157,7 @@
                                         </a>
 
 
-                                        @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'tu_choi')
+                                        {{-- @if ($danhGia->trang_thai == 'cho_duyet' || $danhGia->trang_thai == 'tu_choi')
                                             <form action="{{ route('admin.danhgias.approve', $danhGia->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')
@@ -174,7 +174,7 @@
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </form>
-                                        @endif
+                                        @endif --}}
 
                                     </td>
                                 </tr>
