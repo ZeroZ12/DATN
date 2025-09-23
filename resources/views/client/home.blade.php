@@ -1251,17 +1251,11 @@
                 @else
                     // Nếu chưa đăng nhập thì lấy từ localStorage, chỉ lấy dữ liệu <= 7 ngày
                     let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
-                    // Xóa dữ liệu sau 7 ngày
-                    const aWeekHistory = 7 * 24 * 60 * 60 * 1000; // 7 ngày tính bằng mili giây.
-                    const now = new Date().getTime(); // thời gian hiện tại.
-                    // Lấy những mục 7 ngày mới nhất
-                    chatHistory = chatHistory.filter(item => {
-                        const itemTime  = new Date(item.time).getTime();
-                        return now - itemTime <= aWeekHistory; // Giữ lại nhưng đoạn chat <= 7 ngày.
-                    });
+                    // Lấy 5 bản ghi mới nhất.
+                    chatHistory = chatHistory.slice(-5);
                     // Cập nhật localStorage
                     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-                    // 
+                    // forEach dữ liệu chat của bot và user theo từng bản ghi.
                     chatHistory.forEach(item =>{
                         // Tin nhắn của user.
                         const userMsg = document.createElement('div');

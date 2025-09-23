@@ -113,7 +113,7 @@ class ThongKeController extends Controller
             }
             $totalDoanhThuFilter = array_sum($chartData);
             $totalDonHangFilter = (clone $revenueQuery)->whereBetween('updated_at', [$from,$to])->count();
-            $labelFilter = ['from'=>$from->format('d/m/Y'),'to'=>$to->format(format: 'd/m/Y')];
+            $labelFilter = ['from'=>$from->format('d/m/Y'),'to'=>$to->format( 'd/m/Y')];
 
             $ordersQuery->whereBetween('updated_at', [$from,$to]);
         }
