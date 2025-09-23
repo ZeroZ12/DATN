@@ -91,8 +91,8 @@ Yêu cầu:
     <div class="d-flex align-items-center">
       <!-- Ảnh sản phẩm -->
       <div class="flex-shrink-0 me-3">
-        <img src="http://localhost:8000/storage/images/{anh_dai_dien}" 
-             class="rounded" 
+        <img src="http://localhost:8000/storage/images/{anh_dai_dien}"
+             class="rounded"
              style="width: 120px; height: auto; object-fit: cover;"
              alt="{ten}">
       </div>
@@ -123,6 +123,8 @@ Lưu ý:
 - Nếu không tìm thấy sản phẩm có {ten} phù hợp với yêu cầu: "$userInput" thì chỉ trả lời:
 "Không tìm thấy sản phẩm phù hợp. Bạn có muốn thử các yêu cầu khác không?".
 - Ưu tiên tìm theo danh mục nếu khách hàng nêu tên danh mục.
+- Trả lời đúng ngữ cảnh (userInput), đúng yêu cầu, ngắn gọn, súc tích.
+- Những câu hỏi tiêu cực từ (userInput) sẽ không trả về sản phẩm.
 PROMP_LIST;
 
 
