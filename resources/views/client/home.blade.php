@@ -1249,7 +1249,7 @@
                     }).catch(err => console.error('Lỗi khi tải lịch sử chatbot:', err));
                 
                 @else
-                    // Nếu chưa đăng nhập thì lấy từ localStorage, chỉ lấy dữ liệu <= 7 ngày
+                    // Nếu chưa đăng nhập thì lấy từ localStorage
                     let chatHistory = JSON.parse(localStorage.getItem('chatHistory') || '[]');
                     // Lấy 5 bản ghi mới nhất.
                     chatHistory = chatHistory.slice(-5);

@@ -154,7 +154,7 @@ PROMP_LIST;
                 } else {
                     # log lại nguyên nhân gây lỗi
                     Log::error('Không nhận được nội dung trả về từ API: ' . json_encode($result));
-                    return "Không nhận được nội dung từ API.";
+                    return "Hệ thống đang bận, vui lòng thử lại sau ít phút.";
                 }
             }else{
                  # log lại thông tin và mã lỗi.
