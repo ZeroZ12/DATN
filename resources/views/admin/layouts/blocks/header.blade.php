@@ -16,7 +16,7 @@
                     {{-- <form class="search-form mb-0">
                         <div class="input-group">
                             <input class="form-control pe-0" type="text" placeholder="Tìm kiếm ...">
-                            <span class="input-group-text">
+                            <span class="input-group-text">~
                                 <i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </form> --}}
