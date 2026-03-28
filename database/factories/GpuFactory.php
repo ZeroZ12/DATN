@@ -25,3 +25,4 @@ class GpuFactory extends Factory
         ];
     }
 }
+

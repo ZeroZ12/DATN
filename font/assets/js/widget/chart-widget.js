@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     "use strict";
     /*Line chart*/
     var optionslinechart = {

@@ -1,4 +1,4 @@
-var SweetAlert_custom = {
+﻿var SweetAlert_custom = {
     init: function () {
       document.querySelector(".sweet-1").onclick = function () {
         Swal.fire(

@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * FilePond 4.30.4
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
@@ -12726,3 +12726,4 @@
 
     Object.defineProperty(exports, '__esModule', { value: true });
 });
+

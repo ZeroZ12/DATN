@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
     // Get the elements
     var gridLayoutView = document.querySelector('.grid-layout-view');
     var listLayoutView = document.querySelector('.list-layout-view');

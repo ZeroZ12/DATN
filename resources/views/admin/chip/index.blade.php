@@ -5,9 +5,9 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="mb-0 text-primary fw-bold">🧠 Danh sách chip</h2>
+            <h2 class="mb-0 text-primary fw-bold">Danh sách chip</h2>
             <div>
-                <a href="{{ route('admin.chip.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.chip.trash') }}" class="btn btn-outline-secondary me-2">Thùng rác</a>
                 <a href="{{ route('admin.chip.create') }}" class="btn btn-success">+ Thêm chip</a>
             </div>
         </div>
@@ -44,15 +44,15 @@
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($chip->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-sm btn-warning me-1">✏️
+                                    <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-sm btn-outline-warning me-1">
                                         Sửa</a>
-                                    <a href="{{ route('admin.chip.show', $chip->id) }}" class="btn btn-sm btn-info me-1">👁️
+                                    <a href="{{ route('admin.chip.show', $chip->id) }}" class="btn btn-sm btn-outline-info me-1">
                                         Xem</a>
                                     <form action="{{ route('admin.chip.destroy', $chip->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa chip này?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                        <button class="btn btn-sm btn-outline-danger">Xóa</button>
                                     </form>
                                 </td>
                             </tr>
@@ -74,3 +74,5 @@
         </div>
     </div>
 @endsection
+
+

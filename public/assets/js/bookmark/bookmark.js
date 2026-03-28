@@ -200,3 +200,4 @@ function setFavourite(index_var) {
     }, 500);
   });
 })(jQuery);
+

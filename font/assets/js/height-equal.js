@@ -1,4 +1,4 @@
-/*=====================
+﻿/*=====================
       Height Equal js
 ==========================*/
 
@@ -33,3 +33,4 @@ function equalizer() {
 jQuery(window).resize(function () {
   equalizer();
 });
+

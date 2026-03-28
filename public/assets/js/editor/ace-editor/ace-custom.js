@@ -27,3 +27,4 @@
   php_editor.getSession().setMode("ace/mode/php");
   php_editor.setShowPrintMargin(false);
 })();
+

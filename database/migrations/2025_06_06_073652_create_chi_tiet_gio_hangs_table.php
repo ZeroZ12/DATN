@@ -30,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('chi_tiet_gio_hangs');
     }
 };
+

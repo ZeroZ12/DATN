@@ -95,20 +95,20 @@
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
                                                     onclick="return confirm('Bạn CÓ CHẮC muốn xóa vĩnh viễn mã giảm giá này không? Hành động này không thể hoàn tác!')">Xóa
                                                     Vĩnh Viễn</button>
                                             </form>
                                         @else
                                             {{-- Nút Sửa --}}
                                             <a href="{{ route('admin.magiamgia.edit', $maGiamGia->id) }}"
-                                                class="btn btn-warning btn-sm">Sửa</a>
+                                                class="btn btn-outline-warning btn-sm">Sửa</a>
                                             {{-- Nút Xóa (Xóa mềm) --}}
                                             <form action="{{ route('admin.magiamgia.destroy', $maGiamGia->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
                                                     onclick="return confirm('Bạn có chắc muốn xóa mềm mã giảm giá này không?')">Xóa</button>
                                             </form>
                                         @endif
@@ -133,3 +133,5 @@
         </div>
     </div>
 @endsection
+
+

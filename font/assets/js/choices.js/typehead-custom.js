@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
   //config
   var singleNoSearch = new Choices("#choices-single-no-search", {
     allowHTML: true,

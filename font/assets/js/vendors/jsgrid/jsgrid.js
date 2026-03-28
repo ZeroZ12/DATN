@@ -1,4 +1,4 @@
-(function($) {
+﻿(function($) {
     "use strict";
     $("#basicScenario").jsGrid({
         width: "100%",

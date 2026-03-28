@@ -217,3 +217,4 @@ class HomeController extends Controller
         return view('client.chinhsach');
     }
 }
+

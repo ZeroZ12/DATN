@@ -9,7 +9,7 @@
             <h2 class="mb-0 text-primary fw-bold">✨
                  Danh sách Sự Kiện</h2>
             <div>
-                <a href="{{ route('admin.sukien.trashed') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.sukien.trashed') }}" class="btn btn-outline-secondary me-2"> Thùng rác</a>
                 <a href="{{ route('admin.sukien.create') }}" class="btn btn-success">+ Thêm Sự Kiện mới</a>
             </div>
         </div>
@@ -70,26 +70,26 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-sm btn-warning me-1">
-                                        ✏️ Sửa
+                                    <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-sm btn-outline-warning me-1">
+                                         Sửa
                                     </a>
-                                    <a href="{{ route('admin.sukien.show', $suKien->id) }}" class="btn btn-sm btn-info me-1">
-                                        👁️ Xem
+                                    <a href="{{ route('admin.sukien.show', $suKien->id) }}" class="btn btn-sm btn-outline-info me-1">
+                                         Xem
                                     </a>
                                     <form action="{{ route('admin.sukien.destroy', $suKien->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa sự kiện này?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                        <button class="btn btn-sm btn-outline-danger"> Xóa</button>
                                     </form>
                                     <form action="{{ route('admin.sukien.toggle-display', $suKien->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn {{ $suKien->hien_thi == 1 ? 'ẩn' : 'hiển thị' }} sự kiện này?')">
                                         @csrf
                                         @method('PATCH')
                                         <button class="btn btn-sm {{ $suKien->hien_thi == 1 ? 'btn-secondary' : 'btn-primary' }}" data-bs-toggle="tooltip" data-bs-title="{{ $suKien->hien_thi == 1 ? 'Ẩn sự kiện' : 'Hiển thị sự kiện' }}">
                                             @if ($suKien->hien_thi == 1)
-                                                👁️ Ẩn
+                                                 Ẩn
                                             @else
-                                                👁️ Hiện
+                                                 Hiện
                                             @endif
                                         </button>
                                     </form>
@@ -131,3 +131,5 @@
         });
     </script>
 @endsection
+
+

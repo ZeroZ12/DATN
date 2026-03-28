@@ -1,4 +1,4 @@
-window.onload = function () {
+﻿window.onload = function () {
     'use strict';
     var Cropper = window.Cropper;
     var URL = window.URL || window.webkitURL;

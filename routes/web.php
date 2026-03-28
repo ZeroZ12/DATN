@@ -390,3 +390,4 @@ Route::middleware(['auth', CheckUserStatus::class])->prefix('client')->name('cli
         Route::delete('{danhGiaSanPham}', [DanhGiaSanPhamController::class, 'destroy'])->name('destroy');
     });
 });
+

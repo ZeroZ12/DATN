@@ -1,4 +1,4 @@
-//  Custom mail pagination
+﻿//  Custom mail pagination
 const paginationNumbers = document.getElementById("pagination-numbers");
 const paginatedList = document.getElementById("paginated-list");
 const listItems = paginatedList.querySelectorAll("li");
@@ -132,3 +132,4 @@ InboxData?.forEach((el) => {
     });
   }
 });
+

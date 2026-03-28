@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * FilePondPluginImageTransform 3.8.7
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
@@ -3792,3 +3792,4 @@
 
     return plugin;
 });
+

@@ -1,4 +1,4 @@
-function submitBookMark() {
+﻿function submitBookMark() {
   if ($(".form-bookmark").valid()) {
     var index_var = $("#index_var").val();
     var weburl = $("#bm-weburl").val();
@@ -200,3 +200,4 @@ function setFavourite(index_var) {
     }, 500);
   });
 })(jQuery);
+

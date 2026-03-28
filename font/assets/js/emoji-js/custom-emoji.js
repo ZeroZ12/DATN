@@ -1,4 +1,4 @@
-const EmojiPicker = function (options) {
+﻿const EmojiPicker = function (options) {
     this.options = options;
     this.trigger = this.options.trigger.map((item) => item.selector);
     this.insertInto = undefined;
@@ -806,7 +806,7 @@ const EmojiPicker = function (options) {
           title: "Eyes",
         },
         {
-          emoji: "👁️",
+          emoji: "",
           title: "Eye",
         },
         {
@@ -2788,7 +2788,7 @@ const EmojiPicker = function (options) {
           title: "Comet",
         },
         {
-          emoji: "🔥",
+          emoji: "",
           title: "Fire",
         },
         {
@@ -4828,7 +4828,7 @@ const EmojiPicker = function (options) {
           title: "Ballot Box with Ballot",
         },
         {
-          emoji: "✏️",
+          emoji: "",
           title: "Pencil",
         },
         {
@@ -4940,7 +4940,7 @@ const EmojiPicker = function (options) {
           title: "File Cabinet",
         },
         {
-          emoji: "🗑️",
+          emoji: "",
           title: "Wastebasket",
         },
         {
@@ -5274,7 +5274,7 @@ const EmojiPicker = function (options) {
           title: "Broken Heart",
         },
         {
-          emoji: "❤️‍🔥",
+          emoji: "❤️‍",
           title: "Heart on Fire",
         },
         {
@@ -5330,7 +5330,7 @@ const EmojiPicker = function (options) {
           title: "Speech Balloon",
         },
         {
-          emoji: "👁️‍🗨️",
+          emoji: "‍🗨️",
           title: "Eye in Speech Bubble",
         },
         {

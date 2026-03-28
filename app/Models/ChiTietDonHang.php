@@ -73,3 +73,4 @@ class ChiTietDonHang extends Model
         return $this->belongsTo(BienTheSanPham::class, 'id_bien_the');
     }
 }
+

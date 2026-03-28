@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 !(function (maps) {
   "use strict";
   var b = function () {};
@@ -87,3 +87,4 @@
     "use strict";
     maps.VectorMap.init();
   })(window.jQuery);
+

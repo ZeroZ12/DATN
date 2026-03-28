@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   // snow editor
   var editor5 = new Quill("#editor5", {
     modules: { toolbar: "#toolbar5" },

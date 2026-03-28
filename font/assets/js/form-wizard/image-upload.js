@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     document
       .getElementById("imageUpload")
       .addEventListener("change", readURL, true);

@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 var kanban1 = new jKanban({
   element: '#demo1',

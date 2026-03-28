@@ -1,4 +1,4 @@
-//selling product datatable
+﻿//selling product datatable
 const datatable = new simpleDatatables.DataTable("#sell-product", {
   paging: false,
   tabIndex: 2,

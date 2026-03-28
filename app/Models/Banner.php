@@ -16,3 +16,4 @@ class Banner extends Model
         'description',
     ];
 }
+

@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   "use strict";
   var editor = ace.edit("editor");
   // Sublime appearance:
@@ -27,3 +27,4 @@
   php_editor.getSession().setMode("ace/mode/php");
   php_editor.setShowPrintMargin(false);
 })();
+

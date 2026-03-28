@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">📂 Danh sách danh mục</h2>
             <div>
-                <a href="{{ route('admin.danhmuc.trashed') }}" class="btn btn-secondary me-2">🗑️ Thùng rác danh mục</a>
+                <a href="{{ route('admin.danhmuc.trashed') }}" class="btn btn-secondary me-2"> Thùng rác danh mục</a>
                 <a href="{{ route('admin.danhmuc.create') }}" class="btn btn-primary">+ Thêm danh mục</a>
             </div>
         </div>
@@ -34,16 +34,16 @@
                                 <td class="text-center">{{ $dm->id }}</td>
                                 <td class="text-center">{{ $dm->ten }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.danhmuc.edit', $dm->id) }}" class="btn btn-sm btn-warning me-1">✏️
+                                    <a href="{{ route('admin.danhmuc.edit', $dm->id) }}" class="btn btn-sm btn-outline-warning me-1">
                                         Sửa</a>
-                                    <a href="{{ route('admin.danhmuc.show', $dm->id) }}" class="btn btn-sm btn-info me-1">👁️
+                                    <a href="{{ route('admin.danhmuc.show', $dm->id) }}" class="btn btn-sm btn-outline-info me-1">
                                         Xem</a>
                                     <form action="{{ route('admin.danhmuc.destroy', $dm->id) }}" method="POST"
                                         class="d-inline-block"
                                         onsubmit="return confirm('Bạn có chắc muốn xóa mềm danh mục này? Các sản phẩm thuộc danh mục này cũng sẽ bị xóa mềm.')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">🗑️ Xóa mềm</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"> Xóa mềm</button>
                                     </form>
                                 </td>
                             </tr>
@@ -156,3 +156,5 @@
         </div>
     </div>
 @endsection
+
+

@@ -199,7 +199,7 @@
 <div class="order-actions">
    @if ($don->yeuCauHoanTra)
     <a href="{{ route('admin.hoan-tra.show', $don->yeuCauHoanTra->id) }}"
-       class="btn btn-sm btn-info mb-1">
+       class="btn btn-sm btn-outline-info mb-1">
         Xem Hoàn Hàng
     </a>
 @endif
@@ -220,7 +220,7 @@
                 @csrf
                 <input type="hidden" name="trang_thai" value="da_huy">
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-danger">Hủy</button>
+                <button class="btn btn-sm btn-outline-danger">Hủy</button>
             </form>
         @elseif ($trangThai === 'da_xac_nhan')
             <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
@@ -234,7 +234,7 @@
                 @csrf
                 <input type="hidden" name="trang_thai" value="da_huy">
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-danger">Hủy</button>
+                <button class="btn btn-sm btn-outline-danger">Hủy</button>
             </form>
         @elseif ($trangThai === 'chuan_bi_hang')
             <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $don->id) }}">
@@ -254,7 +254,7 @@
                 @csrf
                 <input type="hidden" name="trang_thai" value="giao_that_bai">
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-danger">Thất bại</button>
+                <button class="btn btn-sm btn-outline-danger">Thất bại</button>
             </form>
         @elseif ($trangThai === 'giao_that_bai')
             {{-- Giao tiếp --}}
@@ -262,7 +262,7 @@
                 @csrf
                 <input type="hidden" name="trang_thai" value="dang_giao_hang">
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-warning">Giao tiếp</button>
+                <button class="btn btn-sm btn-outline-warning">Giao tiếp</button>
             </form>
 
             {{-- Hủy --}}
@@ -271,7 +271,7 @@
                 @csrf
                 <input type="hidden" name="trang_thai" value="da_huy">
                 <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-                <button class="btn btn-sm btn-danger">Hủy</button>
+                <button class="btn btn-sm btn-outline-danger">Hủy</button>
             </form>
         @endif
     </div>
@@ -420,7 +420,7 @@
             margin-top: 5px;
         }
 
-        .btn-sm.btn-danger {
+        .btn-sm.btn-outline-danger {
             background-color: #dc3545;
         }
 
@@ -545,3 +545,5 @@
     document.getElementById('applyFilterBtn').addEventListener('click', filterOrders);
 </script>
 @endpush
+
+

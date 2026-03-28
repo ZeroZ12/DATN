@@ -1,4 +1,4 @@
-import PhotoSwipeLightbox from '../vendors/photoswipe/dist/photoswipe-lightbox.esm.min.js';
+﻿import PhotoSwipeLightbox from '../vendors/photoswipe/dist/photoswipe-lightbox.esm.min.js';
 import PhotoSwipeDynamicCaption from '../vendors/photoswipe-dynamic-caption-plugin/photoswipe-dynamic-caption-plugin.esm.js';
 
 const smallScreenPadding = {

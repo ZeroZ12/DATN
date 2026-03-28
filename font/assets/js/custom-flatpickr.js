@@ -1,4 +1,4 @@
-// Custom-flatpickr JS
+﻿// Custom-flatpickr JS
 (function () {
   // 1. Default Date
   flatpickr("#datetime-local", {});
@@ -107,3 +107,4 @@
     inline: true,
   });
 })();
+

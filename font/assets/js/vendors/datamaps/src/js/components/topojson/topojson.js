@@ -1,4 +1,4 @@
-topojson = (function() {
+﻿topojson = (function() {
 
   function merge(topology, arcs) {
     var arcsByEnd = {},
@@ -277,3 +277,4 @@ topojson = (function() {
     neighbors: neighbors
   };
 })();
+

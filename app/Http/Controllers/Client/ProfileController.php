@@ -96,3 +96,4 @@ class ProfileController extends Controller
         return Redirect::route('client.profile.show')->with('status', 'password-updated');
     }
 }
+

@@ -27,3 +27,4 @@ window.EdminAdminConfig = {
     // theme light color
 	border: border,
 };
+

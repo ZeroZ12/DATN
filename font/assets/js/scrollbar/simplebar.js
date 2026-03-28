@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SimpleBar.js - v5.3.0
  * Scrollbars, simpler.
  * https://grsmto.github.io/simplebar/
@@ -5543,3 +5543,4 @@
 	return SimpleBar;
 
 }));
+

@@ -25,3 +25,4 @@ class SearcherADController extends Controller
     }
 
 }
+

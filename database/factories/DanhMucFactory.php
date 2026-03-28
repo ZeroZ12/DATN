@@ -23,3 +23,4 @@ class DanhMucFactory extends Factory
         ];
     }
 }
+

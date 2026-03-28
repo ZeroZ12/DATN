@@ -17,3 +17,4 @@ class MainboardSeeder extends Seeder
         }
     }
 }
+

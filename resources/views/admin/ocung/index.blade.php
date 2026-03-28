@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="mb-0">Danh sách ổ cứng</h2>
             <div>
-                <a href="{{ route('admin.ocung.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.ocung.trash') }}" class="btn btn-outline-secondary me-2"> Thùng rác</a>
                 <a href="{{ route('admin.ocung.create') }}" class="btn btn-primary">+ Thêm ổ cứng</a>
             </div>
         </div>
@@ -49,13 +49,13 @@
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($oCung->mo_ta), 100, '...') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                                    <a href="{{ route('admin.ocung.show', $oCung->id) }}" class="btn btn-sm btn-info">Xem</a>
+                                    <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-sm btn-outline-warning">Sửa</a>
+                                    <a href="{{ route('admin.ocung.show', $oCung->id) }}" class="btn btn-sm btn-outline-info">Xem</a>
                                     <form action="{{ route('admin.ocung.destroy', $oCung->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">Xóa</button>
+                                        <button class="btn btn-sm btn-outline-danger">Xóa</button>
                                     </form>
                                 </td>
                             </tr>
@@ -77,3 +77,5 @@
         </div>
     </div>
 @endsection
+
+

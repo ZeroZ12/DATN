@@ -25,3 +25,4 @@ class ChipFactory extends Factory
         ];
     }
 }
+

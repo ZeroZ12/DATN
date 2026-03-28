@@ -225,7 +225,7 @@
         @csrf
         <input type="hidden" name="trang_thai" value="tu_choi">
         <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-        <button class="btn btn-sm btn-danger">Từ chối</button>
+        <button class="btn btn-sm btn-outline-danger">Từ chối</button>
     </form>
 
 
@@ -235,7 +235,7 @@
         @csrf
         <input type="hidden" name="trang_thai" value="da_nhan_hang">
         <input type="hidden" name="trang_thai_hien_tai" value="{{ $trangThai }}">
-        <button class="btn btn-sm btn-info">Đã nhận hàng</button>
+        <button class="btn btn-sm btn-outline-info">Đã nhận hàng</button>
     </form>
 
 
@@ -251,7 +251,7 @@
     && $hoanTra->donHang->huy_boi === 'admin'
     && $hoanTra->donHang->tt_thanh_toan == 1
     && $trangThai !== 'da_hoan_tien')
-    <button type="button" class="btn btn-sm btn-warning"
+    <button type="button" class="btn btn-sm btn-outline-warning"
         data-bs-toggle="modal"
         data-bs-target="#modal-hoan-tien-{{ $hoanTra->id }}">
         Hoàn tiền đơn hủy
@@ -330,3 +330,5 @@
         }
     </style>
 @endpush
+
+

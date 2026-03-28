@@ -210,7 +210,7 @@
                             <span class="text-danger">Còn lại: <strong>{{ $bienThe->ton_kho }}</strong> cái</span>
                         </div>
                     </div>
-                    <a href="{{ route('admin.sanpham.bienthe.edit', [$bienThe->id_product, $bienThe->id]) }}" class="btn btn-sm btn-warning mt-2 mt-md-0">
+                    <a href="{{ route('admin.sanpham.bienthe.edit', [$bienThe->id_product, $bienThe->id]) }}" class="btn btn-sm btn-outline-warning mt-2 mt-md-0">
                         Quản lý
                     </a>
                 </li>
@@ -381,3 +381,5 @@ document.getElementById('applyFilter').addEventListener('click', ()=>{
 });
 </script>
 @endpush
+
+

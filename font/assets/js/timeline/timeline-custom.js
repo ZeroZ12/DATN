@@ -1,4 +1,4 @@
-function hideBlocks(blocks, offset) {
+﻿function hideBlocks(blocks, offset) {
   blocks.forEach(function(block) {
     if (block.getBoundingClientRect().top > (window.innerHeight || document.documentElement.clientHeight) * offset) {
       block.querySelector('.cd-timeline-img').classList.add('is-hidden');

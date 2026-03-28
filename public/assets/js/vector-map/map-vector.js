@@ -87,3 +87,4 @@
     "use strict";
     maps.VectorMap.init();
   })(window.jQuery);
+

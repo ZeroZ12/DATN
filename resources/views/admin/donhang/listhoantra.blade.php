@@ -44,7 +44,7 @@
                             <td>{{ $item->admin_hoan_tra ?? '---' }}</td>
                             <td>{{ $item->created_at->format('d/m/Y H:i') }}</td>
                             <td>
-                                <a href="{{ route('admin.hoan-tra.show', $item->id) }}" class="btn btn-sm btn-info">Xem chi
+                                <a href="{{ route('admin.hoan-tra.show', $item->id) }}" class="btn btn-sm btn-outline-info">Xem chi
                                     tiết</a>
                             </td>
                         </tr>
@@ -61,3 +61,5 @@
         </div>
     </div>
 @endsection
+
+

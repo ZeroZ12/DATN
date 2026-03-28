@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * Cropper.js v1.6.2
  * https://fengyuanchen.github.io/cropperjs
  *
@@ -3271,3 +3271,4 @@
   return Cropper;
 
 }));
+

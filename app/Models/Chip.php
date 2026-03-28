@@ -20,3 +20,4 @@ class Chip extends Model
         return $this->hasMany(SanPham::class, 'id_chip');
     }
 }
+

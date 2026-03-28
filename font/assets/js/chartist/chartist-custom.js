@@ -1,4 +1,4 @@
-new Chartist.LineChart(
+﻿new Chartist.LineChart(
   "#ct-1",
   {
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],

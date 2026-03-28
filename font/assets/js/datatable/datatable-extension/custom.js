@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
   "use strict";
   $(document).ready(function () {
     $("#auto-fill").DataTable({
@@ -262,3 +262,4 @@
     });
   });
 })(jQuery);
+

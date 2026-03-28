@@ -21,3 +21,4 @@ class AnhSanPham extends Model
         return $this->belongsTo(SanPham::class, 'id_product');
     }
 }
+

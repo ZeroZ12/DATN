@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4">✏️ Sửa chip: <span class="text-primary">{{ $chip->ten }}</span></h2>
+        <h2 class="mb-4"> Sửa chip: <span class="text-primary">{{ $chip->ten }}</span></h2>
 
         <div class="card shadow-sm">
             <div class="card-body">
@@ -69,3 +69,5 @@
         });
     </script>
 @endsection
+
+

@@ -1,7 +1,7 @@
         <header class="page-header row">
             <div class="logo-wrapper d-flex align-items-center col-auto">
                 <a href="{{ route('admin.index') }}">
-                 <img src="{{ asset('storage/logo/logo.png') }}" alt="TopPC Logo" class="img-fluid" style="max-height: 70px;">
+                    <img src="{{ asset('storage/logo/logo.png') }}" alt="TopPC Logo" class="img-fluid" style="max-height: 70px;">
                 </a>
                 <a class="close-btn" href="javascript:void(0)">
                     <div class="toggle-sidebar">
@@ -16,7 +16,7 @@
                     {{-- <form class="search-form mb-0">
                         <div class="input-group">
                             <input class="form-control pe-0" type="text" placeholder="Tìm kiếm ...">
-                            <span class="input-group-text">
+                            <span class="input-group-text">~
                                 <i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                     </form> --}}
@@ -25,7 +25,7 @@
                     <ul class="header-right">
                         {{-- <li class="modes px-3 d-flex"><a class="dark-mode">
                                 <i class="fa-solid fa-circle-half-stroke"></i></a></li> --}}
-                       
+
                         <li class="profile-dropdown custom-dropdown">
                             <div class="d-flex align-items-center"><img src="/assets/images/profile.png" alt="">
                                 <div class="flex-grow-1">
@@ -76,3 +76,5 @@
                 </div>
             </div>
         </header>
+
+

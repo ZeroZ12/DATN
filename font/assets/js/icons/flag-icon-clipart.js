@@ -1,4 +1,4 @@
-(function($) {
+﻿(function($) {
     "use strict";
     $('.icon-lists div').click( function() {
         $(".fa-fa-icon-show-div").show().removeClass('opecity-0');

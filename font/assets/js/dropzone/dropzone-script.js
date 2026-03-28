@@ -1,4 +1,4 @@
-/**=====================
+﻿/**=====================
     Custom Dropzone  Start
 ==========================**/
 var DropzoneExample = (function () {
@@ -59,3 +59,4 @@ DropzoneExample.init();
 /**=====================
     Custom Dropzone Ends
 ==========================**/
+

@@ -19,7 +19,9 @@
 
         <div class="mt-4">
             <a href="{{ route('admin.case.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
-            <a href="{{ route('admin.case.edit', $cases->id) }}" class="btn btn-warning">Chỉnh sửa</a>
+            <a href="{{ route('admin.case.edit', $cases->id) }}" class="btn btn-outline-warning">Chỉnh sửa</a>
         </div>
     </div>
 @endsection
+
+

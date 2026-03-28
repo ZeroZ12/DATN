@@ -14,3 +14,4 @@ class ChatHistory extends Model
         'bot_reply',
     ];
 }
+

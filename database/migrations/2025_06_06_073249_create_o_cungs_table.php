@@ -37,3 +37,4 @@ return new class extends Migration
         Schema::dropIfExists('o_cungs');
     }
 };
+

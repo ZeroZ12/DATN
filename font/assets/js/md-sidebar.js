@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     const toggleButton = document.querySelector(".md-sidebar .md-sidebar-toggle");

@@ -1,4 +1,4 @@
-// swiper-custom-js
+﻿// swiper-custom-js
 var sliderThumbnail = new Swiper('.slider-thumbnail', {
     slidesPerView: 4,
     freeMode: true,

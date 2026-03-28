@@ -2,3 +2,4 @@
 function myFunction() {
     window.print();
 }
+

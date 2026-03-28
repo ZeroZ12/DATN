@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
   var init = function () {
     var slider2 = new rSlider({

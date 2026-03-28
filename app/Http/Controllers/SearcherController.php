@@ -66,3 +66,4 @@ class SearcherController extends Controller
     }
 
 }
+

@@ -1,4 +1,4 @@
-/*=============Scrollable css start=============*/
+﻿/*=============Scrollable css start=============*/
 .ps-container.ps-active-y > .ps-scrollbar-y-rail, .ps-container.ps-active-x > .ps-scrollbar-x-rail {
     background-color: transparent;
     display: block;

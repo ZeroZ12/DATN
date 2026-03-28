@@ -76,3 +76,4 @@ class UpdateBienTheSanPhamRequest extends FormRequest
         ];
     }
 }
+

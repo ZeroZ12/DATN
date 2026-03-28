@@ -17,3 +17,4 @@ class BannerSeeder extends Seeder
             ->create();
     }
 }
+

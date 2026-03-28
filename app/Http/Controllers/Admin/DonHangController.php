@@ -173,3 +173,4 @@ public function capNhatTrangThai(Request $request, $id)
 
 
 }
+

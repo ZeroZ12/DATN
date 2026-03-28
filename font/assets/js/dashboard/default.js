@@ -1,4 +1,4 @@
-// total investment
+﻿// total investment
 var options = {
   series: [14, 23, 21, 17, 15, 10, 12, 17, 21],
   chart: {

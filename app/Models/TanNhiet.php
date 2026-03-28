@@ -20,3 +20,4 @@ class TanNhiet extends Model
         return $this->hasMany(SanPham::class, 'id_tan_nhiet');
     }
 }
+

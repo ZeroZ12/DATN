@@ -1,4 +1,4 @@
-const inputElements = [...document.querySelectorAll("input.code-input")];
+﻿const inputElements = [...document.querySelectorAll("input.code-input")];
 (function () {
   inputElements.forEach((ele, index) => {
     ele.addEventListener("keydown", (e) => {

@@ -1,4 +1,4 @@
-setTimeout(function () {
+﻿setTimeout(function () {
     (function ($) {
       "use strict";
       // Single Search Select

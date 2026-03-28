@@ -25,3 +25,4 @@ var modal_animate_custom = {
 /**=====================
   Modal-animated Ends
 ==========================**/
+

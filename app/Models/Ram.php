@@ -20,3 +20,4 @@ class Ram extends Model
     }
 
 }
+

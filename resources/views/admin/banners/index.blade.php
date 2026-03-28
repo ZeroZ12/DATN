@@ -140,8 +140,10 @@
             vertical-align: middle !important;
         }
 
-        .btn-info {
+        .btn-outline-info {
             color: #fff;
         }
     </style>
 @endsection
+
+

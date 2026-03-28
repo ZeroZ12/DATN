@@ -358,7 +358,7 @@
                         <td><input type="number" step="0.01" name="variants[${index}][gia]" class="form-control" value="${globalPriceCompare}" required></td>
                         <td><input type="number" step="0.01" name="variants[${index}][gia_so_sanh]" class="form-control"value="${globalPrice}" ></td>
                         <td><input type="number" name="variants[${index}][ton_kho]" class="form-control" required></td>
-                        <td><button type="button" class="btn btn-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
+                        <td><button type="button" class="btn btn-outline-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
                     `;
                     variantTableBody.appendChild(row);
                     index++;
@@ -466,3 +466,5 @@
         });
     </script>
 @endsection
+
+

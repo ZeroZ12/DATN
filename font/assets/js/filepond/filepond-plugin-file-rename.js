@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * FilePondPluginFileRename 1.1.8
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
@@ -86,3 +86,4 @@
 
   return plugin;
 });
+

@@ -193,7 +193,7 @@
                     @csrf
                     <input type="hidden" name="trang_thai" value="da_huy">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-danger">Hủy</button>
+                    <button class="btn btn-sm btn-outline-danger">Hủy</button>
                 </form>
             @elseif ($donHang->trang_thai === 'da_xac_nhan')
                 <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
@@ -206,7 +206,7 @@
                     @csrf
                     <input type="hidden" name="trang_thai" value="da_huy">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-danger">Hủy</button>
+                    <button class="btn btn-sm btn-outline-danger">Hủy</button>
                 </form>
             @elseif ($donHang->trang_thai === 'chuan_bi_hang')
                 <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
@@ -226,14 +226,14 @@
                     @csrf
                     <input type="hidden" name="trang_thai" value="giao_that_bai">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-danger">Thất bại</button>
+                    <button class="btn btn-sm btn-outline-danger">Thất bại</button>
                 </form>
             @elseif ($donHang->trang_thai === 'giao_that_bai')
                 <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
                     @csrf
                     <input type="hidden" name="trang_thai" value="da_huy">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-danger">Hủy đơn</button>
+                    <button class="btn btn-sm btn-outline-danger">Hủy đơn</button>
                 </form>
             @elseif ($donHang->trang_thai === 'yeu_cau_hoan_tra')
                 <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
@@ -247,14 +247,14 @@
                     <input type="hidden" name="trang_thai" value="hoan_thanh">
                     <input type="hidden" name="tu_choi_hoan" value="1">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-danger">Từ chối</button>
+                    <button class="btn btn-sm btn-outline-danger">Từ chối</button>
                 </form>
             @elseif ($donHang->trang_thai === 'dang_tra_hang')
                 <form method="POST" action="{{ route('admin.don-hang.cap-nhat-trang-thai', $donHang->id) }}">
                     @csrf
                     <input type="hidden" name="trang_thai" value="shop_da_nhan_hang">
                     <input type="hidden" name="trang_thai_hien_tai" value="{{ $donHang->trang_thai }}">
-                    <button class="btn btn-sm btn-info">Shop đã nhận hàng</button>
+                    <button class="btn btn-sm btn-outline-info">Shop đã nhận hàng</button>
                 </form>
            @elseif ($donHang->trang_thai === 'shop_da_nhan_hang')
     <button type="button" class="btn btn-sm btn-success"
@@ -350,3 +350,5 @@
 
 </style>
 @endpush
+
+

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Default month names
  */
 const MonthNames = [

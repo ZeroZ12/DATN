@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">🗑️ Danh mục đã xóa mềm</h2>
+            <h2 class="mb-0"> Danh mục đã xóa mềm</h2>
             <a href="{{ route('admin.danhmuc.index') }}" class="btn btn-secondary">⬅️ Quay lại danh mục</a>
         </div>
 
@@ -63,7 +63,7 @@
                                         class="d-inline-block" onsubmit="return confirm('Bạn CÓ CHẮC chắn muốn XÓA VĨNH VIỄN danh mục này? Hành động này không thể hoàn tác và các sản phẩm liên quan cũng sẽ bị xóa vĩnh viễn!')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">🔥 Xóa vĩnh viễn</button>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"> Xóa vĩnh viễn</button>
                                     </form> --}}
 
                                 </td>
@@ -82,3 +82,5 @@
         </div>
     </div>
 @endsection
+
+

@@ -1,4 +1,4 @@
-// basic line chart
+﻿// basic line chart
 var options = {
   series: [
     {

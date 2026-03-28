@@ -1,4 +1,4 @@
-var primary = localStorage.getItem("primary") || '#43B9B2';
+﻿var primary = localStorage.getItem("primary") || '#43B9B2';
 var secondary = localStorage.getItem("secondary") || '#C280D2';
 var tertiary = localStorage.getItem("tertiary") || '#FD7E40';
 var success = localStorage.getItem("success") || '#17A600';
@@ -27,3 +27,4 @@ window.EdminAdminConfig = {
     // theme light color
 	border: border,
 };
+

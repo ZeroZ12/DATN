@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * FilePondPluginImagePreview 4.6.11
  * Licensed under MIT, https://opensource.org/licenses/MIT/
  * Please visit https://pqina.nl/filepond/ for details.
@@ -3781,3 +3781,4 @@
 
   return plugin;
 });
+

@@ -1,4 +1,4 @@
-/*=====================
+﻿/*=====================
     Alert js
 ==========================*/
 const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
@@ -24,3 +24,4 @@ if (alertTrigger) {
     );
   });
 }
+
