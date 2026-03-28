@@ -46,7 +46,7 @@
                               onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Xóa vĩnh viễn</button>
+                            <button class="btn btn-sm btn-outline-danger">Xóa vĩnh viễn</button>
                         </form> --}}
                     </td>
                 </tr>
@@ -58,3 +58,5 @@
         </tbody>
     </table>
 @endsection
+
+

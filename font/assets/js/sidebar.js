@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   const body = document.querySelector("body");
   const wrapper = document.querySelector(".page-wrapper");
   // Get all the sidebar-list elements
@@ -213,3 +213,4 @@ $(document).ready(function () {
     );
   }
 });
+

@@ -26,7 +26,7 @@
         <div class="mb-3 d-flex gap-2">
             <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Trở lại
                 danh sách</a>
-            <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i>
+            <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-outline-warning"><i class="fas fa-edit"></i>
                 Sửa</a>
         </div>
 
@@ -162,14 +162,14 @@
 @push('styles')
     <style>
         .btn-primary,
-        .btn-warning {
+        .btn-outline-warning {
             background-color: #dc3545;
             border-color: #dc3545;
             transition: all 0.2s ease-in-out;
         }
 
         .btn-primary:hover,
-        .btn-warning:hover {
+        .btn-outline-warning:hover {
             background-color: #c82333;
             border-color: #c82333;
             transform: translateY(-2px);
@@ -186,3 +186,5 @@
         }
     </style>
 @endpush
+
+

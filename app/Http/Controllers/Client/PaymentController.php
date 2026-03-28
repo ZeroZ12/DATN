@@ -94,3 +94,4 @@ class PaymentController extends Controller
         return view('client.payment_fail', compact('donHang'));
     }
 }
+

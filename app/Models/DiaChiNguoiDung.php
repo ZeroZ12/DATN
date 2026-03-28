@@ -31,3 +31,4 @@ class DiaChiNguoiDung extends Model
         return $this->hasMany(DonHang::class, 'id_dia_chi_nguoi_dungs');
     }
 }
+

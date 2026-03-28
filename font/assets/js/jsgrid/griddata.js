@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 (function() {
     var db = {
         loadData: function(filter) {

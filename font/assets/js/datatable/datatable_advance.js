@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     !(function (t, i, e) {
       var s;
       (s = function (s) {

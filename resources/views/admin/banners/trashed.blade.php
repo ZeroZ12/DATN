@@ -5,7 +5,7 @@
 @section('content')
     <div class="container py-4">
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
-            <h2 class="mb-0">🗑️ Banner đã xóa mềm</h2>
+            <h2 class="mb-0"> Banner đã xóa mềm</h2>
             <a href="{{ route('admin.banner.index') }}" class="btn btn-secondary">
                 <i class="fa fa-arrow-left me-1"></i> Quay lại danh sách
             </a>
@@ -99,3 +99,5 @@
         }
     </style>
 @endsection
+
+

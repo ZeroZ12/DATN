@@ -1,4 +1,4 @@
-const msgerForm = get(".msger-inputarea");
+﻿const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
 const msgerChat = get(".msger-chat");
 
@@ -74,3 +74,4 @@ function formatDate(date) {
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
+

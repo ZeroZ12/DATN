@@ -1,4 +1,4 @@
-// 1. horizontal wizard
+﻿// 1. horizontal wizard
 "use strict";
 var currentTab = 0;
 showTab(currentTab);
@@ -145,3 +145,4 @@ function removeClass(elem, className) {
   }
   console.log("elem.className", elem.className);
 }
+

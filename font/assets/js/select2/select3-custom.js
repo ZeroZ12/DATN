@@ -1,4 +1,4 @@
-// Tagify JS
+﻿// Tagify JS
 ("use strict");
 // 1. Basic Select
 
@@ -1553,3 +1553,4 @@ function onAddButtonClick() {
 function onInvalidTag(e) {
   console.log("invalid", e.detail);
 }
+

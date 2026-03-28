@@ -152,7 +152,7 @@
                                     </td>
                                     <td>{{ $danhGia->created_at->format('d/m/Y H:i') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.danhgias.show', $danhGia->id) }}" class="btn btn-info btn-sm mb-1" title="Xem chi tiết">
+                                        <a href="{{ route('admin.danhgias.show', $danhGia->id) }}" class="btn btn-outline-info btn-sm mb-1" title="Xem chi tiết">
                                             <i class="fas fa-eye"></i>
                                         </a>
 
@@ -170,7 +170,7 @@
                                             <form action="{{ route('admin.danhgias.reject', $danhGia->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button type="submit" class="btn btn-warning btn-sm mb-1" title="Từ chối">
+                                                <button type="submit" class="btn btn-outline-warning btn-sm mb-1" title="Từ chối">
                                                     <i class="fas fa-times"></i>
                                                 </button>
                                             </form>
@@ -274,3 +274,5 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endpush
+
+

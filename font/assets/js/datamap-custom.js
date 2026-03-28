@@ -1,4 +1,4 @@
-//  Basic Map //
+﻿//  Basic Map //
 var basic = new Datamap({
     element: document.getElementById('map-1'),
     fills: {

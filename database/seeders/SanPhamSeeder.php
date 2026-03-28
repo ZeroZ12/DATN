@@ -16,3 +16,4 @@ class SanPhamSeeder extends Seeder
         SanPham::factory()->count(50)->create();
     }
 }
+

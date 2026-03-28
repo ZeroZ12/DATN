@@ -1,4 +1,4 @@
-// Language data
+﻿// Language data
 const translations = {
   'heading1': {
     'en': 'Static Sub Nav',

@@ -18,9 +18,11 @@
 
                 <div class="d-flex gap-2">
                     <a href="{{ route('admin.thuonghieu.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
-                    <a href="{{ route('admin.thuonghieu.edit', $thuongHieu->id) }}" class="btn btn-warning">✏️ Chỉnh sửa</a>
+                    <a href="{{ route('admin.thuonghieu.edit', $thuongHieu->id) }}" class="btn btn-outline-warning"> Chỉnh sửa</a>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+

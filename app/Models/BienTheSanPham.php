@@ -50,3 +50,4 @@ class BienTheSanPham extends Model
         return $this->belongsTo(OCung::class, 'id_o_cung');
     }
 }
+

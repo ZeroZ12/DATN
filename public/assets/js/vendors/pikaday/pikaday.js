@@ -1296,3 +1296,4 @@
 
     return Pikaday;
 }));
+

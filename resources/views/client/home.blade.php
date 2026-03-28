@@ -3,7 +3,7 @@
     @include('client.layouts.blocks.banner')
     <section class="product-section container py-4 ">
         <div class=" text-center mb-5">
-            <h1 class="fw-bold text-primary">FLASH SALE 🔥
+            <h1 class="fw-bold text-primary">FLASH SALE 
                 @if ($activeSaleEvents->isNotEmpty() && $activeSaleEvents->first()->suKien->hien_thi)
                     <span class="countdown fs-5 text-danger fw-bold"
                         data-end-time="{{ $activeSaleEvents->first()->suKien->ngay_ket_thuc->toIso8601String() }}"
@@ -1560,3 +1560,5 @@
         </script>
     @endpush
 @endsection
+
+

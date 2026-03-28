@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     $(".notification").on("click", function () {
       $.notify(
         {

@@ -17,3 +17,4 @@ class RamSeeder extends Seeder
         }
     }
 }
+

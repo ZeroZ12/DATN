@@ -78,7 +78,9 @@
 
         <div class="d-flex justify-content-between">
             <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary">↩️ Quay lại danh sách</a>
-            <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-warning">✏️ Chỉnh sửa</a>
+            <a href="{{ route('admin.sukien.edit', $suKien->id) }}" class="btn btn-outline-warning"> Chỉnh sửa</a>
         </div>
     </div>
 @endsection
+
+

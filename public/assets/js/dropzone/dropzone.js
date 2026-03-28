@@ -3524,3 +3524,4 @@ function __guardMethod__(obj, methodName, transform) {
     return undefined;
   }
 }
+

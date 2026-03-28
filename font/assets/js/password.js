@@ -1,4 +1,4 @@
-$('.show-hide').show();
+﻿$('.show-hide').show();
 $('.show-hide span').addClass('show');
 
 $('.show-hide span').on('click', function () {

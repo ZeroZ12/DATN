@@ -78,20 +78,20 @@
                                                 method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
                                                     onclick="return confirm('Bạn CÓ CHẮC muốn xóa vĩnh viễn thương hiệu này không? Hành động này không thể hoàn tác!')">Xóa
                                                     Vĩnh Viễn</button>
                                             </form>
                                         @else {{-- CHECK THIS @else --}}
                                             {{-- Nút Sửa --}}
                                             <a href="{{ route('admin.thuonghieu.edit', $thuongHieu->id) }}"
-                                                class="btn btn-warning btn-sm">Sửa</a>
+                                                class="btn btn-outline-warning btn-sm">Sửa</a>
                                             {{-- Nút Xóa (Xóa mềm) --}}
                                             <form action="{{ route('admin.thuonghieu.destroy', $thuongHieu->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                <button type="submit" class="btn btn-outline-danger btn-sm"
                                                     onclick="return confirm('Bạn có chắc muốn xóa mềm thương hiệu này không?')">Xóa</button>
                                             </form>
                                         @endif {{-- <--- THIS @endif IS THE MOST LIKELY CULPRIT IF LINE 102 IS THE END OF THIS
@@ -116,3 +116,5 @@
         </div>
     </div>
 @endsection {{-- MAKE SURE THIS @endsection IS PRESENT AND CORRECT --}}
+
+

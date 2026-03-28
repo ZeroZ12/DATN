@@ -22,7 +22,9 @@
 
         <div class="mt-4">
             <a href="{{ route('admin.ocung.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
-            <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-warning">Chỉnh sửa</a>
+            <a href="{{ route('admin.ocung.edit', $oCung->id) }}" class="btn btn-outline-warning">Chỉnh sửa</a>
         </div>
     </div>
 @endsection
+
+

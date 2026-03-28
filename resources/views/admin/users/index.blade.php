@@ -39,17 +39,17 @@
                             </td>
                             <td>
                                 <span
-                                    class="badge 
+                                    class="badge
                                 {{ $user->trang_thai == 'hoat_dong' ? 'bg-success' : ($user->trang_thai == 'vo_hieu' ? 'bg-danger' : 'bg-secondary') }}">
                                     {{ ucfirst($user->trang_thai) }}
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.users.edit', $user) }}" title="Chỉnh sửa" class="btn btn-warning btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                <a href="{{ route('admin.users.edit', $user) }}" title="Chỉnh sửa" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit" aria-hidden="true"></i></a>
                                 <form action="{{ route('admin.users.hide', $user) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Ẩn"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Ẩn"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>
                                 </form>
                             </td>
                         </tr>
@@ -63,3 +63,5 @@
         </div>
     </div>
 @endsection
+
+

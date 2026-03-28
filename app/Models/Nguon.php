@@ -20,3 +20,4 @@ class Nguon extends Model
         return $this->hasMany(SanPham::class, 'id_nguon');
     }
 }
+

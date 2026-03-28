@@ -165,3 +165,4 @@ document.querySelectorAll(".cartbox .btn-close").forEach(function (element) {
     console.log(tets);
   });
 });
+

@@ -145,3 +145,4 @@ function removeClass(elem, className) {
   }
   console.log("elem.className", elem.className);
 }
+

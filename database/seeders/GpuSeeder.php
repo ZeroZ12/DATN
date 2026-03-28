@@ -17,3 +17,4 @@ class GpuSeeder extends Seeder
         }
     }
 }
+

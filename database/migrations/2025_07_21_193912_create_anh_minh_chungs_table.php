@@ -21,3 +21,4 @@ return new class extends Migration {
         Schema::dropIfExists('anh_minh_chungs');
     }
 };
+

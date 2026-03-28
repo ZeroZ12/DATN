@@ -1,4 +1,4 @@
-// Custom input search
+﻿// Custom input search
 var result = document.querySelector(".results");
 var Arr = [
   "HTML",
@@ -88,3 +88,4 @@ const filterList = (searchTerm) => {
     }
   });
 };
+

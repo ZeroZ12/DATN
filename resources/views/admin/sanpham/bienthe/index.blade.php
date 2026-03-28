@@ -59,12 +59,12 @@
                                 <div class="action-buttons d-flex flex-column gap-1">
                                     {{-- Nút sửa: route lồng ghép cần cả sanpham_id và bienthe_id --}}
                                     <a href="{{ route('admin.sanpham.bienthe.edit', [$sanpham->id, $bienthe->id]) }}"
-                                        class="btn btn-warning btn-sm">Sửa</a>
+                                        class="btn btn-outline-warning btn-sm">Sửa</a>
                                     {{-- Form xóa mềm: route lồng ghép cần cả sanpham_id và bienthe_id --}}
                                     <form action="{{ route('admin.sanpham.bienthe.destroy', [$sanpham->id, $bienthe->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa mềm biến thể này không?')">Xóa mềm</button>
                                     </form>
                                 </div>
@@ -90,7 +90,9 @@
             {{-- Nút quay lại danh sách sản phẩm --}}
             <a href="{{ route('admin.sanpham.index') }}" class="btn btn-secondary">Quay lại danh sách sản phẩm</a>
             {{-- Nút thùng rác biến thể: không lồng ghép --}}
-            <a href="{{ route('admin.sanpham.bienthe.trashed') }}" class="btn btn-info">Thùng rác biến thể</a>
+            <a href="{{ route('admin.sanpham.bienthe.trashed') }}" class="btn btn-outline-info">Thùng rác biến thể</a>
         </div>
     </div>
 @endsection
+
+

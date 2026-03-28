@@ -393,3 +393,4 @@ class SanPhamController extends Controller
         return redirect()->route('admin.sanpham.trash')->with('message', 'Đã xóa vĩnh viễn sản phẩm và ảnh liên quan.');
     }
 }
+

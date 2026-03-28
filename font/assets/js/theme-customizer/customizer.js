@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
   if (localStorage.getItem("color"))
     $("#color").attr(
       "href",

@@ -21,3 +21,4 @@ class CasesFactory extends Factory
         ];
     }
 }
+

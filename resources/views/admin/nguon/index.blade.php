@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0 text-primary fw-bold">📦 Danh sách nguồn</h2>
             <div>
-                <a href="{{ route('admin.nguon.trash') }}" class="btn btn-outline-secondary me-2">🗑️ Thùng rác</a>
+                <a href="{{ route('admin.nguon.trash') }}" class="btn btn-outline-secondary me-2"> Thùng rác</a>
                 <a href="{{ route('admin.nguon.create') }}" class="btn btn-success">+ Thêm nguồn mới</a>
             </div>
         </div>
@@ -47,17 +47,17 @@
                                 @endif
                                 <td>{{ \Illuminate\Support\Str::limit(strip_tags($nguon->mo_ta), 100, '...') }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.nguon.edit', $nguon->id) }}" class="btn btn-sm btn-warning me-1">
-                                        ✏️ Sửa
+                                    <a href="{{ route('admin.nguon.edit', $nguon->id) }}" class="btn btn-sm btn-outline-warning me-1">
+                                         Sửa
                                     </a>
-                                    <a href="{{ route('admin.nguon.show', $nguon->id) }}" class="btn btn-sm btn-info me-1">
-                                        👁️ Xem
+                                    <a href="{{ route('admin.nguon.show', $nguon->id) }}" class="btn btn-sm btn-outline-info me-1">
+                                         Xem
                                     </a>
                                     <form action="{{ route('admin.nguon.destroy', $nguon->id) }}" method="POST"
                                         class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa nguồn này?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-danger">🗑️ Xóa</button>
+                                        <button class="btn btn-sm btn-outline-danger"> Xóa</button>
                                     </form>
                                 </td>
                             </tr>
@@ -79,3 +79,5 @@
         </div>
     </div>
 @endsection
+
+

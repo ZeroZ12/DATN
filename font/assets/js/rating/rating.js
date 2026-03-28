@@ -1,4 +1,4 @@
-// star rating
+﻿// star rating
 
 const ratingStars = [...document.getElementsByClassName("rating-star")];
 const ratingResult = document.querySelector(".rating-value");

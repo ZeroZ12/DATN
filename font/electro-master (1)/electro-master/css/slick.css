@@ -1,4 +1,4 @@
-/* Slider */
+﻿/* Slider */
 .slick-slider
 {
     position: relative;
@@ -117,3 +117,4 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+

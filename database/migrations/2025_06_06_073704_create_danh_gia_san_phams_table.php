@@ -35,3 +35,4 @@ return new class extends Migration
         Schema::dropIfExists('danh_gia_san_phams');
     }
 };
+

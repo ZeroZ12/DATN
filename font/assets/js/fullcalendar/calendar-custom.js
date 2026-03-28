@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   document.addEventListener("DOMContentLoaded", function () {
     var containerEl = document.getElementById("external-events-list");
     new FullCalendar.Draggable(containerEl, {

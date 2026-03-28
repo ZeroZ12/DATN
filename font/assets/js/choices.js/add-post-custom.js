@@ -1,4 +1,4 @@
-
+﻿
 document.addEventListener('DOMContentLoaded', function() {
     new Choices('#choices-remove-button', {
         allowHTML: true,

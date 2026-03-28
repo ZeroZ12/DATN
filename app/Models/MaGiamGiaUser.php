@@ -15,3 +15,4 @@ class MaGiamGiaUser extends Model
         'ma_giam_gia_id','user_id','so_lan_su_dung','created_at','updated_at',
     ];
 }
+

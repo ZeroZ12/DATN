@@ -18,3 +18,4 @@ class ChipSeeder extends Seeder
         }
     }
 }
+

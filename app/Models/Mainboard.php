@@ -19,3 +19,4 @@ class Mainboard extends Model
         return $this->hasMany(SanPham::class, 'id_mainboard');
     }
 }
+

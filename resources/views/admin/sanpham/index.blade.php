@@ -114,18 +114,18 @@
                                         class="btn btn-secondary btn-sm" title="Biến thể">
                                         <i class="fas fa-boxes"></i>
                                     </a>
-                                    <a href="{{ route('admin.sanpham.show', $sanpham->id) }}" class="btn btn-info btn-sm"
+                                    <a href="{{ route('admin.sanpham.show', $sanpham->id) }}" class="btn btn-outline-info btn-sm"
                                         title="Xem chi tiết">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-warning btn-sm"
+                                    <a href="{{ route('admin.sanpham.edit', $sanpham->id) }}" class="btn btn-outline-warning btn-sm"
                                         title="Sửa sản phẩm">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form action="{{ route('admin.sanpham.destroy', $sanpham->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Xóa mềm"
+                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Xóa mềm"
                                             onclick="return confirm('Bạn có chắc chắn muốn xóa mềm sản phẩm này không?')">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -236,3 +236,5 @@
         }
     </style>
 @endpush
+
+

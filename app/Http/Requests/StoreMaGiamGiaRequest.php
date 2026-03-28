@@ -76,3 +76,4 @@ class StoreMaGiamGiaRequest extends FormRequest
         ];
     }
 }
+

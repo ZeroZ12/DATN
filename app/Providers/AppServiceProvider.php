@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Providers;
 
 use App\Models\DanhMuc;
@@ -58,3 +57,4 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 }
+

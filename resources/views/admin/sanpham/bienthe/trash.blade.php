@@ -61,14 +61,14 @@
                                     {{-- Form khôi phục: route không lồng ghép, chỉ cần bienthe_id. Controller tự động tìm bản ghi đã xóa mềm nhờ ->withTrashed() trên route --}}
                                     <form action="{{ route('admin.sanpham.bienthe.restore', $bienthe->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-warning btn-sm w-100"
+                                        <button type="submit" class="btn btn-outline-warning btn-sm w-100"
                                             onclick="return confirm('Bạn có chắc chắn muốn khôi phục biến thể này không?')">Khôi phục</button>
                                     </form>
                                     {{-- Form xóa vĩnh viễn: route không lồng ghép, chỉ cần bienthe_id. Controller tự động tìm bản ghi đã xóa mềm nhờ ->withTrashed() trên route --}}
                                     <form action="{{ route('admin.sanpham.bienthe.forceDelete', $bienthe->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm w-100"
+                                        <button type="submit" class="btn btn-outline-danger btn-sm w-100"
                                             onclick="return confirm('Bạn CÓ CHẮC CHẮN muốn xóa VĨNH VIỄN biến thể này không? Hành động này không thể hoàn tác!')">Xóa Vĩnh Viễn</button>
                                     </form>
                                 </div>
@@ -95,3 +95,5 @@
         </div>
     </div>
 @endsection
+
+

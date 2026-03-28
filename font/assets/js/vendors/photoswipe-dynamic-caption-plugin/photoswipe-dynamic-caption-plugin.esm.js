@@ -1,4 +1,4 @@
-/**
+﻿/**
  * PhotoSwipe Dynamic Caption plugin v1.2.7
  * https://github.com/dimsemenov/photoswipe-dynamic-caption-plugin
  * 
@@ -412,3 +412,4 @@ class PhotoSwipeDynamicCaption {
 }
 
 export default PhotoSwipeDynamicCaption;
+

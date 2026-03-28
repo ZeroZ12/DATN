@@ -46,3 +46,4 @@ class AddSimpleProductFieldsToSanPham extends Migration
         });
     }
 }
+

@@ -23,3 +23,4 @@ class OCungSeeder extends Seeder
         }
     }
 }
+

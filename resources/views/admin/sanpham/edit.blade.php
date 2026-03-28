@@ -327,7 +327,7 @@
                                         value="{{ $variant->gia_so_sanh }}"></td>
                                 <td><input type="number" name="variants[{{ $i }}][ton_kho]"
                                         class="form-control" value="{{ $variant->ton_kho }}" required></td>
-                                <td><button type="button" class="btn btn-danger btn-sm remove-variant"><i
+                                <td><button type="button" class="btn btn-outline-danger btn-sm remove-variant"><i
                                             class="fas fa-trash"></i></button></td>
                             </tr>
                         @endforeach
@@ -408,7 +408,7 @@
                             <td><input type="number" step="0.01" name="variants[${index}][gia]" class="form-control" value="${globalPriceCompare}" required></td>
                             <td><input type="number" step="0.01" name="variants[${index}][gia_so_sanh]" class="form-control" value="${globalPrice}"></td>
                             <td><input type="number" name="variants[${index}][ton_kho]" class="form-control" required></td>
-                            <td><button type="button" class="btn btn-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
+                            <td><button type="button" class="btn btn-outline-danger btn-sm remove-variant"><i class="fas fa-trash"></i></button></td>
                         `;
                         variantTableBody.appendChild(row);
                         index++;
@@ -454,14 +454,14 @@
 @push('styles')
     <style>
         .btn-primary,
-        .btn-warning {
+        .btn-outline-warning {
             background-color: #dc3545;
             border-color: #dc3545;
             transition: all 0.2s ease-in-out;
         }
 
         .btn-primary:hover,
-        .btn-warning:hover {
+        .btn-outline-warning:hover {
             background-color: #c82333;
             border-color: #c82333;
             transform: translateY(-2px);
@@ -514,3 +514,5 @@
         });
     </script>
 @endsection
+
+

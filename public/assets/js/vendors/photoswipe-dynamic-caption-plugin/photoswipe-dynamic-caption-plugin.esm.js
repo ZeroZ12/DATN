@@ -412,3 +412,4 @@ class PhotoSwipeDynamicCaption {
 }
 
 export default PhotoSwipeDynamicCaption;
+

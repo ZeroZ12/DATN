@@ -1,4 +1,4 @@
-/*=====================
+﻿/*=====================
   Email hide/show js
 ==========================*/
 
@@ -38,3 +38,4 @@ bookmark_Box.forEach(function (svg) {
     svg.classList.toggle("active");
   });
 });
+

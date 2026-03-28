@@ -75,3 +75,4 @@ class User extends Authenticatable
         return $this->hasOne(GioHang::class, 'id_user');
     }
 }
+

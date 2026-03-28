@@ -34,7 +34,7 @@
 
                 <div class="mt-4 d-flex justify-content-between">
                     <a href="{{ route('admin.chip.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
-                    <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-warning">✏️ Chỉnh sửa</a>
+                    <a href="{{ route('admin.chip.edit', $chip->id) }}" class="btn btn-outline-warning"> Chỉnh sửa</a>
                 </div>
             </div>
         </div>
@@ -52,3 +52,5 @@
         });
     </script>
 @endsection --}}
+
+

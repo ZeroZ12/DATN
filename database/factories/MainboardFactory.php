@@ -25,3 +25,4 @@ class MainboardFactory extends Factory
         ];
     }
 }
+

@@ -1,4 +1,4 @@
-new EmojiPicker({
+﻿new EmojiPicker({
     trigger: [
       {
         selector: ".second-btn",

@@ -37,3 +37,4 @@ class OrderSuccessMail extends Mailable
                     ->markdown('emails.order_success');
     }
 }
+

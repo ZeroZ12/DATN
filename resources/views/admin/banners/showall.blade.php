@@ -44,7 +44,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('admin.banner.show', $banner->id) }}" class="btn btn-sm btn-info"
+                                        <a href="{{ route('admin.banner.show', $banner->id) }}" class="btn btn-sm btn-outline-info"
                                             title="Chi tiết">
                                             Xem
                                         </a>
@@ -62,13 +62,13 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button onclick="return confirm('Xóa vĩnh viễn banner này?')" type="submit"
-                                                    class="btn btn-sm btn-danger" title="Xóa vĩnh viễn">
+                                                    class="btn btn-sm btn-outline-danger" title="Xóa vĩnh viễn">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
                                         @else
                                             <a href="{{ route('admin.banner.edit', $banner->id) }}"
-                                                class="btn btn-sm btn-warning" title="Sửa">
+                                                class="btn btn-sm btn-outline-warning" title="Sửa">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                             <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST"
@@ -76,7 +76,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button onclick="return confirm('Bạn chắc muốn xóa mềm banner này?')"
-                                                    type="submit" class="btn btn-sm btn-danger" title="Xóa mềm">
+                                                    type="submit" class="btn btn-sm btn-outline-danger" title="Xóa mềm">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
@@ -117,8 +117,10 @@
             vertical-align: middle !important;
         }
 
-        .btn-info {
+        .btn-outline-info {
             color: #fff;
         }
     </style>
 @endsection
+
+

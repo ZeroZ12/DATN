@@ -35,3 +35,4 @@ class SuKienSanPham extends Model
         return $this->belongsTo(BienTheSanPham::class, 'id_bien_the_san_pham');
     }
 }
+

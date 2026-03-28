@@ -5,7 +5,7 @@
 @section('content')
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">🗑️ Thùng rác - Sự kiện đã xóa</h2>
+        <h2 class="mb-0"> Thùng rác - Sự kiện đã xóa</h2>
         <a href="{{ route('admin.sukien.index') }}" class="btn btn-secondary">← Quay lại danh sách</a>
     </div>
 
@@ -48,7 +48,7 @@
                             onsubmit="return confirm('Bạn chắc chắn muốn xóa vĩnh viễn?')">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Xóa vĩnh viễn</button>
+                            <button class="btn btn-sm btn-outline-danger">Xóa vĩnh viễn</button>
                         </form>
                     </td>
                 </tr>
@@ -65,3 +65,5 @@
     </div>
 </div>
 @endsection
+
+

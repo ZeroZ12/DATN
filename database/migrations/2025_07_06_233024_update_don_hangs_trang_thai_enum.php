@@ -42,3 +42,4 @@ return new class extends Migration
         ) NOT NULL DEFAULT 'cho_xu_ly'");
     }
 };
+

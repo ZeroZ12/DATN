@@ -23,3 +23,4 @@ class AnhMinhChung extends Model
         return $this->belongsTo(YeuCauHoanTra::class, 'id_yeu_cau_hoan_tra');
     }
 }
+

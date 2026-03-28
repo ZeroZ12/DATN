@@ -1,4 +1,4 @@
-import PhotoSwipeLightbox from '../vendors/photoswipe/dist/photoswipe-lightbox.esm.min.js';
+﻿import PhotoSwipeLightbox from '../vendors/photoswipe/dist/photoswipe-lightbox.esm.min.js';
 
 
 const lightbox = new PhotoSwipeLightbox({

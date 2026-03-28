@@ -1,4 +1,4 @@
-Chart.defaults.global = {
+﻿Chart.defaults.global = {
   animation: true,
   animationSteps: 60,
   animationEasing: "easeOutIn",

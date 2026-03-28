@@ -1,4 +1,4 @@
-/*!-----------------------------------------------------------------------------------
+﻿/*!-----------------------------------------------------------------------------------
  Template Name: Edmin
  Template URI: themes.pixelstrap.com/Edmin
  Description: This is Admin Template
@@ -165,3 +165,4 @@ document.querySelectorAll(".cartbox .btn-close").forEach(function (element) {
     console.log(tets);
   });
 });
+

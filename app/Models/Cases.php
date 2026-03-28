@@ -20,3 +20,4 @@ class Cases extends Model
         return $this->hasMany(SanPham::class, 'id_case');
     }
 }
+

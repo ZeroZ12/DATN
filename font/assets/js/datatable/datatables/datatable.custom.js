@@ -1,4 +1,4 @@
-(function ($) {
+﻿(function ($) {
     $(document).ready(function () {
       $("product-list").DataTable();
       // Basic table example

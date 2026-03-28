@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>🗑️ Thùng rác - Danh sách sản phẩm đã xóa</h2>
+    <h2> Thùng rác - Danh sách sản phẩm đã xóa</h2>
 
     @if (session('success'))
         <div class="alert alert-success mt-2">{{ session('success') }}</div>
@@ -58,7 +58,7 @@
                             {{-- <form action="{{ route('admin.sanpham.forceDelete', $sanpham->id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Xóa vĩnh viễn"
+                                <button type="submit" class="btn btn-outline-danger btn-sm" title="Xóa vĩnh viễn"
                                     onclick="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này không?')">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
@@ -85,3 +85,5 @@
     </div>
 </div>
 @endsection
+
+

@@ -98,3 +98,4 @@ class UserController extends Controller
         return back()->with('success', 'User đã được ẩn.');
     }
 }
+

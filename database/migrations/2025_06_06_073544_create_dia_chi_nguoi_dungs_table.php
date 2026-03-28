@@ -32,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('dia_chi_nguoi_dungs');
     }
 };
+

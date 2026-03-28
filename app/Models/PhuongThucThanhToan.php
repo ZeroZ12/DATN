@@ -20,3 +20,4 @@ class PhuongThucThanhToan extends Model
         return $this->hasMany(DonHang::class, 'id_phuong_thuc_thanh_toan');
     }
 }
+

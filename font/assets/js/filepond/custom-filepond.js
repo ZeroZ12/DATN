@@ -1,4 +1,4 @@
-// Custom filepond js
+﻿// Custom filepond js
 
 // Get a reference to the file input element
 const inputElement = document.querySelectorAll('input[type="file"]');
@@ -54,3 +54,4 @@ inputElement.forEach((item) => {
     },
   });
 });
+

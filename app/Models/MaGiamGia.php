@@ -22,3 +22,4 @@ class MaGiamGia extends Model
         return $this->hasMany(DonHang::class, 'id_ma_giam_gia');
     }
 }
+
